@@ -1,10 +1,16 @@
 import React, { createContext, useContext, ReactNode } from 'react';
+import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
-import * as AnswerService from '../services/answerProcessor';
-
+import { 
+  answerQuizQuestion, 
+  getMultipleChoiceOptions,
+  getAnswerProcessorService 
+} from '../services/answerProcessor';
+import { AnswerProcessorService } from '../services/factories/answerProcessorFactory';
 
 interface AnswerProcessorContextType {
-  answerQuizQuestion: <T = any>(
+  answerProcessorService: AnswerProcessorService;
+  answerQuizQuestion: <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number,
     answer: string
@@ -14,22 +20,22 @@ interface AnswerProcessorContextType {
     nextQuestionId?: number;
     unlockedQuiz?: any;
   };
-  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getMultipleChoiceOptions: <T = any>(
+  getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number
   ) => string[] | null;
 }
 
-// Context erstellen
 const AnswerProcessorContext = createContext<AnswerProcessorContextType | null>(null);
 
-// Provider-Komponente
 export function AnswerProcessorProvider({ children }: { children: ReactNode }) {
+  const answerProcessorService = getAnswerProcessorService();
+  
   const contextValue: AnswerProcessorContextType = {
-    answerQuizQuestion: AnswerService.answerQuizQuestion,
-    getMultipleChoiceOptions: AnswerService.getMultipleChoiceOptions // Neue Funktion hinzufügen
+    answerProcessorService,
+    answerQuizQuestion,
+    getMultipleChoiceOptions
   };
   
   return (

@@ -1,35 +1,21 @@
-import { isCompleted, getNextActiveQuestionId } from '../domain/quizLogic';
-import { getQuizState } from './quizStateManager';
+import { createProgressTrackerService } from './factories/progressTrackerFactory';
+import { getQuizStateManagerService } from './quizStateManager';
 
-/**
- * Berechnet den prozentualen Fortschritt eines Quiz
- */
-export const getQuizProgress = (quizId: string): number => {
-  const state = getQuizState(quizId);
-  return state ? (state.completedQuestions / state.questions.length) * 100 : 0;
-};
+// Instanz des ProgressTrackerService erstellen
+const progressTrackerService = createProgressTrackerService(getQuizStateManagerService());
 
-/**
- * Gibt den Fortschritt eines Quiz als formatierten String zurück
- */
-export const getQuizProgressString = (quizId: string): string | null => {
-  const state = getQuizState(quizId);
-  return state ? `${state.completedQuestions} von ${state.questions.length} gelöst` : null;
-};
+// Re-export der Funktionen
+export const getQuizProgress = (quizId: string): number => 
+  progressTrackerService.getQuizProgress(quizId);
 
-/**
- * Prüft, ob ein Quiz vollständig abgeschlossen ist
- */
-export const isQuizCompleted = (quizId: string): boolean => {
-  const state = getQuizState(quizId);
-  return state ? isCompleted(state) : false;
-};
+export const getQuizProgressString = (quizId: string): string | null => 
+  progressTrackerService.getQuizProgressString(quizId);
 
-/**
- * Gibt die ID der nächsten aktiven Frage zurück
- * Verwendet die optimierte Logik aus quizLogic
- */
-export const getNextActiveQuestion = (quizId: string, currentQuestionId?: number): number | null => {
-  const state = getQuizState(quizId);
-  return state ? getNextActiveQuestionId(state, currentQuestionId) : null;
-};
+export const isQuizCompleted = (quizId: string): boolean => 
+  progressTrackerService.isQuizCompleted(quizId);
+
+export const getNextActiveQuestion = (quizId: string, currentQuestionId?: number): number | null => 
+  progressTrackerService.getNextActiveQuestion(quizId, currentQuestionId);
+
+// Export für andere Services, die Zugriff benötigen
+export const getProgressTrackerService = () => progressTrackerService;

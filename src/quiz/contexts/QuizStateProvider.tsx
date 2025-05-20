@@ -1,25 +1,34 @@
 import React, { createContext, useContext, ReactNode } from 'react';
+import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
-import * as QuizStateService from '../services/quizStateManager';
+import { 
+  getQuizState, 
+  initializeQuizState, 
+  updateQuizState, 
+  resetQuizState,
+  getQuizStateManagerService 
+} from '../services/quizStateManager';
+import { QuizStateManagerService } from '../services/factories/quizStateManagerFactory';
 
-// Context-Interface
 interface QuizStateContextType {
-  getQuizState: <T = any>(quizId: string) => QuizState<T> | undefined;
-  initializeQuizState: <T = any>(quizId: string) => QuizState<T> | null;
-  updateQuizState: <T = any>(quizId: string, newState: QuizState<T>) => void;
-  resetQuizState: <T = any>(quizId: string) => QuizState<T> | null;
+  quizStateManagerService: QuizStateManagerService;
+  getQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | undefined;
+  initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | null;
+  updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => void;
+  resetQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | null;
 }
 
-// Context erstellen
 const QuizStateContext = createContext<QuizStateContextType | null>(null);
 
-// Provider-Komponente
 export function QuizStateProvider({ children }: { children: ReactNode }) {
+  const quizStateManagerService = getQuizStateManagerService();
+  
   const contextValue: QuizStateContextType = {
-    getQuizState: QuizStateService.getQuizState,
-    initializeQuizState: QuizStateService.initializeQuizState,
-    updateQuizState: QuizStateService.updateQuizState,
-    resetQuizState: QuizStateService.resetQuizState
+    quizStateManagerService,
+    getQuizState,
+    initializeQuizState,
+    updateQuizState,
+    resetQuizState
   };
   
   return (
@@ -29,7 +38,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Custom Hook
 export function useQuizState() {
   const context = useContext(QuizStateContext);
   if (!context) {

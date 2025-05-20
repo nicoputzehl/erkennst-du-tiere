@@ -1,11 +1,19 @@
 import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { Quiz, UnlockCondition } from '../types';
-import * as UnlockService from '../services/unlockManager';
+import { 
+  getUnlockProgress, 
+  unlockNextQuiz, 
+  checkForUnlocks, 
+  checkAllUnlockConditions,
+  addUnlockListener,
+  removeUnlockListener,
+  getUnlockManagerService 
+} from '../services/unlockManager';
+import { UnlockManagerService } from '../services/factories/unlockManagerFactory';
 import { useToast } from './ToastProvider';
 
-
-// Context-Interface
 interface UnlockManagerContextType {
+  unlockManagerService: UnlockManagerService;
   getUnlockProgress: (quizId: string) => {
     condition: UnlockCondition | null;
     progress: number;
@@ -21,14 +29,13 @@ interface UnlockManagerContextType {
   removeUnlockListener: (listener: (unlockedQuiz: Quiz) => void) => void;
 }
 
-// Context erstellen
 const UnlockManagerContext = createContext<UnlockManagerContextType | null>(null);
 
-// Provider-Komponente
 export function UnlockManagerProvider({ children }: { children: ReactNode }) {
   const { showSuccessToast } = useToast();
   
-  // Toast-Integration
+  const unlockManagerService = getUnlockManagerService();
+  
   useEffect(() => {
     const unlockHandler = (unlockedQuiz: Quiz) => {
       showSuccessToast(
@@ -37,20 +44,21 @@ export function UnlockManagerProvider({ children }: { children: ReactNode }) {
       );
     };
     
-    UnlockService.addUnlockListener(unlockHandler);
+    addUnlockListener(unlockHandler);
     
     return () => {
-      UnlockService.removeUnlockListener(unlockHandler);
+      removeUnlockListener(unlockHandler);
     };
   }, [showSuccessToast]);
   
   const contextValue: UnlockManagerContextType = {
-    getUnlockProgress: UnlockService.getUnlockProgress,
-    unlockNextQuiz: UnlockService.unlockNextQuiz,
-    checkForUnlocks: UnlockService.checkForUnlocks,
-    checkAllUnlockConditions: UnlockService.checkAllUnlockConditions,
-    addUnlockListener: UnlockService.addUnlockListener,
-    removeUnlockListener: UnlockService.removeUnlockListener
+    unlockManagerService,
+    getUnlockProgress,
+    unlockNextQuiz,
+    checkForUnlocks,
+    checkAllUnlockConditions,
+    addUnlockListener,
+    removeUnlockListener
   };
   
   return (
@@ -60,7 +68,6 @@ export function UnlockManagerProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Custom Hook
 export function useUnlockManager() {
   const context = useContext(UnlockManagerContext);
   if (!context) {
