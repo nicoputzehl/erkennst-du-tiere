@@ -1,5 +1,3 @@
-// src/quiz/services/factories/answerProcessorFactory.ts
-
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '@/src/quiz/types';
 import { calculateAnswerResult, getNextActiveQuestionId, isMultipleChoiceQuestion } from '@/src/quiz/domain/quizLogic';
@@ -12,12 +10,13 @@ export interface AnswerProcessorService {
     quizId: string,
     questionId: number,
     answer: string
-  ) => {
+  ) => Promise<{
     isCorrect: boolean;
     newState?: QuizState<T>;
     nextQuestionId?: number;
     unlockedQuiz?: any;
-  };
+  }>;
+  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
     quizId: string,
@@ -32,16 +31,16 @@ export const createAnswerProcessorService = (
   console.log('[AnswerProcessorService] Creating new service instance');
 
   return {
-    answerQuizQuestion: <T extends ContentKey = ContentKey>(
+    answerQuizQuestion: async <T extends ContentKey = ContentKey>(
       quizId: string,
       questionId: number,
       answer: string
-    ): {
+    ): Promise<{
       isCorrect: boolean;
       newState?: QuizState<T>;
       nextQuestionId?: number;
       unlockedQuiz?: any;
-    } => {
+    }> => {
       console.log(`[AnswerProcessorService] Processing answer for quiz '${quizId}', question '${questionId}'`);
       const currentState = quizStateManagerService.getQuizState<T>(quizId);
 
@@ -68,7 +67,8 @@ export const createAnswerProcessorService = (
       const result = calculateAnswerResult(currentState, questionId, processedAnswer);
 
       if (result.isCorrect) {
-        quizStateManagerService.updateQuizState(quizId, result.newState as QuizState<T>);
+        // Zustand asynchron aktualisieren
+        await quizStateManagerService.updateQuizState(quizId, result.newState as QuizState<T>);
         const nextQuestionId = getNextActiveQuestionId(result.newState);
         const unlockedQuiz = unlockManagerService.unlockNextQuiz();
 

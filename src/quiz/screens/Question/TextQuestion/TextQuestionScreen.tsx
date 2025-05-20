@@ -36,6 +36,7 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = ({
 		handleTryAgain,
 		handleBack,
 		isQuizCompleted,
+		isSubmitting
 	} = useTextQuestionScreen(quizId, questionId, question);
 
 	return (
@@ -59,6 +60,7 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = ({
 							value={answer}
 							onChangeText={setAnswer}
 							onSubmitEditing={handleSubmit}
+							isSubmitting={isSubmitting}
 						/>
 					)}
 					{showResult && (

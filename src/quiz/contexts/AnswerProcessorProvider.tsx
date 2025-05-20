@@ -2,7 +2,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
 import { 
-  answerQuizQuestion, 
+  answerQuizQuestion as answerQuizQuestionService, 
   getMultipleChoiceOptions,
   getAnswerProcessorService 
 } from '../services/answerProcessor';
@@ -14,12 +14,12 @@ interface AnswerProcessorContextType {
     quizId: string,
     questionId: number,
     answer: string
-  ) => {
+  ) => Promise<{
     isCorrect: boolean;
     newState?: QuizState<T>;
     nextQuestionId?: number;
     unlockedQuiz?: any;
-  };
+  }>;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
     quizId: string,
@@ -34,7 +34,18 @@ export function AnswerProcessorProvider({ children }: { children: ReactNode }) {
   
   const contextValue: AnswerProcessorContextType = {
     answerProcessorService,
-    answerQuizQuestion,
+    answerQuizQuestion: async <T extends ContentKey = ContentKey>(
+      quizId: string,
+      questionId: number,
+      answer: string
+    ) => {
+      try {
+        return await answerQuizQuestionService<T>(quizId, questionId, answer);
+      } catch (error) {
+        console.error(`[AnswerProcessorProvider] Error processing answer for quiz ${quizId}, question ${questionId}:`, error);
+        return { isCorrect: false };
+      }
+    },
     getMultipleChoiceOptions
   };
   

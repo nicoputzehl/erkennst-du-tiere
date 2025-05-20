@@ -7,27 +7,53 @@ import { useProgressTracker } from '@/src/quiz/contexts/ProgressTrackerProvider'
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
 
 export const useQuizOverview = (quizId: string | null) => {
-  const { startQuiz } = useQuiz();
-  const { getQuizState, } = useQuizState();
-  const { getQuizProgress, } = useProgressTracker();
+  const { loadQuiz } = useQuiz();
+  const { getQuizState } = useQuizState();
+  const { getQuizProgress } = useProgressTracker();
   
   const [quizState, setQuizState] = useState<QuizState | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigation = useNavigation();
 
   // Initialize quiz when component mounts
   useEffect(() => {
-    if (quizId) {
-      const state = startQuiz(quizId);
-      setQuizState(state);
-    }
-  }, [quizId, startQuiz]);
+    const initializeQuiz = async () => {
+      if (!quizId) {
+        setError('Keine Quiz-ID angegeben');
+        setIsLoading(false);
+        return;
+      }
+      
+      setIsLoading(true);
+      try {
+        console.log(`[useQuizOverview] Loading quiz: ${quizId}`);
+        const state = await loadQuiz(quizId);
+        if (state) {
+          setQuizState(state);
+          setError(null);
+        } else {
+          setError(`Quiz mit ID ${quizId} nicht gefunden`);
+        }
+      } catch (err) {
+        console.error(`[useQuizOverview] Error loading quiz ${quizId}:`, err);
+        setError(`Fehler beim Laden des Quiz: ${err}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    initializeQuiz();
+  }, [quizId, loadQuiz]);
 
   // Refresh quiz state when screen comes into focus
   useFocusEffect(
     useCallback(() => {
       if (quizId) {
         const state = getQuizState(quizId);
-        if (state) setQuizState(state);
+        if (state) {
+          setQuizState(state);
+        }
       }
     }, [quizId, getQuizState])
   );
@@ -35,7 +61,7 @@ export const useQuizOverview = (quizId: string | null) => {
   // Handle navigation options
   useEffect(() => {
     navigation.setOptions({
-      title: quizState?.title,
+      title: quizState?.title || 'Quiz-Übersicht',
       headerShown: true,
       headerBackTitle: 'Zurück',
       headerBackButtonDisplayMode: 'minimal',
@@ -54,6 +80,8 @@ export const useQuizOverview = (quizId: string | null) => {
 
   return {
     quizState,
+    isLoading,
+    error,
     handleQuestionClick,
     getQuizProgress,
   };

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useAnswerProcessor } from '@/src/quiz/contexts/AnswerProcessorProvider';
 import { useBaseQuestionScreen } from '../hooks/useBaseQuestionScreen';
 import { QuizMultipleChoiceQuestion } from '@/src/quiz/types';
@@ -9,26 +9,38 @@ export const useMultipleChoiceQuestionScreen = (
   question: QuizMultipleChoiceQuestion
 ) => {
   const { answerQuizQuestion } = useAnswerProcessor();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const baseHook = useBaseQuestionScreen(quizId, questionId, question);
   
-  const handleChoiceSelect = useCallback((choice: string) => {
-    const result = answerQuizQuestion(
-      quizId,
-      question.id,
-      choice
-    );
+  const handleChoiceSelect = useCallback(async (choice: string) => {
+    if (isSubmitting) return;
     
-    if (result.isCorrect && result.newState) {
-      baseHook.processCorrectAnswer(result.newState);
-    } else {
+    setIsSubmitting(true);
+    try {
+      const result = await answerQuizQuestion(
+        quizId,
+        question.id,
+        choice
+      );
+      
+      if (result.isCorrect && result.newState) {
+        baseHook.processCorrectAnswer(result.newState);
+      } else {
+        baseHook.processIncorrectAnswer();
+      }
+    } catch (error) {
+      console.error(`[useMultipleChoiceQuestionScreen] Error submitting choice:`, error);
       baseHook.processIncorrectAnswer();
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [quizId, question.id, answerQuizQuestion, baseHook]);
+  }, [quizId, question.id, answerQuizQuestion, baseHook, isSubmitting]);
   
   return {
     ...baseHook,
     choices: question.choices || [],
-    handleChoiceSelect
+    handleChoiceSelect,
+    isSubmitting
   };
 };

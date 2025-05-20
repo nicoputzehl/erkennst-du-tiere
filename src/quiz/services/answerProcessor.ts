@@ -1,5 +1,4 @@
-// src/quiz/services/answerProcessor.ts
-
+// src/quiz/services/answerProcessor.ts (Anpassung)
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '@/src/quiz/types';
 import { createAnswerProcessorService } from './factories/answerProcessorFactory';
@@ -16,12 +15,12 @@ export const answerQuizQuestion = <T extends ContentKey = ContentKey>(
   quizId: string,
   questionId: number,
   answer: string
-): {
+): Promise<{
   isCorrect: boolean;
   newState?: QuizState<T>;
   nextQuestionId?: number;
   unlockedQuiz?: any;
-} => answerProcessorService.answerQuizQuestion<T>(quizId, questionId, answer);
+}> => answerProcessorService.answerQuizQuestion<T>(quizId, questionId, answer);
 
 export const getMultipleChoiceOptions = <T extends ContentKey = ContentKey>(
   quizId: string,

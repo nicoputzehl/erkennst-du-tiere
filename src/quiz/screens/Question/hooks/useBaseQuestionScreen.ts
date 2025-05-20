@@ -15,19 +15,25 @@ export const useBaseQuestionScreen = (
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [initialQuestionStatus] = useState<string>(question.status);
-
+  const [isUpdating, setIsUpdating] = useState(false);
   
   const quizState = getQuizState(quizId);
-  console.table(quizState);
-
   const isQuizFinished = isQuizCompleted(quizId);
 
-  const processCorrectAnswer = useCallback((
+  const processCorrectAnswer = useCallback(async (
     newState: QuizState
   ) => {
     setIsCorrect(true);
     setShowResult(true);
-    updateQuizState(quizId, newState);
+    setIsUpdating(true);
+    
+    try {
+      await updateQuizState(quizId, newState);
+    } catch (error) {
+      console.error(`[useBaseQuestionScreen] Error updating quiz state:`, error);
+    } finally {
+      setIsUpdating(false);
+    }
   }, [quizId, updateQuizState]);
 
   const processIncorrectAnswer = useCallback(() => {
@@ -38,7 +44,7 @@ export const useBaseQuestionScreen = (
   const handleNext = useCallback(() => {
     if (!quizState) return;
     
-    const nextQuestionId = getNextActiveQuestionId(quizState.id,Number(questionId));
+    const nextQuestionId = getNextActiveQuestionId(quizState.id, Number(questionId));
     
     if (nextQuestionId) {
       router.replace(`/quiz/${quizId}/${nextQuestionId}`);
@@ -60,6 +66,7 @@ export const useBaseQuestionScreen = (
     showResult,
     isCorrect,
     initialQuestionStatus,
+    isUpdating,
     processCorrectAnswer,
     processIncorrectAnswer,
     handleNext,

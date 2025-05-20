@@ -1,13 +1,15 @@
-import { ContentKey } from '@/src/core/content/types'; // ContentKey importieren
-import { QuestionType, QuizMode, QuizState } from '@/src/quiz/types';
+import { ContentKey } from '@/src/core/content/types';
 import { createQuizState } from '@/src/quiz/domain/quizLogic';
+import { QuestionType, QuizMode, QuizState } from '@/src/quiz/types';
+import { getQuizPersistenceService } from '../../persistence/QuizPersistenceService';
+import { applyPersistentState } from '../../persistence/QuizStorageTypes';
 import { QuizRegistryService } from './quizRegistryFactory';
 
 export interface QuizStateManagerService {
-  initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | null;
+  initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
   getQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | undefined;
-  updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => void;
-  resetQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | null;
+  updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => Promise<void>;
+  resetQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
   getAllQuizStates: () => Map<string, QuizState<ContentKey>>;
 }
 
@@ -18,10 +20,29 @@ export const createQuizStateManagerService = (
   // Private state
   let quizStates = initialStates;
   
+  // Persistence service abrufen
+  const persistenceService = getQuizPersistenceService();
+  
+  // Initialisierung des Services
   console.log('[QuizStateManagerService] Creating new service instance');
+  
+  // Alle gespeicherten Zustände beim Start laden
+  const loadSavedStates = async (): Promise<void> => {
+    try {
+      const savedStates = await persistenceService.loadAllQuizStates();
+      if (savedStates) {
+        console.log(`[QuizStateManagerService] Found ${Object.keys(savedStates).length} saved quiz states`);
+      }
+    } catch (error) {
+      console.error('[QuizStateManagerService] Error loading saved states:', error);
+    }
+  };
+  
+  // Initialisierung starten
+  loadSavedStates();
 
   return {
-    initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | null => {
+    initializeQuizState: async <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => {
       console.log(`[QuizStateManagerService] Initializing state for quiz '${quizId}'`);
       const quiz = quizRegistryService.getQuizById(quizId);
       if (!quiz) {
@@ -29,6 +50,7 @@ export const createQuizStateManagerService = (
         return null;
       }
 
+      // Prüfen, ob bereits ein Zustand existiert
       if (!quizStates.has(quizId)) {
         // Default-Werte verwenden, falls nicht angegeben
         const quizMode = quiz.quizMode || QuizMode.SEQUENTIAL;
@@ -42,6 +64,7 @@ export const createQuizStateManagerService = (
         const finalQuizMode = hasMultipleChoiceQuestions && quizMode === QuizMode.SEQUENTIAL ? 
           QuizMode.ALL_UNLOCKED : quizMode;
         
+        // Neuen Zustand erstellen
         const state = createQuizState(
           quiz.questions, 
           quiz.id, 
@@ -50,7 +73,22 @@ export const createQuizStateManagerService = (
           initialUnlockedQuestions
         );
         
-        quizStates.set(quizId, state);
+        // Gespeicherten Zustand laden, falls vorhanden
+        try {
+          const savedStates = await persistenceService.loadAllQuizStates();
+          if (savedStates && savedStates[quizId]) {
+            console.log(`[QuizStateManagerService] Found saved state for quiz '${quizId}'`);
+            const mergedState = applyPersistentState(state, savedStates[quizId]);
+            quizStates.set(quizId, mergedState);
+          } else {
+            console.log(`[QuizStateManagerService] No saved state found for quiz '${quizId}'`);
+            quizStates.set(quizId, state);
+          }
+        } catch (error) {
+          console.error(`[QuizStateManagerService] Error loading saved state for quiz '${quizId}':`, error);
+          quizStates.set(quizId, state);
+        }
+        
         console.log(`[QuizStateManagerService] Created new state for quiz '${quizId}'`);
       } else {
         console.log(`[QuizStateManagerService] Using existing state for quiz '${quizId}'`);
@@ -64,12 +102,20 @@ export const createQuizStateManagerService = (
       return quizStates.get(quizId) as QuizState<T> | undefined;
     },
 
-    updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>): void => {
+    updateQuizState: async <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>): Promise<void> => {
       console.log(`[QuizStateManagerService] Updating state for quiz '${quizId}'`);
       quizStates.set(quizId, newState as QuizState<ContentKey>);
+      
+      // Zustand persistieren
+      try {
+        await persistenceService.saveQuizState(newState);
+        console.log(`[QuizStateManagerService] State for quiz '${quizId}' persisted successfully`);
+      } catch (error) {
+        console.error(`[QuizStateManagerService] Error persisting state for quiz '${quizId}':`, error);
+      }
     },
 
-    resetQuizState: <T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | null => {
+    resetQuizState: async <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => {
       console.log(`[QuizStateManagerService] Resetting state for quiz '${quizId}'`);
       const quiz = quizRegistryService.getQuizById(quizId);
       if (!quiz) {
@@ -98,6 +144,15 @@ export const createQuizStateManagerService = (
       );
       
       quizStates.set(quizId, newState);
+      
+      // Zustand persistieren
+      try {
+        await persistenceService.saveQuizState(newState);
+        console.log(`[QuizStateManagerService] Reset state for quiz '${quizId}' persisted successfully`);
+      } catch (error) {
+        console.error(`[QuizStateManagerService] Error persisting reset state for quiz '${quizId}':`, error);
+      }
+      
       console.log(`[QuizStateManagerService] Reset completed for quiz '${quizId}'`);
       return newState as QuizState<T>;
     },
