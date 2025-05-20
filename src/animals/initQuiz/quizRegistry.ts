@@ -1,8 +1,12 @@
+// src/animals/initQuiz/quizRegistry.ts (aktualisiert)
+
 import { registerQuiz } from '@/src/quiz/services/quizRegistry';
 import { createAnimalQuiz } from '../helper/createAnimalQuiz';
 import { emojiAnimals, namibiaAnimals, weirdAnimals } from '../data/quizzes';
 import { QuestionType } from '@/src/quiz/types';
 
+// Konstante für den Content-Typ
+export const ANIMAL_CONTENT_TYPE = 'animal';
 
 /**
  * Initialisiert alle Quizzes in der Anwendung
@@ -17,7 +21,7 @@ export function initializeAllQuizzes() {
     initiallyLocked: false,
     questionType: QuestionType.MULTIPLE_CHOICE,
     order: 1
-  }));
+  }), ANIMAL_CONTENT_TYPE);
 
   // Emoji Animals
   registerQuiz('emoji_animals', createAnimalQuiz({
@@ -27,7 +31,7 @@ export function initializeAllQuizzes() {
     order: 2,
     initiallyLocked: false,
     questionType: QuestionType.MULTIPLE_CHOICE,
-  }));
+  }), ANIMAL_CONTENT_TYPE);
 
   // Weird Animals
   registerQuiz('weird_animals', createAnimalQuiz({
@@ -41,7 +45,7 @@ export function initializeAllQuizzes() {
       requiredQuizId: 'namibia_animals',
       description: 'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.'
     },
-  }));
+  }), ANIMAL_CONTENT_TYPE);
 
 }
 
@@ -53,17 +57,21 @@ export const allQuizCategories = [
   {
     id: 'weird_animals',
     title: 'Weird Animals',
+    contentType: ANIMAL_CONTENT_TYPE
   },
   {
     id: 'emoji_animals',
     title: 'Emoji Animals',
+    contentType: ANIMAL_CONTENT_TYPE
   },
   {
     id: 'namibia_animals',
     title: 'Tiere Namibias',
+    contentType: ANIMAL_CONTENT_TYPE
   },
   {
     id: 'mc_animals',
     title: 'Multiple Choice Animals',
+    contentType: ANIMAL_CONTENT_TYPE
   }
 ];

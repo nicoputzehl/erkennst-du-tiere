@@ -1,11 +1,13 @@
 import React, { createContext, useContext, ReactNode } from 'react';
+import { ContentKey } from '@/src/core/content/types';
 import { Quiz } from '../types';
 import * as QuizRegistryService from '../services/quizRegistry';
 
 interface QuizRegistryContextType {
-  getQuizById: <T = any>(id: string) => Quiz<T> | undefined;
-  getAllQuizzes: <T = any>() => Quiz<T>[];
-  registerQuiz: <T = any>(id: string, quiz: Quiz<T>) => void;
+  getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
+  getAllQuizzes: <T extends ContentKey = ContentKey>() => Quiz<T>[];
+  getQuizzesByContentType: <T extends ContentKey = ContentKey>(contentType: string) => Quiz<T>[];
+  registerQuiz: <T extends ContentKey = ContentKey>(id: string, quiz: Quiz<T>, contentType?: string) => void;
 }
 
 const QuizRegistryContext = createContext<QuizRegistryContextType | null>(null);
@@ -15,6 +17,7 @@ export function QuizRegistryProvider({ children }: { children: ReactNode }) {
   const contextValue: QuizRegistryContextType = {
     getQuizById: QuizRegistryService.getQuizById,
     getAllQuizzes: QuizRegistryService.getAllQuizzes,
+    getQuizzesByContentType: QuizRegistryService.getQuizzesByContentType,
     registerQuiz: QuizRegistryService.registerQuiz
   };
   

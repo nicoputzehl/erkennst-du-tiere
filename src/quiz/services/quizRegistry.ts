@@ -1,32 +1,64 @@
+import { ContentKey } from '../../core/content/types';
 import { Quiz } from '../types';
 
+// Typ für den Registry-Eintrag
+interface QuizRegistryEntry {
+  quiz: Quiz<any>;
+  contentType: string;
+}
+
 // Private state (nur in diesem Modul sichtbar)
-let quizRegistry: Map<string, Quiz<any>> = new Map();
+let quizRegistry: Map<string, QuizRegistryEntry> = new Map();
 
 /**
  * Registriert ein neues Quiz im System
+ * @param id Eindeutige ID des Quiz
+ * @param quiz Quiz-Objekt
+ * @param contentType Typ des Contents (z.B. 'animal', 'movie')
  */
-export const registerQuiz = <T = any>(id: string, quiz: Quiz<T>): void => {
-  quizRegistry.set(id, quiz);
+export const registerQuiz = <T extends ContentKey = ContentKey>(
+  id: string, 
+  quiz: Quiz<T>,
+  contentType: string = 'generic'
+): void => {
+  quizRegistry.set(id, { quiz, contentType });
 };
 
 /**
  * Gibt ein Quiz anhand seiner ID zurück
  */
-export const getQuizById = <T = any>(id: string): Quiz<T> | undefined => {
-  return quizRegistry.get(id) as Quiz<T> | undefined;
+export const getQuizById = <T extends ContentKey = ContentKey>(id: string): Quiz<T> | undefined => {
+  const entry = quizRegistry.get(id);
+  return entry ? entry.quiz as Quiz<T> : undefined;
 };
 
 /**
  * Gibt alle registrierten Quizzes zurück
  */
-export const getAllQuizzes = <T = any>(): Quiz<T>[] => {
-  return Array.from(quizRegistry.values()) as Quiz<T>[];
+export const getAllQuizzes = <T extends ContentKey = ContentKey>(): Quiz<T>[] => {
+  return Array.from(quizRegistry.values()).map(entry => entry.quiz) as Quiz<T>[];
+};
+
+/**
+ * Gibt alle Quizzes eines bestimmten Content-Typs zurück
+ */
+export const getQuizzesByContentType = <T extends ContentKey = ContentKey>(contentType: string): Quiz<T>[] => {
+  return Array.from(quizRegistry.values())
+    .filter(entry => entry.contentType === contentType)
+    .map(entry => entry.quiz) as Quiz<T>[];
 };
 
 /**
  * Aktualisiert ein Quiz in der Registry
  */
-export const updateQuiz = <T = any>(id: string, updatedQuiz: Quiz<T>): void => {
-  quizRegistry.set(id, updatedQuiz);
+export const updateQuiz = <T extends ContentKey = ContentKey>(
+  id: string, 
+  updatedQuiz: Quiz<T>,
+  contentType?: string
+): void => {
+  const existingEntry = quizRegistry.get(id);
+  quizRegistry.set(id, { 
+    quiz: updatedQuiz, 
+    contentType: contentType || (existingEntry ? existingEntry.contentType : 'generic') 
+  });
 };
