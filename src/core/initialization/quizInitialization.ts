@@ -27,20 +27,22 @@ export function registerQuizInitializer(initializer: QuizInitializer): void {
  * Initialisiert alle registrierten Quizzes
  * Diese Funktion sollte explizit während des App-Starts aufgerufen werden
  */
-export function initializeAllQuizzes(): void {
+export async function initializeAllQuizzes(): Promise<void> {
   console.log("Starting quiz initialization...");
   console.log(`Found ${quizInitializers.length} initializers`);
+  
   // Durchlaufe alle registrierten Initialisierer
-  quizInitializers.forEach((initializer, index) => {
+  for (let index = 0; index < quizInitializers.length; index++) {
+    const initializer = quizInitializers[index];
     console.log(`Running initializer ${index + 1}...`);
     const quizzes = initializer();
     console.log(`Initializer ${index + 1} created ${quizzes.length} quizzes`);
 
-    quizzes.forEach(({ id, quiz, contentType }) => {
+    for (const { id, quiz, contentType } of quizzes) {
       console.log(`Registering quiz '${id}' of type '${contentType}'`);
       registerQuiz(id, quiz, contentType);
-    });
-  });
+    }
+  }
 
   console.log(`Initialized ${quizInitializers.length} quiz categories`);
 }

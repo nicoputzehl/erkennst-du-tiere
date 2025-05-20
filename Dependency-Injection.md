@@ -4,16 +4,17 @@
 
 "Erkennst du das Tier?" ist eine mobile Quiz-Anwendung, entwickelt mit React Native und Expo. Benutzer sehen Bilder von Tieren und müssen deren Namen erraten, entweder durch Eingabe eines Textes oder durch Auswahl aus vorgegebenen Optionen (Multiple-Choice).
 
-### Kerneigenschaften:
+### Kerneigenschaften
 
 - **Verschiedene Quiz-Kategorien**: Emojis, Namibia-Tiere, und "Weird Animals"
 - **Unterschiedliche Fragetypen**: Texteingabe und Multiple-Choice
 - **Freischaltbares Gameplay**: Neue Quiz-Kategorien werden freigeschaltet, wenn bestimmte Bedingungen erfüllt sind
 - **Fortschrittsverfolgung**: Das Spiel verfolgt den Fortschritt des Spielers in jedem Quiz
 
-### Architektur:
+### Architektur
 
 Die Anwendung basiert auf einer klaren Trennung von:
+
 1. **Core Layer**: Generische Quiz-Funktionalität
 2. **Content Layer**: Tierspezifische Daten und Logik
 3. **Presentation Layer**: UI-Komponenten und Screens
@@ -97,7 +98,7 @@ graph TD
 
 ## Aktueller Stand des Refactorings
 
-### Abgeschlossene Verbesserungen:
+### Abgeschlossene Verbesserungen
 
 1. **Service-Factories implementiert**:
    - Jeder Service wird nun durch eine Factory-Funktion erstellt
@@ -108,7 +109,7 @@ graph TD
    - Provider haben Zugriff auf Service-Instanzen
    - Klare Trennung von Service-Logik und Kontext-Verwaltung
 
-### Nutzen der Verbesserungen:
+### Nutzen der Verbesserungen
 
 1. **Bessere Testbarkeit**:
    - Services können mit Mock-Abhängigkeiten getestet werden
@@ -123,7 +124,7 @@ graph TD
    - Neue Services können einfach hinzugefügt werden
    - Bestehende Services können leichter ausgetauscht werden
 
-### Nächste Schritte:
+### Nächste Schritte
 
 1. **Persistenzstrategie implementieren**:
    - Integration von AsyncStorage für Speicherung von Fortschritt und Einstellungen

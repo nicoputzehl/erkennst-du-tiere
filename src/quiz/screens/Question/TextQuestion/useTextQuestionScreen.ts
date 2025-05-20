@@ -10,27 +10,39 @@ export const useTextQuestionScreen = (
 ) => {
   const { answerQuizQuestion } = useAnswerProcessor();
   const [answer, setAnswer] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const baseHook = useBaseQuestionScreen(quizId, questionId, question);
   
-  const handleSubmit = useCallback(() => {
-    const result = answerQuizQuestion(
-      quizId,
-      question.id,
-      answer.trim()
-    );
+  const handleSubmit = useCallback(async () => {
+    if (isSubmitting || !answer.trim()) return;
     
-    if (result.isCorrect && result.newState) {
-      baseHook.processCorrectAnswer(result.newState);
-    } else {
+    setIsSubmitting(true);
+    try {
+      const result = await answerQuizQuestion(
+        quizId,
+        question.id,
+        answer.trim()
+      );
+      
+      if (result.isCorrect && result.newState) {
+        baseHook.processCorrectAnswer(result.newState);
+      } else {
+        baseHook.processIncorrectAnswer();
+      }
+    } catch (error) {
+      console.error(`[useTextQuestionScreen] Error submitting answer:`, error);
       baseHook.processIncorrectAnswer();
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [quizId, question.id, answer, answerQuizQuestion, baseHook]);
+  }, [quizId, question.id, answer, answerQuizQuestion, baseHook, isSubmitting]);
   
   return {
     ...baseHook,
     answer,
     setAnswer,
-    handleSubmit
+    handleSubmit,
+    isSubmitting
   };
 };

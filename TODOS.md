@@ -14,26 +14,11 @@
 - Implementierung eines DI-Patterns für die Services
 - Entfernung globaler Zustandsvariablen in Services
 
-### 3. Persistenzstrategie einführen
+### 3. Persistenzstrategie einführen ✅
 
 - Integration von AsyncStorage oder ähnlicher Lösung
 - Klares Konzept zur Speicherung von Fortschritt und Einstellungen
 - Trennung zwischen flüchtigem und persistentem Zustand
-
-#### Konkrete Schritte
-
-1. Storage-Interface definieren
-2. AsyncStorage-Implementierung erstellen
-3. Persistierbare Quiz-Zustände definieren
-4. Serialisierungs-/Deserialisierungsfunktionen implementieren
-
-```typescript
-export interface StorageService {
-  save<T>(key: string, data: T): Promise<void>;
-  load<T>(key: string): Promise<T | null>;
-  remove(key: string): Promise<void>;
-}
-```
 
 ### 4. Provider-Optimierung
 
@@ -94,7 +79,7 @@ export function QuizProvider({ children }) {
 - Eventuell Integration von Zustand oder Redux/Toolkit für komplexere Szenarien
 - Klare Aktionsstruktur für Zustandsänderungen
 
-#### Umsetzungsplan
+#### Umsetzungsplan State Management
 
 1. Aktionen und Reducer für Quiz-Operationen definieren
 2. Zustand-Provider auf useReducer umstellen
@@ -119,7 +104,7 @@ export function QuizProvider({ children }) {
 - Nutzung von strikteren TypeScript-Einstellungen
 - Gemeinsame Basis-Typen für Content-Items definieren
 
-#### Umsetzungsplan
+#### Umsetzungsplan Typesafety
 
 1. tsconfig.json mit strikteren Optionen aktualisieren
 2. `any`-Typen durch spezifischere ersetzen

@@ -7,16 +7,16 @@ import { getQuizRegistryService } from './quizRegistry';
 const quizStateManagerService = createQuizStateManagerService(getQuizRegistryService());
 
 // Re-export der Funktionen
-export const initializeQuizState = <T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | null => 
+export const initializeQuizState = <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => 
   quizStateManagerService.initializeQuizState<T>(quizId);
 
 export const getQuizState = <T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => 
   quizStateManagerService.getQuizState<T>(quizId);
 
-export const updateQuizState = <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>): void => 
+export const updateQuizState = <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>): Promise<void> => 
   quizStateManagerService.updateQuizState<T>(quizId, newState);
 
-export const resetQuizState = <T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | null => 
+export const resetQuizState = <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => 
   quizStateManagerService.resetQuizState<T>(quizId);
 
 export const getAllQuizStates = (): Map<string, QuizState<ContentKey>> => 

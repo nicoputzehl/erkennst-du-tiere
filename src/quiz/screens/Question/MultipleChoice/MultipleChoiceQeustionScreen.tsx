@@ -20,14 +20,14 @@ interface MultipleChoiceQuestionScreenProps {
 	question: QuizMultipleChoiceQuestion;
 }
 
-export const MultipleChoiceQuestionScreen: React.FC<
-	MultipleChoiceQuestionScreenProps
+export const MultipleChoiceQuestionScreen: React.FC<MultipleChoiceQuestionScreenProps
 > = ({ quizId, questionId, question }) => {
 	const {
 		choices,
 		showResult,
 		isCorrect,
 		initialQuestionStatus,
+    isSubmitting,
 		handleChoiceSelect,
 		handleNext,
 		handleTryAgain,
@@ -55,6 +55,7 @@ export const MultipleChoiceQuestionScreen: React.FC<
 						<AnswerChoice
 							choices={choices}
 							onChoicePress={handleChoiceSelect}
+              isSubmitting={isSubmitting}
 						/>
 					)}
 					{showResult && (
