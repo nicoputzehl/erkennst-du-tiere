@@ -1,20 +1,14 @@
-import { ANIMAL_LIST } from '../data/animal_list';
+import { animalContentProvider } from '../adapter/AnimalContentProvider';
 import { AnimalKey } from '../types';
 
 export const validateAnimalKey = (animal: string): animal is AnimalKey => {
-  return animal in ANIMAL_LIST;
+  return animalContentProvider.isValidContentKey(animal);
 };
 
 export const getValidAnimals = (): string[] => {
-  return Object.keys(ANIMAL_LIST);
+  return animalContentProvider.getAllContentKeys();
 };
 
 export const findClosestAnimal = (animal: string): string | null => {
-  const validAnimals = getValidAnimals();
-  // Einfache String-Ähnlichkeit
-  const closest = validAnimals.find(valid =>
-    valid.toLowerCase().includes(animal.toLowerCase()) ||
-    animal.toLowerCase().includes(valid.toLowerCase())
-  );
-  return closest || null;
+  return animalContentProvider.findSimilarContentKey(animal);
 };

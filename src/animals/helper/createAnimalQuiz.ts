@@ -1,19 +1,19 @@
-import { validateAnimalKey, findClosestAnimal, getValidAnimals } from "./animalValidator";
-import { createQuestionsFromAnimals } from "./AnimalQuestionFactory";
-import { createMultipleChoiceQuestionsFromAnimals } from "./MultipleChoiceAnimalQuestionFactory";
-import { MultipleChoiceQuestionWithAnimal, QuestionWithAnimal } from "../types";
-import { Quiz, QuizMode, UnlockCondition } from "@/src/quiz/types";
+// src/animals/helper/createAnimalQuiz.ts (korrigiert)
 
-// TODO in eigenes File
-// Basisschnittstelle für beide Quiztypen
+import { ContentQuizFactory, CompleteContentQuizConfig } from '../../core/content/ContentQuizFactory';
+import { createMultipleChoiceQuestionsFromAnimals, createQuestionsFromAnimals } from '../adapter/AnimalQuestionFactoryAdapter';
+import { MultipleChoiceQuestionWithAnimal, QuestionWithAnimal, AnimalKey } from '../types';
+import { Quiz, QuizMode, UnlockCondition } from '../../quiz/types';
+
+// Angepasste Interfaces für Animal-Quiz-Konfiguration
 export interface AnimalQuizConfig {
   id: string;
   title: string;
   initiallyLocked?: boolean;
   unlockCondition?: UnlockCondition;
   order?: number;
-  quizMode?: QuizMode;  // <-- Neu
-  initialUnlockedQuestions?: number;  // <-- Neu
+  quizMode?: QuizMode;
+  initialUnlockedQuestions?: number;
 }
 
 // Schnittstelle für Standard-Textquiz
@@ -33,45 +33,56 @@ export interface MultipleChoiceAnimalQuizConfig extends AnimalQuizConfig {
 export type CompleteAnimalQuizConfig = TextAnimalQuizConfig | MultipleChoiceAnimalQuizConfig;
 
 /**
- * Erstellt ein neues Tier-Quiz (Textquiz oder Multiple-Choice)
+ * Adapter-Funktion, die die tierbasierte Konfiguration in die generische umwandelt
  */
-const createAnimalQuiz = (config: CompleteAnimalQuizConfig): Quiz => {
-  // Bestimmen, ob es sich um ein Multiple-Choice-Quiz handelt
+const adaptAnimalQuizConfig = (config: CompleteAnimalQuizConfig): CompleteContentQuizConfig<AnimalKey> => {
   const isMultipleChoice = config.questionType === 'multiple_choice';
-
-  let quizMode = config.quizMode || QuizMode.SEQUENTIAL;
-  if (config.questionType === 'multiple_choice' && !config.quizMode) {
-    quizMode = QuizMode.ALL_UNLOCKED;
-  }
-  // Fragen basierend auf dem Quiztyp erstellen
-  let questions;
+  
   if (isMultipleChoice) {
     const mcConfig = config as MultipleChoiceAnimalQuizConfig;
-    questions = createMultipleChoiceQuestionsFromAnimals(
+    const questions = createMultipleChoiceQuestionsFromAnimals(
       mcConfig.animalQuestions,
-      mcConfig.choiceCount || 4 // Standard: 4 Antwortmöglichkeiten
+      mcConfig.choiceCount || 4
     );
+    
+    return {
+      id: config.id,
+      title: config.title,
+      questions,
+      initiallyLocked: config.initiallyLocked,
+      unlockCondition: config.unlockCondition,
+      order: config.order,
+      quizMode: config.quizMode,
+      initialUnlockedQuestions: config.initialUnlockedQuestions,
+      questionType: 'multiple_choice',
+      choiceCount: mcConfig.choiceCount
+    };
   } else {
-    questions = createQuestionsFromAnimals(config.animalQuestions);
+    const textConfig = config as TextAnimalQuizConfig;
+    const questions = createQuestionsFromAnimals(textConfig.animalQuestions);
+    
+    return {
+      id: config.id,
+      title: config.title,
+      questions,
+      initiallyLocked: config.initiallyLocked,
+      unlockCondition: config.unlockCondition,
+      order: config.order,
+      quizMode: config.quizMode,
+      initialUnlockedQuestions: config.initialUnlockedQuestions,
+      questionType: 'text'
+    };
   }
-
-  return {
-    id: config.id,
-    title: config.title,
-    questions,
-    initiallyLocked: config.initiallyLocked ?? false,
-    unlockCondition: config.unlockCondition,
-    order: config.order ?? 1,
-    quizMode,
-    initialUnlockedQuestions: config.initialUnlockedQuestions || 2
-  };
 };
 
-export {
-  validateAnimalKey,
-  findClosestAnimal,
-  getValidAnimals,
-  createQuestionsFromAnimals,
-  createMultipleChoiceQuestionsFromAnimals,
-  createAnimalQuiz
+/**
+ * Erstellt ein neues Tier-Quiz (Textquiz oder Multiple-Choice)
+ * Verwendet die generische ContentQuizFactory
+ */
+const createAnimalQuiz = (config: CompleteAnimalQuizConfig): Quiz<AnimalKey> => {
+  const contentConfig = adaptAnimalQuizConfig(config);
+  return ContentQuizFactory.createQuiz<AnimalKey>(contentConfig);
 };
+
+// Re-export der vorhandenen Validierungsfunktionen
+export { createAnimalQuiz };
