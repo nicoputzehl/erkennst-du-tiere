@@ -1,5 +1,3 @@
-// src/quiz/services/progressTracker.ts
-
 import { createProgressTrackerService } from './factories/progressTrackerFactory';
 import { getQuizStateManagerService } from './quizStateManager';
 

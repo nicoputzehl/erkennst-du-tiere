@@ -1,5 +1,3 @@
-// src/quiz/contexts/AnswerProcessorProvider.tsx
-
 import React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
@@ -32,7 +30,6 @@ interface AnswerProcessorContextType {
 const AnswerProcessorContext = createContext<AnswerProcessorContextType | null>(null);
 
 export function AnswerProcessorProvider({ children }: { children: ReactNode }) {
-  // Dienst-Instanz abrufen
   const answerProcessorService = getAnswerProcessorService();
   
   const contextValue: AnswerProcessorContextType = {

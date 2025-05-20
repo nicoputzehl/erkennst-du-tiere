@@ -1,5 +1,3 @@
-// src/quiz/contexts/ProgressTrackerProvider.tsx
-
 import React, { createContext, useContext, ReactNode } from 'react';
 import { 
   getQuizProgress, 
@@ -21,7 +19,6 @@ interface ProgressTrackerContextType {
 const ProgressTrackerContext = createContext<ProgressTrackerContextType | null>(null);
 
 export function ProgressTrackerProvider({ children }: { children: ReactNode }) {
-  // Dienst-Instanz abrufen
   const progressTrackerService = getProgressTrackerService();
   
   const contextValue: ProgressTrackerContextType = {

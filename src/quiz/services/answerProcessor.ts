@@ -6,7 +6,6 @@ import { createAnswerProcessorService } from './factories/answerProcessorFactory
 import { getQuizStateManagerService } from './quizStateManager';
 import { getUnlockManagerService } from './unlockManager';
 
-// Instanz des AnswerProcessorService erstellen
 const answerProcessorService = createAnswerProcessorService(
   getQuizStateManagerService(),
   getUnlockManagerService()

@@ -1,5 +1,3 @@
-// src/quiz/services/quizStateManager.ts
-
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '@/src/quiz/types';
 import { createQuizStateManagerService } from './factories/quizStateManagerFactory';

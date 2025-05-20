@@ -1,5 +1,3 @@
-// src/quiz/contexts/QuizRegistryProvider.tsx
-
 import React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz } from '../types';
@@ -31,7 +29,6 @@ interface QuizRegistryContextType {
 const QuizRegistryContext = createContext<QuizRegistryContextType | null>(null);
 
 export function QuizRegistryProvider({ children }: { children: ReactNode }) {
-	// Dienst-Instanz abrufen
 	const quizRegistryService = getQuizRegistryService();
 
 	const contextValue: QuizRegistryContextType = {

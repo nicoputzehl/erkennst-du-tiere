@@ -8,35 +8,11 @@
 - Refactoring der `AnimalKey` zu einem generischen Typ
 - Klare Definition der API zwischen Content-Modul und Quiz-Kernfunktionalität
 
-### 2. Dependency Injection verbessern
+### 2. Dependency Injection verbessern ✅
 
 - Service-Module sollten keine direkten Abhängigkeiten haben
 - Implementierung eines DI-Patterns für die Services
 - Entfernung globaler Zustandsvariablen in Services
-
-#### Konkrete Schritte
-
-1. Service-Factory erstellen, die Abhängigkeiten verwaltet
-2. Module so anpassen, dass sie Abhängigkeiten injiziert bekommen
-3. Provider-System für Dependency Injection einführen
-
-```typescript
-// Beispiel für verbesserte DI
-export class QuizStateManager {
-  constructor(
-    private quizRegistry: QuizRegistry,
-    private storage: StorageService
-  ) {}
-
-  // Methoden hier...
-}
-
-// Factory
-export const createQuizStateManager = (
-  quizRegistry = defaultQuizRegistry,
-  storage = defaultStorageService
-) => new QuizStateManager(quizRegistry, storage);
-```
 
 ### 3. Persistenzstrategie einführen
 

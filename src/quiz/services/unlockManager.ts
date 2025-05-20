@@ -1,5 +1,3 @@
-// src/quiz/services/unlockManager.ts
-
 import { Quiz, UnlockCondition } from '@/src/quiz/types';
 import { createUnlockManagerService } from './factories/unlockManagerFactory';
 import { getQuizRegistryService } from './quizRegistry';

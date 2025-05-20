@@ -1,5 +1,3 @@
-// src/quiz/services/quizRegistry.ts
-
 import { createQuizRegistryService } from './factories/quizRegistryFactory';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz } from '@/src/quiz/types';

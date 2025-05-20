@@ -1,5 +1,3 @@
-// src/quiz/contexts/QuizStateProvider.tsx
-
 import React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
@@ -23,7 +21,6 @@ interface QuizStateContextType {
 const QuizStateContext = createContext<QuizStateContextType | null>(null);
 
 export function QuizStateProvider({ children }: { children: ReactNode }) {
-  // Dienst-Instanz abrufen
   const quizStateManagerService = getQuizStateManagerService();
   
   const contextValue: QuizStateContextType = {

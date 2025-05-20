@@ -18,6 +18,7 @@ export interface AnswerProcessorService {
     nextQuestionId?: number;
     unlockedQuiz?: any;
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number

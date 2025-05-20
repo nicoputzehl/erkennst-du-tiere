@@ -1,5 +1,3 @@
-// src/quiz/contexts/QuizProvider.tsx
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useQuizManager } from '../hooks/useQuizManager';
 import { QuizRegistryProvider } from './QuizRegistryProvider';
@@ -18,7 +16,6 @@ const QuizContext = createContext<ReturnType<typeof useQuizManager> | null>(null
 export function QuizProvider({ children }: { children: React.ReactNode }) {
   const [initialized, setInitialized] = useState(false);
   
-  // Quizzes initialisieren
   useEffect(() => {
     console.log('Initializing quizzes...');
     initializeAllQuizzes();
@@ -31,7 +28,6 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     return <ActivityIndicator />;
   }
 
-  // Hier verwenden wir die neue Struktur der Provider
   return (
     <QuizRegistryProvider>
       <QuizStateProvider>

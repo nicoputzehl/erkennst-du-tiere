@@ -1,5 +1,3 @@
-// src/quiz/services/factories/progressTrackerFactory.ts
-
 import { ContentKey } from '@/src/core/content/types';
 import { isCompleted, getNextActiveQuestionId } from '@/src/quiz/domain/quizLogic';
 import { QuizStateManagerService } from './quizStateManagerFactory';

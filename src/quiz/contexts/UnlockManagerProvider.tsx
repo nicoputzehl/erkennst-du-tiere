@@ -1,5 +1,3 @@
-// src/quiz/contexts/UnlockManagerProvider.tsx
-
 import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { Quiz, UnlockCondition } from '../types';
 import { 
@@ -36,10 +34,8 @@ const UnlockManagerContext = createContext<UnlockManagerContextType | null>(null
 export function UnlockManagerProvider({ children }: { children: ReactNode }) {
   const { showSuccessToast } = useToast();
   
-  // Dienst-Instanz abrufen
   const unlockManagerService = getUnlockManagerService();
   
-  // Toast-Integration
   useEffect(() => {
     const unlockHandler = (unlockedQuiz: Quiz) => {
       showSuccessToast(
