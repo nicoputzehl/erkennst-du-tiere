@@ -36,7 +36,9 @@ export const getQuizById = <T extends ContentKey = ContentKey>(id: string): Quiz
  * Gibt alle registrierten Quizzes zurück
  */
 export const getAllQuizzes = <T extends ContentKey = ContentKey>(): Quiz<T>[] => {
-  return Array.from(quizRegistry.values()).map(entry => entry.quiz) as Quiz<T>[];
+  const quizzes = Array.from(quizRegistry.values()).map(entry => entry.quiz) as Quiz<T>[];
+  console.log(`getAllQuizzes returning ${quizzes.length} quizzes`);
+  return quizzes;
 };
 
 /**
