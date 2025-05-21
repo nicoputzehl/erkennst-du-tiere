@@ -13,7 +13,7 @@
       "bundleIdentifier": "com.putzehl.erkennst-du-tiere",
       "icon": {
         "light": "./assets/images/icon.png",
-        "dark": "./assets/images/icon-dark.png",
+        "dark": "./assets/images/icon_dark.png",
         "tinted": "./assets/images/icon.png"
       }
     },
