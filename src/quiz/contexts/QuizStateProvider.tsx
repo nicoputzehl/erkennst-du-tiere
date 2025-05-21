@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect, useMemo } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
 import { 
@@ -10,7 +10,7 @@ import {
 } from '../services/quizStateManager';
 import { QuizStateManagerService } from '../services/factories/quizStateManagerFactory';
 
-interface QuizStateContextType {
+interface QuizStateContextProps {
   quizStateManagerService: QuizStateManagerService;
   getQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | undefined;
   initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
@@ -19,7 +19,7 @@ interface QuizStateContextType {
   isLoading: boolean;
 }
 
-const QuizStateContext = createContext<QuizStateContextType | null>(null);
+const QuizStateContext = createContext<QuizStateContextProps | null>(null);
 
 export function QuizStateProvider({ children }: { children: ReactNode }) {
   const quizStateManagerService = getQuizStateManagerService();
@@ -42,34 +42,39 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     initializeServices();
   }, []);
   
-  const contextValue: QuizStateContextType = {
-    quizStateManagerService,
-    getQuizState,
-    initializeQuizState: async <T extends ContentKey = ContentKey>(quizId: string) => {
-      try {
-        return await initializeQuizState<T>(quizId);
-      } catch (error) {
-        console.error(`[QuizStateProvider] Error initializing quiz state for ${quizId}:`, error);
-        return null;
-      }
-    },
-    updateQuizState: async <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => {
-      try {
-        await updateQuizState(quizId, newState);
-      } catch (error) {
-        console.error(`[QuizStateProvider] Error updating quiz state for ${quizId}:`, error);
-      }
-    },
-    resetQuizState: async <T extends ContentKey = ContentKey>(quizId: string) => {
-      try {
-        return await resetQuizState<T>(quizId);
-      } catch (error) {
-        console.error(`[QuizStateProvider] Error resetting quiz state for ${quizId}:`, error);
-        return null;
-      }
-    },
-    isLoading
-  };
+  // Memoize the context value
+  const contextValue = useMemo(() => {
+    console.log('[QuizStateProvider] Creating memoized context value');
+    
+    return {
+      quizStateManagerService,
+      getQuizState,
+      initializeQuizState: async <T extends ContentKey = ContentKey>(quizId: string) => {
+        try {
+          return await initializeQuizState<T>(quizId);
+        } catch (error) {
+          console.error(`[QuizStateProvider] Error initializing quiz state for ${quizId}:`, error);
+          return null;
+        }
+      },
+      updateQuizState: async <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => {
+        try {
+          await updateQuizState(quizId, newState);
+        } catch (error) {
+          console.error(`[QuizStateProvider] Error updating quiz state for ${quizId}:`, error);
+        }
+      },
+      resetQuizState: async <T extends ContentKey = ContentKey>(quizId: string) => {
+        try {
+          return await resetQuizState<T>(quizId);
+        } catch (error) {
+          console.error(`[QuizStateProvider] Error resetting quiz state for ${quizId}:`, error);
+          return null;
+        }
+      },
+      isLoading
+    };
+  }, [quizStateManagerService, isLoading]);
   
   return (
     <QuizStateContext.Provider value={contextValue}>

@@ -24,7 +24,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
         console.log('[QuizProvider] Initializing quizzes...');
         await initializeAllQuizzes();
         setInitialized(true);
-        console.log('[QuizProvider] Quizzes initialized');
+        console.log('[QuizProvider] Quizzes initialized successfully');
       } catch (error) {
         console.error('[QuizProvider] Error initializing quizzes:', error);
       } finally {
@@ -52,6 +52,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
     );
   }
 
+  // Optimierte Provider-Struktur mit saubereren Abhängigkeiten
   return (
     <QuizRegistryProvider>
       <QuizStateProvider>
@@ -67,7 +68,7 @@ export function QuizProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Innerer Provider
+// Innerer Provider bleibt unverändert
 function QuizProviderInner({ children }: { children: React.ReactNode }) {
   const quizManager = useQuizManager();
 
