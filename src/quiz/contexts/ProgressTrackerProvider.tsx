@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useMemo } from 'react';
 import { 
   getQuizProgress, 
   getQuizProgressString, 
@@ -8,7 +8,7 @@ import {
 } from '../services/progressTracker';
 import { ProgressTrackerService } from '../services/factories/progressTrackerFactory';
 
-interface ProgressTrackerContextType {
+interface ProgressTrackerContextProps {
   progressTrackerService: ProgressTrackerService;
   getQuizProgress: (quizId: string) => number;
   getQuizProgressString: (quizId: string) => string | null;
@@ -16,18 +16,23 @@ interface ProgressTrackerContextType {
   getNextActiveQuestion: (quizId: string, currentQuestionId?: number) => number | null;
 }
 
-const ProgressTrackerContext = createContext<ProgressTrackerContextType | null>(null);
+const ProgressTrackerContext = createContext<ProgressTrackerContextProps | null>(null);
 
 export function ProgressTrackerProvider({ children }: { children: ReactNode }) {
   const progressTrackerService = getProgressTrackerService();
   
-  const contextValue: ProgressTrackerContextType = {
-    progressTrackerService,
-    getQuizProgress,
-    getQuizProgressString,
-    isQuizCompleted,
-    getNextActiveQuestion
-  };
+  // Memoize context value
+  const contextValue = useMemo(() => {
+    console.log('[ProgressTrackerProvider] Creating memoized context value');
+    
+    return {
+      progressTrackerService,
+      getQuizProgress,
+      getQuizProgressString,
+      isQuizCompleted,
+      getNextActiveQuestion
+    };
+  }, [progressTrackerService]);
 
   return (
     <ProgressTrackerContext.Provider value={contextValue}>

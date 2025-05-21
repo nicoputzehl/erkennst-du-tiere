@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect, useMemo } from 'react';
 import { Quiz, UnlockCondition } from '../types';
 import { 
   getUnlockProgress, 
@@ -12,7 +12,7 @@ import {
 import { UnlockManagerService } from '../services/factories/unlockManagerFactory';
 import { useToast } from './ToastProvider';
 
-interface UnlockManagerContextType {
+interface UnlockManagerContextProps {
   unlockManagerService: UnlockManagerService;
   getUnlockProgress: (quizId: string) => {
     condition: UnlockCondition | null;
@@ -29,13 +29,14 @@ interface UnlockManagerContextType {
   removeUnlockListener: (listener: (unlockedQuiz: Quiz) => void) => void;
 }
 
-const UnlockManagerContext = createContext<UnlockManagerContextType | null>(null);
+const UnlockManagerContext = createContext<UnlockManagerContextProps | null>(null);
 
 export function UnlockManagerProvider({ children }: { children: ReactNode }) {
   const { showSuccessToast } = useToast();
   
   const unlockManagerService = getUnlockManagerService();
   
+  // Setup toast notification for unlocked quizzes
   useEffect(() => {
     const unlockHandler = (unlockedQuiz: Quiz) => {
       showSuccessToast(
@@ -51,15 +52,20 @@ export function UnlockManagerProvider({ children }: { children: ReactNode }) {
     };
   }, [showSuccessToast]);
   
-  const contextValue: UnlockManagerContextType = {
-    unlockManagerService,
-    getUnlockProgress,
-    unlockNextQuiz,
-    checkForUnlocks,
-    checkAllUnlockConditions,
-    addUnlockListener,
-    removeUnlockListener
-  };
+  // Memoize context value
+  const contextValue = useMemo(() => {
+    console.log('[UnlockManagerProvider] Creating memoized context value');
+    
+    return {
+      unlockManagerService,
+      getUnlockProgress,
+      unlockNextQuiz,
+      checkForUnlocks,
+      checkAllUnlockConditions,
+      addUnlockListener,
+      removeUnlockListener
+    };
+  }, [unlockManagerService]);
   
   return (
     <UnlockManagerContext.Provider value={contextValue}>
