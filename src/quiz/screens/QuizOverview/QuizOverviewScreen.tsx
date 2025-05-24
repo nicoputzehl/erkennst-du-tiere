@@ -1,7 +1,8 @@
 import { ProgressBar } from '@/src/quiz/screens/QuizOverview/components/ProgressBar';
 import { ThemedView } from '@/src/common/components/ThemedView';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator, View
+} from 'react-native';
 import { QuestionGrid } from './components/QuestionGrid';
 import { QUIZ_LAYOUT } from './constants/constants';
 import { useQuizOverview } from './hooks/useQuizOverview';
@@ -52,17 +53,15 @@ export const QuizOverviewScreen: React.FC<QuizOverviewScreenProps> = ({
 				total={quizState.questions.length}
 				progress={getQuizProgress(quizState.id)}
 			/>
-			<ScrollView
-				style={styles.scrollView}
-				contentContainerStyle={styles.scrollContent}
-				showsVerticalScrollIndicator={false}
+			<View
+				style={styles.scrollContent}
 			>
 				<QuestionGrid
 					questions={quizState.questions}
 					itemWidth={itemWidth}
 					onQuestionClick={handleQuestionClick}
 				/>
-			</ScrollView>
+			</View>
 		</ThemedView>
 	);
 };
@@ -79,10 +78,11 @@ const styles = StyleSheet.create({
 		padding: QUIZ_LAYOUT.padding,
 	},
 	scrollView: {
-		flex: 1,
 	},
 	scrollContent: {
+		flex: 1,
 		padding: QUIZ_LAYOUT.padding,
+		justifyContent: 'center',
 	},
 	loadingText: {
 		marginTop: 16,
