@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -20,7 +20,7 @@ interface TextQuestionScreenProps {
 	question: QuizQuestion;
 }
 
-export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = ({
+export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = memo(({
 	quizId,
 	questionId,
 	question,
@@ -49,8 +49,16 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = ({
 				contentContainerStyle={styles.scrollContainer}
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps='handled'
+				// Performance optimizations
+				removeClippedSubviews={true}
+				scrollEventThrottle={16}
+				// Better keyboard handling
+				automaticallyAdjustKeyboardInsets={true}
 			>
-				<QuestionImage imageUrl={question.imageUrl} />
+				<QuestionImage 
+					imageUrl={question.imageUrl} 
+					thumbnailUrl={question.thumbnailUrl}
+				/>
 				<ThemedView style={styles.content}>
 					{initialQuestionStatus === 'solved' && (
 						<AlreadyAnswered funFact={question.funFact} />
@@ -78,17 +86,34 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = ({
 			</ScrollView>
 		</KeyboardAvoidingView>
 	);
-};
+}, (prevProps, nextProps) => {
+	// Memo comparison - only re-render if essential props change
+	return (
+		prevProps.quizId === nextProps.quizId &&
+		prevProps.questionId === nextProps.questionId &&
+		prevProps.question.id === nextProps.question.id &&
+		prevProps.question.status === nextProps.question.status &&
+		prevProps.question.imageUrl === nextProps.question.imageUrl &&
+		prevProps.question.thumbnailUrl === nextProps.question.thumbnailUrl
+	);
+});
+
+TextQuestionScreen.displayName = 'TextQuestionScreen';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#fff', // Explicit background
 	},
 	scrollContainer: {
 		flexGrow: 1,
+		minHeight: '100%', // Ensure full height
+		paddingBottom: 20, // Extra space for keyboard
 	},
 	content: {
 		flex: 1,
 		padding: 16,
+		paddingBottom: 32, // Extra padding at bottom
+		justifyContent: 'space-between', // Better distribution for text input
 	},
 });

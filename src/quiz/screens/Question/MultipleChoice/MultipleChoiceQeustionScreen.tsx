@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import {
 	KeyboardAvoidingView,
 	Platform,
@@ -20,8 +20,11 @@ interface MultipleChoiceQuestionScreenProps {
 	question: QuizMultipleChoiceQuestion;
 }
 
-export const MultipleChoiceQuestionScreen: React.FC<MultipleChoiceQuestionScreenProps
-> = ({ quizId, questionId, question }) => {
+export const MultipleChoiceQuestionScreen: React.FC<MultipleChoiceQuestionScreenProps> = memo(({ 
+	quizId, 
+	questionId, 
+	question 
+}) => {
 	const {
 		choices,
 		showResult,
@@ -45,8 +48,14 @@ export const MultipleChoiceQuestionScreen: React.FC<MultipleChoiceQuestionScreen
 				contentContainerStyle={styles.scrollContainer}
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps='handled'
+				// Performance optimizations
+				removeClippedSubviews={true}
+				scrollEventThrottle={16}
 			>
-				<QuestionImage imageUrl={question.imageUrl} />
+				<QuestionImage 
+					imageUrl={question.imageUrl} 
+					thumbnailUrl={question.thumbnailUrl}
+				/>
 				<ThemedView style={styles.content}>
 					{initialQuestionStatus === 'solved' && (
 						<AlreadyAnswered funFact={question.funFact} />
@@ -73,17 +82,32 @@ export const MultipleChoiceQuestionScreen: React.FC<MultipleChoiceQuestionScreen
 			</ScrollView>
 		</KeyboardAvoidingView>
 	);
-};
+}, (prevProps, nextProps) => {
+	// Memo comparison - only re-render if essential props change
+	return (
+		prevProps.quizId === nextProps.quizId &&
+		prevProps.questionId === nextProps.questionId &&
+		prevProps.question.id === nextProps.question.id &&
+		prevProps.question.status === nextProps.question.status &&
+		prevProps.question.imageUrl === nextProps.question.imageUrl &&
+		prevProps.question.thumbnailUrl === nextProps.question.thumbnailUrl
+	);
+});
+
+MultipleChoiceQuestionScreen.displayName = 'MultipleChoiceQuestionScreen';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: '#fff', // Explicit background
 	},
 	scrollContainer: {
 		flexGrow: 1,
+		minHeight: '100%', // Ensure full height
 	},
 	content: {
 		flex: 1,
 		padding: 16,
+		paddingBottom: 32, // Extra padding at bottom
 	},
 });
