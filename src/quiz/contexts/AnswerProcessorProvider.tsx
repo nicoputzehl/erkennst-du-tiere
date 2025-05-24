@@ -3,7 +3,6 @@ import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '../types';
 import { 
   answerQuizQuestion as answerQuizQuestionService, 
-  getMultipleChoiceOptions,
   getAnswerProcessorService 
 } from '../services/answerProcessor';
 import { AnswerProcessorService } from '../services/factories/answerProcessorFactory';
@@ -20,11 +19,6 @@ interface AnswerProcessorContextProps {
     nextQuestionId?: number;
     unlockedQuiz?: any;
   }>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
-    quizId: string,
-    questionId: number
-  ) => string[] | null;
 }
 
 const AnswerProcessorContext = createContext<AnswerProcessorContextProps | null>(null);
@@ -49,8 +43,7 @@ export function AnswerProcessorProvider({ children }: { children: ReactNode }) {
           console.error(`[AnswerProcessorProvider] Error processing answer for quiz ${quizId}, question ${questionId}:`, error);
           return { isCorrect: false };
         }
-      },
-      getMultipleChoiceOptions
+      }
     };
   }, [answerProcessorService]);
   

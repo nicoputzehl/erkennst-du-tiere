@@ -1,10 +1,11 @@
 import { normalizeString } from "@/utils/helper";
-import { MultipleChoiceQuestion, Question, QuestionStatus, QuestionType, QuizMode, QuizMultipleChoiceQuestion, QuizQuestion, QuizState } from "../types";
+import { Question, QuestionStatus, QuizMode, QuizQuestion, QuizState } from "../types";
+import { ContentKey } from "@/src/core/content/types";
 
 /**
  * Erstellt einen neuen Quiz-Zustand mit den gegebenen Fragen
  */
-const createQuizState = <T = any>(
+const createQuizState = <T extends ContentKey = ContentKey>(
   questions: Question<T>[], 
   id: string, 
   title: string = "Generic Quiz",
@@ -33,13 +34,14 @@ const createQuizState = <T = any>(
       status: questionStatus[i],
     })) as QuizQuestion<T>[],
     completedQuestions: 0,
-    quizMode // Speichern des Quiz-Modus im Zustand
+    quizMode
   };
 };
+
 /**
  * Prüft, ob eine Antwort für eine Textfrage korrekt ist
  */
-const isTextAnswerCorrect = <T = any>(
+const isTextAnswerCorrect = <T extends ContentKey = ContentKey>(
   question: QuizQuestion<T>,
   answer: string
 ): boolean => {
@@ -49,21 +51,9 @@ const isTextAnswerCorrect = <T = any>(
 };
 
 /**
- * Prüft, ob eine Antwort für eine Multiple-Choice-Frage korrekt ist
- * Bei Multiple-Choice vergleichen wir direkt den Wert ohne Normalisierung,
- * da die Antwort eine genaue Auswahl aus den vorgegebenen Optionen sein sollte
- */
-const isMultipleChoiceAnswerCorrect = <T = any>(
-  question: QuizQuestion<T> & MultipleChoiceQuestion<T>,
-  answer: string
-): boolean => {
-  return answer === question.answer;
-};
-
-/**
  * Verarbeitet eine Antwort und berechnet den neuen Zustand
  */
-const calculateAnswerResult = <T = any>(
+const calculateAnswerResult = <T extends ContentKey = ContentKey>(
   state: QuizState<T>,
   questionId: number,
   answer: string
@@ -75,17 +65,8 @@ const calculateAnswerResult = <T = any>(
 
   const question = state.questions[questionIndex];
   
-  // Prüfe je nach Fragetyp, ob die Antwort korrekt ist
-  let isCorrect = false;
-  if (question.questionType === QuestionType.MULTIPLE_CHOICE) {
-    isCorrect = isMultipleChoiceAnswerCorrect(
-      question as QuizQuestion<T> & MultipleChoiceQuestion<T>, 
-      answer
-    );
-  } else {
-    // Standardmäßig als Textfrage behandeln
-    isCorrect = isTextAnswerCorrect(question, answer);
-  }
+  // Prüfe, ob die Antwort korrekt ist
+  const isCorrect = isTextAnswerCorrect(question, answer);
 
   // Bei falscher Antwort unveränderten Zustand zurückgeben
   if (!isCorrect) {
@@ -123,29 +104,23 @@ const calculateAnswerResult = <T = any>(
 
 /**
  * Findet die ID der nächsten nicht gelösten Frage in der Reihenfolge der IDs
- * Optional kann eine aktuelle Frage angegeben werden, um die nächste Frage nach dieser zu finden
- * 
- * @param state Der Quiz-Zustand
- * @param currentQuestionId Optional: Die ID der aktuellen Frage
- * @returns Die ID der nächsten Frage oder null, wenn keine weitere Frage verfügbar ist
  */
-const getNextActiveQuestionId = (state: QuizState, currentQuestionId?: number): number | null => {
-  // Sortiere alle Fragen nach ID
+const getNextActiveQuestionId = <T extends ContentKey = ContentKey>(
+  state: QuizState<T>, 
+  currentQuestionId?: number
+): number | null => {
   const sortedQuestions = [...state.questions].sort((a, b) => a.id - b.id);
   
-  // 1. Wenn eine aktuelle Frage angegeben wurde, finde die nächste ungelöste Frage
   if (currentQuestionId !== undefined) {
     const currentIndex = sortedQuestions.findIndex(q => q.id === currentQuestionId);
     
     if (currentIndex !== -1) {
-      // Suche nach der nächsten ungelösten Frage nach der aktuellen
       for (let i = currentIndex + 1; i < sortedQuestions.length; i++) {
         if (sortedQuestions[i].status !== 'solved') {
           return sortedQuestions[i].id;
         }
       }
       
-      // Wenn keine nach der aktuellen gefunden wurde, starte von vorne
       for (let i = 0; i < currentIndex; i++) {
         if (sortedQuestions[i].status !== 'solved') {
           return sortedQuestions[i].id;
@@ -154,8 +129,6 @@ const getNextActiveQuestionId = (state: QuizState, currentQuestionId?: number): 
     }
   }
   
-  // 2. Wenn keine aktuelle Frage angegeben wurde oder keine nächste gefunden wurde,
-  //    suche nach der ersten ungelösten Frage
   const unsolvedQuestion = sortedQuestions.find(q => q.status !== 'solved');
   return unsolvedQuestion ? unsolvedQuestion.id : null;
 };
@@ -163,21 +136,8 @@ const getNextActiveQuestionId = (state: QuizState, currentQuestionId?: number): 
 /**
  * Prüft ob ein Quiz vollständig beantwortet wurde
  */
-const isCompleted = (state: QuizState): boolean => {
+const isCompleted = <T extends ContentKey = ContentKey>(state: QuizState<T>): boolean => {
   return state.completedQuestions === state.questions.length;
-};
-
-// Verbesserte isMultipleChoiceQuestion-Funktion
-// In quiz/domain/quizLogic.ts
-
-/**
- * Prüft, ob eine Frage vom Typ Multiple-Choice ist
- * Mit Nullprüfung, um Fehler zu vermeiden
- */
-const isMultipleChoiceQuestion = <T = any>(
-  question: Question<T> | QuizQuestion<T> | null | undefined
-): question is QuizMultipleChoiceQuestion<T> => {
-  return !!question && question.questionType === QuestionType.MULTIPLE_CHOICE;
 };
 
 export {
@@ -185,7 +145,5 @@ export {
   calculateAnswerResult,
   getNextActiveQuestionId,
   isCompleted,
-  isMultipleChoiceQuestion,
-  isTextAnswerCorrect,
-  isMultipleChoiceAnswerCorrect
+  isTextAnswerCorrect
 };

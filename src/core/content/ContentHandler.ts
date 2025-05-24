@@ -1,11 +1,8 @@
-// src/core/content/ContentHandler.ts
-
 import { ContentKey, ContentItem } from './types';
-import { MultipleChoiceQuestion, Question } from '../../quiz/types';
+import { Question } from '../../quiz/types';
 
 /**
  * Generisches Interface für Content-Handler
- * Ersetzt das tierabhängige ContentHandler
  */
 export interface ContentHandler<T extends ContentKey = ContentKey> {
   // Konvertiert Content-Key zu Question-Objekten
@@ -22,25 +19,7 @@ export interface ContentHandler<T extends ContentKey = ContentKey> {
 }
 
 /**
- * Erweiterung für Multiple-Choice-Fragen
- */
-export interface MultipleChoiceContentHandler<T extends ContentKey = ContentKey> extends ContentHandler<T> {
-  // Erstellt eine Multiple-Choice-Frage
-  createMultipleChoiceQuestion: (
-    id: number,
-    imageUrl: string,
-    contentKey: T,
-    choices: string[],
-    thumbnailUrl?: string // HINZUFÜGEN als 5. Parameter
-  ) => MultipleChoiceQuestion<T>;
-
-  // Generiert Antwortmöglichkeiten
-  generateChoices?: (contentKey: T, count: number) => string[];
-}
-
-/**
  * Basis-Interface für Content-Provider
- * Diese Klasse verwaltet den Zugriff auf alle verfügbaren Inhalte eines Typs
  */
 export interface ContentProvider<T extends ContentKey = ContentKey> {
   // Gibt alle verfügbaren Content-Keys zurück

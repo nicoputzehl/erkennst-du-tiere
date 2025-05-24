@@ -1,5 +1,3 @@
-// src/core/content/types.ts
-
 /**
  * Basis-Interface für jeden Inhaltstyp (Animals, Movies, etc.)
  */
@@ -21,13 +19,6 @@ export type ContentKey = string;
 export interface ContentQuestion {
   id: number;
   imageUrl: string;
-  thumbnailUrl?: string; // HINZUFÜGEN
+  thumbnailUrl?: string;
   contentKey: ContentKey;
-}
-
-/**
- * Definition für Multiple-Choice-Fragen
- */
-export interface ContentMultipleChoiceQuestion extends ContentQuestion {
-  choices?: string[];
 }

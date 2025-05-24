@@ -1,13 +1,9 @@
-// src/features/animals/quizzes/animalQuizzes.ts
-
 import { registerQuizInitializer } from '@/src/core/initialization/quizInitialization';
 import { createAnimalQuiz } from '../helper/createAnimalQuiz';
 import { emojiAnimals, namibiaAnimals, weirdAnimals } from '../data/quizzes';
-import { QuestionType } from '@/src/quiz/types';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
-// Definiere die Animal-Quizzes als Initialisierer
 const initializeAnimalQuizzes = () => [
   {
     id: 'namibia_animals',
@@ -16,12 +12,11 @@ const initializeAnimalQuizzes = () => [
       title: 'Tiere Namibias',
       animalQuestions: namibiaAnimals,
       initiallyLocked: false,
-      questionType: QuestionType.MULTIPLE_CHOICE,
       order: 1
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
-  {
+    {
     id: 'emoji_animals',
     quiz: createAnimalQuiz({
       id: 'emoji_animals',
@@ -29,7 +24,6 @@ const initializeAnimalQuizzes = () => [
       animalQuestions: emojiAnimals,
       order: 2,
       initiallyLocked: false,
-      questionType: QuestionType.MULTIPLE_CHOICE,
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
@@ -51,19 +45,12 @@ const initializeAnimalQuizzes = () => [
   }
 ];
 
-// Registriere den Initialisierer
 registerQuizInitializer(initializeAnimalQuizzes);
 
-// Optional: Export der initialisierten Quizzes für direkten Zugriff
 export const allAnimalQuizCategories = [
   {
     id: 'weird_animals',
     title: 'Weird Animals',
-    contentType: ANIMAL_CONTENT_TYPE
-  },
-  {
-    id: 'emoji_animals',
-    title: 'Emoji Animals',
     contentType: ANIMAL_CONTENT_TYPE
   },
   {

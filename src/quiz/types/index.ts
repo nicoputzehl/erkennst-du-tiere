@@ -1,8 +1,7 @@
 import { ContentKey } from '../../core/content/types';
 
 export enum QuestionType {
-  TEXT = 'text',
-  MULTIPLE_CHOICE = 'multiple_choice'
+  TEXT = 'text'
 }
 
 export interface Question<T extends ContentKey = ContentKey> {
@@ -27,16 +26,6 @@ export enum QuestionStatus {
 
 export interface QuizQuestion<T extends ContentKey = ContentKey> extends Question<T> {
   status: QuestionStatus;
-}
-
-export interface MultipleChoiceQuestion<T extends ContentKey = ContentKey> extends Question<T> {
-  questionType: QuestionType.MULTIPLE_CHOICE;
-  choices: string[]; // Die zur Auswahl stehenden Antwortmöglichkeiten
-}
-
-export interface QuizMultipleChoiceQuestion<T extends ContentKey = ContentKey> extends QuizQuestion<T> {
-  questionType: QuestionType.MULTIPLE_CHOICE;
-  choices: string[]; // Implementierung des choices-Feldes hier
 }
 
 export enum QuizMode {
