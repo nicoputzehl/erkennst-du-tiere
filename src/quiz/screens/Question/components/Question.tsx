@@ -1,3 +1,5 @@
+import { ThemedView } from '@/src/common/components/ThemedView';
+import { QuizMode, QuizQuestion } from '@/src/quiz/types';
 import React, { memo } from 'react';
 import {
 	KeyboardAvoidingView,
@@ -5,22 +7,20 @@ import {
 	ScrollView,
 	StyleSheet,
 } from 'react-native';
-import { ThemedView } from '@/src/common/components/ThemedView';
-import { AlreadyAnswered } from '../components/AlreadyAnswered';
-import { AnswerInput } from '../components/AnswerInput';
-import { QuestionImage } from '../components/QuestionImage';
-import { QuestionResult } from '../components/QuestionResult';
+import { AlreadyAnswered } from './AlreadyAnswered';
+import { AnswerInput } from './AnswerInput';
+import { QuestionImage } from './QuestionImage';
+import { QuestionResult } from './QuestionResult';
 import { QUESTION_CONSTANTS } from '../constants/constants';
-import { useTextQuestionScreen } from './useTextQuestionScreen';
-import { QuizMode, QuizQuestion } from '@/src/quiz/types';
+import { useQuestion } from '../hooks/useQuestion';
 
-interface TextQuestionScreenProps {
+interface QuestionProps {
 	quizId: string;
 	questionId: string;
 	question: QuizQuestion;
 }
 
-export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = memo(({
+export const Question: React.FC<QuestionProps> = memo(({
 	quizId,
 	questionId,
 	question,
@@ -37,7 +37,7 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = memo(({
 		handleBack,
 		isQuizCompleted,
 		isSubmitting
-	} = useTextQuestionScreen(quizId, questionId, question);
+	} = useQuestion(quizId, questionId, question);
 
 	return (
 		<KeyboardAvoidingView
@@ -49,10 +49,8 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = memo(({
 				contentContainerStyle={styles.scrollContainer}
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps='handled'
-				// Performance optimizations
 				removeClippedSubviews={true}
 				scrollEventThrottle={16}
-				// Better keyboard handling
 				automaticallyAdjustKeyboardInsets={true}
 			>
 				<QuestionImage 
@@ -98,22 +96,22 @@ export const TextQuestionScreen: React.FC<TextQuestionScreenProps> = memo(({
 	);
 });
 
-TextQuestionScreen.displayName = 'TextQuestionScreen';
+Question.displayName = 'Question';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff', // Explicit background
+		backgroundColor: '#fff',
 	},
 	scrollContainer: {
 		flexGrow: 1,
-		minHeight: '100%', // Ensure full height
-		paddingBottom: 20, // Extra space for keyboard
+		minHeight: '100%',
+		paddingBottom: 20,
 	},
 	content: {
 		flex: 1,
 		padding: 16,
-		paddingBottom: 32, // Extra padding at bottom
-		justifyContent: 'space-between', // Better distribution for text input
+		paddingBottom: 32,
+		justifyContent: 'space-between',
 	},
 });
