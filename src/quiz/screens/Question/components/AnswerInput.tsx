@@ -8,7 +8,6 @@ import {
   Text,
   Keyboard
 } from 'react-native';
-import { QUESTION_CONSTANTS } from '../constants/constants';
 
 interface AnswerInputProps {
   value: string;
@@ -34,7 +33,6 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
     return () => clearTimeout(timer);
   }, []);
 
-  // Blur input when submitting
   useEffect(() => {
     if (isSubmitting) {
       inputRef.current?.blur();
@@ -70,7 +68,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
           textAlignVertical="center"
           editable={!isSubmitting}
           returnKeyType="done"
-          blurOnSubmit={false}
+          submitBehavior='blurAndSubmit'
           maxLength={50} // Reasonable limit
         />
       </View>
@@ -117,7 +115,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    height: QUESTION_CONSTANTS.inputHeight,
+    height: 50,
     borderColor: '#ddd',
     borderWidth: 0,
     borderBottomWidth: 2,

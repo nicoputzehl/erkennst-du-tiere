@@ -1,7 +1,6 @@
 import { Image } from 'expo-image';
 import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { QUESTION_CONSTANTS } from '../constants/constants';
 
 interface QuestionImageProps {
   imageUrl: string;
@@ -12,8 +11,6 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(({
   imageUrl, 
   thumbnailUrl 
 }) => {
-
-
 
   return (
     <View style={styles.container}>
@@ -45,11 +42,11 @@ QuestionImage.displayName = 'QuestionImage';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: QUESTION_CONSTANTS.imageHeight,
-    backgroundColor: '#f5f5f5', // Fallback Hintergrund
-    borderRadius: 0, // Optional: abgerundete Ecken
+    height: 400,
+    backgroundColor: '#f5f5f5', 
+    borderRadius: 0,
     overflow: 'hidden',
-    position: 'relative', // Für Overlay-Positioning
+    position: 'relative',
   },
   image: {
     width: '100%',

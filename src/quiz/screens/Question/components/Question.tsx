@@ -11,7 +11,6 @@ import { AlreadyAnswered } from './AlreadyAnswered';
 import { AnswerInput } from './AnswerInput';
 import { QuestionImage } from './QuestionImage';
 import { QuestionResult } from './QuestionResult';
-import { QUESTION_CONSTANTS } from '../constants/constants';
 import { useQuestion } from '../hooks/useQuestion';
 
 interface QuestionProps {
@@ -43,7 +42,7 @@ export const Question: React.FC<QuestionProps> = memo(({
 		<KeyboardAvoidingView
 			style={styles.container}
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			keyboardVerticalOffset={QUESTION_CONSTANTS.keyboardVerticalOffset}
+			keyboardVerticalOffset={ Platform.OS === 'ios' ? 100 : 0}
 		>
 			<ScrollView
 				contentContainerStyle={styles.scrollContainer}
