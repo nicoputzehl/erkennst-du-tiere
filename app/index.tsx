@@ -1,13 +1,13 @@
-import { useMemo } from 'react';
-import QuizStartScreen from '@/src/quiz/screens/QuizStart/QuizStart';
 import { useQuizRegistry } from '@/src/quiz/contexts/QuizRegistryProvider';
+import QuizzesScreen from '@/src/quiz/screens/Quizzes/Quizzes';
+import { useMemo } from 'react';
 
-export default function QuizScreen() {
+export default function QuizzesRoute() {
 	const { getAllQuizzes } = useQuizRegistry();
 
 	const quizzes = useMemo(() => {
 		return getAllQuizzes();
 	}, [getAllQuizzes]);
 
-	return <QuizStartScreen quizzes={quizzes} />;
+	return <QuizzesScreen quizzes={quizzes} />;
 }

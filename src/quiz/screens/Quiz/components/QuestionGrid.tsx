@@ -1,4 +1,4 @@
-import { QuestionListTile } from '@/src/quiz/screens/QuizOverview/components/QuestionListTile';
+import { QuestionListTile } from '@/src/quiz/screens/Quiz/components/QuestionListTile';
 import { QuizQuestion } from '@/src/quiz/types';
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
@@ -15,7 +15,7 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   itemWidth,
   onQuestionClick,
 }) => {
-  // Memoize the render function to prevent unnecessary re-renders
+
   const renderItem: ListRenderItem<QuizQuestion> = useCallback(
     ({ item }) => (
       <QuestionListTile
@@ -27,28 +27,26 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
     [itemWidth, onQuestionClick]
   );
 
-  // Key extractor for better performance
   const keyExtractor = useCallback(
     (item: QuizQuestion) => item.id.toString(),
     []
   );
 
-  // Memoize FlatList props
+
   const flatListProps = useMemo(
     () => ({
-      numColumns: QUIZ_LAYOUT.numColumns as 3, // Type assertion für numColumns
+      numColumns: QUIZ_LAYOUT.numColumns as 3,
       columnWrapperStyle: { 
         gap: QUIZ_LAYOUT.gap,
-        justifyContent: 'center' as const, // Type assertion für justifyContent
+        justifyContent: 'center' as const,
       },
       contentContainerStyle: { 
         gap: QUIZ_LAYOUT.gap,
-        justifyContent: 'flex-start' as const, // Type assertion für justifyContent
-        alignItems: 'center' as const, // Type assertion für alignItems
+        justifyContent: 'flex-start' as const,
+        alignItems: 'center' as const,
         flexGrow: 1,
       },
       showsVerticalScrollIndicator: false,
-      // Performance-Optimierungen
       removeClippedSubviews: true,
       maxToRenderPerBatch: 10,
       updateCellsBatchingPeriod: 50,

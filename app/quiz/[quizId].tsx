@@ -1,10 +1,10 @@
-import { QuizOverviewScreen } from '@/src/quiz/screens/QuizOverview/QuizOverviewScreen';
-import { useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import { useState, useEffect } from 'react';
 import { ThemedView } from '@/src/common/components/ThemedView';
+import { QuizScreen } from '@/src/quiz/screens/Quiz/QuizScreen';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
-export default function QuizOverviewRoute() {
+export default function QuizRoute() {
 	const { quizId } = useLocalSearchParams<{ quizId: string }>();
 	const [isParsingParams, setIsParsingParams] = useState(true);
 
@@ -21,7 +21,7 @@ export default function QuizOverviewRoute() {
 		);
 	}
 
-	return <QuizOverviewScreen quizId={quizId || null} />;
+	return <QuizScreen quizId={quizId || null} />;
 }
 
 const styles = StyleSheet.create({

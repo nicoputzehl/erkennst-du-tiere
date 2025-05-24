@@ -1,50 +1,35 @@
-import { ProgressBar } from '@/src/quiz/screens/QuizOverview/components/ProgressBar';
+import { ErrorComponent } from '@/src/common/components/ErrorComponent';
+import { LoadingComponent } from '@/src/common/components/LoadingComponent';
 import { ThemedView } from '@/src/common/components/ThemedView';
+import { ProgressBar } from '@/src/quiz/screens/Quiz/components/ProgressBar';
 import React from 'react';
-import { StyleSheet, Text, ActivityIndicator, View
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { QuestionGrid } from './components/QuestionGrid';
 import { QUIZ_LAYOUT } from './constants/constants';
-import { useQuizOverview } from './hooks/useQuizOverview';
+import { useQuizScreen } from './hooks/useQuizScreen';
 import { calculateItemWidth } from './utils/utils';
 
-interface QuizOverviewScreenProps {
+interface QuizScreenProps {
 	quizId: string | null;
 }
 
-export const QuizOverviewScreen: React.FC<QuizOverviewScreenProps> = ({
+export const QuizScreen: React.FC<QuizScreenProps> = ({
 	quizId,
 }) => {
 	const { quizState, isLoading, error, handleQuestionClick, getQuizProgress } =
-		useQuizOverview(quizId);
+		useQuizScreen(quizId);
 	const itemWidth = calculateItemWidth();
 
-	// Loading-Zustand anzeigen
 	if (isLoading) {
-		return (
-			<ThemedView style={styles.centeredContainer}>
-				<ActivityIndicator size='large' color='#0a7ea4' />
-				<Text style={styles.loadingText}>Quiz wird geladen...</Text>
-			</ThemedView>
-		);
+		return <LoadingComponent message='Quiz wird geladen...' />;
 	}
 
-	// Fehler-Zustand anzeigen
 	if (error) {
-		return (
-			<ThemedView style={styles.centeredContainer}>
-				<Text style={styles.errorText}>{error}</Text>
-			</ThemedView>
-		);
+		return <ErrorComponent message={error} />;
 	}
 
-	// Fehlende Quiz-Zustand behandeln
 	if (!quizState) {
-		return (
-			<ThemedView style={styles.centeredContainer}>
-				<Text style={styles.errorText}>Quiz nicht gefunden</Text>
-			</ThemedView>
-		);
+		return <ErrorComponent message='Quiz nicht gefunden' />;
 	}
 	return (
 		<ThemedView style={styles.container}>
@@ -53,9 +38,7 @@ export const QuizOverviewScreen: React.FC<QuizOverviewScreenProps> = ({
 				total={quizState.questions.length}
 				progress={getQuizProgress(quizState.id)}
 			/>
-			<View
-				style={styles.scrollContent}
-			>
+			<View style={styles.scrollContent}>
 				<QuestionGrid
 					questions={quizState.questions}
 					itemWidth={itemWidth}
@@ -77,8 +60,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		padding: QUIZ_LAYOUT.padding,
 	},
-	scrollView: {
-	},
+	scrollView: {},
 	scrollContent: {
 		flex: 1,
 		padding: QUIZ_LAYOUT.padding,

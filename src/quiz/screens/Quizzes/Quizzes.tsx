@@ -1,28 +1,29 @@
+import { ThemedView } from '@/src/common/components/ThemedView';
+import { FontAwesome6 } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
+	ActivityIndicator,
 	ScrollView,
 	StyleSheet,
 	Text,
-	View,
-	ActivityIndicator,
 	TouchableOpacity,
+	View,
 } from 'react-native';
-import { ThemedView } from '@/src/common/components/ThemedView';
 import { Quiz } from '../../types';
 import { QuizGrid } from './components/QuizGrid';
-import { useState, useEffect } from 'react';
-import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
-import { router } from 'expo-router';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { useQuizzes } from './hooks/useQuizzes';
 
-type QuizStarterScreenProps = {
+type QuizzesProps = {
 	quizzes: Quiz[];
 };
 
-export default function QuizStartScreen({ quizzes }: QuizStarterScreenProps) {
+export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	const handleNavigateToSettings = () => {
 		router.navigate('/settings');
 	};
-	const { initializeQuizState } = useQuizState();
+
+	const { initializeQuizState } = useQuizzes();
 	const [isLoading, setIsLoading] = useState(true);
 
 	// Initialisiere alle Quiz-Zustände beim Start
@@ -30,17 +31,17 @@ export default function QuizStartScreen({ quizzes }: QuizStarterScreenProps) {
 		const loadQuizStates = async () => {
 			setIsLoading(true);
 			try {
-				console.log('[QuizStartScreen] Initializing quiz states...');
+				console.log('[QuizzesScreen] Initializing quiz states...');
 
 				// Initialisiere die Zustände aller Quizzes
 				for (const quiz of quizzes) {
 					await initializeQuizState(quiz.id);
 				}
 
-				console.log('[QuizStartScreen] All quiz states initialized');
+				console.log('[QuizzesScreen] All quiz states initialized');
 			} catch (error) {
 				console.error(
-					'[QuizStartScreen] Error initializing quiz states:',
+					'[QuizzesScreen] Error initializing quiz states:',
 					error
 				);
 			} finally {

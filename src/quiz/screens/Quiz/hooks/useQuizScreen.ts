@@ -1,12 +1,12 @@
-import { useEffect, useState, useCallback } from 'react';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { router } from 'expo-router';
-import { QuizState } from '@/src/quiz/types';
-import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
 import { useProgressTracker } from '@/src/quiz/contexts/ProgressTrackerProvider';
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
+import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
+import { QuizState } from '@/src/quiz/types';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
 
-export const useQuizOverview = (quizId: string | null) => {
+export const useQuizScreen = (quizId: string | null) => {
   const { loadQuiz } = useQuiz();
   const { getQuizState } = useQuizState();
   const { getQuizProgress } = useProgressTracker();
@@ -27,7 +27,7 @@ export const useQuizOverview = (quizId: string | null) => {
       
       setIsLoading(true);
       try {
-        console.log(`[useQuizOverview] Loading quiz: ${quizId}`);
+        console.log(`[useQuizScreen] Loading quiz: ${quizId}`);
         const state = await loadQuiz(quizId);
         if (state) {
           setQuizState(state);
@@ -36,7 +36,7 @@ export const useQuizOverview = (quizId: string | null) => {
           setError(`Quiz mit ID ${quizId} nicht gefunden`);
         }
       } catch (err) {
-        console.error(`[useQuizOverview] Error loading quiz ${quizId}:`, err);
+        console.error(`[useQuizScreen] Error loading quiz ${quizId}:`, err);
         setError(`Fehler beim Laden des Quiz: ${err}`);
       } finally {
         setIsLoading(false);

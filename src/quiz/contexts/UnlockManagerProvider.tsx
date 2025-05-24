@@ -12,13 +12,15 @@ import {
 import { UnlockManagerService } from '../services/factories/unlockManagerFactory';
 import { useToast } from './ToastProvider';
 
+export type UnlockProgress = {
+  condition: UnlockCondition | null;
+  progress: number;
+  isMet: boolean;
+}
+
 interface UnlockManagerContextProps {
   unlockManagerService: UnlockManagerService;
-  getUnlockProgress: (quizId: string) => {
-    condition: UnlockCondition | null;
-    progress: number;
-    isMet: boolean;
-  };
+  getUnlockProgress: (quizId: string) => UnlockProgress;
   unlockNextQuiz: () => Quiz | null;
   checkForUnlocks: () => Quiz[];
   checkAllUnlockConditions: () => {

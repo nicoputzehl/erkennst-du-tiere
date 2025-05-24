@@ -34,7 +34,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 			onClick(item.id.toString());
 		}, [onClick, item.id]);
 
-		// Early return for inactive state - no image loading needed
 		if (item.status === 'inactive') {
 			return (
 				<View style={[styles.questionCard, cardStyle]}>
@@ -43,10 +42,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 					</View>
 				</View>
 			);
-		}
-
-		if (item.answer === 'Leopard') {
-			console.log({ item });
 		}
 
 		return (
@@ -58,7 +53,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 					source={item.thumbnailUrl || item.imageUrl}
 					style={imageStyle}
 					contentFit='cover'
-					// Caching-Optimierungen
 					cachePolicy='memory-disk'
 					transition={200}
 				/>
@@ -71,7 +65,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 		);
 	},
 	(prevProps, nextProps) => {
-		// Custom comparison function für bessere Performance
 		return (
 			prevProps.item.id === nextProps.item.id &&
 			prevProps.item.status === nextProps.item.status &&
@@ -108,6 +101,6 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		justifyContent: 'flex-end',
 		alignItems: 'flex-end',
-		backgroundColor: 'rgba(0, 0, 0, 0.1)', // Optional: leichter Overlay für bessere Sichtbarkeit
+		backgroundColor: 'rgba(0, 0, 0, 0.1)',
 	},
 });
