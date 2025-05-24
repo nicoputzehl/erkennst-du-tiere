@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
-
 import { QuizQuestion } from '../../../types';
 
 interface QuestionListTileProps {
@@ -11,48 +10,79 @@ interface QuestionListTileProps {
 	onClick: (questionId: string) => void;
 }
 
-export const QuestionListTile: React.FC<QuestionListTileProps> = ({
-	item,
-	itemWidth,
-	onClick,
-}) => {
-	const cardStyle = useMemo(
-		() => ({
-			width: itemWidth,
-			height: itemWidth,
-			backgroundColor: item.status === 'solved' ? '#e8f5e9' : '#f5f5f5',
-		}),
-		[item.status, itemWidth]
-	);
+export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
+	({ item, itemWidth, onClick }) => {
+		const cardStyle = useMemo(
+			() => ({
+				width: itemWidth,
+				height: itemWidth,
+				backgroundColor: item.status === 'solved' ? '#e8f5e9' : '#f5f5f5',
+			}),
+			[item.status, itemWidth]
+		);
 
-	const handleClick = () => {
-		onClick(item.id.toString());
-	};
+		const imageStyle = useMemo(
+			() => ({
+				width: itemWidth,
+				height: itemWidth,
+				borderRadius: 8,
+			}),
+			[itemWidth]
+		);
 
-	if (item.status === 'inactive') {
-		return (
-			<View style={[styles.questionCard, cardStyle]}>
-				<View style={styles.container}>
-					<FontAwesome6 name={'lock'} size={48} color={'gray'} />
+		const handleClick = useCallback(() => {
+			onClick(item.id.toString());
+		}, [onClick, item.id]);
+
+		// Early return for inactive state - no image loading needed
+		if (item.status === 'inactive') {
+			return (
+				<View style={[styles.questionCard, cardStyle]}>
+					<View style={styles.container}>
+						<FontAwesome6 name={'lock'} size={48} color={'gray'} />
+					</View>
 				</View>
-			</View>
+			);
+		}
+
+		if (item.answer === 'Leopard') {
+			console.log({ item });
+		}
+
+		return (
+			<TouchableOpacity
+				style={[styles.questionCard, cardStyle]}
+				onPress={handleClick}
+			>
+				<Image
+					source={item.thumbnailUrl || item.imageUrl}
+					style={imageStyle}
+					contentFit='cover'
+					// Caching-Optimierungen
+					cachePolicy='memory-disk'
+					transition={200}
+				/>
+				{item.status === 'solved' && (
+					<View style={styles.iconOverlay}>
+						<FontAwesome6 name={'check'} size={32} color={'green'} />
+					</View>
+				)}
+			</TouchableOpacity>
+		);
+	},
+	(prevProps, nextProps) => {
+		// Custom comparison function für bessere Performance
+		return (
+			prevProps.item.id === nextProps.item.id &&
+			prevProps.item.status === nextProps.item.status &&
+			prevProps.item.imageUrl === nextProps.item.imageUrl &&
+			prevProps.itemWidth === nextProps.itemWidth &&
+			prevProps.onClick === nextProps.onClick
 		);
 	}
+);
 
-	return (
-		<TouchableOpacity
-			style={[styles.questionCard, cardStyle]}
-			onPress={() => handleClick()}
-		>
-			<Image source={item.imageUrl} style={styles.image} contentFit='cover' />
-			{item.status === 'solved' && (
-				<View style={styles.iconOverlay}>
-					<FontAwesome6 name={'check'} size={32} color={'green'} />
-				</View>
-			)}
-		</TouchableOpacity>
-	);
-};
+QuestionListTile.displayName = 'QuestionListTile';
 
 const styles = StyleSheet.create({
 	questionCard: {

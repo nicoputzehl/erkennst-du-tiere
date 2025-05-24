@@ -1,6 +1,6 @@
 import { AnimalKey, AnimalMultipleChoiceQuestion } from "../types";
 import { MultipleChoiceContentHandler } from "../../quiz/handler/ContentHandler";
-import {  Question, QuestionType } from "../../quiz/types";
+import { Question, QuestionType } from "../../quiz/types";
 import { ANIMAL_LIST } from "../data/animal_list";
 
 // Hilfsfunktion zum Zufälligen Auswählen von n Elementen aus einem Array
@@ -31,10 +31,11 @@ const createQuestion = (id: number, imageUrl: string, animal: AnimalKey): Questi
 };
 
 const createMultipleChoiceQuestion = (
-  id: number, 
-  imageUrl: string, 
+  id: number,
+  imageUrl: string,
   animal: AnimalKey,
-  choices: string[]
+  choices: string[],
+  thumbnailUrl?: string // HINZUFÜGEN
 ): AnimalMultipleChoiceQuestion => {
   const animalData = ANIMAL_LIST[animal];
 
@@ -47,6 +48,7 @@ const createMultipleChoiceQuestion = (
   return {
     id,
     imageUrl,
+    thumbnailUrl,
     answer: animalData.name,
     alternativeAnswers: animalData.alternativeNames,
     funFact: animalData.funFact,
@@ -94,19 +96,19 @@ const getMetadata = (animal: AnimalKey): { funFact?: string; wikipediaName?: str
 const generateChoices = (animal: AnimalKey, totalChoiceCount: number = 4): string[] => {
   const correctAnswer = getAnswer(animal);
   const allAnimals = Object.keys(ANIMAL_LIST) as AnimalKey[];
-  
+
   // Filtere das aktuelle Tier aus
   const otherAnimals = allAnimals.filter(a => a !== animal);
-  
+
   // Bestimme, wie viele falsche Antworten wir benötigen (totalChoiceCount - 1)
   const wrongChoiceCount = Math.min(totalChoiceCount - 1, otherAnimals.length);
-  
+
   // Wähle zufällige andere Tiere
   const randomAnimals = getRandomElements(otherAnimals, wrongChoiceCount);
-  
+
   // Erstelle Antwortmöglichkeiten mit den Namen der Tiere
   const wrongAnswers = randomAnimals.map(a => ANIMAL_LIST[a].name);
-  
+
   // Füge die richtige Antwort hinzu und mische alle Optionen
   const allChoices = [correctAnswer, ...wrongAnswers];
   return getRandomElements(allChoices, allChoices.length);

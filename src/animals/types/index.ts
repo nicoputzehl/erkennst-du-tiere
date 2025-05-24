@@ -16,6 +16,7 @@ export interface Animal {
 export interface QuestionWithAnimal {
   id: number;
   imageUrl: string;
+  thumbnailUrl?: string; // HINZUFÜGEN
   animal: AnimalKey;
 }
 

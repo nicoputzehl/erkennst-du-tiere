@@ -21,6 +21,7 @@ export type ContentKey = string;
 export interface ContentQuestion {
   id: number;
   imageUrl: string;
+  thumbnailUrl?: string; // HINZUFÜGEN
   contentKey: ContentKey;
 }
 

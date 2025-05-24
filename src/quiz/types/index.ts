@@ -8,6 +8,7 @@ export enum QuestionType {
 export interface Question<T extends ContentKey = ContentKey> {
   id: number;
   imageUrl: string;
+  thumbnailUrl?: string;
   answer: string;
   alternativeAnswers?: string[];
   funFact?: string;
