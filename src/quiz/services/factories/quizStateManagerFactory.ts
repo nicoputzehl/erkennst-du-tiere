@@ -1,6 +1,6 @@
 import { ContentKey } from '@/src/core/content/types';
 import { createQuizState } from '@/src/quiz/domain/quizLogic';
-import { QuestionType, QuizMode, QuizState } from '@/src/quiz/types';
+import { QuizMode, QuizState } from '@/src/quiz/types';
 import { getQuizPersistenceService } from '../../persistence/QuizPersistenceService';
 import { applyPersistentState } from '../../persistence/QuizStorageTypes';
 import { QuizRegistryService } from './quizRegistryFactory';
@@ -19,13 +19,13 @@ export const createQuizStateManagerService = (
 ): QuizStateManagerService => {
   // Private state
   let quizStates = initialStates;
-  
+
   // Persistence service abrufen
   const persistenceService = getQuizPersistenceService();
-  
+
   // Initialisierung des Services
   console.log('[QuizStateManagerService] Creating new service instance');
-  
+
   // Alle gespeicherten Zustände beim Start laden
   const loadSavedStates = async (): Promise<void> => {
     try {
@@ -37,7 +37,7 @@ export const createQuizStateManagerService = (
       console.error('[QuizStateManagerService] Error loading saved states:', error);
     }
   };
-  
+
   // Initialisierung starten
   loadSavedStates();
 
@@ -55,24 +55,17 @@ export const createQuizStateManagerService = (
         // Default-Werte verwenden, falls nicht angegeben
         const quizMode = quiz.quizMode || QuizMode.SEQUENTIAL;
         const initialUnlockedQuestions = quiz.initialUnlockedQuestions || 2;
-        
-        // Bei Multiple-Choice-Fragen immer alle Fragen freischalten, wenn nicht anders angegeben
-        const hasMultipleChoiceQuestions = quiz.questions.some(q => 
-          q.questionType === QuestionType.MULTIPLE_CHOICE
-        );
-        
-        const finalQuizMode = hasMultipleChoiceQuestions && quizMode === QuizMode.SEQUENTIAL ? 
-          QuizMode.ALL_UNLOCKED : quizMode;
-        
+
+        const finalQuizMode = quizMode;
         // Neuen Zustand erstellen
         const state = createQuizState(
-          quiz.questions, 
-          quiz.id, 
-          quiz.title, 
-          finalQuizMode, 
+          quiz.questions,
+          quiz.id,
+          quiz.title,
+          finalQuizMode,
           initialUnlockedQuestions
         );
-        
+
         // Gespeicherten Zustand laden, falls vorhanden
         try {
           const savedStates = await persistenceService.loadAllQuizStates();
@@ -88,7 +81,7 @@ export const createQuizStateManagerService = (
           console.error(`[QuizStateManagerService] Error loading saved state for quiz '${quizId}':`, error);
           quizStates.set(quizId, state);
         }
-        
+
         console.log(`[QuizStateManagerService] Created new state for quiz '${quizId}'`);
       } else {
         console.log(`[QuizStateManagerService] Using existing state for quiz '${quizId}'`);
@@ -105,7 +98,7 @@ export const createQuizStateManagerService = (
     updateQuizState: async <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>): Promise<void> => {
       console.log(`[QuizStateManagerService] Updating state for quiz '${quizId}'`);
       quizStates.set(quizId, newState as QuizState<ContentKey>);
-      
+
       // Zustand persistieren
       try {
         await persistenceService.saveQuizState(newState);
@@ -126,25 +119,19 @@ export const createQuizStateManagerService = (
       // Default-Werte verwenden, falls nicht angegeben
       const quizMode = quiz.quizMode || QuizMode.SEQUENTIAL;
       const initialUnlockedQuestions = quiz.initialUnlockedQuestions || 2;
-      
-      // Bei Multiple-Choice-Fragen immer alle Fragen freischalten, wenn nicht anders angegeben
-      const hasMultipleChoiceQuestions = quiz.questions.some(q => 
-        q.questionType === QuestionType.MULTIPLE_CHOICE
-      );
-      
-      const finalQuizMode = hasMultipleChoiceQuestions && quizMode === QuizMode.SEQUENTIAL ? 
-        QuizMode.ALL_UNLOCKED : quizMode;
-      
+
+      const finalQuizMode = quizMode;
+
       const newState = createQuizState(
-        quiz.questions, 
-        quiz.id, 
-        quiz.title, 
-        finalQuizMode, 
+        quiz.questions,
+        quiz.id,
+        quiz.title,
+        finalQuizMode,
         initialUnlockedQuestions
       );
-      
+
       quizStates.set(quizId, newState);
-      
+
       // Zustand persistieren
       try {
         await persistenceService.saveQuizState(newState);
@@ -152,7 +139,7 @@ export const createQuizStateManagerService = (
       } catch (error) {
         console.error(`[QuizStateManagerService] Error persisting reset state for quiz '${quizId}':`, error);
       }
-      
+
       console.log(`[QuizStateManagerService] Reset completed for quiz '${quizId}'`);
       return newState as QuizState<T>;
     },

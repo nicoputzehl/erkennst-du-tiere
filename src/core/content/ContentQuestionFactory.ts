@@ -1,8 +1,6 @@
-// src/core/content/ContentQuestionFactory.ts
-
-import { ContentHandler, ContentProvider, MultipleChoiceContentHandler } from './ContentHandler';
-import { ContentKey, ContentQuestion, ContentMultipleChoiceQuestion } from './types';
-import { Question, MultipleChoiceQuestion } from '../../quiz/types';
+import { ContentHandler, ContentProvider } from './ContentHandler';
+import { ContentKey, ContentQuestion } from './types';
+import { Question } from '../../quiz/types';
 
 /**
  * Generische Factory für die Erstellung von Fragen basierend auf Content-Typen
@@ -33,76 +31,6 @@ export class ContentQuestionFactory<T extends ContentKey = ContentKey> {
       }
 
       return this.contentHandler.createQuestion(q.id, q.imageUrl, q.contentKey as T, q.thumbnailUrl);
-    });
-  }
-}
-
-/**
- * Factory für Multiple-Choice-Fragen
- */
-export class MultipleChoiceQuestionFactory<T extends ContentKey = ContentKey> {
-  constructor(
-    private multipleChoiceHandler: MultipleChoiceContentHandler<T>,
-    private contentProvider: ContentProvider<T>
-  ) { }
-
-  /**
-   * Erstellt Multiple-Choice-Fragen aus ContentQuestion-Definitionen
-   */
-  createMultipleChoiceQuestionsFromContent(
-    questions: ContentMultipleChoiceQuestion[],
-    choiceCount: number = 4
-  ): MultipleChoiceQuestion[] {
-    console.log(`[MultipleChoiceQuestionFactory] INPUT questions:`, questions.map(q => ({
-      id: q.id,
-      thumbnailUrl: q.thumbnailUrl
-    })));
-    return questions.map(q => {
-      // Validierung
-      if (!this.contentProvider.isValidContentKey(q.contentKey)) {
-        const similar = this.contentProvider.findSimilarContentKey(q.contentKey);
-        const errorMessage = `Invalid content key: "${q.contentKey}" for question ${q.id}`;
-
-        if (similar) {
-          console.error(`${errorMessage}. Did you mean "${similar}"?`);
-        } else {
-          console.error(`${errorMessage}. Valid keys are: ${this.contentProvider.getAllContentKeys().join(', ')}`);
-        }
-
-        throw new Error(errorMessage);
-      }
-
-      // Content-Key auf T casten, nachdem wir validiert haben
-      const contentKey = q.contentKey as T;
-
-      // Wenn bereits Antwortmöglichkeiten angegeben sind, verwende diese
-      if (q.choices && q.choices.length > 0) {
-        console.log(`[MultipleChoiceQuestionFactory] Calling handler with thumbnailUrl:`, q.thumbnailUrl);
-        const result = this.multipleChoiceHandler.createMultipleChoiceQuestion(
-          q.id,
-          q.imageUrl,
-          contentKey,
-          q.choices,
-          q.thumbnailUrl
-        );
-
-        console.log(`[MultipleChoiceQuestionFactory] Handler returned thumbnailUrl:`, result.thumbnailUrl);
-        return result;
-      }
-
-      // Ansonsten generiere automatisch Antwortmöglichkeiten
-      const generatedChoices = this.multipleChoiceHandler.generateChoices?.(contentKey, choiceCount) || [];
-
-      const result = this.multipleChoiceHandler.createMultipleChoiceQuestion(
-        q.id,
-        q.imageUrl,
-        contentKey,
-        generatedChoices,
-        q.thumbnailUrl // HINZUFÜGEN als 5. Parameter
-      );
-      console.log(`[MultipleChoiceQuestionFactory] Result thumbnailUrl:`, result.thumbnailUrl);
-
-      return result;
     });
   }
 }

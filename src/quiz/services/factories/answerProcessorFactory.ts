@@ -1,6 +1,6 @@
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState } from '@/src/quiz/types';
-import { calculateAnswerResult, getNextActiveQuestionId, isMultipleChoiceQuestion } from '@/src/quiz/domain/quizLogic';
+import { calculateAnswerResult, getNextActiveQuestionId } from '@/src/quiz/domain/quizLogic';
 import { QuizStateManagerService } from './quizStateManagerFactory';
 import { normalizeString } from '@/utils/helper';
 import { UnlockManagerService } from './unlockManagerFactory';
@@ -16,12 +16,6 @@ export interface AnswerProcessorService {
     nextQuestionId?: number;
     unlockedQuiz?: any;
   }>;
-  
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
-    quizId: string,
-    questionId: number
-  ) => string[] | null;
 }
 
 export const createAnswerProcessorService = (
@@ -57,11 +51,8 @@ export const createAnswerProcessorService = (
         throw new Error(`Question with ID ${questionId} not found in quiz ${quizId}`);
       }
 
-      // Entscheiden, ob wir die Antwort normalisieren müssen (nur bei Text-Fragen)
-      let processedAnswer = answer;
-      if (!isMultipleChoiceQuestion(question)) {
-        processedAnswer = normalizeString(answer);
-      }
+      // Antwort normalisieren (nur bei Text-Fragen)
+      const processedAnswer = normalizeString(answer);
 
       // Antwort verarbeiten
       const result = calculateAnswerResult(currentState, questionId, processedAnswer);
@@ -83,32 +74,6 @@ export const createAnswerProcessorService = (
 
       console.log(`[AnswerProcessorService] Incorrect answer`);
       return { isCorrect: false };
-    },
-
-    getMultipleChoiceOptions: <T extends ContentKey = ContentKey>(
-      quizId: string,
-      questionId: number
-    ): string[] | null => {
-      console.log(`[AnswerProcessorService] Getting options for quiz '${quizId}', question '${questionId}'`);
-      const quizState = quizStateManagerService.getQuizState<T>(quizId);
-      if (!quizState) {
-        console.log(`[AnswerProcessorService] Quiz '${quizId}' not found`);
-        return null;
-      }
-
-      const question = quizState.questions.find(q => q.id === questionId);
-      if (!question) {
-        console.log(`[AnswerProcessorService] Question '${questionId}' not found`);
-        return null;
-      }
-
-      if (isMultipleChoiceQuestion(question)) {
-        console.log(`[AnswerProcessorService] Found multiple choice options: ${question.choices.length}`);
-        return question.choices;
-      }
-
-      console.log(`[AnswerProcessorService] No multiple choice options found`);
-      return null;
     }
   };
 };

@@ -1,6 +1,6 @@
-import { MultipleChoiceQuestionWithAnimal } from "../../../types";
+import { QuestionWithAnimal } from "../../../types";
 
-export const emojiAnimals: MultipleChoiceQuestionWithAnimal[] = [
+export const emojiAnimals: QuestionWithAnimal[] = [
   {
     id: 1,
     animal: "faultier",
