@@ -302,7 +302,7 @@ export const useBaseQuestionScreen = (quizId, questionId, question) => {
     if (nextQuestionId) {
       router.replace(`/quiz/${quizId}/${nextQuestionId}`);
     } else {
-      router.push(`/quiz/${quizId}`);
+      router.navigate(`/quiz/${quizId}`);
     }
   }, [quizId, questionId, getNextActiveQuestion]);
 
@@ -335,13 +335,13 @@ export default function QuestionRoute() {
 
 ```typescript
 // Quiz starten
-router.push(`/quiz/${quizId}`);
+router.navigate(`/quiz/${quizId}`);
 
 // Frage öffnen
-router.navigate(`/quiz/${quizId}/${questionId}`);
+router.replace(`/quiz/${quizId}/${questionId}`);
 
 // Zurück zur Übersicht
-router.push(`/quiz/${quizId}`);
+router.navigate(`/quiz/${quizId}`);
 ```
 
 ## Performance Optimierung

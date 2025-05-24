@@ -20,7 +20,7 @@ type QuizStarterScreenProps = {
 
 export default function QuizStartScreen({ quizzes }: QuizStarterScreenProps) {
 	const handleNavigateToSettings = () => {
-		router.push('/settings');
+		router.navigate('/settings');
 	};
 	const { initializeQuizState } = useQuizState();
 	const [isLoading, setIsLoading] = useState(true);

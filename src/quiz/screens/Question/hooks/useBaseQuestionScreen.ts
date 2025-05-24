@@ -17,11 +17,11 @@ export const useBaseQuestionScreen = (
   const [isCorrect, setIsCorrect] = useState(false);
   const [initialQuestionStatus] = useState<string>(question.status);
   const [isUpdating, setIsUpdating] = useState(false);
-  
+
   // Refs for cleanup
   const preloadingTimeouts = useRef<(NodeJS.Timeout | number)[]>([]);
   const isMounted = useRef(true);
-  
+
   const quizState = getQuizState(quizId);
   const isQuizFinished = isQuizCompleted(quizId);
 
@@ -32,7 +32,7 @@ export const useBaseQuestionScreen = (
 
     return () => {
       isMounted.current = false;
-      
+
       // Clear preloading timeouts
       preloadingTimeouts.current.forEach(timeout => {
         if (typeof timeout === 'number') {
@@ -62,11 +62,11 @@ export const useBaseQuestionScreen = (
     newState: QuizState
   ) => {
     if (!isMounted.current) return;
-    
+
     setIsCorrect(true);
     setShowResult(true);
     setIsUpdating(true);
-    
+
     try {
       await updateQuizState(quizId, newState);
     } catch (error) {
@@ -80,32 +80,32 @@ export const useBaseQuestionScreen = (
 
   const processIncorrectAnswer = useCallback(() => {
     if (!isMounted.current) return;
-    
+
     setIsCorrect(false);
     setShowResult(true);
   }, []);
 
   const handleNext = useCallback(() => {
     if (!quizState || !isMounted.current) return;
-    
+
     const nextQuestionId = getNextActiveQuestionId(quizState.id, Number(questionId));
-    
+
     if (nextQuestionId) {
       router.replace(`/quiz/${quizId}/${nextQuestionId}`);
     } else {
-      router.push(`/quiz/${quizId}`);
+      router.navigate(`/quiz/${quizId}`);
     }
   }, [quizState, quizId, getNextActiveQuestionId, questionId]);
 
   const handleBack = useCallback(() => {
     if (!isMounted.current) return;
-    
-    router.push(`/quiz/${quizId}`);
+
+    router.navigate(`/quiz/${quizId}`);
   }, [quizId]);
 
   const handleTryAgain = useCallback(() => {
     if (!isMounted.current) return;
-    
+
     setShowResult(false);
   }, []);
 
