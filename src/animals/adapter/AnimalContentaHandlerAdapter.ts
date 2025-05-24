@@ -8,7 +8,7 @@ import { animalContentProvider } from './AnimalContentProvider';
  * Adapter für den alten AnimalHandler zum neuen ContentHandler Interface
  */
 export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
-  createQuestion(id: number, imageUrl: string, contentKey: AnimalKey): Question<AnimalKey> {
+  createQuestion(id: number, imageUrl: string, contentKey: AnimalKey, thumbnailUrl?: string): Question<AnimalKey> {
     const animalData = ANIMAL_LIST[contentKey];
 
     // Fehlerbehandlung
@@ -20,6 +20,7 @@ export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
     return {
       id,
       imageUrl,
+      thumbnailUrl, // HINZUFÜGEN
       answer: animalData.name,
       alternativeAnswers: animalData.alternativeNames,
       funFact: animalData.funFact,
@@ -64,15 +65,26 @@ export class AnimalMultipleChoiceHandlerAdapter extends AnimalContentHandlerAdap
     id: number,
     imageUrl: string,
     contentKey: AnimalKey,
-    choices: string[]
+    choices: string[],
+    thumbnailUrl?: string // HINZUFÜGEN
   ): MultipleChoiceQuestion<AnimalKey> {
-    const baseQuestion = super.createQuestion(id, imageUrl, contentKey);
-    
-    return {
+
+    console.log(`[AnimalMultipleChoiceHandler] createMultipleChoiceQuestion called with:`, {
+      id,
+      contentKey,
+      thumbnailUrl
+    });
+
+
+    const baseQuestion = super.createQuestion(id, imageUrl, contentKey, thumbnailUrl);
+    console.log(`[AnimalMultipleChoiceHandler] baseQuestion thumbnailUrl:`, baseQuestion.thumbnailUrl);
+    const result: MultipleChoiceQuestion<AnimalKey> = {
       ...baseQuestion,
       questionType: QuestionType.MULTIPLE_CHOICE,
       choices
     };
+    console.log(`[AnimalMultipleChoiceHandler] result thumbnailUrl:`, result.thumbnailUrl);
+    return result;
   }
 
   // Hilfsfunktion zum Zufälligen Auswählen von n Elementen aus einem Array
@@ -84,19 +96,19 @@ export class AnimalMultipleChoiceHandlerAdapter extends AnimalContentHandlerAdap
   generateChoices(contentKey: AnimalKey, totalChoiceCount: number = 4): string[] {
     const correctAnswer = this.getAnswer(contentKey);
     const allAnimals = animalContentProvider.getAllContentKeys();
-    
+
     // Filtere das aktuelle Tier aus
     const otherAnimals = allAnimals.filter(a => a !== contentKey);
-    
+
     // Bestimme, wie viele falsche Antworten wir benötigen
     const wrongChoiceCount = Math.min(totalChoiceCount - 1, otherAnimals.length);
-    
+
     // Wähle zufällige andere Tiere
     const randomAnimals = this.getRandomElements(otherAnimals, wrongChoiceCount);
-    
+
     // Erstelle Antwortmöglichkeiten mit den Namen der Tiere
     const wrongAnswers = randomAnimals.map(a => ANIMAL_LIST[a].name);
-    
+
     // Füge die richtige Antwort hinzu und mische alle Optionen
     const allChoices = [correctAnswer, ...wrongAnswers];
     return this.getRandomElements(allChoices, allChoices.length);

@@ -38,12 +38,16 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(({
     );
   }
 
+  if (item.answer === "Leopard") {
+    console.log({item})
+  }
+
   return (
     <TouchableOpacity
       style={[styles.questionCard, cardStyle]}
       onPress={handleClick}
     >
-      <Image source={item.imageUrl} style={styles.image} contentFit='cover' />
+      <Image source={item.thumbnailUrl ||item.imageUrl} style={styles.image} contentFit='cover' />
       {item.status === 'solved' && (
         <View style={styles.iconOverlay}>
           <FontAwesome6 name={'check'} size={32} color={'green'} />

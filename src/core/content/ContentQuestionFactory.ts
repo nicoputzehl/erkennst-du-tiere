@@ -32,7 +32,7 @@ export class ContentQuestionFactory<T extends ContentKey = ContentKey> {
         throw new Error(errorMessage);
       }
 
-      return this.contentHandler.createQuestion(q.id, q.imageUrl, q.contentKey as T);
+      return this.contentHandler.createQuestion(q.id, q.imageUrl, q.contentKey as T, q.thumbnailUrl);
     });
   }
 }
@@ -53,6 +53,10 @@ export class MultipleChoiceQuestionFactory<T extends ContentKey = ContentKey> {
     questions: ContentMultipleChoiceQuestion[],
     choiceCount: number = 4
   ): MultipleChoiceQuestion[] {
+    console.log(`[MultipleChoiceQuestionFactory] INPUT questions:`, questions.map(q => ({
+      id: q.id,
+      thumbnailUrl: q.thumbnailUrl
+    })));
     return questions.map(q => {
       // Validierung
       if (!this.contentProvider.isValidContentKey(q.contentKey)) {
@@ -73,23 +77,32 @@ export class MultipleChoiceQuestionFactory<T extends ContentKey = ContentKey> {
 
       // Wenn bereits Antwortmöglichkeiten angegeben sind, verwende diese
       if (q.choices && q.choices.length > 0) {
-        return this.multipleChoiceHandler.createMultipleChoiceQuestion(
+        console.log(`[MultipleChoiceQuestionFactory] Calling handler with thumbnailUrl:`, q.thumbnailUrl);
+        const result = this.multipleChoiceHandler.createMultipleChoiceQuestion(
           q.id,
           q.imageUrl,
           contentKey,
-          q.choices
+          q.choices,
+          q.thumbnailUrl
         );
+
+        console.log(`[MultipleChoiceQuestionFactory] Handler returned thumbnailUrl:`, result.thumbnailUrl);
+        return result;
       }
 
       // Ansonsten generiere automatisch Antwortmöglichkeiten
       const generatedChoices = this.multipleChoiceHandler.generateChoices?.(contentKey, choiceCount) || [];
 
-      return this.multipleChoiceHandler.createMultipleChoiceQuestion(
+      const result = this.multipleChoiceHandler.createMultipleChoiceQuestion(
         q.id,
         q.imageUrl,
         contentKey,
-        generatedChoices
+        generatedChoices,
+        q.thumbnailUrl // HINZUFÜGEN als 5. Parameter
       );
+      console.log(`[MultipleChoiceQuestionFactory] Result thumbnailUrl:`, result.thumbnailUrl);
+
+      return result;
     });
   }
 }

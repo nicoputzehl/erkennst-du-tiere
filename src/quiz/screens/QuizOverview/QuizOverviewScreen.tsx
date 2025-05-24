@@ -45,7 +45,6 @@ export const QuizOverviewScreen: React.FC<QuizOverviewScreenProps> = ({
 			</ThemedView>
 		);
 	}
-
 	return (
 		<ThemedView style={styles.container}>
 			<ProgressBar

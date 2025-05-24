@@ -7,12 +7,16 @@ import { animalContentHandler, animalMultipleChoiceContentHandler } from './Anim
 /**
  * Adapter, der aus dem QuestionWithAnimal-Typ ContentQuestion macht
  */
-const adaptAnimalQuestions = (questions: QuestionWithAnimal[]): { id: number; imageUrl: string; contentKey: string }[] => {
-  return questions.map(q => ({
-    id: q.id,
-    imageUrl: q.imageUrl,
-    contentKey: q.animal
-  }));
+const adaptAnimalQuestions = (questions: QuestionWithAnimal[]): { id: number; imageUrl: string; thumbnailUrl?: string; contentKey: string }[] => {
+  return questions.map(q => {
+    console.log(`[adaptAnimalQuestions] Processing question ${q.id}, ${q.animal}, thumbnailUrl:`, q.thumbnailUrl);
+    return {
+      id: q.id,
+      imageUrl: q.imageUrl,
+      thumbnailUrl: q.thumbnailUrl,
+      contentKey: q.animal
+    };
+  });
 };
 
 /**
@@ -23,7 +27,7 @@ export const createQuestionsFromAnimals = (questions: QuestionWithAnimal[]): Que
     animalContentHandler,
     animalContentProvider
   );
-  
+
   return factory.createQuestionsFromContent(adaptAnimalQuestions(questions));
 };
 
@@ -38,14 +42,19 @@ export const createMultipleChoiceQuestionsFromAnimals = (
     animalMultipleChoiceContentHandler,
     animalContentProvider
   );
-  
+
   // Adapter für MultipleChoiceQuestionWithAnimal -> ContentMultipleChoiceQuestion
-  const adaptedQuestions = questions.map(q => ({
-    id: q.id,
-    imageUrl: q.imageUrl,
-    contentKey: q.animal,
-    choices: q.choices
-  }));
-  
+  const adaptedQuestions = questions.map(q => {
+    console.log(`[createMultipleChoiceQuestionsFromAnimals] Processing question ${q.id} ${q.animal}, thumbnailUrl:`, q.thumbnailUrl);
+    return {
+
+      id: q.id,
+      imageUrl: q.imageUrl,
+      thumbnailUrl: q.thumbnailUrl,
+      contentKey: q.animal,
+      choices: q.choices
+    }
+  });
+
   return factory.createMultipleChoiceQuestionsFromContent(adaptedQuestions, choiceCount);
 };
