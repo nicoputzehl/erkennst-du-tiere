@@ -47,9 +47,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
   useEffect(() => {
     navigation.setOptions({
-      title: navigationTitle,
       headerShown: true,
       headerBackTitle: quizState?.title || 'Zurück',
+      title: "",
       headerBackTitleVisible: false,
     });
   }, [navigation, navigationTitle, quizState?.title]);
