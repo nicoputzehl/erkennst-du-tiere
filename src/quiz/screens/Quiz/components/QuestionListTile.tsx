@@ -12,6 +12,10 @@ interface QuestionListTileProps {
 
 export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 	({ item, itemWidth, onClick }) => {
+
+		const isSolved = item.status === 'solved';
+		const hasUnsolvedImages = item.images.unsolvedImageUrl || item.images.unsolvedThumbnailUrl;
+
 		const cardStyle = useMemo(
 			() => ({
 				width: itemWidth,
@@ -50,13 +54,13 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				onPress={handleClick}
 			>
 				<Image
-					source={item.images.thumbnailUrl || item.images.imageUrl}
+					source={!isSolved && hasUnsolvedImages ? item.images.unsolvedThumbnailUrl || item.images.unsolvedImageUrl : item.images.thumbnailUrl || item.images.imageUrl}
 					style={imageStyle}
 					contentFit='cover'
 					cachePolicy='memory-disk'
 					transition={200}
 				/>
-				{item.status === 'solved' && (
+				{isSolved && (
 					<View style={styles.iconOverlay}>
 						<FontAwesome6 name={'check'} size={32} color={'green'} />
 					</View>
