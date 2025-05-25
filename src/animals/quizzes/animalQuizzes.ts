@@ -34,7 +34,7 @@ const initializeAnimalQuizzes = () => [
       title: 'Weird Animals',
       animalQuestions: weirdAnimals,
       order: 3,
-      initiallyLocked: true,
+      initiallyLocked: false,
       unlockCondition: {
         type: 'specificQuiz',
         requiredQuizId: 'namibia_animals',

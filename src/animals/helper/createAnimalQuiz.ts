@@ -3,6 +3,7 @@ import { createQuestionsFromAnimals } from '../adapter/AnimalQuestionFactoryAdap
 import { QuestionWithAnimal, AnimalKey } from '../types';
 import { Quiz, QuizMode, UnlockCondition } from '../../quiz/types';
 
+
 export interface AnimalQuizConfig {
   id: string;
   title: string;

@@ -16,6 +16,7 @@ export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
       throw new Error(`Animal "${contentKey}" not found in ANIMALS data. Available animals: ${Object.keys(ANIMAL_LIST).join(', ')}`);
     }
 
+    console.debug(`Creating question for animal: ${contentKey}`);
     return {
       id,
       imageUrl,
@@ -31,24 +32,30 @@ export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
   getAnswer(contentKey: AnimalKey): string {
     const animalData = ANIMAL_LIST[contentKey];
     if (!animalData) {
+      console.error(`Unknown animal: ${contentKey}`);
       throw new Error(`Animal "${contentKey}" not found`);
     }
+    console.debug(`Found animal: ${contentKey}`);
     return animalData.name;
   }
 
   getAlternativeAnswers(contentKey: AnimalKey): string[] | undefined {
     const animalData = ANIMAL_LIST[contentKey];
     if (!animalData) {
-      throw new Error(`Animal "${contentKey}" not found`);
+      console.error(`Unknown animal: ${contentKey}`);
+      throw new Error(`Animal "${contentKey}" not found in ANIMALS data. Available animals: ${Object.keys(ANIMAL_LIST).join(', ')}`);
     }
+    console.debug(`Found animal: ${contentKey}`);
     return animalData.alternativeNames;
   }
 
   getMetadata(contentKey: AnimalKey): { funFact?: string; wikipediaName?: string } {
     const animalData = ANIMAL_LIST[contentKey];
     if (!animalData) {
-      throw new Error(`Animal "${contentKey}" not found`);
+      console.error(`Unknown animal: ${contentKey}`);
+      throw new Error(`Animal "${contentKey}" not found in ANIMALS data. Available animals: ${Object.keys(ANIMAL_LIST).join(', ')}`);
     }
+    console.debug(`Found animal: ${contentKey}`);
     return {
       funFact: animalData.funFact,
       wikipediaName: animalData.wikipediaName

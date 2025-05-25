@@ -13,6 +13,7 @@ export class AnimalContentProvider implements ContentProvider<AnimalKey> {
    * Gibt alle verfügbaren Tier-Keys zurück
    */
   getAllContentKeys(): AnimalKey[] {
+    console.debug('Fetching all animal content keys');
     return Object.keys(ANIMAL_LIST) as AnimalKey[];
   }
 
@@ -20,8 +21,10 @@ export class AnimalContentProvider implements ContentProvider<AnimalKey> {
    * Gibt ein Tier-Item für einen Key zurück
    */
   getContentItem(key: AnimalKey): ContentItem {
+    console.debug(`Fetching content item for key: ${key}`);
     const animalData = ANIMAL_LIST[key];
     if (!animalData) {
+      console.error(`Animal "${key}" not found in ANIMAL_LIST`);
       throw new Error(`Animal "${key}" not found in ANIMAL_LIST`);
     }
     return animalData;
@@ -31,6 +34,7 @@ export class AnimalContentProvider implements ContentProvider<AnimalKey> {
    * Prüft, ob ein Key ein gültiger AnimalKey ist
    */
   isValidContentKey(key: string): key is AnimalKey {
+    console.debug(`Checking validity of content key: ${key}`);
     return key in ANIMAL_LIST;
   }
 
@@ -38,7 +42,7 @@ export class AnimalContentProvider implements ContentProvider<AnimalKey> {
    * Findet den nächsten ähnlichen Tier-Key
    */
   findSimilarContentKey(key: string): AnimalKey | null {
-    // Implementiere die bestehende findClosestAnimal Logik
+    console.debug(`Finding similar content key for: ${key}`);
     const validAnimals = this.getAllContentKeys();
     const closest = validAnimals.find(valid =>
       valid.toLowerCase().includes(key.toLowerCase()) ||
