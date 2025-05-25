@@ -1,6 +1,7 @@
 import { registerQuizInitializer } from '@/src/core/initialization/quizInitialization';
 import { createAnimalQuiz } from '../helper/createAnimalQuiz';
 import { emojiAnimals, namibiaAnimals, weirdAnimals } from '../data/quizzes';
+import { namibiaUnsolved } from '../data/quizzes/namibia_unsolved';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
@@ -16,12 +17,23 @@ const initializeAnimalQuizzes = () => [
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
-    {
+  {
     id: 'emoji_animals',
     quiz: createAnimalQuiz({
       id: 'emoji_animals',
       title: 'Emojis',
       animalQuestions: emojiAnimals,
+      order: 2,
+      initiallyLocked: false,
+    }),
+    contentType: ANIMAL_CONTENT_TYPE
+  },
+  {
+    id: 'unsolved',
+    quiz: createAnimalQuiz({
+      id: 'unsolved',
+      title: 'Unsvolved',
+      animalQuestions: namibiaUnsolved,
       order: 2,
       initiallyLocked: false,
     }),
