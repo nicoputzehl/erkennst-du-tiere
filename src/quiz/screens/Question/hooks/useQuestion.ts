@@ -3,7 +3,7 @@ import { useProgressTracker } from '@/src/quiz/contexts/ProgressTrackerProvider'
 import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
 import { QuizQuestion, QuizState } from '@/src/quiz/types';
 import { router } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import {  useCallback, useState } from 'react';
 
 export const useQuestion = (
   quizId: string,
@@ -24,8 +24,6 @@ export const useQuestion = (
   const { answerQuizQuestion } = useAnswerProcessor();
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const showUnsolvedImages = useMemo(() => question.status !== 'solved' && question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl, [question]);
 
   const processCorrectAnswer = useCallback(async (
     newState: QuizState
@@ -111,6 +109,5 @@ export const useQuestion = (
     isQuizCompleted: isQuizFinished,
     answer,
     isSubmitting,
-    showUnsolvedImages
   };
 };

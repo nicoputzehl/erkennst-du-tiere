@@ -1,17 +1,14 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
 import { QuizMode, QuizQuestion } from '@/src/quiz/types';
 import React, { memo } from 'react';
-import {
-	KeyboardAvoidingView,
-	Platform,
-	ScrollView,
-	StyleSheet,
-} from 'react-native';
+import { View, ScrollView, StyleSheet, Animated } from 'react-native';
 import { AlreadyAnswered } from './AlreadyAnswered';
 import { AnswerInput } from './AnswerInput';
 import { QuestionImage } from './QuestionImage';
 import { QuestionResult } from './QuestionResult';
 import { useQuestion } from '../hooks/useQuestion';
+import { useKeyboardResponsive } from '@/src/common/hooks/useKeyboardResponsiveness';
+import { ImageType, useImageDisplay } from '../hooks/useImageDisplay';
 
 interface QuestionProps {
 	quizId: string;
@@ -19,84 +16,115 @@ interface QuestionProps {
 	question: QuizQuestion;
 }
 
-export const Question: React.FC<QuestionProps> = memo(({
-	quizId,
-	questionId,
-	question,
-}) => {
-	const {
-		answer,
-		setAnswer,
-		showResult,
-		isCorrect,
-		initialQuestionStatus,
-		handleSubmit,
-		handleNext,
-		handleTryAgain,
-		handleBack,
-		isQuizCompleted,
-		isSubmitting,
-		showUnsolvedImages
-	} = useQuestion(quizId, questionId, question);
+export const Question: React.FC<QuestionProps> = memo(
+	({ quizId, questionId, question }) => {
+		const {
+			answer,
+			setAnswer,
+			showResult,
+			isCorrect,
+			initialQuestionStatus,
+			handleSubmit,
+			handleNext,
+			handleTryAgain,
+			handleBack,
+			isQuizCompleted,
+			isSubmitting,
+		} = useQuestion(quizId, questionId, question);
+		const { getImageUrl } = useImageDisplay(question);
 
-	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			keyboardVerticalOffset={ Platform.OS === 'ios' ? 100 : 0}
-		>
-			<ScrollView
-				contentContainerStyle={styles.scrollContainer}
-				showsVerticalScrollIndicator={false}
-				keyboardShouldPersistTaps='handled'
-				removeClippedSubviews={true}
-				scrollEventThrottle={16}
-				automaticallyAdjustKeyboardInsets={true}
-			>
-				<QuestionImage 
-					imageUrl={showUnsolvedImages && !showResult ? question.images.unsolvedImageUrl! : question.images.imageUrl} 
-					thumbnailUrl={showUnsolvedImages && !showResult ? question.images.unsolvedThumbnailUrl : question.images.thumbnailUrl}
-				/>
-				<ThemedView style={styles.content}>
-					{initialQuestionStatus === 'solved' && (
-						<AlreadyAnswered funFact={question.funFact} />
-					)}
-					{!showResult && initialQuestionStatus !== 'solved' && (
-						<AnswerInput
-							value={answer}
-							onChangeText={setAnswer}
-							onSubmitEditing={handleSubmit}
-							isSubmitting={isSubmitting}
-						/>
-					)}
-					{showResult && (
-						<QuestionResult
-							isCorrect={isCorrect}
-							funFact={question.funFact}
-							onBack={handleBack}
-							onTryAgain={handleTryAgain}
-							onNext={handleNext}
-							quizMode={QuizMode.SEQUENTIAL}
-							hasNextQuestion={!isQuizCompleted}
-						/>
-					)}
-				</ThemedView>
-			</ScrollView>
-		</KeyboardAvoidingView>
-	);
-}, (prevProps, nextProps) => {
-	// Memo comparison - only re-render if essential props change
-	return (
-		prevProps.quizId === nextProps.quizId &&
-		prevProps.questionId === nextProps.questionId &&
-		prevProps.question.id === nextProps.question.id &&
-		prevProps.question.status === nextProps.question.status &&
-		prevProps.question.images.imageUrl === nextProps.question.images.imageUrl &&
-		prevProps.question.images.thumbnailUrl === nextProps.question.images.thumbnailUrl &&
-		prevProps.question.images.unsolvedImageUrl === nextProps.question.images.unsolvedImageUrl &&
-		prevProps.question.images.unsolvedThumbnailUrl === nextProps.question.images.unsolvedThumbnailUrl
-	);
-});
+		const {
+			imageHeight,
+			contentPadding,
+			availableContentHeight,
+			isKeyboardVisible,
+		} = useKeyboardResponsive({
+			defaultImageHeight: 400,
+			minImageHeight: 320,
+			maxImageHeight: 350,
+			bufferHeight: 100,
+			imageHeightRatio: 0.4,
+			animationDuration: {
+				ios: 0,
+				android: 0,
+			},
+			disableFirstAnimationDelay: true,
+			useNativeKeyboardAnimation: true,
+		});
+
+		return (
+			<View style={styles.container}>
+				<ScrollView
+					style={[styles.scrollView, { maxHeight: availableContentHeight }]}
+					contentContainerStyle={styles.scrollContainer}
+					showsVerticalScrollIndicator={false}
+					keyboardShouldPersistTaps='handled'
+					scrollEventThrottle={16}
+					bounces={false}
+				>
+					<QuestionImage
+						imageUrl={getImageUrl(ImageType.IMG)}
+						thumbnailUrl={getImageUrl(ImageType.THUMBNAIL)}
+						animatedHeight={imageHeight}
+					/>
+
+					<Animated.View
+						style={[
+							styles.content,
+							{
+								paddingTop: contentPadding,
+								paddingBottom: contentPadding,
+								// Zusätzlicher Abstand wenn Keyboard sichtbar
+								marginBottom: isKeyboardVisible ? 10 : 0,
+							},
+						]}
+					>
+						<ThemedView style={styles.contentInner}>
+							{initialQuestionStatus === 'solved' && (
+								<AlreadyAnswered funFact={question.funFact} />
+							)}
+							{!showResult && initialQuestionStatus !== 'solved' && (
+								<AnswerInput
+									value={answer}
+									onChangeText={setAnswer}
+									onSubmitEditing={handleSubmit}
+									isSubmitting={isSubmitting}
+								/>
+							)}
+							{showResult && (
+								<QuestionResult
+									isCorrect={isCorrect}
+									funFact={question.funFact}
+									onBack={handleBack}
+									onTryAgain={handleTryAgain}
+									onNext={handleNext}
+									quizMode={QuizMode.SEQUENTIAL}
+									hasNextQuestion={!isQuizCompleted}
+								/>
+							)}
+						</ThemedView>
+					</Animated.View>
+				</ScrollView>
+			</View>
+		);
+	},
+	(prevProps, nextProps) => {
+		return (
+			prevProps.quizId === nextProps.quizId &&
+			prevProps.questionId === nextProps.questionId &&
+			prevProps.question.id === nextProps.question.id &&
+			prevProps.question.status === nextProps.question.status &&
+			prevProps.question.images.imageUrl ===
+				nextProps.question.images.imageUrl &&
+			prevProps.question.images.thumbnailUrl ===
+				nextProps.question.images.thumbnailUrl &&
+			prevProps.question.images.unsolvedImageUrl ===
+				nextProps.question.images.unsolvedImageUrl &&
+			prevProps.question.images.unsolvedThumbnailUrl ===
+				nextProps.question.images.unsolvedThumbnailUrl
+		);
+	}
+);
 
 Question.displayName = 'Question';
 
@@ -105,15 +133,21 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 	},
+	scrollView: {
+		flex: 1,
+	},
 	scrollContainer: {
 		flexGrow: 1,
-		minHeight: '100%',
-		paddingBottom: 20,
 	},
 	content: {
 		flex: 1,
-		padding: 16,
+		paddingHorizontal: 16,
+		paddingTop: 16,
 		paddingBottom: 32,
+	},
+	contentInner: {
+		flex: 1,
 		justifyContent: 'space-between',
+		minHeight: 200,
 	},
 });

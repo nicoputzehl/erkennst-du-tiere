@@ -1,25 +1,30 @@
 import { Image } from 'expo-image';
 import React, { memo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Animated } from 'react-native';
 
 interface QuestionImageProps {
   imageUrl: string;
   thumbnailUrl?: string;
+  animatedHeight?: Animated.Value;
 }
 
 export const QuestionImage: React.FC<QuestionImageProps> = memo(({ 
   imageUrl, 
-  thumbnailUrl 
+  thumbnailUrl,
+  animatedHeight
 }) => {
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[
+      styles.container, 
+      animatedHeight && { height: animatedHeight }
+    ]}>
         <Image
           source={imageUrl}
           style={[styles.image, thumbnailUrl && styles.fullImageOverlay]}
           contentFit="cover"
           cachePolicy="memory-disk"
-          transition={thumbnailUrl ? 400 : 300} // Slower transition if replacing thumbnail
+          transition={thumbnailUrl ? 400 : 300}
           priority="high"
           placeholder={!thumbnailUrl ? require('@/assets/images/placeholder.jpg') : undefined}
           placeholderContentFit="cover"
@@ -29,12 +34,12 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(({
           allowDownscaling={true}
           recyclingKey={imageUrl}
         />
-    </View>
+    </Animated.View>
   );
 }, (prevProps, nextProps) => {
-  // Memo comparison - re-rendern wenn imageUrl oder thumbnailUrl ändert
   return prevProps.imageUrl === nextProps.imageUrl && 
-         prevProps.thumbnailUrl === nextProps.thumbnailUrl;
+         prevProps.thumbnailUrl === nextProps.thumbnailUrl &&
+         prevProps.animatedHeight === nextProps.animatedHeight;
 });
 
 QuestionImage.displayName = 'QuestionImage';
@@ -42,7 +47,7 @@ QuestionImage.displayName = 'QuestionImage';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 400,
+    height: 400, // Default height, wird durch animatedHeight überschrieben
     backgroundColor: '#f5f5f5', 
     borderRadius: 0,
     overflow: 'hidden',
