@@ -8,7 +8,7 @@ import { QuestionImage } from './QuestionImage';
 import { QuestionResult } from './QuestionResult';
 import { useQuestion } from '../hooks/useQuestion';
 import { useKeyboardResponsive } from '@/src/common/hooks/useKeyboardResponsiveness';
-import { ImageType, useImageDisplay } from '../hooks/useImageDisplay';
+import { ImageType, useImageDisplay } from '../../../hooks/useImageDisplay';
 
 interface QuestionProps {
 	quizId: string;

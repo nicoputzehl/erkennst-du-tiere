@@ -2,7 +2,8 @@ import { useMemo, useCallback, memo } from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
-import { QuizQuestion } from '../../../types';
+import { QuestionStatus, QuizQuestion } from '../../../types';
+import { ImageType, useImageDisplay } from '@/src/quiz/hooks/useImageDisplay';
 
 interface QuestionListTileProps {
 	item: QuizQuestion;
@@ -12,17 +13,16 @@ interface QuestionListTileProps {
 
 export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 	({ item, itemWidth, onClick }) => {
-
-		const isSolved = item.status === 'solved';
-		const hasUnsolvedImages = item.images.unsolvedImageUrl || item.images.unsolvedThumbnailUrl;
+		const { getImageUrl } = useImageDisplay(item);
+		const isSolved = item.status === QuestionStatus.SOLVED;
 
 		const cardStyle = useMemo(
 			() => ({
 				width: itemWidth,
 				height: itemWidth,
-				backgroundColor: item.status === 'solved' ? '#e8f5e9' : '#f5f5f5',
+				backgroundColor: isSolved ? 'rgba(rgba(0, 150, 0, 0.1))' : '#f5f5f5',
 			}),
-			[item.status, itemWidth]
+			[isSolved, itemWidth]
 		);
 
 		const imageStyle = useMemo(
@@ -54,9 +54,9 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				onPress={handleClick}
 			>
 				<Image
-					source={!isSolved && hasUnsolvedImages ? item.images.unsolvedThumbnailUrl || item.images.unsolvedImageUrl : item.images.thumbnailUrl || item.images.imageUrl}
+					source={getImageUrl(ImageType.THUMBNAIL)}
 					style={imageStyle}
-					contentFit='cover'
+					contentFit='contain'
 					cachePolicy='memory-disk'
 					transition={200}
 				/>
@@ -73,9 +73,12 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 			prevProps.item.id === nextProps.item.id &&
 			prevProps.item.status === nextProps.item.status &&
 			prevProps.item.images.imageUrl === nextProps.item.images.imageUrl &&
-			prevProps.item.images.thumbnailUrl === nextProps.item.images.thumbnailUrl &&
-			prevProps.item.images.unsolvedImageUrl === nextProps.item.images.unsolvedImageUrl &&
-			prevProps.item.images.unsolvedThumbnailUrl === nextProps.item.images.unsolvedThumbnailUrl &&
+			prevProps.item.images.thumbnailUrl ===
+				nextProps.item.images.thumbnailUrl &&
+			prevProps.item.images.unsolvedImageUrl ===
+				nextProps.item.images.unsolvedImageUrl &&
+			prevProps.item.images.unsolvedThumbnailUrl ===
+				nextProps.item.images.unsolvedThumbnailUrl &&
 			prevProps.itemWidth === nextProps.itemWidth &&
 			prevProps.onClick === nextProps.onClick
 		);
@@ -89,6 +92,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		justifyContent: 'center',
 		alignItems: 'center',
+		backgroundColor: '#f5f5f5',
 	},
 	container: {
 		flexDirection: 'row',
