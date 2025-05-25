@@ -72,7 +72,8 @@ const ANIMAL_LIST: Record<string, Animal> = {
     name: "Lama"
   },
   leopard: {
-    name: "Leopard"
+    name: "Leopard",
+    funFact: "Leoparden sind die einzigen Großkatzen, die ihre Beute regelmäßig auf Bäume schleppen - manchmal sogar Antilopen, die doppelt so schwer sind wie sie selbst! Diese beeindruckende Kraft entwickelten sie, um ihre Mahlzeiten vor Löwen und Hyänen zu schützen. Ein Leopard kann eine 90 kg schwere Beute einen 6 Meter hohen Baum hinaufziehen.",
   },
   loewe: {
     name: "Löwe"

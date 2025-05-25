@@ -1,25 +1,22 @@
 import { useAnswerProcessor } from '@/src/quiz/contexts/AnswerProcessorProvider';
-import { useProgressTracker } from '@/src/quiz/contexts/ProgressTrackerProvider';
 import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
-import { QuizQuestion, QuizState } from '@/src/quiz/types';
+import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types';
 import { router } from 'expo-router';
-import {  useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useQuestion = (
   quizId: string,
-  questionId: string,
   question: QuizQuestion
 ) => {
+  const isSolved = question.status === QuestionStatus.SOLVED;
   const { getQuizState, updateQuizState } = useQuizState();
-  const { getNextActiveQuestion: getNextActiveQuestionId, isQuizCompleted } = useProgressTracker();
 
-  const [showResult, setShowResult] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [initialQuestionStatus] = useState<string>(question.status);
+  const [showResult, setShowResult] = useState(isSolved);
+  const [isCorrect, setIsCorrect] = useState(isSolved);
+  const [initialQuestionStatus] = useState<QuestionStatus>(question.status);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const quizState = getQuizState(quizId);
-  const isQuizFinished = isQuizCompleted(quizId);
 
   const { answerQuizQuestion } = useAnswerProcessor();
   const [answer, setAnswer] = useState('');
@@ -47,21 +44,9 @@ export const useQuestion = (
     setShowResult(true);
   }, []);
 
-  const handleNext = useCallback(() => {
-    if (!quizState) return;
-
-    const nextQuestionId = getNextActiveQuestionId(quizState.id, Number(questionId));
-
-    if (nextQuestionId) {
-      router.replace(`/quiz/${quizId}/${nextQuestionId}`);
-    } else {
-      router.navigate(`/quiz/${quizId}`);
-    }
-  }, [quizState, quizId, getNextActiveQuestionId, questionId]);
-
   const handleBack = useCallback(() => {
-    router.navigate(`/quiz/${quizId}`);
-  }, [quizId]);
+    router.back();
+  }, []);
 
   const handleTryAgain = useCallback(() => {
 
@@ -101,12 +86,10 @@ export const useQuestion = (
     isUpdating,
     processCorrectAnswer,
     processIncorrectAnswer,
-    handleNext,
     handleBack,
     handleTryAgain,
     handleSubmit,
     setAnswer,
-    isQuizCompleted: isQuizFinished,
     answer,
     isSubmitting,
   };

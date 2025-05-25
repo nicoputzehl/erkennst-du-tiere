@@ -6,12 +6,12 @@ import { openBrowserAsync } from 'expo-web-browser';
 const WIKIPEDIA_URL = 'https://de.wikipedia.org/wiki/';
 
 interface WikipediaLinkProps {
-	wikipediaPath?: string;
+	slug: string;
 }
 
-export const WikipediaLink = ({ wikipediaPath }: WikipediaLinkProps) => {
+export const WikipediaLink = ({ slug }: WikipediaLinkProps) => {
   // if (!wikipediaPath) return null;
-  const link = WIKIPEDIA_URL + wikipediaPath as ExternalPathString;
+  const link = WIKIPEDIA_URL + slug as ExternalPathString;
 	return (
 		<Link
 			target='_blank'
@@ -25,7 +25,7 @@ export const WikipediaLink = ({ wikipediaPath }: WikipediaLinkProps) => {
 				}
 			}}
 		>
-			<FontAwesome6 name='wikipedia-w' size={24} color='black' />
+			<FontAwesome6 name='wikipedia-w' size={48} color='black' />
 		</Link>
 	);
 };

@@ -1,14 +1,14 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
-import { QuizMode, QuizQuestion } from '@/src/quiz/types';
+import { QuestionStatus, QuizQuestion } from '@/src/quiz/types';
 import React, { memo } from 'react';
 import { View, ScrollView, StyleSheet, Animated } from 'react-native';
-import { AlreadyAnswered } from './AlreadyAnswered';
 import { AnswerInput } from './AnswerInput';
 import { QuestionImage } from './QuestionImage';
-import { QuestionResult } from './QuestionResult';
+
 import { useQuestion } from '../hooks/useQuestion';
 import { useKeyboardResponsive } from '@/src/common/hooks/useKeyboardResponsiveness';
 import { ImageType, useImageDisplay } from '../../../hooks/useImageDisplay';
+import { QuestionResult } from './QuestionResult/QuestionResult';
 
 interface QuestionProps {
 	quizId: string;
@@ -16,8 +16,9 @@ interface QuestionProps {
 	question: QuizQuestion;
 }
 
+// TODO QuizMode entfernen
 export const Question: React.FC<QuestionProps> = memo(
-	({ quizId, questionId, question }) => {
+	({ quizId, question }) => {
 		const {
 			answer,
 			setAnswer,
@@ -25,12 +26,10 @@ export const Question: React.FC<QuestionProps> = memo(
 			isCorrect,
 			initialQuestionStatus,
 			handleSubmit,
-			handleNext,
 			handleTryAgain,
 			handleBack,
-			isQuizCompleted,
 			isSubmitting,
-		} = useQuestion(quizId, questionId, question);
+		} = useQuestion(quizId, question);
 		const { getImageUrl } = useImageDisplay(question);
 
 		const {
@@ -80,9 +79,6 @@ export const Question: React.FC<QuestionProps> = memo(
 						]}
 					>
 						<ThemedView style={styles.contentInner}>
-							{initialQuestionStatus === 'solved' && (
-								<AlreadyAnswered funFact={question.funFact} />
-							)}
 							{!showResult && initialQuestionStatus !== 'solved' && (
 								<AnswerInput
 									value={answer}
@@ -95,11 +91,9 @@ export const Question: React.FC<QuestionProps> = memo(
 								<QuestionResult
 									isCorrect={isCorrect}
 									funFact={question.funFact}
+									wikipediaSlug={question.wikipediaName || question.answer}
 									onBack={handleBack}
 									onTryAgain={handleTryAgain}
-									onNext={handleNext}
-									quizMode={QuizMode.SEQUENTIAL}
-									hasNextQuestion={!isQuizCompleted}
 								/>
 							)}
 						</ThemedView>
