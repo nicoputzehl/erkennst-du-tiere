@@ -1,3 +1,9 @@
+export type QuizImages = {
+  imageUrl: string;
+  thumbnailUrl?: string;
+  unsolvedImageUrl?: string;
+  unsolvedThumbnailUrl?: string;
+}
 /**
  * Basis-Interface für jeden Inhaltstyp (Animals, Movies, etc.)
  */
@@ -18,7 +24,6 @@ export type ContentKey = string;
  */
 export interface ContentQuestion {
   id: number;
-  imageUrl: string;
-  thumbnailUrl?: string;
+  images: QuizImages;
   contentKey: ContentKey;
 }

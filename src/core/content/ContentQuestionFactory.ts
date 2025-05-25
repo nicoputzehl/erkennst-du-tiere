@@ -30,7 +30,7 @@ export class ContentQuestionFactory<T extends ContentKey = ContentKey> {
         throw new Error(errorMessage);
       }
 
-      return this.contentHandler.createQuestion(q.id, q.imageUrl, q.contentKey as T, q.thumbnailUrl);
+      return this.contentHandler.createQuestion(q.id, q.images, q.contentKey as T);
     });
   }
 }

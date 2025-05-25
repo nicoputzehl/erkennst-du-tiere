@@ -53,8 +53,8 @@ export const Question: React.FC<QuestionProps> = memo(({
 				automaticallyAdjustKeyboardInsets={true}
 			>
 				<QuestionImage 
-					imageUrl={question.imageUrl} 
-					thumbnailUrl={question.thumbnailUrl}
+					imageUrl={question.images.imageUrl} 
+					thumbnailUrl={question.images.thumbnailUrl}
 				/>
 				<ThemedView style={styles.content}>
 					{initialQuestionStatus === 'solved' && (
@@ -90,8 +90,10 @@ export const Question: React.FC<QuestionProps> = memo(({
 		prevProps.questionId === nextProps.questionId &&
 		prevProps.question.id === nextProps.question.id &&
 		prevProps.question.status === nextProps.question.status &&
-		prevProps.question.imageUrl === nextProps.question.imageUrl &&
-		prevProps.question.thumbnailUrl === nextProps.question.thumbnailUrl
+		prevProps.question.images.imageUrl === nextProps.question.images.imageUrl &&
+		prevProps.question.images.thumbnailUrl === nextProps.question.images.thumbnailUrl &&
+		prevProps.question.images.unsolvedImageUrl === nextProps.question.images.unsolvedImageUrl &&
+		prevProps.question.images.unsolvedThumbnailUrl === nextProps.question.images.unsolvedThumbnailUrl
 	);
 });
 

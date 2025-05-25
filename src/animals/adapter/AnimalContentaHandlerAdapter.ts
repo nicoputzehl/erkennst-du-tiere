@@ -1,3 +1,4 @@
+import { QuizImages } from '@/src/core/content/types';
 import { ContentHandler } from '../../core/content/ContentHandler';
 import { Question } from '../../quiz/types';
 import { ANIMAL_LIST } from '../data/animal_list';
@@ -7,7 +8,7 @@ import { AnimalKey } from '../types';
  * Adapter für den alten AnimalHandler zum neuen ContentHandler Interface
  */
 export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
-  createQuestion(id: number, imageUrl: string, contentKey: AnimalKey, thumbnailUrl?: string): Question<AnimalKey> {
+  createQuestion(id: number, images: QuizImages, contentKey: AnimalKey): Question<AnimalKey> {
     const animalData = ANIMAL_LIST[contentKey];
 
     // Fehlerbehandlung
@@ -19,8 +20,7 @@ export class AnimalContentHandlerAdapter implements ContentHandler<AnimalKey> {
     console.debug(`Creating question for animal: ${contentKey}`);
     return {
       id,
-      imageUrl,
-      thumbnailUrl,
+      images,
       answer: animalData.name,
       alternativeAnswers: animalData.alternativeNames,
       funFact: animalData.funFact,

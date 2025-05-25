@@ -1,3 +1,4 @@
+import { QuizImages } from "@/src/core/content/types";
 import { Question } from "../../quiz/types";
 import { ANIMAL_LIST } from "../data/animal_list";
 
@@ -12,8 +13,7 @@ export interface Animal {
 
 export interface QuestionWithAnimal {
   id: number;
-  imageUrl: string;
-  thumbnailUrl?: string;
+  images: QuizImages;
   animal: AnimalKey;
 }
 

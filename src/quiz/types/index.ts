@@ -1,4 +1,4 @@
-import { ContentKey } from '../../core/content/types';
+import { ContentKey, QuizImages } from '../../core/content/types';
 
 export enum QuestionType {
   TEXT = 'text'
@@ -6,8 +6,7 @@ export enum QuestionType {
 
 export interface Question<T extends ContentKey = ContentKey> {
   id: number;
-  imageUrl: string;
-  thumbnailUrl?: string;
+  images: QuizImages
   answer: string;
   alternativeAnswers?: string[];
   funFact?: string;

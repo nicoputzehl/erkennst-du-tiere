@@ -1,4 +1,4 @@
-import { ContentKey, ContentItem } from './types';
+import { ContentKey, ContentItem, QuizImages } from './types';
 import { Question } from '../../quiz/types';
 
 /**
@@ -6,7 +6,7 @@ import { Question } from '../../quiz/types';
  */
 export interface ContentHandler<T extends ContentKey = ContentKey> {
   // Konvertiert Content-Key zu Question-Objekten
-  createQuestion: (id: number, imageUrl: string, contentKey: T, thumbnailUrl?: string) => Question<T>;
+  createQuestion: (id: number, images: QuizImages, contentKey: T) => Question<T>;
 
   // Holt die richtige Antwort für einen Content-Key
   getAnswer: (contentKey: T) => string;

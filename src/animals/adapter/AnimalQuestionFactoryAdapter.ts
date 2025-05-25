@@ -3,20 +3,20 @@ import { AnimalKey, QuestionWithAnimal } from '../types';
 import { animalContentProvider } from './AnimalContentProvider';
 import { Question } from '../../quiz/types';
 import { animalContentHandler } from './AnimalContentaHandlerAdapter';
+import { QuizImages } from '@/src/core/content/types';
 
 console.debug('[AnimalQuestionFactoryAdapter] createQuestionsFromAnimals');
 
 /**
  * Adapter, der aus dem QuestionWithAnimal-Typ ContentQuestion macht
  */
-const adaptAnimalQuestions = (questions: QuestionWithAnimal[]): { id: number; imageUrl: string; thumbnailUrl?: string; contentKey: string }[] => {
+const adaptAnimalQuestions = (questions: QuestionWithAnimal[]): { id: number; images: QuizImages; contentKey: string }[] => {
   console.debug('[AnimalQuestionFactoryAdapter] adaptAnimalQuestions');
   return questions.map(q => {
-    console.debug(`[AnimalQuestionFactoryAdapter] Processing question ${q.id}, ${q.animal}, thumbnailUrl:`, q.thumbnailUrl);
+    console.debug(`[AnimalQuestionFactoryAdapter] Processing question ${q.id}, ${q.animal}, images:`, q.images);
     return {
       id: q.id,
-      imageUrl: q.imageUrl,
-      thumbnailUrl: q.thumbnailUrl,
+      images: q.images,
       contentKey: q.animal
     };
   });

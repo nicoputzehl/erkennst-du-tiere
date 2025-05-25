@@ -50,7 +50,7 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				onPress={handleClick}
 			>
 				<Image
-					source={item.thumbnailUrl || item.imageUrl}
+					source={item.images.thumbnailUrl || item.images.imageUrl}
 					style={imageStyle}
 					contentFit='cover'
 					cachePolicy='memory-disk'
@@ -68,7 +68,10 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 		return (
 			prevProps.item.id === nextProps.item.id &&
 			prevProps.item.status === nextProps.item.status &&
-			prevProps.item.imageUrl === nextProps.item.imageUrl &&
+			prevProps.item.images.imageUrl === nextProps.item.images.imageUrl &&
+			prevProps.item.images.thumbnailUrl === nextProps.item.images.thumbnailUrl &&
+			prevProps.item.images.unsolvedImageUrl === nextProps.item.images.unsolvedImageUrl &&
+			prevProps.item.images.unsolvedThumbnailUrl === nextProps.item.images.unsolvedThumbnailUrl &&
 			prevProps.itemWidth === nextProps.itemWidth &&
 			prevProps.onClick === nextProps.onClick
 		);
