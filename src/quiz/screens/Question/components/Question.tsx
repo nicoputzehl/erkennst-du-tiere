@@ -35,7 +35,8 @@ export const Question: React.FC<QuestionProps> = memo(({
 		handleTryAgain,
 		handleBack,
 		isQuizCompleted,
-		isSubmitting
+		isSubmitting,
+		showUnsolvedImages
 	} = useQuestion(quizId, questionId, question);
 
 	return (
@@ -53,8 +54,8 @@ export const Question: React.FC<QuestionProps> = memo(({
 				automaticallyAdjustKeyboardInsets={true}
 			>
 				<QuestionImage 
-					imageUrl={question.images.imageUrl} 
-					thumbnailUrl={question.images.thumbnailUrl}
+					imageUrl={showUnsolvedImages && !showResult ? question.images.unsolvedImageUrl! : question.images.imageUrl} 
+					thumbnailUrl={showUnsolvedImages && !showResult ? question.images.unsolvedThumbnailUrl : question.images.thumbnailUrl}
 				/>
 				<ThemedView style={styles.content}>
 					{initialQuestionStatus === 'solved' && (
