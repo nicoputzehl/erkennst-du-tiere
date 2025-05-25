@@ -1,19 +1,18 @@
 import { registerQuizInitializer } from '@/src/core/initialization/quizInitialization';
 import { createAnimalQuiz } from '../helper/createAnimalQuiz';
-import { emojiAnimals, namibiaAnimals, weirdAnimals } from '../data/quizzes';
-import { namibiaUnsolved } from '../data/quizzes/namibia_unsolved';
+import { emojiAnimals, weirdAnimals, namibia } from '../data/quizzes';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
 const initializeAnimalQuizzes = () => [
   {
-    id: 'namibia_animals',
+    id: 'namibia',
     quiz: createAnimalQuiz({
-      id: 'namibia_animals',
+      id: 'namibia',
       title: 'Tiere Namibias',
-      animalQuestions: namibiaAnimals,
+      animalQuestions: namibia,
+      order: 1,
       initiallyLocked: false,
-      order: 1
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
@@ -28,17 +27,7 @@ const initializeAnimalQuizzes = () => [
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
-  {
-    id: 'unsolved',
-    quiz: createAnimalQuiz({
-      id: 'unsolved',
-      title: 'Unsvolved',
-      animalQuestions: namibiaUnsolved,
-      order: 2,
-      initiallyLocked: false,
-    }),
-    contentType: ANIMAL_CONTENT_TYPE
-  },
+
   {
     id: 'weird_animals',
     quiz: createAnimalQuiz({
