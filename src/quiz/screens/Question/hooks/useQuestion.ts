@@ -2,7 +2,7 @@ import { useAnswerProcessor } from '@/src/quiz/contexts/AnswerProcessorProvider'
 import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
 import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types';
 import { router } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 export const useQuestion = (
   quizId: string,
@@ -15,6 +15,7 @@ export const useQuestion = (
   const [isCorrect, setIsCorrect] = useState(isSolved);
   const [initialQuestionStatus] = useState<QuestionStatus>(question.status);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [statusChanged, setStatusChanged] = useState(false);
 
   const quizState = getQuizState(quizId);
 
@@ -22,12 +23,15 @@ export const useQuestion = (
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const showUnsolvedImages = useMemo(() => question.status !== 'solved' && question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl, [question]);
+
   const processCorrectAnswer = useCallback(async (
     newState: QuizState
   ) => {
     setIsCorrect(true);
     setShowResult(true);
     setIsUpdating(true);
+    setStatusChanged(true);
 
     try {
       await updateQuizState(quizId, newState);
@@ -92,5 +96,7 @@ export const useQuestion = (
     setAnswer,
     answer,
     isSubmitting,
+    statusChanged,
+    showUnsolvedImages
   };
 };

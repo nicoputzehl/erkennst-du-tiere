@@ -3,13 +3,12 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import WrongAnswer, { WrongAnswerProps } from './WrongAnswer';
 import RightAnswer, { RightAnswerProps } from './RightAnswer';
-import { QuestionStatus } from '@/src/quiz/types';
 
 export interface QuestionResultProps
 	extends WrongAnswerProps,
 		RightAnswerProps {
 	isCorrect: boolean;
-
+	
 }
 
 export const QuestionResult: React.FC<QuestionResultProps> = ({

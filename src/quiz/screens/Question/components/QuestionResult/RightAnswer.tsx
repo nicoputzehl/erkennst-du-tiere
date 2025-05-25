@@ -2,21 +2,34 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { WikipediaLink } from '@/src/quiz/screens/Question/components/WikipediaLink';
 import Button from '@/src/common/components/Button';
+import { Lottie } from '../Lottie';
 
 export type RightAnswerProps = {
 	funFact?: string;
 	onBack: () => void;
 	wikipediaSlug: string;
+	statusChanged: boolean;
+	answer: string;
 };
 
-const RightAnswer = ({ funFact, wikipediaSlug, onBack }: RightAnswerProps) => {
+const RightAnswer = ({
+	funFact,
+	wikipediaSlug,
+	onBack,
+	statusChanged,
+	answer,
+}: RightAnswerProps) => {
 	return (
-    <View>
-      <View style={styles.headlineWrapper}>
-
-			<Text style={[styles.resultText, { color: 'green' }]}>Richtig</Text>
-			<WikipediaLink slug={wikipediaSlug} />
-      </View>
+		<View style={styles.container}>
+			{statusChanged && <Lottie />}
+			<View style={styles.headlineWrapper}>
+				{statusChanged ? (
+					<Text style={[styles.resultText, { color: 'green' }]}>Richtig</Text>
+				) : (
+					<Text style={[styles.resultText]}>{answer}</Text>
+				)}
+				<WikipediaLink slug={wikipediaSlug} />
+			</View>
 			{funFact && (
 				<>
 					<Text style={styles.funFactHeader}>Wußtest du das ... </Text>
@@ -38,6 +51,10 @@ const RightAnswer = ({ funFact, wikipediaSlug, onBack }: RightAnswerProps) => {
 export default RightAnswer;
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'space-between',
+	},
 	resultText: {
 		fontSize: 24,
 		fontWeight: 'bold',
@@ -64,10 +81,10 @@ const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 8,
 		alignItems: 'center',
-  },
-  headlineWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }
+	},
+	headlineWrapper: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
 });

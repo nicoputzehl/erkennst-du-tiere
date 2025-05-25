@@ -1,5 +1,5 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
-import { QuestionStatus, QuizQuestion } from '@/src/quiz/types';
+import {  QuestionStatus, QuestionType, QuizQuestion } from '@/src/quiz/types';
 import React, { memo } from 'react';
 import { View, ScrollView, StyleSheet, Animated } from 'react-native';
 import { AnswerInput } from './AnswerInput';
@@ -29,6 +29,8 @@ export const Question: React.FC<QuestionProps> = memo(
 			handleTryAgain,
 			handleBack,
 			isSubmitting,
+			statusChanged,
+			showUnsolvedImages
 		} = useQuestion(quizId, question);
 		const { getImageUrl } = useImageDisplay(question);
 
@@ -51,6 +53,8 @@ export const Question: React.FC<QuestionProps> = memo(
 			useNativeKeyboardAnimation: true,
 		});
 
+		console.log(getImageUrl(ImageType.IMG))
+
 		return (
 			<View style={styles.container}>
 				<ScrollView
@@ -62,8 +66,8 @@ export const Question: React.FC<QuestionProps> = memo(
 					bounces={false}
 				>
 					<QuestionImage
-						imageUrl={getImageUrl(ImageType.IMG)}
-						thumbnailUrl={getImageUrl(ImageType.THUMBNAIL)}
+						imageUrl={showUnsolvedImages && !showResult ? question.images.unsolvedImageUrl! : question.images.imageUrl}
+						thumbnailUrl={showUnsolvedImages && !showResult ? question.images.unsolvedThumbnailUrl : question.images.thumbnailUrl}
 						animatedHeight={imageHeight}
 					/>
 
@@ -94,6 +98,8 @@ export const Question: React.FC<QuestionProps> = memo(
 									wikipediaSlug={question.wikipediaName || question.answer}
 									onBack={handleBack}
 									onTryAgain={handleTryAgain}
+									statusChanged={statusChanged}
+									answer={question.answer}
 								/>
 							)}
 						</ThemedView>
