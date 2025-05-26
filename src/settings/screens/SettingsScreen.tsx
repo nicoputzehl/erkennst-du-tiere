@@ -1,7 +1,8 @@
 // src/settings/screens/SettingsScreen.tsx
 import { ThemedView } from '@/src/common/components/ThemedView';
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-import { useQuizRegistry } from '@/src/quiz/contexts/QuizRegistryProvider';
+
+
 import { useToast } from '@/src/quiz/contexts/ToastProvider';
 import { getQuizPersistenceService } from '@/src/quiz/persistence';
 import React, { useState } from 'react';
@@ -9,8 +10,7 @@ import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacit
 
 
 export function SettingsScreen() {
-  const { getAllQuizzes } = useQuizRegistry();
-  const { resetQuiz } = useQuiz();
+  const { resetQuiz, getAllQuizzes } = useQuiz();
   const { showSuccessToast, showErrorToast } = useToast();
   const [isResetting, setIsResetting] = useState<Record<string, boolean>>({});
   const [isResettingAll, setIsResettingAll] = useState(false);

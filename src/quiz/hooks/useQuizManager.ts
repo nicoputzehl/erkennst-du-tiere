@@ -1,10 +1,10 @@
+import { ContentKey } from '@/src/core/content/types';
 import { useCallback, useEffect, useState } from 'react';
 import { Quiz, QuizState } from '../types';
-import { ContentKey } from '@/src/core/content/types';
 
-import * as UnlockService from '../services/unlockManager';
+import { useQuiz } from '../contexts/QuizProvider';
 import { useToast } from '../contexts/ToastProvider';
-import { useQuizState } from '../contexts/QuizStateProvider';
+import * as UnlockService from '../services/unlockManager';
 
 /**
  * Hook, der die Quiz-Management-Funktionalitäten bereitstellt
@@ -18,7 +18,7 @@ export const useQuizManager = () => {
   const {
     initializeQuizState,
     resetQuizState
-  } = useQuizState();
+  } = useQuiz();
 
   // Toast-Integration beim Hook-Start mit dem neuen Event-System
   useEffect(() => {

@@ -1,5 +1,4 @@
-import { useAnswerProcessor } from '@/src/quiz/contexts/AnswerProcessorProvider';
-import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
+import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
 import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types';
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
@@ -9,7 +8,7 @@ export const useQuestion = (
   question: QuizQuestion
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
-  const { getQuizState, updateQuizState } = useQuizState();
+  const { getQuizState, updateQuizState, answerQuizQuestion } = useQuiz();
 
   const [showResult, setShowResult] = useState(isSolved);
   const [isCorrect, setIsCorrect] = useState(isSolved);
@@ -19,7 +18,7 @@ export const useQuestion = (
 
   const quizState = getQuizState(quizId);
 
-  const { answerQuizQuestion } = useAnswerProcessor();
+
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 

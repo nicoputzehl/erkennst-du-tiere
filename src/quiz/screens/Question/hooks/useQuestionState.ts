@@ -1,9 +1,9 @@
+import { useQuiz } from "@/src/quiz/contexts/QuizProvider";
 import { useMemo } from "react";
 import { QuestionScreenProps } from "../QuestionScreen";
-import { useQuizState } from "@/src/quiz/contexts/QuizStateProvider";
 
 export const useQuestionState = ({quizId, questionId}:QuestionScreenProps) => {
-  const { getQuizState } = useQuizState();
+  const { getQuizState } = useQuiz();
   const { quizState, question, isLoading } = useMemo(() => {
     if (!quizId || !questionId) {
       return { quizState: null, question: null, isLoading: false };

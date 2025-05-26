@@ -1,15 +1,9 @@
-import { useProgressTracker } from "@/src/quiz/contexts/ProgressTrackerProvider";
 import { useQuiz } from "@/src/quiz/contexts/QuizProvider";
-import { useQuizState } from "@/src/quiz/contexts/QuizStateProvider";
-import { useUnlockManager } from "@/src/quiz/contexts/UnlockManagerProvider";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 export const useQuizzes = () => {
-  const { setCurrentQuizId } = useQuiz();
-  const { getUnlockProgress } = useUnlockManager();
-  const { getQuizProgress, getQuizProgressString } = useProgressTracker();
-  const { initializeQuizState, getQuizState } = useQuizState();
+  const { setCurrentQuizId, getUnlockProgress, getQuizProgress, getQuizProgressString, initializeQuizState, getQuizState } = useQuiz();
   const [isLoading, setIsLoading] = useState(false);
 
 

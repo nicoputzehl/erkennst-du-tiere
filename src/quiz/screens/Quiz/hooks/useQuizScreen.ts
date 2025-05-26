@@ -1,15 +1,13 @@
-import { useProgressTracker } from '@/src/quiz/contexts/ProgressTrackerProvider';
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-import { useQuizState } from '@/src/quiz/contexts/QuizStateProvider';
+
 import { QuizState } from '@/src/quiz/types';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useQuizScreen = (quizId: string | null) => {
-  const { loadQuiz } = useQuiz();
-  const { getQuizState } = useQuizState();
-  const { getQuizProgress } = useProgressTracker();
+  const { loadQuiz, getQuizState, getQuizProgress } = useQuiz();
+
   
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
