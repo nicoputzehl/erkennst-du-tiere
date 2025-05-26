@@ -22,21 +22,22 @@ const RightAnswer = ({
 	return (
 		<View style={styles.container}>
 			{statusChanged && <Lottie />}
-			<View style={styles.headlineWrapper}>
-				{statusChanged ? (
-					<Text style={[styles.resultText, { color: 'green' }]}>Richtig</Text>
-				) : (
-					<Text style={[styles.resultText]}>{answer}</Text>
+			<View>
+				<View style={styles.headlineWrapper}>
+					{statusChanged ? (
+						<Text style={[styles.resultText, { color: 'green' }]}>Richtig</Text>
+					) : (
+						<Text style={[styles.resultText]}>{answer}</Text>
+					)}
+					<WikipediaLink slug={wikipediaSlug} />
+				</View>
+				{funFact && (
+					<>
+						<Text style={styles.funFactHeader}>Wußtest du das ... </Text>
+						<Text style={styles.funFact}>{funFact}</Text>
+					</>
 				)}
-				<WikipediaLink slug={wikipediaSlug} />
 			</View>
-			{funFact && (
-				<>
-					<Text style={styles.funFactHeader}>Wußtest du das ... </Text>
-					<Text style={styles.funFact}>{funFact}</Text>
-				</>
-			)}
-
 			<View style={styles.buttonRow}>
 				<Button
 					text={'Zur Übersicht'}

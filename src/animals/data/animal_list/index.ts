@@ -15,7 +15,8 @@ const ANIMAL_LIST: Record<string, Animal> = {
   },
   // E
   elefant: {
-    name: "Elefant"
+    name: "Elefant",
+    funFact: "Afrikanische Elefanten können mit ihren Füßen Erdbeben spüren, die hunderte Kilometer entfernt stattfinden - so kommunizieren Herden über weite Distanzen.",
   },
   // F
   fangschreckenkrebs: {
@@ -31,14 +32,17 @@ const ANIMAL_LIST: Record<string, Animal> = {
     funFact: "Die Aye-Ayes leben in der Dschungel und sind sehr gefragt, weil sie ihre Fäden mit ihren Fingern anziehen und damit ihre Beine bewegen.",
   },
   flamingo: {
-    name: "Flamingo"
+    name: "Flamingo",
+    funFact: "Flamingos werden nur durch bestimmte Algen und Krebstiere rosa - in Gefangenschaft verblassen sie ohne spezielle Nahrung wieder zu grau-weiß!",
   },
   // G
   gelbschnabeltoko: {
-    name: "Gelbschnabeltoko"
+    name: "Gelbschnabeltoko",
+    funFact: "Gelbschnabeltokos sind die einzigen Vögel, die sich während der Brutzeit komplett in Baumhöhlen einmauern - nur ein kleiner Spalt bleibt zum Füttern offen.",
   },
   giraffe: {
-    name: "Giraffe"
+    name: "Giraffe",
+    funFact: "Giraffen haben nur 7 Halswirbel - genau so viele wie Menschen, obwohl ihr Hals 2 Meter lang ist!",
   },
   gorilla: {
     name: "Gorilla"
@@ -66,6 +70,7 @@ const ANIMAL_LIST: Record<string, Animal> = {
   kap_borstenhoernchen: {
     name: "Kap Borstenhörnchen",
     alternativeNames: ["Borstenhörnchen"],
+    funFact: "Kap-Borstenhörnchen wedeln mit ihrem buschigen Schwanz wie mit einem Sonnenschirm, um sich vor der afrikanischen Hitze zu schützen!",
   },
   // L
   lama: {
@@ -73,10 +78,11 @@ const ANIMAL_LIST: Record<string, Animal> = {
   },
   leopard: {
     name: "Leopard",
-    funFact: "Leoparden sind die einzigen Großkatzen, die ihre Beute regelmäßig auf Bäume schleppen - manchmal sogar Antilopen, die doppelt so schwer sind wie sie selbst! Diese beeindruckende Kraft entwickelten sie, um ihre Mahlzeiten vor Löwen und Hyänen zu schützen. Ein Leopard kann eine 90 kg schwere Beute einen 6 Meter hohen Baum hinaufziehen.",
+    funFact: "Leoparden öönnen Beute hochziehen, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
   },
   loewe: {
-    name: "Löwe"
+    name: "Löwe",
+    funFact: "Löwen sind die einzigen Katzen, die in Rudeln leben - alle anderen Großkatzen sind Einzelgänger!Löwen sind die einzigen Katzen, die in Rudeln leben - alle anderen Großkatzen sind Einzelgänger!",
   },
   // N
   nacktmull: {
@@ -86,9 +92,11 @@ const ANIMAL_LIST: Record<string, Animal> = {
   },
   nashorn: {
     name: "Nashorn",
+    funFact: "Nashörner haben trotz ihrer massigen Erscheinung überraschend schlechte Augen, können aber dafür auf 50 km/h beschleunigen!",
   },
   nilpferd: {
-    name: "Nilpferd"
+    name: "Nilpferd",
+    funFact: "Nilpferde sind näher mit Walen verwandt als mit anderen Landtieren - beide stammen von denselben urzeitlichen Meeresvorfahren ab.",
   },
   // O
   orangutang: {
@@ -97,6 +105,7 @@ const ANIMAL_LIST: Record<string, Animal> = {
   oryxantilope: {
     name: "Oryxantilope",
     alternativeNames: ["Oryx"],
+    funFact: "Oryxantilopen können monatelang ohne Wasser überleben und ihren Wasserbedarf komplett aus der Nahrung decken, selbst in der Sahara.",
   },
   // P
   pfau: {
@@ -125,18 +134,21 @@ const ANIMAL_LIST: Record<string, Animal> = {
   },
   steenbock: {
     name: "Steenbock",
-    alternativeNames: ["Steinböckchen"],
+    alternativeNames: ["Steinböckchen", "Steinbock"],
+    funFact: "Steinböcke sind so kleine Antilopen, dass sie sich bei Gefahr regungslos hinlegen und dank ihrer braunen Farbe praktisch unsichtbar werden.",
   },
   stinktier: {
     name: "Stinktier",
     alternativeNames: ["Skunk"],
   },
   strauss: {
-    name: "Strauss"
+    name: "Strauss",
+    funFact: "Strauße können nicht fliegen, aber dafür mit bis zu 70 km/h rennen und dabei 4 Meter weite Schritte machen.",
   },
   suedafrikanischer_seebaer: {
     name: "Südafrikanischer Seebär",
     alternativeNames: ["Seebär"],
+    funFact: "Südafrikanische Seebären können ihre Hinterflossen nach vorne drehen und dadurch als einzige Robbenart richtig 'laufen' statt nur robben.",
   },
   // T
   tiger: {
@@ -144,11 +156,13 @@ const ANIMAL_LIST: Record<string, Animal> = {
   },
   // w
   warzenschwein: {
-    name: "Warzenschwein"
+    name: "Warzenschwein",
+    funFact: "Warzenschweine laufen bei Gefahr rückwärts in ihre Höhlen, um mit den scharfen Hauern voran jeden Angreifer abzuwehren."
   },
   // Z
   zebra: {
-    name: "Zebra"
+    name: "Zebra",
+    funFact: "Zebras haben alle ein einzigartiges Streifenmuster - wie ein Fingerabdruck ist kein Zebra dem anderen gleich!",
   }
 } as const;
 

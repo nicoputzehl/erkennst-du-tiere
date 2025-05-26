@@ -1,5 +1,5 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
-import {  QuestionStatus, QuestionType, QuizQuestion } from '@/src/quiz/types';
+import { QuizQuestion } from '@/src/quiz/types';
 import React, { memo } from 'react';
 import { View, ScrollView, StyleSheet, Animated } from 'react-native';
 import { AnswerInput } from './AnswerInput';
@@ -30,7 +30,7 @@ export const Question: React.FC<QuestionProps> = memo(
 			handleBack,
 			isSubmitting,
 			statusChanged,
-			showUnsolvedImages
+			showUnsolvedImages,
 		} = useQuestion(quizId, question);
 		const { getImageUrl } = useImageDisplay(question);
 
@@ -53,7 +53,7 @@ export const Question: React.FC<QuestionProps> = memo(
 			useNativeKeyboardAnimation: true,
 		});
 
-		console.log(getImageUrl(ImageType.IMG))
+		console.log(getImageUrl(ImageType.IMG));
 
 		return (
 			<View style={styles.container}>
@@ -66,8 +66,16 @@ export const Question: React.FC<QuestionProps> = memo(
 					bounces={false}
 				>
 					<QuestionImage
-						imageUrl={showUnsolvedImages && !showResult ? question.images.unsolvedImageUrl! : question.images.imageUrl}
-						thumbnailUrl={showUnsolvedImages && !showResult ? question.images.unsolvedThumbnailUrl : question.images.thumbnailUrl}
+						imageUrl={
+							showUnsolvedImages && !showResult
+								? question.images.unsolvedImageUrl!
+								: question.images.imageUrl
+						}
+						thumbnailUrl={
+							showUnsolvedImages && !showResult
+								? question.images.unsolvedThumbnailUrl
+								: question.images.thumbnailUrl
+						}
 						animatedHeight={imageHeight}
 					/>
 
