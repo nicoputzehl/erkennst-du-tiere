@@ -1,10 +1,9 @@
+// src/core/initialization/quizInitialization.ts - Vereinfacht
 import { Quiz } from '@/src/quiz/types';
 import { ContentKey } from '../content/types';
-import { registerQuiz } from '@/src/quiz/services';
 
 /**
- * Typ für eine Quiz-Initialisierungsfunktion
- * Diese Funktion registriert ein bestimmtes Quiz mit seinen Konfigurationen
+ * Vereinfachte Quiz-Initialisierung ohne Service-Layer
  */
 export type QuizInitializer<T extends ContentKey = ContentKey> = () => {
   id: string;
@@ -12,12 +11,11 @@ export type QuizInitializer<T extends ContentKey = ContentKey> = () => {
   contentType: string;
 }[];
 
-// Registry für Initialisierer
+// Registry für Initialisierer (bleibt gleich)
 const quizInitializers: QuizInitializer[] = [];
 
 /**
  * Fügt einen Quiz-Initialisierer hinzu
- * Diese Funktion kann sicher vor der App-Initialisierung aufgerufen werden
  */
 export function registerQuizInitializer(initializer: QuizInitializer): void {
   quizInitializers.push(initializer);
@@ -25,11 +23,20 @@ export function registerQuizInitializer(initializer: QuizInitializer): void {
 
 /**
  * Initialisiert alle registrierten Quizzes
- * Diese Funktion sollte explizit während des App-Starts aufgerufen werden
+ * Jetzt direkt über den globalen Provider
  */
 export async function initializeAllQuizzes(): Promise<void> {
   console.log("Starting quiz initialization...");
   console.log(`Found ${quizInitializers.length} initializers`);
+  
+  // Check if provider is available
+  const registerQuizInProvider = (globalThis as any).registerQuizInProvider;
+  if (!registerQuizInProvider) {
+    console.warn('[QuizInitialization] Provider not ready yet, will retry...');
+    // Provider wird später verfügbar sein
+    setTimeout(() => initializeAllQuizzes(), 100);
+    return;
+  }
   
   // Durchlaufe alle registrierten Initialisierer
   for (let index = 0; index < quizInitializers.length; index++) {
@@ -40,7 +47,7 @@ export async function initializeAllQuizzes(): Promise<void> {
 
     for (const { id, quiz, contentType } of quizzes) {
       console.log(`Registering quiz '${id}' of type '${contentType}'`);
-      registerQuiz(id, quiz, contentType);
+      registerQuizInProvider(id, quiz);
     }
   }
 
