@@ -1,10 +1,14 @@
-import { registerQuizInitializer } from '@/src/core/initialization/quizInitialization';
-import { createAnimalQuiz } from '../helper/createAnimalQuiz';
-import { emojiAnimals, weirdAnimals, namibia } from '../data/quizzes';
+import { registerQuizDefinitions } from '@/src/core/initialization/quizInitialization';
+import { createAnimalQuiz } from './helper/createAnimalQuiz';
+import { emojiAnimals, namibia, weirdAnimals } from './data/quizzes';
+
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
-const initializeAnimalQuizzes = () => [
+/**
+ * Direkte Quiz-Definitionen - viel einfacher als Initializer-Functions
+ */
+const animalQuizDefinitions = [
   {
     id: 'namibia',
     quiz: createAnimalQuiz({
@@ -27,7 +31,6 @@ const initializeAnimalQuizzes = () => [
     }),
     contentType: ANIMAL_CONTENT_TYPE
   },
-
   {
     id: 'weird_animals',
     quiz: createAnimalQuiz({
@@ -38,7 +41,7 @@ const initializeAnimalQuizzes = () => [
       initiallyLocked: false,
       unlockCondition: {
         type: 'specificQuiz',
-        requiredQuizId: 'namibia_animals',
+        requiredQuizId: 'namibia',
         description: 'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.'
       },
     }),
@@ -46,17 +49,17 @@ const initializeAnimalQuizzes = () => [
   }
 ];
 
-registerQuizInitializer(initializeAnimalQuizzes);
+// Sofortige Registrierung - keine komplexe Initializer-Logik
+registerQuizDefinitions(animalQuizDefinitions);
 
-export const allAnimalQuizCategories = [
-  {
-    id: 'weird_animals',
-    title: 'Weird Animals',
-    contentType: ANIMAL_CONTENT_TYPE
-  },
-  {
-    id: 'namibia_animals',
-    title: 'Tiere Namibias',
-    contentType: ANIMAL_CONTENT_TYPE
-  }
-];
+/**
+ * Export für direkten Zugriff (falls nötig)
+ */
+export const allAnimalQuizCategories = animalQuizDefinitions.map(def => ({
+  id: def.id,
+  title: def.quiz.title,
+  contentType: def.contentType
+}));
+
+// Einfacher Export der Quiz-Definitionen
+export { animalQuizDefinitions };

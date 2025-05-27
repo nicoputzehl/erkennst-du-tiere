@@ -20,7 +20,7 @@ import {
   calculateUnlockProgress 
 } from '../domain/unlockLogic';
 
-import '@/src/animals/quizzes/animalQuizzes';
+import '@/src/animals/quizzes';
 
 type ToastData = Omit<ToastProps, 'visible' | 'onHide'>;
 
@@ -154,37 +154,38 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return allQuizzes;
   }, [quizzes]);
 
-  useEffect(() => {
-    const initialize = async () => {
-      setIsInitializing(true);
-      try {
-        console.log('[QuizProvider] Initializing quizzes...');
-        
-        // Registriere die globale Funktion BEVOR wir die Initialisierung starten
-        (globalThis as any).registerQuizInProvider = registerQuiz;
-        
-        await initializeAllQuizzes();
-        
-        // Lade gespeicherte Quiz-Zustände
-        await loadSavedQuizStates();
-        
-        setInitialized(true);
-        console.log('[QuizProvider] Quizzes initialized successfully');
-        console.log(`[QuizProvider] Total registered quizzes: ${quizzes.size}`);
-      } catch (error) {
-        console.error('[QuizProvider] Error initializing quizzes:', error);
-      } finally {
-        setIsInitializing(false);
-      }
-    };
-    
-    initialize();
-    
-    return () => {
-      // Cleanup
-      delete (globalThis as any).registerQuizInProvider;
-    };
-  }, [loadSavedQuizStates, registerQuiz, quizzes.size]);
+useEffect(() => {
+  const initialize = async () => {
+    setIsInitializing(true);
+    try {
+      console.log('[QuizProvider] Initializing quizzes...');
+      
+      // Registriere die globale Funktion BEVOR wir die Initialisierung starten
+      (globalThis as any).registerQuizInProvider = registerQuiz;
+      
+      // Einfache Initialisierung - keine komplexen Initializer mehr
+      await initializeAllQuizzes();
+      
+      // Lade gespeicherte Quiz-Zustände
+      await loadSavedQuizStates();
+      
+      setInitialized(true);
+      console.log('[QuizProvider] Quizzes initialized successfully');
+      console.log(`[QuizProvider] Total registered quizzes: ${quizzes.size}`);
+    } catch (error) {
+      console.error('[QuizProvider] Error initializing quizzes:', error);
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+  
+  initialize();
+  
+  return () => {
+    // Cleanup
+    delete (globalThis as any).registerQuizInProvider;
+  };
+}, [loadSavedQuizStates, registerQuiz, quizzes.size]);
 
   // === QUIZ STATE MANAGEMENT ===
   const getQuizState = useCallback(<T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => {
