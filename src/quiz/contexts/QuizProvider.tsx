@@ -1,13 +1,19 @@
-// src/quiz/contexts/QuizProvider.tsx - Super vereinfachte Version mit Custom Hooksimport React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz, QuizState } from '../types';
 
 import { useQuizData } from './QuizDataProvider';
 import { useQuizState } from './QuizStateProvider';
 import { useUIState } from './UIStateProvider';
-import { AnswerResult, UnlockProgress, useAnswerProcessing, useDataManagement, useQuizOperations, useUnlockSystem } from '../hooks';
-import { createContext, ReactNode, useContext } from 'react';
 
+import { 
+  AnswerResult, 
+  UnlockProgress, 
+  useAnswerProcessing, 
+  useDataManagement, 
+  useQuizOperations, 
+  useUnlockSystem 
+} from '../hooks';
 
 interface QuizContextValue {
   getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
