@@ -1,34 +1,23 @@
+
 import { createQuestionsFromContent } from '../../core/content/questionFactory';
 import { QuestionWithAnimal } from '../types';
 import { Question } from '../../quiz/types';
-import { QuizImages } from '@/src/core/content/types';
 
-console.debug('[AnimalQuestionFactoryAdapter] createQuestionsFromAnimals');
-
-/**
- * Adapter, der aus dem QuestionWithAnimal-Typ ContentQuestion macht
- * Jetzt als einfache Funktion
- */
-const adaptAnimalQuestions = (questions: QuestionWithAnimal[]): { id: number; images: QuizImages; contentKey: string }[] => {
-  console.debug('[AnimalQuestionFactoryAdapter] adaptAnimalQuestions');
-  return questions.map(q => {
-    console.debug(`[AnimalQuestionFactoryAdapter] Processing question ${q.id}, ${q.animal}, images:`, q.images);
-    return {
-      id: q.id,
-      images: q.images,
-      contentKey: q.animal
-    };
-  });
-};
+console.debug('[AnimalQuestions] Simple adapter without complex factory patterns');
 
 /**
- * Erstellt normale Text-Fragen aus Tier-Definitionen
- * Direkte Funktionen statt Klassen-basierte Factory
+ * Direkter Adapter - keine komplexen Transformationen mehr
  */
-export const createQuestionsFromAnimals = (questions: QuestionWithAnimal[]): Question[] => {
-  console.debug('[AnimalQuestionFactoryAdapter] createQuestionsFromAnimals');
+export const createQuestionsFromAnimals = (animalQuestions: QuestionWithAnimal[]): Question[] => {
+  console.debug('[AnimalQuestions] Converting animal questions to generic questions');
   
-  // Direkt die funktionale createQuestionsFromContent verwenden
-  const adaptedQuestions = adaptAnimalQuestions(questions);
-  return createQuestionsFromContent(adaptedQuestions);
+  // Einfache 1:1 Transformation
+  const contentQuestions = animalQuestions.map(aq => ({
+    id: aq.id,
+    images: aq.images,
+    contentKey: aq.animal // Direkt Animal-Key verwenden
+  }));
+  
+  // Direkte Verwendung der vereinfachten Factory
+  return createQuestionsFromContent(contentQuestions);
 };

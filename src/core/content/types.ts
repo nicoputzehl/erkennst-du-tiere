@@ -4,8 +4,9 @@ export type QuizImages = {
   unsolvedImageUrl?: string;
   unsolvedThumbnailUrl?: string;
 }
+
 /**
- * Basis-Interface für jeden Inhaltstyp (Animals, Movies, etc.)
+ * Vereinfachtes ContentItem - weniger abstrakt
  */
 export interface ContentItem {
   name: string;
@@ -15,12 +16,12 @@ export interface ContentItem {
 }
 
 /**
- * Basis für jeden Content-spezifischen Key
+ * Content-Key ist jetzt einfach ein String - keine komplexen Generics
  */
 export type ContentKey = string;
 
 /**
- * Definition für eine Frage, die mit einem Inhaltstyp verknüpft ist
+ * Content-Question bleibt wie gehabt - funktioniert gut
  */
 export interface ContentQuestion {
   id: number;
