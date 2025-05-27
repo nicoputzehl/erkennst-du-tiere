@@ -3,7 +3,6 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz, QuizState, UnlockCondition, QuizMode } from '../types';
-import { initializeAllQuizzes } from '@/src/core/initialization/quizInitialization';
 import { Toast, ToastProps } from '../components/Toast';
 import { normalizeString } from '@/utils/helper';
 
@@ -19,23 +18,19 @@ import {
   calculateUnlockProgress 
 } from '../domain/unlockLogic';
 
-import '@/src/animals/quizzes';
+// ✅ NEU: Quiz-Registry über separaten Provider
+import { useQuizData } from './QuizDataProvider';
 
 // =============================================================================
-// ZENTRALER APP-STATE - Alles in einem Object!
+// REDUZIERTER APP-STATE - Ohne Quiz-Registry!
 // =============================================================================
 
 interface AppState {
-  // Core Data
-  quizzes: Record<string, Quiz>;              // Map → Object
-  quizStates: Record<string, QuizState>;      // Map → Object
-  
-  // UI State  
+  // Quiz-Registry wurde entfernt - jetzt in QuizDataProvider
+  quizStates: Record<string, QuizState>;      
   currentQuizId: string | null;
-  currentQuizState: QuizState<ContentKey> | null;  // FEHLTE!
+  currentQuizState: QuizState<ContentKey> | null;
   isLoading: boolean;
-  isInitializing: boolean;
-  initialized: boolean;
   
   // Toast State
   toastVisible: boolean;
@@ -43,27 +38,22 @@ interface AppState {
 }
 
 const initialAppState: AppState = {
-  quizzes: {},
   quizStates: {},
   currentQuizId: null,
-  currentQuizState: null,  // FEHLTE!
+  currentQuizState: null,
   isLoading: false,
-  isInitializing: true,
-  initialized: false,
   toastVisible: false,
   toastData: null,
 };
 
 // =============================================================================
-// EINFACHE STORAGE-FUNKTIONEN - Direkter AsyncStorage statt Service
+// VEREINFACHTE STORAGE-FUNKTIONEN
 // =============================================================================
 
 const STORAGE_KEY = 'quiz_app_state';
 
-// Direkte Storage-Funktionen - keine Service-Layer Komplexität
 const saveAppState = async (appState: AppState) => {
   try {
-    // Nur relevante Daten speichern
     const persistentData = {
       quizStates: appState.quizStates,
       currentQuizId: appState.currentQuizId,
@@ -75,7 +65,6 @@ const saveAppState = async (appState: AppState) => {
   }
 };
 
-// Storage komplett leeren
 const clearAppState = async () => {
   try {
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -101,11 +90,11 @@ const loadAppState = async (): Promise<Partial<AppState> | null> => {
 };
 
 // =============================================================================
-// CONTEXT INTERFACE - Bleibt gleich für API-Kompatibilität  
+// CONTEXT INTERFACE - Registry-Funktionen entfernt
 // =============================================================================
 
 interface QuizContextValue {
-  // Quiz Registry
+  // Quiz Registry - Jetzt über useQuizData()
   getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
   getAllQuizzes: <T extends ContentKey = ContentKey>() => Quiz<T>[];
   
@@ -145,8 +134,8 @@ interface QuizContextValue {
   currentQuizId: string | null;
   currentQuizState: QuizState<ContentKey> | null;
   isLoading: boolean;
-  isInitializing: boolean;
   initialized: boolean;
+  isInitializing: boolean;
   startQuiz: (quizId: string) => Promise<QuizState | null>;
   loadQuiz: (quizId: string) => Promise<QuizState | null>;
   resetQuiz: (quizId: string) => Promise<QuizState | null>;
@@ -159,7 +148,7 @@ interface QuizContextValue {
   showWarningToast: (message: string, duration?: number) => void;
   
   // Data Management
-  clearAllData: () => Promise<void>; // ✅ NEU HINZUGEFÜGT
+  clearAllData: () => Promise<void>;
 }
 
 const QuizContext = createContext<QuizContextValue | null>(null);
@@ -169,71 +158,52 @@ const QuizContext = createContext<QuizContextValue | null>(null);
 // =============================================================================
 
 export function QuizProvider({ children }: { children: ReactNode }) {
-  // 🎯 NUR NOCH EIN STATE statt 6+ separate States!
+  // ✅ Quiz-Registry über separaten Provider holen
+  const { 
+    getQuizById, 
+    getAllQuizzes, 
+    initialized: quizDataInitialized,
+    isInitializing: quizDataInitializing 
+  } = useQuizData();
+  
+  // ✅ Reduzierter State - ohne Quiz-Registry
   const [appState, setAppState] = useState<AppState>(initialAppState);
+  const [appInitialized, setAppInitialized] = useState(false);
   
   // =============================================================================
-  // EINFACHE STATE-UPDATE-FUNKTIONEN
+  // STATE-UPDATE-FUNKTIONEN
   // =============================================================================
   
   const updateState = useCallback((updater: (prev: AppState) => AppState) => {
     setAppState(prev => {
       const newState = updater(prev);
-      // Auto-save bei jeder State-Änderung
-      if (newState.initialized) {
+      // Auto-save nur wenn Quiz-Data bereit ist
+      if (quizDataInitialized && appInitialized) {
         saveAppState(newState);
       }
       return newState;
     });
-  }, []);
-  
-  // Quiz registrieren - viel einfacher
-  const registerQuiz = useCallback(<T extends ContentKey = ContentKey>(
-    id: string, 
-    quiz: Quiz<T>
-  ) => {
-    console.log(`[QuizProvider] Registering quiz: ${id}`);
-    updateState(prev => ({
-      ...prev,
-      quizzes: { ...prev.quizzes, [id]: quiz }
-    }));
-  }, [updateState]);
+  }, [quizDataInitialized, appInitialized]);
   
   // =============================================================================
-  // EINFACHE QUIZ-FUNKTIONEN
+  // QUIZ-STATE-FUNKTIONEN
   // =============================================================================
   
-  const getQuizById = useCallback(<T extends ContentKey = ContentKey>(id: string): Quiz<T> | undefined => {
-    return appState.quizzes[id] as Quiz<T> | undefined;
-  }, [appState.quizzes]);
-
-  const getAllQuizzes = useCallback(<T extends ContentKey = ContentKey>(): Quiz<T>[] => {
-    const allQuizzes = Object.values(appState.quizzes) as Quiz<T>[];
-    console.log(`[QuizProvider] getAllQuizzes called, returning ${allQuizzes.length} quizzes`);
-    return allQuizzes;
-  }, [appState.quizzes]);
-
   const getQuizState = useCallback(<T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => {
     return appState.quizStates[quizId] as QuizState<T> | undefined;
   }, [appState.quizStates]);
 
-  // =============================================================================
-  // VEREINFACHTE QUIZ-STATE-MANAGEMENT
-  // =============================================================================
-  
   const initializeQuizState = useCallback(async <T extends ContentKey = ContentKey>(
     quizId: string
   ): Promise<QuizState<T> | null> => {
     const quiz = getQuizById(quizId);
     if (!quiz) return null;
 
-    // Schon initialisiert?
     const existingState = appState.quizStates[quizId];
     if (existingState) {
       return existingState as QuizState<T>;
     }
 
-    // Neuen State erstellen
     const newState = createQuizState(
       quiz.questions,
       quiz.id,
@@ -242,7 +212,6 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       quiz.initialUnlockedQuestions || 2
     );
 
-    // State updaten - synchron!
     updateState(prev => ({
       ...prev,
       quizStates: { ...prev.quizStates, [quizId]: newState }
@@ -284,7 +253,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [getQuizById, updateState]);
 
   // =============================================================================
-  // PROGRESS-FUNKTIONEN - Vereinfacht
+  // PROGRESS-FUNKTIONEN
   // =============================================================================
   
   const getQuizProgress = useCallback((quizId: string): number => {
@@ -310,7 +279,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [appState.quizStates]);
 
   // =============================================================================
-  // TOAST-FUNKTIONEN - Vereinfacht (FRÜHER DEFINIERT)
+  // TOAST-FUNKTIONEN
   // =============================================================================
   
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration?: number) => {
@@ -346,24 +315,24 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [showToast]);
 
   // =============================================================================
-  // UNLOCK-MANAGEMENT - Vereinfacht (JETZT NACH TOAST-FUNKTIONEN)
+  // UNLOCK-MANAGEMENT
   // =============================================================================
   
   const getUnlockProgress = useCallback((quizId: string) => {
-    const quiz = appState.quizzes[quizId];
+    const quiz = getQuizById(quizId);
     if (!quiz || !quiz.unlockCondition) {
       return { condition: null, progress: 0, isMet: true };
     }
 
-    const allQuizzes = Object.values(appState.quizzes);
+    const allQuizzes = getAllQuizzes();
     const quizStatesMap = new Map(Object.entries(appState.quizStates));
     const { isMet, progress } = calculateUnlockProgress(quiz.unlockCondition, allQuizzes, quizStatesMap);
 
     return { condition: quiz.unlockCondition, progress, isMet };
-  }, [appState.quizzes, appState.quizStates]);
+  }, [getQuizById, getAllQuizzes, appState.quizStates]);
 
   const checkForUnlocks = useCallback((): Quiz[] => {
-    const allQuizzes = Object.values(appState.quizzes);
+    const allQuizzes = getAllQuizzes();
     const quizStatesMap = new Map(Object.entries(appState.quizStates));
     const unlockedQuizzes: Quiz[] = [];
     
@@ -371,28 +340,24 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     while (nextUnlockable) {
       const updatedQuiz = { ...nextUnlockable, initiallyLocked: false };
       
-      // Quiz freischalten
-      updateState(prev => ({
-        ...prev,
-        quizzes: { ...prev.quizzes, [nextUnlockable!.id]: updatedQuiz }
-      }));
-      
+      // TODO: Quiz-Update über QuizDataProvider implementieren
+      // Für jetzt sammeln wir nur die freigeschalteten Quizzes
       unlockedQuizzes.push(updatedQuiz);
       
-      // 🎉 TOAST FÜR FREIGESCHALTETES QUIZ ANZEIGEN (JETZT VERFÜGBAR!)
+      // Toast anzeigen
       showSuccessToast(
         `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
         4000
       );
       
-      nextUnlockable = getNextUnlockableQuiz(Object.values(appState.quizzes), quizStatesMap);
+      nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
     }
     
     return unlockedQuizzes;
-  }, [appState.quizzes, appState.quizStates, updateState, showSuccessToast]);
+  }, [getAllQuizzes, appState.quizStates, showSuccessToast]);
 
   // =============================================================================
-  // ANSWER-PROCESSING - Vereinfacht
+  // ANSWER-PROCESSING
   // =============================================================================
   
   const answerQuizQuestion = useCallback(async <T extends ContentKey = ContentKey>(
@@ -414,7 +379,6 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     const result = calculateAnswerResult(currentState, questionId, processedAnswer);
 
     if (result.isCorrect) {
-      // State updaten
       updateState(prev => ({
         ...prev,
         quizStates: { ...prev.quizStates, [quizId]: result.newState }
@@ -434,10 +398,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return { isCorrect: false };
   }, [appState.quizStates, updateState, checkForUnlocks]);
 
-
-
   // =============================================================================
-  // QUIZ-MANAGER-FUNKTIONEN - Vereinfacht
+  // QUIZ-MANAGER-FUNKTIONEN
   // =============================================================================
   
   const startQuiz = useCallback(async (quizId: string) => {
@@ -462,7 +424,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [initializeQuizState, showErrorToast, updateState]);
 
   const loadQuiz = useCallback(async (quizId: string) => {
-    return startQuiz(quizId); // Gleiche Logik
+    return startQuiz(quizId);
   }, [startQuiz]);
 
   const resetQuiz = useCallback(async (quizId: string) => {
@@ -491,20 +453,15 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [updateState]);
 
   // =============================================================================
-  // ALLE DATEN ZURÜCKSETZEN - Für SettingsScreen
+  // ALLE DATEN ZURÜCKSETZEN
   // =============================================================================
   
   const clearAllData = useCallback(async (): Promise<void> => {
     try {
-      // Storage leeren
       await clearAppState();
       
-      // AppState zurücksetzen auf Initial-Zustand (aber Quizzes behalten)
-      updateState(prev => ({
+      updateState(() => ({
         ...initialAppState,
-        quizzes: prev.quizzes, // Behalte geladene Quiz-Definitionen
-        initialized: true,
-        isInitializing: false,
       }));
       
       console.log('[QuizProvider] All data cleared successfully');
@@ -515,54 +472,40 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [updateState]);
 
   // =============================================================================
-  // INITIALIZATION - Vereinfacht
+  // INITIALIZATION
   // =============================================================================
   
   useEffect(() => {
-    const initialize = async () => {
+    const initializeAppState = async () => {
+      // Warten bis Quiz-Registry bereit ist
+      if (!quizDataInitialized) {
+        return;
+      }
+      
       try {
-        console.log('[QuizProvider] Initializing...');
+        console.log('[QuizProvider] Loading app state...');
         
-        // Registriere globale Funktion
-        (globalThis as any).registerQuizInProvider = registerQuiz;
-        
-        // Lade gespeicherten State
         const savedState = await loadAppState();
         if (savedState) {
           updateState(prev => ({ ...prev, ...savedState }));
         }
         
-        // Initialisiere Quizzes
-        await initializeAllQuizzes();
-        
-        updateState(prev => ({
-          ...prev,
-          initialized: true,
-          isInitializing: false
-        }));
-        
-        console.log('[QuizProvider] Initialization complete');
+        setAppInitialized(true);
+        console.log('[QuizProvider] App state initialization complete');
       } catch (error) {
-        console.error('[QuizProvider] Initialization error:', error);
-        updateState(prev => ({
-          ...prev,
-          isInitializing: false
-        }));
+        console.error('[QuizProvider] App state initialization error:', error);
+        setAppInitialized(true); // Auch bei Fehler als initialisiert markieren
       }
     };
     
-    initialize();
-    
-    return () => {
-      delete (globalThis as any).registerQuizInProvider;
-    };
-  }, [registerQuiz, updateState]);
+    initializeAppState();
+  }, [quizDataInitialized, updateState]);
 
   // =============================================================================
   // RENDER
   // =============================================================================
   
-  if (appState.isInitializing) {
+  if (quizDataInitializing) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0a7ea4" />
@@ -570,7 +513,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!appState.initialized) {
+  if (!quizDataInitialized || !appInitialized) {
     return (
       <View style={styles.errorContainer}>
         <ActivityIndicator size="small" color="#dc3545" />
@@ -579,7 +522,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }
 
   const contextValue: QuizContextValue = {
-    // Quiz Registry
+    // Quiz Registry (Weitergeleitet vom QuizDataProvider)
     getQuizById,
     getAllQuizzes,
     
@@ -606,8 +549,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     currentQuizId: appState.currentQuizId,
     currentQuizState: appState.currentQuizState,
     isLoading: appState.isLoading,
-    isInitializing: appState.isInitializing,
-    initialized: appState.initialized,
+    initialized: quizDataInitialized && appInitialized,
+    isInitializing: quizDataInitializing || !appInitialized,
     startQuiz,
     loadQuiz,
     resetQuiz,
@@ -620,7 +563,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     showWarningToast,
     
     // Data Management
-    clearAllData, // ✅ NEU HINZUGEFÜGT
+    clearAllData,
   };
 
   return (

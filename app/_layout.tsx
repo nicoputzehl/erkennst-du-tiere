@@ -1,3 +1,4 @@
+// app/_layout.tsx - Aktualisierte Version
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -9,7 +10,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/src/common/hooks/useColorScheme';
-import { QuizProvider } from '@/src/quiz/contexts/QuizProvider';
+import { QuizDataProvider } from '@/src/quiz/contexts/QuizDataProvider'; // ✅ NEU
+import { QuizProvider } from '@/src/quiz/contexts/QuizProvider'; // ⚠️ Wird später vereinfacht
 import { ToastProvider } from '@/src/quiz/contexts/ToastProvider';
 
 export default function RootLayout() {
@@ -19,23 +21,24 @@ export default function RootLayout() {
 	});
 
 	if (!loaded) {
-		// Async font loading only occurs in development.
 		return null;
 	}
 
 	return (
 		<ToastProvider>
-			<QuizProvider>
-				<ThemeProvider
-					value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-				>
-					<Stack>
-						<Stack.Screen name='index' options={{ headerShown: false }} />
-						<Stack.Screen name='+not-found' />
-					</Stack>
-					<StatusBar style='auto' />
-				</ThemeProvider>
-			</QuizProvider>
+			<QuizDataProvider>
+				<QuizProvider>
+					<ThemeProvider
+						value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+					>
+						<Stack>
+							<Stack.Screen name='index' options={{ headerShown: false }} />
+							<Stack.Screen name='+not-found' />
+						</Stack>
+						<StatusBar style='auto' />
+					</ThemeProvider>
+				</QuizProvider>
+			</QuizDataProvider>
 		</ToastProvider>
 	);
 }
