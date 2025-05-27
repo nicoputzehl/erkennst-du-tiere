@@ -1,15 +1,13 @@
-// src/quiz/contexts/QuizProvider.tsx - Vereinfachte Version (nur Business-Logic)
-import React, { createContext, useContext, useCallback, ReactNode } from 'react';
+// src/quiz/contexts/QuizProvider.tsx - Super vereinfachte Version mit Custom Hooksimport React, { createContext, useContext, ReactNode } from 'react';
 import { ContentKey } from '@/src/core/content/types';
-import { Quiz, QuizState, UnlockCondition } from '../types';
-import { normalizeString } from '@/utils/helper';
-
-import { calculateAnswerResult, getNextActiveQuestionId } from '../domain/quizLogic';
-import { getNextUnlockableQuiz, calculateUnlockProgress } from '../domain/unlockLogic';
+import { Quiz, QuizState } from '../types';
 
 import { useQuizData } from './QuizDataProvider';
 import { useQuizState } from './QuizStateProvider';
 import { useUIState } from './UIStateProvider';
+import { AnswerResult, UnlockProgress, useAnswerProcessing, useDataManagement, useQuizOperations, useUnlockSystem } from '../hooks';
+import { createContext, ReactNode, useContext } from 'react';
+
 
 interface QuizContextValue {
   getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
@@ -40,19 +38,12 @@ interface QuizContextValue {
     quizId: string,
     questionId: number,
     answer: string
-  ) => Promise<{
-    isCorrect: boolean;
-    newState?: QuizState<T>;
-    nextQuestionId?: number;
-    unlockedQuiz?: Quiz;
-  }>;
+  ) => Promise<AnswerResult<T>>;
   
-  getUnlockProgress: (quizId: string) => {
-    condition: UnlockCondition | null;
-    progress: number;
-    isMet: boolean;
-  };
+  getUnlockProgress: (quizId: string) => UnlockProgress;
   checkForUnlocks: () => Quiz[];
+  isQuizUnlocked: (quizId: string) => boolean;
+  getUnlockDescription: (quizId: string) => string | null;
   
   startQuiz: (quizId: string) => Promise<QuizState | null>;
   loadQuiz: (quizId: string) => Promise<QuizState | null>;
@@ -60,6 +51,13 @@ interface QuizContextValue {
   setCurrentQuizId: (id: string | null) => void;
   
   clearAllData: () => Promise<void>;
+  getStatistics: () => {
+    totalQuizzes: number;
+    completedQuizzes: number;
+    totalQuestions: number;
+    completedQuestions: number;
+    completionPercentage: number;
+  };
 }
 
 const QuizContext = createContext<QuizContextValue | null>(null);
@@ -72,7 +70,6 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   } = useQuizData();
   
   const {
-    quizStates,
     currentQuizId,
     currentQuizState,
     initialized: stateInitialized,
@@ -84,162 +81,44 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     getQuizProgressString,
     isQuizCompleted,
     getNextActiveQuestion,
-    setCurrentQuiz,
-    resetAllQuizStates,
   } = useQuizState();
   
   const {
     isGlobalLoading,
-    startLoading,
-    stopLoading,
     showSuccessToast,
     showErrorToast,
     showInfoToast,
     showWarningToast,
-    trackNavigation,
   } = useUIState();
+
+  const { processAnswer } = useAnswerProcessing();
+  const { 
+    getUnlockProgress, 
+    checkForUnlocks, 
+    isQuizUnlocked, 
+    getUnlockDescription 
+  } = useUnlockSystem();
+  const { 
+    startQuiz, 
+    loadQuiz, 
+    resetQuiz, 
+    setCurrentQuiz 
+  } = useQuizOperations();
+  const { 
+    clearAllData, 
+    getStatistics 
+  } = useDataManagement();
 
   const initialized = dataInitialized && stateInitialized;
   const isInitializing = !initialized;
 
-  const checkForUnlocks = useCallback((): Quiz[] => {
-    const allQuizzes = getAllQuizzes();
-    const quizStatesMap = new Map(Object.entries(quizStates));
-    const unlockedQuizzes: Quiz[] = [];
-    
-    let nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
-    while (nextUnlockable) {
-      const updatedQuiz = { ...nextUnlockable, initiallyLocked: false };
-      
-      unlockedQuizzes.push(updatedQuiz);
-      
-      showSuccessToast(
-        `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
-        4000
-      );
-      
-      nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
-    }
-    
-    return unlockedQuizzes;
-  }, [getAllQuizzes, quizStates, showSuccessToast]);
-
-  const answerQuizQuestion = useCallback(async <T extends ContentKey = ContentKey>(
+  const answerQuizQuestion = async <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number,
     answer: string
-  ): Promise<{
-    isCorrect: boolean;
-    newState?: QuizState<T>;
-    nextQuestionId?: number;
-    unlockedQuiz?: Quiz;
-  }> => {
-    const currentState = getQuizState(quizId) as QuizState<T>;
-    if (!currentState) {
-      throw new Error(`Quiz with ID ${quizId} not found`);
-    }
-
-    const processedAnswer = normalizeString(answer);
-    const result = calculateAnswerResult(currentState, questionId, processedAnswer);
-
-    if (result.isCorrect) {
-      await updateQuizState(quizId, result.newState);
-      
-      const nextQuestionId = getNextActiveQuestionId(result.newState);
-      
-      const unlockedQuizzes = checkForUnlocks();
-
-      return {
-        isCorrect: true,
-        newState: result.newState,
-        nextQuestionId: nextQuestionId || undefined,
-        unlockedQuiz: unlockedQuizzes[0] || undefined
-      };
-    }
-
-    return { isCorrect: false };
-  }, [getQuizState, updateQuizState, checkForUnlocks]);
-
-  const getUnlockProgress = useCallback((quizId: string) => {
-    const quiz = getQuizById(quizId);
-    if (!quiz || !quiz.unlockCondition) {
-      return { condition: null, progress: 0, isMet: true };
-    }
-
-    const allQuizzes = getAllQuizzes();
-    const quizStatesMap = new Map(Object.entries(quizStates));
-    const { isMet, progress } = calculateUnlockProgress(quiz.unlockCondition, allQuizzes, quizStatesMap);
-
-    return { condition: quiz.unlockCondition, progress, isMet };
-  }, [getQuizById, getAllQuizzes, quizStates]);
-
-
-  const startQuiz = useCallback(async (quizId: string) => {
-    startLoading('startQuiz');
-    
-    try {
-      const quizState = await initializeQuizState(quizId);
-      if (quizState) {
-        setCurrentQuiz(quizId, quizState);
-        trackNavigation(quizId);
-      }
-      return quizState;
-    } catch (error) {
-      showErrorToast(`Fehler beim Starten des Quiz: ${error}`);
-      return null;
-    } finally {
-      stopLoading('startQuiz');
-    }
-  }, [initializeQuizState, setCurrentQuiz, trackNavigation, showErrorToast, startLoading, stopLoading]);
-
-  const loadQuiz = useCallback(async (quizId: string) => {
-    return startQuiz(quizId);
-  }, [startQuiz]);
-
-  const resetQuiz = useCallback(async (quizId: string) => {
-    startLoading('resetQuiz');
-    
-    try {
-      const newState = await resetQuizState(quizId);
-      if (newState && quizId === currentQuizId) {
-        setCurrentQuiz(quizId, newState);
-      }
-      
-      checkForUnlocks();
-      
-      showSuccessToast('Quiz wurde zurückgesetzt!');
-      return newState;
-    } catch (error) {
-      showErrorToast(`Fehler beim Zurücksetzen des Quiz: ${error}`);
-      return null;
-    } finally {
-      stopLoading('resetQuiz');
-    }
-  }, [resetQuizState, currentQuizId, setCurrentQuiz, checkForUnlocks, showSuccessToast, showErrorToast, startLoading, stopLoading]);
-
-  const setCurrentQuizId = useCallback((id: string | null) => {
-    const quizState = id ? getQuizState(id) : null;
-    setCurrentQuiz(id, quizState);
-    if (id) {
-      trackNavigation(id);
-    }
-  }, [getQuizState, setCurrentQuiz, trackNavigation]);
-
-  const clearAllData = useCallback(async (): Promise<void> => {
-    startLoading('clearAllData');
-    
-    try {
-      await resetAllQuizStates();
-      showSuccessToast('Alle Daten wurden gelöscht!');
-      console.log('[QuizProvider] All data cleared successfully');
-    } catch (error) {
-      showErrorToast(`Fehler beim Löschen der Daten: ${error}`);
-      console.error('[QuizProvider] Error clearing all data:', error);
-      throw error;
-    } finally {
-      stopLoading('clearAllData');
-    }
-  }, [resetAllQuizStates, showSuccessToast, showErrorToast, startLoading, stopLoading]);
+  ): Promise<AnswerResult<T>> => {
+    return processAnswer<T>(quizId, questionId, answer, checkForUnlocks);
+  };
 
   const contextValue: QuizContextValue = {
     getQuizById,
@@ -270,13 +149,16 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     
     getUnlockProgress,
     checkForUnlocks,
+    isQuizUnlocked,
+    getUnlockDescription,
     
     startQuiz,
     loadQuiz,
     resetQuiz,
-    setCurrentQuizId,
+    setCurrentQuizId: setCurrentQuiz,
     
     clearAllData,
+    getStatistics,
   };
 
   return (

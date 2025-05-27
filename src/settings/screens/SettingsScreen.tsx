@@ -1,24 +1,23 @@
-// src/settings/screens/SettingsScreen.tsx
+// src/settings/screens/SettingsScreen.tsx - Korrigierte Version
 import { ThemedView } from '@/src/common/components/ThemedView';
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-
-
-import { useToast } from '@/src/quiz/contexts/ToastProvider';
-import { getQuizPersistenceService } from '@/src/quiz/persistence';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-
 export function SettingsScreen() {
-  const { resetQuiz, getAllQuizzes, clearAllData } = useQuiz();
-  const { showSuccessToast, showErrorToast } = useToast();
+  const { 
+    resetQuiz, 
+    getAllQuizzes, 
+    clearAllData,
+    showSuccessToast, 
+    showErrorToast 
+  } = useQuiz();
+  
   const [isResetting, setIsResetting] = useState<Record<string, boolean>>({});
   const [isResettingAll, setIsResettingAll] = useState(false);
   
   const quizzes = getAllQuizzes();
-  const persistenceService = getQuizPersistenceService();
   
-  // Einzelnes Quiz zurücksetzen
   const handleResetQuiz = async (quizId: string) => {
     setIsResetting(prev => ({ ...prev, [quizId]: true }));
     
@@ -45,7 +44,7 @@ export function SettingsScreen() {
           onPress: async () => {
             setIsResettingAll(true);
             try {
-              await clearAllData(); // ✅ Verwende die neue Funktion
+              await clearAllData();
               showSuccessToast('Alle Quizzes wurden zurückgesetzt!');
             } catch (error) {
               showErrorToast(`Fehler: ${error}`);
@@ -66,7 +65,6 @@ export function SettingsScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Quiz-Fortschritte zurücksetzen</Text>
           
-          {/* Reset-All-Button */}
           <TouchableOpacity 
             style={[styles.resetAllButton, isResettingAll && styles.disabledButton]}
             onPress={handleResetAllQuizzes}
@@ -79,7 +77,6 @@ export function SettingsScreen() {
             )}
           </TouchableOpacity>
           
-          {/* Einzelne Quiz-Reset-Buttons */}
           {quizzes.map(quiz => (
             <TouchableOpacity 
               key={quiz.id}
