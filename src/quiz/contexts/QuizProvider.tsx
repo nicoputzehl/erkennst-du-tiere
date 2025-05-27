@@ -1,14 +1,13 @@
-// src/quiz/contexts/QuizProvider.tsx - Ohne Service-Layer
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz, QuizState, UnlockCondition, QuizMode } from '../types';
 import { initializeAllQuizzes } from '@/src/core/initialization/quizInitialization';
 import { Toast, ToastProps } from '../components/Toast';
-import { getStorageService } from '@/src/core/storage';
 import { normalizeString } from '@/utils/helper';
 
-// Domain Logic Imports (die behalten wir)
+// Domain Logic Imports
 import { 
   createQuizState, 
   calculateAnswerResult, 
@@ -22,7 +21,88 @@ import {
 
 import '@/src/animals/quizzes';
 
-type ToastData = Omit<ToastProps, 'visible' | 'onHide'>;
+// =============================================================================
+// ZENTRALER APP-STATE - Alles in einem Object!
+// =============================================================================
+
+interface AppState {
+  // Core Data
+  quizzes: Record<string, Quiz>;              // Map → Object
+  quizStates: Record<string, QuizState>;      // Map → Object
+  
+  // UI State  
+  currentQuizId: string | null;
+  currentQuizState: QuizState<ContentKey> | null;  // FEHLTE!
+  isLoading: boolean;
+  isInitializing: boolean;
+  initialized: boolean;
+  
+  // Toast State
+  toastVisible: boolean;
+  toastData: Omit<ToastProps, 'visible' | 'onHide'> | null;
+}
+
+const initialAppState: AppState = {
+  quizzes: {},
+  quizStates: {},
+  currentQuizId: null,
+  currentQuizState: null,  // FEHLTE!
+  isLoading: false,
+  isInitializing: true,
+  initialized: false,
+  toastVisible: false,
+  toastData: null,
+};
+
+// =============================================================================
+// EINFACHE STORAGE-FUNKTIONEN - Direkter AsyncStorage statt Service
+// =============================================================================
+
+const STORAGE_KEY = 'quiz_app_state';
+
+// Direkte Storage-Funktionen - keine Service-Layer Komplexität
+const saveAppState = async (appState: AppState) => {
+  try {
+    // Nur relevante Daten speichern
+    const persistentData = {
+      quizStates: appState.quizStates,
+      currentQuizId: appState.currentQuizId,
+    };
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(persistentData));
+    console.log('[QuizProvider] App state saved');
+  } catch (error) {
+    console.error('[QuizProvider] Error saving app state:', error);
+  }
+};
+
+// Storage komplett leeren
+const clearAppState = async () => {
+  try {
+    await AsyncStorage.removeItem(STORAGE_KEY);
+    console.log('[QuizProvider] App state cleared');
+  } catch (error) {
+    console.error('[QuizProvider] Error clearing app state:', error);
+    throw error;
+  }
+};
+
+const loadAppState = async (): Promise<Partial<AppState> | null> => {
+  try {
+    const data = await AsyncStorage.getItem(STORAGE_KEY);
+    if (data) {
+      const parsed = JSON.parse(data);
+      console.log('[QuizProvider] App state loaded');
+      return parsed;
+    }
+  } catch (error) {
+    console.error('[QuizProvider] Error loading app state:', error);
+  }
+  return null;
+};
+
+// =============================================================================
+// CONTEXT INTERFACE - Bleibt gleich für API-Kompatibilität  
+// =============================================================================
 
 interface QuizContextValue {
   // Quiz Registry
@@ -65,8 +145,8 @@ interface QuizContextValue {
   currentQuizId: string | null;
   currentQuizState: QuizState<ContentKey> | null;
   isLoading: boolean;
-  isInitializing: boolean; // Neu hinzugefügt
-  initialized: boolean;    // Neu hinzugefügt
+  isInitializing: boolean;
+  initialized: boolean;
   startQuiz: (quizId: string) => Promise<QuizState | null>;
   loadQuiz: (quizId: string) => Promise<QuizState | null>;
   resetQuiz: (quizId: string) => Promise<QuizState | null>;
@@ -77,135 +157,84 @@ interface QuizContextValue {
   showErrorToast: (message: string, duration?: number) => void;
   showInfoToast: (message: string, duration?: number) => void;
   showWarningToast: (message: string, duration?: number) => void;
+  
+  // Data Management
+  clearAllData: () => Promise<void>; // ✅ NEU HINZUGEFÜGT
 }
 
 const QuizContext = createContext<QuizContextValue | null>(null);
 
+// =============================================================================
+// VEREINFACHTER QUIZ-PROVIDER
+// =============================================================================
+
 export function QuizProvider({ children }: { children: ReactNode }) {
-  const [initialized, setInitialized] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(true);
+  // 🎯 NUR NOCH EIN STATE statt 6+ separate States!
+  const [appState, setAppState] = useState<AppState>(initialAppState);
   
-  // Direkte State-Verwaltung statt Services
-  const [quizzes, setQuizzes] = useState<Map<string, Quiz>>(new Map());
-  const [quizStates, setQuizStates] = useState<Map<string, QuizState>>(new Map());
-  const [unlockListeners, setUnlockListeners] = useState<((quiz: Quiz) => void)[]>([]);
+  // =============================================================================
+  // EINFACHE STATE-UPDATE-FUNKTIONEN
+  // =============================================================================
   
-  // Quiz Manager State
-  const [currentQuizId, setCurrentQuizId] = useState<string | null>(null);
-  const [currentQuizState, setCurrentQuizState] = useState<QuizState<ContentKey> | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // Toast State
-  const [toastData, setToastData] = useState<ToastData | null>(null);
-  const [toastVisible, setToastVisible] = useState(false);
-  
-  const storage = getStorageService();
-
-  // Persistence-Funktionen außerhalb von useEffect definieren
-  const loadSavedQuizStates = useCallback(async () => {
-    try {
-      const savedStates = await storage.load<Record<string, any>>('quiz_states');
-      if (savedStates) {
-        console.log(`[QuizProvider] Found saved states for:`, Object.keys(savedStates));
-        // Wir speichern die saved states nicht direkt, sondern verwenden sie nur beim initializeQuizState
-        console.log(`[QuizProvider] Loaded ${Object.keys(savedStates).length} saved quiz states`);
+  const updateState = useCallback((updater: (prev: AppState) => AppState) => {
+    setAppState(prev => {
+      const newState = updater(prev);
+      // Auto-save bei jeder State-Änderung
+      if (newState.initialized) {
+        saveAppState(newState);
       }
-    } catch (error) {
-      console.error('[QuizProvider] Error loading saved states:', error);
-    }
-  }, [storage]);
-
-  const saveQuizState = useCallback(async <T extends ContentKey = ContentKey>(quizState: QuizState<T>) => {
-    try {
-      const allStates = await storage.load<Record<string, any>>('quiz_states') || {};
-      allStates[quizState.id] = {
-        id: quizState.id,
-        completedQuestions: quizState.completedQuestions,
-        questionStatuses: quizState.questions.map(q => ({
-          id: q.id,
-          status: q.status
-        }))
-      };
-      await storage.save('quiz_states', allStates);
-      console.log(`[QuizProvider] Saved state for quiz: ${quizState.id}`);
-    } catch (error) {
-      console.error(`[QuizProvider] Error saving quiz state ${quizState.id}:`, error);
-    }
-  }, [storage]);
-
-  // Direkte Implementierungen statt Service-Delegation
-
-  // === QUIZ REGISTRY ===
+      return newState;
+    });
+  }, []);
+  
+  // Quiz registrieren - viel einfacher
   const registerQuiz = useCallback(<T extends ContentKey = ContentKey>(
     id: string, 
     quiz: Quiz<T>
   ) => {
     console.log(`[QuizProvider] Registering quiz: ${id}`);
-    setQuizzes(prev => new Map(prev).set(id, quiz));
-  }, []);
-
+    updateState(prev => ({
+      ...prev,
+      quizzes: { ...prev.quizzes, [id]: quiz }
+    }));
+  }, [updateState]);
+  
+  // =============================================================================
+  // EINFACHE QUIZ-FUNKTIONEN
+  // =============================================================================
+  
   const getQuizById = useCallback(<T extends ContentKey = ContentKey>(id: string): Quiz<T> | undefined => {
-    return quizzes.get(id) as Quiz<T> | undefined;
-  }, [quizzes]);
+    return appState.quizzes[id] as Quiz<T> | undefined;
+  }, [appState.quizzes]);
 
   const getAllQuizzes = useCallback(<T extends ContentKey = ContentKey>(): Quiz<T>[] => {
-    const allQuizzes = Array.from(quizzes.values()) as Quiz<T>[];
+    const allQuizzes = Object.values(appState.quizzes) as Quiz<T>[];
     console.log(`[QuizProvider] getAllQuizzes called, returning ${allQuizzes.length} quizzes`);
     return allQuizzes;
-  }, [quizzes]);
+  }, [appState.quizzes]);
 
-useEffect(() => {
-  const initialize = async () => {
-    setIsInitializing(true);
-    try {
-      console.log('[QuizProvider] Initializing quizzes...');
-      
-      // Registriere die globale Funktion BEVOR wir die Initialisierung starten
-      (globalThis as any).registerQuizInProvider = registerQuiz;
-      
-      // Einfache Initialisierung - keine komplexen Initializer mehr
-      await initializeAllQuizzes();
-      
-      // Lade gespeicherte Quiz-Zustände
-      await loadSavedQuizStates();
-      
-      setInitialized(true);
-      console.log('[QuizProvider] Quizzes initialized successfully');
-      console.log(`[QuizProvider] Total registered quizzes: ${quizzes.size}`);
-    } catch (error) {
-      console.error('[QuizProvider] Error initializing quizzes:', error);
-    } finally {
-      setIsInitializing(false);
-    }
-  };
-  
-  initialize();
-  
-  return () => {
-    // Cleanup
-    delete (globalThis as any).registerQuizInProvider;
-  };
-}, [loadSavedQuizStates, registerQuiz, quizzes.size]);
-
-  // === QUIZ STATE MANAGEMENT ===
   const getQuizState = useCallback(<T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => {
-    console.log(`[QuizProvider] Getting quiz state for: ${quizId}`);
-    const state = quizStates.get(quizId) as QuizState<T> | undefined;
-    console.log(`[QuizProvider] Found state for ${quizId}:`, state ? {
-      id: state.id,
-      questionsCount: state.questions?.length,
-      completedQuestions: state.completedQuestions
-    } : 'undefined');
-    return state;
-  }, [quizStates]);
+    return appState.quizStates[quizId] as QuizState<T> | undefined;
+  }, [appState.quizStates]);
 
-  const applyPersistentStateToQuiz = useCallback(<T extends ContentKey = ContentKey>(
-    quiz: Quiz<T>, 
-    persistentState: any
-  ): QuizState<T> => {
-    console.log(`[QuizProvider] Applying persistent state for quiz ${quiz.id}`, persistentState);
-    
-    const baseState = createQuizState(
+  // =============================================================================
+  // VEREINFACHTE QUIZ-STATE-MANAGEMENT
+  // =============================================================================
+  
+  const initializeQuizState = useCallback(async <T extends ContentKey = ContentKey>(
+    quizId: string
+  ): Promise<QuizState<T> | null> => {
+    const quiz = getQuizById(quizId);
+    if (!quiz) return null;
+
+    // Schon initialisiert?
+    const existingState = appState.quizStates[quizId];
+    if (existingState) {
+      return existingState as QuizState<T>;
+    }
+
+    // Neuen State erstellen
+    const newState = createQuizState(
       quiz.questions,
       quiz.id,
       quiz.title,
@@ -213,117 +242,28 @@ useEffect(() => {
       quiz.initialUnlockedQuestions || 2
     );
 
-    if (!persistentState) {
-      console.log(`[QuizProvider] No persistent state, returning fresh state for ${quiz.id}`);
-      return baseState;
-    }
+    // State updaten - synchron!
+    updateState(prev => ({
+      ...prev,
+      quizStates: { ...prev.quizStates, [quizId]: newState }
+    }));
 
-    // Apply saved question statuses
-    const updatedQuestions = baseState.questions.map(question => {
-      const savedStatus = persistentState.questionStatuses?.find((qs: any) => qs.id === question.id);
-      if (savedStatus) {
-        return {
-          ...question,
-          status: savedStatus.status
-        };
-      }
-      return question;
-    });
-
-    const finalState = {
-      ...baseState,
-      questions: updatedQuestions,
-      completedQuestions: persistentState.completedQuestions || 0
-    };
-
-    console.log(`[QuizProvider] Applied persistent state for ${quiz.id}:`, {
-      id: finalState.id,
-      questionsCount: finalState.questions.length,
-      completedQuestions: finalState.completedQuestions
-    });
-
-    return finalState;
-  }, []);
-
-  const initializeQuizState = useCallback(async <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => {
-    console.log(`[QuizProvider] Initializing state for quiz: ${quizId}`);
-    const quiz = getQuizById(quizId);
-    if (!quiz) {
-      console.log(`[QuizProvider] Quiz not found: ${quizId}`);
-      return null;
-    }
-
-    console.log(`[QuizProvider] Found quiz definition for ${quizId}:`, quiz);
-
-    if (!quizStates.has(quizId)) {
-      try {
-        // Try to load saved state first
-        const savedStates = await storage.load<Record<string, any>>('quiz_states');
-        const savedState = savedStates?.[quizId];
-        
-        console.log(`[QuizProvider] Saved state for ${quizId}:`, savedState);
-        
-        const state = applyPersistentStateToQuiz(quiz, savedState);
-        
-        console.log(`[QuizProvider] Created state for ${quizId}:`, {
-          id: state.id,
-          title: state.title,
-          questionsCount: state.questions?.length,
-          completedQuestions: state.completedQuestions
-        });
-        
-        setQuizStates(prev => {
-          const newMap = new Map(prev);
-          newMap.set(quizId, state);
-          console.log(`[QuizProvider] Updated quizStates map, now has ${newMap.size} entries`);
-          return newMap;
-        });
-        
-        // Return the state immediately since setQuizStates is async
-        return state as QuizState<T>;
-        
-      } catch (error) {
-        console.error(`[QuizProvider] Error loading saved state for ${quizId}:`, error);
-        // Fallback to fresh state
-        const state = createQuizState(
-          quiz.questions,
-          quiz.id,
-          quiz.title,
-          quiz.quizMode || QuizMode.SEQUENTIAL,
-          quiz.initialUnlockedQuestions || 2
-        );
-        
-        setQuizStates(prev => {
-          const newMap = new Map(prev);
-          newMap.set(quizId, state);
-          return newMap;
-        });
-        
-        return state as QuizState<T>;
-      }
-    } else {
-      console.log(`[QuizProvider] Using existing state for quiz: ${quizId}`);
-      const existingState = quizStates.get(quizId) as QuizState<T>;
-      console.log(`[QuizProvider] Existing state:`, {
-        id: existingState?.id,
-        questionsCount: existingState?.questions?.length,
-        completedQuestions: existingState?.completedQuestions
-      });
-      return existingState;
-    }
-  }, [getQuizById, storage, applyPersistentStateToQuiz, quizStates]);
+    return newState as QuizState<T>;
+  }, [getQuizById, appState.quizStates, updateState]);
 
   const updateQuizState = useCallback(async <T extends ContentKey = ContentKey>(
     quizId: string, 
     newState: QuizState<T>
   ): Promise<void> => {
-    console.log(`[QuizProvider] Updating state for quiz: ${quizId}`);
-    setQuizStates(prev => new Map(prev).set(quizId, newState));
-    await saveQuizState(newState);
-  }, [saveQuizState]);
+    updateState(prev => ({
+      ...prev,
+      quizStates: { ...prev.quizStates, [quizId]: newState }
+    }));
+  }, [updateState]);
 
-  const resetQuizState = useCallback(async <T extends ContentKey = ContentKey>(quizId: string): Promise<QuizState<T> | null> => {
-    console.log(`[QuizProvider] Resetting state for quiz: ${quizId}`);
+  const resetQuizState = useCallback(async <T extends ContentKey = ContentKey>(
+    quizId: string
+  ): Promise<QuizState<T> | null> => {
     const quiz = getQuizById(quizId);
     if (!quiz) return null;
 
@@ -335,172 +275,83 @@ useEffect(() => {
       quiz.initialUnlockedQuestions || 2
     );
 
-    setQuizStates(prev => new Map(prev).set(quizId, newState));
-    await saveQuizState(newState);
-    
-    return newState as QuizState<T>;
-  }, [getQuizById, saveQuizState]);
+    updateState(prev => ({
+      ...prev,
+      quizStates: { ...prev.quizStates, [quizId]: newState }
+    }));
 
-  // === PROGRESS TRACKING ===
+    return newState as QuizState<T>;
+  }, [getQuizById, updateState]);
+
+  // =============================================================================
+  // PROGRESS-FUNKTIONEN - Vereinfacht
+  // =============================================================================
+  
   const getQuizProgress = useCallback((quizId: string): number => {
-    console.log(`[QuizProvider] Getting progress for quiz: ${quizId}`);
-    let state = getQuizState(quizId);
-    
-    // Falls State nicht existiert, versuche ihn zu erstellen
-    if (!state) {
-      console.log(`[QuizProvider] No state found for quiz ${quizId}, trying to create it...`);
-      const quiz = getQuizById(quizId);
-      if (quiz) {
-        state = createQuizState(
-          quiz.questions,
-          quiz.id,
-          quiz.title,
-          quiz.quizMode || QuizMode.SEQUENTIAL,
-          quiz.initialUnlockedQuestions || 2
-        );
-        setQuizStates(prev => new Map(prev).set(quizId, state!));
-        console.log(`[QuizProvider] Created fresh state for quiz ${quizId}`);
-      } else {
-        console.error(`[QuizProvider] Quiz definition not found for ${quizId}`);
-        return 0;
-      }
-    }
-    
-    // ZUSÄTZLICHE PRÜFUNG: Wenn questions undefined ist, state neu erstellen
-    if (!state.questions || !Array.isArray(state.questions)) {
-      console.warn(`[QuizProvider] Quiz ${quizId} has invalid questions, recreating state...`);
-      const quiz = getQuizById(quizId);
-      if (quiz) {
-        state = createQuizState(
-          quiz.questions,
-          quiz.id,
-          quiz.title,
-          quiz.quizMode || QuizMode.SEQUENTIAL,
-          quiz.initialUnlockedQuestions || 2
-        );
-        setQuizStates(prev => new Map(prev).set(quizId, state!));
-        console.log(`[QuizProvider] Recreated fresh state for quiz ${quizId}`);
-      } else {
-        console.error(`[QuizProvider] Quiz definition not found for ${quizId}`);
-        return 0;
-      }
-    }
-    
-    const progress = (state.completedQuestions / state.questions.length) * 100;
-    console.log(`[QuizProvider] Quiz ${quizId} progress: ${state.completedQuestions}/${state.questions.length} = ${progress}%`);
-    return progress;
-  }, [getQuizState, getQuizById]);
+    const state = appState.quizStates[quizId];
+    if (!state || !state.questions?.length) return 0;
+    return (state.completedQuestions / state.questions.length) * 100;
+  }, [appState.quizStates]);
 
   const getQuizProgressString = useCallback((quizId: string): string | null => {
-    console.log(`[QuizProvider] Getting progress string for quiz: ${quizId}`);
-    let state = getQuizState(quizId);
-    
-    // Falls State nicht existiert, versuche ihn zu erstellen
-    if (!state) {
-      console.log(`[QuizProvider] No state found for quiz ${quizId}, trying to create it...`);
-      const quiz = getQuizById(quizId);
-      if (quiz) {
-        state = createQuizState(
-          quiz.questions,
-          quiz.id,
-          quiz.title,
-          quiz.quizMode || QuizMode.SEQUENTIAL,
-          quiz.initialUnlockedQuestions || 2
-        );
-        setQuizStates(prev => new Map(prev).set(quizId, state!));
-        console.log(`[QuizProvider] Created fresh state for quiz ${quizId}`);
-      } else {
-        console.error(`[QuizProvider] Quiz definition not found for ${quizId}`);
-        return null;
-      }
-    }
-    
-    // ZUSÄTZLICHE PRÜFUNG: Wenn questions undefined ist, state neu erstellen
-    if (!state.questions || !Array.isArray(state.questions)) {
-      console.warn(`[QuizProvider] Quiz ${quizId} has invalid questions, recreating state...`);
-      const quiz = getQuizById(quizId);
-      if (quiz) {
-        state = createQuizState(
-          quiz.questions,
-          quiz.id,
-          quiz.title,
-          quiz.quizMode || QuizMode.SEQUENTIAL,
-          quiz.initialUnlockedQuestions || 2
-        );
-        setQuizStates(prev => new Map(prev).set(quizId, state!));
-        console.log(`[QuizProvider] Recreated fresh state for quiz ${quizId}`);
-      } else {
-        console.error(`[QuizProvider] Quiz definition not found for ${quizId}`);
-        return null;
-      }
-    }
-    
-    const progressString = `${state.completedQuestions} von ${state.questions.length} gelöst`;
-    console.log(`[QuizProvider] Quiz ${quizId} progress string: ${progressString}`);
-    return progressString;
-  }, [getQuizState, getQuizById]);
+    const state = appState.quizStates[quizId];
+    if (!state || !state.questions?.length) return null;
+    return `${state.completedQuestions} von ${state.questions.length} gelöst`;
+  }, [appState.quizStates]);
 
   const isQuizCompleted = useCallback((quizId: string): boolean => {
-    const state = getQuizState(quizId);
+    const state = appState.quizStates[quizId];
     return state ? isCompleted(state) : false;
-  }, [getQuizState]);
+  }, [appState.quizStates]);
 
   const getNextActiveQuestion = useCallback((quizId: string, currentQuestionId?: number): number | null => {
-    const state = getQuizState(quizId);
+    const state = appState.quizStates[quizId];
     return state ? getNextActiveQuestionId(state, currentQuestionId) : null;
-  }, [getQuizState]);
+  }, [appState.quizStates]);
 
-  // === UNLOCK MANAGEMENT ===
+  // =============================================================================
+  // UNLOCK-MANAGEMENT - Vereinfacht
+  // =============================================================================
+  
   const getUnlockProgress = useCallback((quizId: string) => {
-    const quiz = getQuizById(quizId);
+    const quiz = appState.quizzes[quizId];
     if (!quiz || !quiz.unlockCondition) {
       return { condition: null, progress: 0, isMet: true };
     }
 
-    const allQuizzes = getAllQuizzes();
-    const { isMet, progress } = calculateUnlockProgress(
-      quiz.unlockCondition,
-      allQuizzes,
-      quizStates
-    );
+    const allQuizzes = Object.values(appState.quizzes);
+    const quizStatesMap = new Map(Object.entries(appState.quizStates));
+    const { isMet, progress } = calculateUnlockProgress(quiz.unlockCondition, allQuizzes, quizStatesMap);
 
-    return {
-      condition: quiz.unlockCondition,
-      progress,
-      isMet
-    };
-  }, [getQuizById, getAllQuizzes, quizStates]);
-
-  const unlockNextQuiz = useCallback((): Quiz | null => {
-    const allQuizzes = getAllQuizzes();
-    const nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStates);
-
-    if (nextUnlockable) {
-      const updatedQuiz = { ...nextUnlockable, initiallyLocked: false };
-      setQuizzes(prev => new Map(prev).set(nextUnlockable.id, updatedQuiz));
-      
-      // Notify listeners
-      unlockListeners.forEach(listener => listener(updatedQuiz));
-      
-      return updatedQuiz;
-    }
-
-    return null;
-  }, [getAllQuizzes, quizStates, unlockListeners]);
+    return { condition: quiz.unlockCondition, progress, isMet };
+  }, [appState.quizzes, appState.quizStates]);
 
   const checkForUnlocks = useCallback((): Quiz[] => {
+    const allQuizzes = Object.values(appState.quizzes);
+    const quizStatesMap = new Map(Object.entries(appState.quizStates));
     const unlockedQuizzes: Quiz[] = [];
-    let nextUnlockable = unlockNextQuiz();
     
+    let nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
     while (nextUnlockable) {
-      unlockedQuizzes.push(nextUnlockable);
-      nextUnlockable = unlockNextQuiz();
+      const updatedQuiz = { ...nextUnlockable, initiallyLocked: false };
+      
+      // Quiz freischalten
+      updateState(prev => ({
+        ...prev,
+        quizzes: { ...prev.quizzes, [nextUnlockable!.id]: updatedQuiz }
+      }));
+      
+      unlockedQuizzes.push(updatedQuiz);
+      nextUnlockable = getNextUnlockableQuiz(Object.values(appState.quizzes), quizStatesMap);
     }
     
     return unlockedQuizzes;
-  }, [unlockNextQuiz]);
+  }, [appState.quizzes, appState.quizStates, updateState]);
 
-  // === ANSWER PROCESSING ===
+  // =============================================================================
+  // ANSWER-PROCESSING - Vereinfacht
+  // =============================================================================
+  
   const answerQuizQuestion = useCallback(async <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number,
@@ -511,9 +362,7 @@ useEffect(() => {
     nextQuestionId?: number;
     unlockedQuiz?: Quiz;
   }> => {
-    console.log(`[QuizProvider] Processing answer for quiz ${quizId}, question ${questionId}`);
-    const currentState = getQuizState<T>(quizId);
-
+    const currentState = appState.quizStates[quizId] as QuizState<T>;
     if (!currentState) {
       throw new Error(`Quiz with ID ${quizId} not found`);
     }
@@ -522,132 +371,189 @@ useEffect(() => {
     const result = calculateAnswerResult(currentState, questionId, processedAnswer);
 
     if (result.isCorrect) {
-      await updateQuizState(quizId, result.newState);
+      // State updaten
+      updateState(prev => ({
+        ...prev,
+        quizStates: { ...prev.quizStates, [quizId]: result.newState }
+      }));
+      
       const nextQuestionId = getNextActiveQuestionId(result.newState);
-      const unlockedQuiz = unlockNextQuiz();
+      const unlockedQuizzes = checkForUnlocks();
 
       return {
         isCorrect: true,
         newState: result.newState,
         nextQuestionId: nextQuestionId || undefined,
-        unlockedQuiz: unlockedQuiz || undefined
+        unlockedQuiz: unlockedQuizzes[0] || undefined
       };
     }
 
     return { isCorrect: false };
-  }, [getQuizState, updateQuizState, unlockNextQuiz]);
+  }, [appState.quizStates, updateState, checkForUnlocks]);
 
-  // === TOAST FUNCTIONS ===
-  const showToast = useCallback((data: ToastData) => {
-    setToastData(data);
-    setToastVisible(true);
-  }, []);
+  // =============================================================================
+  // TOAST-FUNKTIONEN - Vereinfacht
+  // =============================================================================
+  
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration?: number) => {
+    updateState(prev => ({
+      ...prev,
+      toastVisible: true,
+      toastData: { message, type, duration }
+    }));
+  }, [updateState]);
 
   const hideToast = useCallback(() => {
-    setToastVisible(false);
-    setTimeout(() => {
-      setToastData(null);
-    }, 300);
-  }, []);
+    updateState(prev => ({
+      ...prev,
+      toastVisible: false,
+      toastData: null
+    }));
+  }, [updateState]);
 
   const showSuccessToast = useCallback((message: string, duration?: number) => {
-    showToast({ message, type: 'success', duration });
+    showToast(message, 'success', duration);
   }, [showToast]);
 
   const showErrorToast = useCallback((message: string, duration?: number) => {
-    showToast({ message, type: 'error', duration });
+    showToast(message, 'error', duration);
   }, [showToast]);
 
   const showInfoToast = useCallback((message: string, duration?: number) => {
-    showToast({ message, type: 'info', duration });
+    showToast(message, 'info', duration);
   }, [showToast]);
 
   const showWarningToast = useCallback((message: string, duration?: number) => {
-    showToast({ message, type: 'warning', duration });
+    showToast(message, 'warning', duration);
   }, [showToast]);
 
-  // === QUIZ MANAGER ===
+  // =============================================================================
+  // QUIZ-MANAGER-FUNKTIONEN - Vereinfacht
+  // =============================================================================
+  
   const startQuiz = useCallback(async (quizId: string) => {
-    setIsLoading(true);
+    updateState(prev => ({ ...prev, isLoading: true }));
+    
     try {
       const quiz = await initializeQuizState(quizId);
       if (quiz) {
-        setCurrentQuizId(quizId);
-        setCurrentQuizState(quiz);
+        updateState(prev => ({
+          ...prev,
+          currentQuizId: quizId,
+          currentQuizState: quiz,
+          isLoading: false
+        }));
       }
       return quiz;
     } catch (error) {
-      console.error(`[QuizProvider] Error starting quiz ${quizId}:`, error);
       showErrorToast(`Fehler beim Starten des Quiz: ${error}`);
+      updateState(prev => ({ ...prev, isLoading: false }));
       return null;
-    } finally {
-      setIsLoading(false);
     }
-  }, [initializeQuizState, showErrorToast]);
+  }, [initializeQuizState, showErrorToast, updateState]);
 
   const loadQuiz = useCallback(async (quizId: string) => {
-    setIsLoading(true);
-    try {
-      const quiz = await initializeQuizState(quizId);
-      if (quiz) {
-        setCurrentQuizId(quizId);
-        setCurrentQuizState(quiz);
-      }
-      return quiz;
-    } catch (error) {
-      console.error(`[QuizProvider] Error loading quiz ${quizId}:`, error);
-      showErrorToast(`Fehler beim Laden des Quiz: ${error}`);
-      return null;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [initializeQuizState, showErrorToast]);
+    return startQuiz(quizId); // Gleiche Logik
+  }, [startQuiz]);
 
   const resetQuiz = useCallback(async (quizId: string) => {
-    setIsLoading(true);
+    updateState(prev => ({ ...prev, isLoading: true }));
+    
     try {
       const newState = await resetQuizState(quizId);
-      if (newState && quizId === currentQuizId) {
-        setCurrentQuizState(newState);
+      if (newState && quizId === appState.currentQuizId) {
+        updateState(prev => ({
+          ...prev,
+          currentQuizState: newState,
+          isLoading: false
+        }));
       }
-      
       checkForUnlocks();
-      
       return newState;
     } catch (error) {
-      console.error(`[QuizProvider] Error resetting quiz ${quizId}:`, error);
       showErrorToast(`Fehler beim Zurücksetzen des Quiz: ${error}`);
+      updateState(prev => ({ ...prev, isLoading: false }));
       return null;
-    } finally {
-      setIsLoading(false);
     }
-  }, [resetQuizState, currentQuizId, checkForUnlocks, showErrorToast]);
+  }, [resetQuizState, appState.currentQuizId, checkForUnlocks, showErrorToast, updateState]);
 
-  // Setup unlock listener für Toasts
+  const setCurrentQuizId = useCallback((id: string | null) => {
+    updateState(prev => ({ ...prev, currentQuizId: id }));
+  }, [updateState]);
+
+  // =============================================================================
+  // ALLE DATEN ZURÜCKSETZEN - Für SettingsScreen
+  // =============================================================================
+  
+  const clearAllData = useCallback(async (): Promise<void> => {
+    try {
+      // Storage leeren
+      await clearAppState();
+      
+      // AppState zurücksetzen auf Initial-Zustand (aber Quizzes behalten)
+      updateState(prev => ({
+        ...initialAppState,
+        quizzes: prev.quizzes, // Behalte geladene Quiz-Definitionen
+        initialized: true,
+        isInitializing: false,
+      }));
+      
+      console.log('[QuizProvider] All data cleared successfully');
+    } catch (error) {
+      console.error('[QuizProvider] Error clearing all data:', error);
+      throw error;
+    }
+  }, [updateState]);
+
+  // =============================================================================
+  // INITIALIZATION - Vereinfacht
+  // =============================================================================
+  
   useEffect(() => {
-    const unlockHandler = (unlockedQuiz: Quiz) => {
-      showSuccessToast(
-        `🎉 Neues Quiz "${unlockedQuiz.title}" wurde freigeschaltet!`,
-        4000
-      );
+    const initialize = async () => {
+      try {
+        console.log('[QuizProvider] Initializing...');
+        
+        // Registriere globale Funktion
+        (globalThis as any).registerQuizInProvider = registerQuiz;
+        
+        // Lade gespeicherten State
+        const savedState = await loadAppState();
+        if (savedState) {
+          updateState(prev => ({ ...prev, ...savedState }));
+        }
+        
+        // Initialisiere Quizzes
+        await initializeAllQuizzes();
+        
+        updateState(prev => ({
+          ...prev,
+          initialized: true,
+          isInitializing: false
+        }));
+        
+        console.log('[QuizProvider] Initialization complete');
+      } catch (error) {
+        console.error('[QuizProvider] Initialization error:', error);
+        updateState(prev => ({
+          ...prev,
+          isInitializing: false
+        }));
+      }
     };
     
-    setUnlockListeners(prev => [...prev, unlockHandler]);
+    initialize();
     
     return () => {
-      setUnlockListeners(prev => prev.filter(l => l !== unlockHandler));
+      delete (globalThis as any).registerQuizInProvider;
     };
-  }, [showSuccessToast]);
+  }, [registerQuiz, updateState]);
 
-  // Expose registerQuiz for initialization - entfernt da jetzt im useEffect
-  // useEffect(() => {
-  //   (globalThis as any).registerQuizInProvider = registerQuiz;
-  //   return () => {
-  //     delete (globalThis as any).registerQuizInProvider;
-  //   };
-  // }, [registerQuiz]);
-
-  if (isInitializing) {
+  // =============================================================================
+  // RENDER
+  // =============================================================================
+  
+  if (appState.isInitializing) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0a7ea4" />
@@ -655,7 +561,7 @@ useEffect(() => {
     );
   }
 
-  if (!initialized) {
+  if (!appState.initialized) {
     return (
       <View style={styles.errorContainer}>
         <ActivityIndicator size="small" color="#dc3545" />
@@ -688,11 +594,11 @@ useEffect(() => {
     checkForUnlocks,
     
     // Quiz Manager
-    currentQuizId,
-    currentQuizState,
-    isLoading,
-    isInitializing,
-    initialized,
+    currentQuizId: appState.currentQuizId,
+    currentQuizState: appState.currentQuizState,
+    isLoading: appState.isLoading,
+    isInitializing: appState.isInitializing,
+    initialized: appState.initialized,
     startQuiz,
     loadQuiz,
     resetQuiz,
@@ -703,16 +609,19 @@ useEffect(() => {
     showErrorToast,
     showInfoToast,
     showWarningToast,
+    
+    // Data Management
+    clearAllData, // ✅ NEU HINZUGEFÜGT
   };
 
   return (
     <QuizContext.Provider value={contextValue}>
       {children}
-      {toastData && (
+      {appState.toastData && (
         <Toast
-          visible={toastVisible}
+          visible={appState.toastVisible}
           onHide={hideToast}
-          {...toastData}
+          {...appState.toastData}
         />
       )}
     </QuizContext.Provider>

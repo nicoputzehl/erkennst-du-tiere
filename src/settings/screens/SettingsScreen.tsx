@@ -10,7 +10,7 @@ import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacit
 
 
 export function SettingsScreen() {
-  const { resetQuiz, getAllQuizzes } = useQuiz();
+  const { resetQuiz, getAllQuizzes, clearAllData } = useQuiz();
   const { showSuccessToast, showErrorToast } = useToast();
   const [isResetting, setIsResetting] = useState<Record<string, boolean>>({});
   const [isResettingAll, setIsResettingAll] = useState(false);
@@ -33,11 +33,10 @@ export function SettingsScreen() {
     }
   };
   
-  // Alle Quizzes zurücksetzen
   const handleResetAllQuizzes = async () => {
     Alert.alert(
       'Alle Quizzes zurücksetzen?',
-      'Möchtest du wirklich alle Quiz-Fortschritte zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.',
+      'Möchtest du wirklich alle Quiz-Fortschritte zurücksetzen?',
       [
         { text: 'Abbrechen', style: 'cancel' },
         {
@@ -45,20 +44,11 @@ export function SettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             setIsResettingAll(true);
-            
             try {
-              // Speicher leeren
-              await persistenceService.clearAllQuizStates();
-              
-              // Alle Quizzes zurücksetzen
-              for (const quiz of quizzes) {
-                await resetQuiz(quiz.id);
-              }
-              
+              await clearAllData(); // ✅ Verwende die neue Funktion
               showSuccessToast('Alle Quizzes wurden zurückgesetzt!');
             } catch (error) {
-              console.error('[SettingsScreen] Error resetting all quizzes:', error);
-              showErrorToast(`Fehler beim Zurücksetzen aller Quizzes: ${error}`);
+              showErrorToast(`Fehler: ${error}`);
             } finally {
               setIsResettingAll(false);
             }
