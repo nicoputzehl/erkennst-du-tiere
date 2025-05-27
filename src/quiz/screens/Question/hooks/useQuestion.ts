@@ -8,7 +8,7 @@ export const useQuestion = (
   question: QuizQuestion
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
-  const { getQuizState, updateQuizState, answerQuizQuestion } = useQuiz();
+  const { getQuizState, updateQuizState, answerQuizQuestion, showSuccessToast } = useQuiz();
 
   const [showResult, setShowResult] = useState(isSolved);
   const [isCorrect, setIsCorrect] = useState(isSolved);
@@ -18,11 +18,13 @@ export const useQuestion = (
 
   const quizState = getQuizState(quizId);
 
-
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const showUnsolvedImages = useMemo(() => question.status !== 'solved' && question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl, [question]);
+  const showUnsolvedImages = useMemo(() => 
+    question.status !== 'solved' && (question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl), 
+    [question]
+  );
 
   const processCorrectAnswer = useCallback(async (
     newState: QuizState
@@ -35,10 +37,9 @@ export const useQuestion = (
     try {
       await updateQuizState(quizId, newState);
     } catch (error) {
-      console.error(`[useBaseQuestionScreen] Error updating quiz state:`, error);
+      console.error(`[useQuestion] Error updating quiz state:`, error);
     } finally {
       setIsUpdating(false);
-
     }
   }, [quizId, updateQuizState]);
 
@@ -52,7 +53,6 @@ export const useQuestion = (
   }, []);
 
   const handleTryAgain = useCallback(() => {
-
     setShowResult(false);
   }, []);
 
@@ -61,25 +61,52 @@ export const useQuestion = (
 
     setIsSubmitting(true);
     try {
+      console.log(`[useQuestion] Submitting answer for quiz ${quizId}, question ${question.id}`);
+      
       const result = await answerQuizQuestion(
         quizId,
         question.id,
         answer.trim()
       );
 
+      console.log(`[useQuestion] Answer result:`, { 
+        isCorrect: result.isCorrect, 
+        hasUnlocks: result.unlockedQuizzes?.length || 0 
+      });
+
       if (result.isCorrect && result.newState) {
         processCorrectAnswer(result.newState);
+        
+        // TOAST FÜR FREIGESCHALTETE QUIZZES IN QUESTION-ANSICHT
+        if (result.unlockedQuizzes && result.unlockedQuizzes.length > 0) {
+          console.log(`[useQuestion] Showing toasts for ${result.unlockedQuizzes.length} unlocked quiz(zes)`);
+          
+          // Zeige Toast für jedes freigeschaltete Quiz
+          result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
+            console.log(`[useQuestion] Scheduling toast for "${unlockedQuiz.title}" with delay ${index * 500}ms`);
+            
+            // Delay für mehrere Toasts, damit sie nacheinander erscheinen
+            setTimeout(() => {
+              console.log(`[useQuestion] Showing toast for "${unlockedQuiz.title}"`);
+              showSuccessToast(
+                `🎉 Neues Quiz "${unlockedQuiz.title}" wurde freigeschaltet!`,
+                4000
+              );
+            }, index * 500); // 500ms Delay zwischen mehreren Toasts
+          });
+        } else {
+          console.log(`[useQuestion] No quizzes were unlocked by this answer`);
+        }
       } else {
         processIncorrectAnswer();
       }
     } catch (error) {
-      console.error(`[useTextQuestionScreen] Error submitting answer:`, error);
+      console.error(`[useQuestion] Error submitting answer:`, error);
       processIncorrectAnswer();
     } finally {
       setIsSubmitting(false);
     }
-  }, [quizId, question.id, answer, answerQuizQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer]);
-
+  }, [quizId, question.id, answer, answerQuizQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer, showSuccessToast]);
 
   return {
     quizState,

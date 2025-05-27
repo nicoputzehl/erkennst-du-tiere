@@ -32,12 +32,17 @@ export enum QuizMode {
   ALL_UNLOCKED = 'all_unlocked'
 }
 
+export interface SimpleUnlockCondition {
+  requiredQuizId: string;
+  description: string;
+}
+
 export interface Quiz<T extends ContentKey = ContentKey> {
   id: string;
   title: string;
   questions: Question<T>[];
   initiallyLocked: boolean;
-  unlockCondition?: UnlockCondition;
+  unlockCondition?: SimpleUnlockCondition; // Viel einfacher als vorher!
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
@@ -49,12 +54,4 @@ export interface QuizState<T extends ContentKey = ContentKey> {
   questions: QuizQuestion<T>[];
   completedQuestions: number;
   quizMode?: QuizMode;
-}
-
-export interface UnlockCondition {
-  type: 'percentage' | 'completionCount' | 'specificQuiz';
-  requiredPercentage?: number;
-  requiredCount?: number;
-  requiredQuizId: string;
-  description: string;
 }
