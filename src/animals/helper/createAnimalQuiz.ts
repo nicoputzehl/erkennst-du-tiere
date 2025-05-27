@@ -1,8 +1,7 @@
-import { ContentQuizFactory, CompleteContentQuizConfig } from '../../core/content/ContentQuizFactory';
-import { createQuestionsFromAnimals } from '../adapter/AnimalQuestionFactoryAdapter';
+import { createQuiz, CompleteContentQuizConfig } from '../../core/content/quizFactory';
+import { createQuestionsFromAnimals } from '../adapter/animalQuestions';
 import { QuestionWithAnimal, AnimalKey } from '../types';
 import { Quiz, QuizMode, UnlockCondition } from '../../quiz/types';
-
 
 export interface AnimalQuizConfig {
   id: string;
@@ -15,6 +14,10 @@ export interface AnimalQuizConfig {
   animalQuestions: QuestionWithAnimal[];
 }
 
+/**
+ * Adaptiert AnimalQuizConfig zu CompleteContentQuizConfig
+ * Jetzt als einfache Funktion
+ */
 const adaptAnimalQuizConfig = (config: AnimalQuizConfig): CompleteContentQuizConfig<AnimalKey> => {
   const questions = createQuestionsFromAnimals(config.animalQuestions);
   
@@ -31,9 +34,13 @@ const adaptAnimalQuizConfig = (config: AnimalQuizConfig): CompleteContentQuizCon
   };
 };
 
+/**
+ * Erstellt ein Animal-Quiz aus der gegebenen Konfiguration
+ * Direkte funktionale Komposition statt Klassen
+ */
 const createAnimalQuiz = (config: AnimalQuizConfig): Quiz<AnimalKey> => {
   const contentConfig = adaptAnimalQuizConfig(config);
-  return ContentQuizFactory.createQuiz<AnimalKey>(contentConfig);
+  return createQuiz<AnimalKey>(contentConfig);
 };
 
 export { createAnimalQuiz };
