@@ -26,7 +26,7 @@ interface UseUnlockSystemReturn {
 export function useUnlockSystem(): UseUnlockSystemReturn {
   const { getQuizById, getAllQuizzes } = useQuizData();
   const { quizStates } = useQuizState();
-  const { showSuccessToast } = useUIState();
+  const { showSuccessToast, addPendingUnlock } = useUIState();
 
   const getUnlockProgress = useCallback((quizId: string): UnlockProgress => {
     console.log(`[useUnlockSystem] Checking unlock progress for quiz: ${quizId}`);
@@ -49,8 +49,7 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     };
   }, [getQuizById, quizStates]);
 
-
-  const isQuizUnlocked = useCallback((quizId: string): boolean => {
+    const isQuizUnlocked = useCallback((quizId: string): boolean => {
     const quiz = getQuizById(quizId);
     if (!quiz) return false;
     
@@ -61,11 +60,6 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     const { isMet } = getUnlockProgress(quizId);
     return isMet;
   }, [getQuizById, getUnlockProgress]);
-
-  const getUnlockDescription = useCallback((quizId: string): string | null => {
-    const quiz = getQuizById(quizId);
-    return quiz?.unlockCondition?.description || null;
-  }, [getQuizById]);
 
   const checkForUnlocks = useCallback((): Quiz[] => {
     console.log('[useUnlockSystem] Checking for newly unlockable quizzes');
@@ -84,10 +78,15 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
           unlockedQuizzes.push(updatedQuiz);
           
           console.log(`[useUnlockSystem] Quiz "${updatedQuiz.title}" has been unlocked!`);
+          
+          // DIREKTE TOAST-ANZEIGE (für sofortige Freischaltung)
           showSuccessToast(
             `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
             4000
           );
+          
+          // PENDING UNLOCK (für spätere Anzeige auf Quizzes-Screen)
+          addPendingUnlock(updatedQuiz.id, updatedQuiz.title);
         }
       }
     }
@@ -97,8 +96,13 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     }
     
     return unlockedQuizzes;
-  }, [getAllQuizzes, quizStates, showSuccessToast, isQuizUnlocked]);
+  }, [getAllQuizzes, quizStates, showSuccessToast, isQuizUnlocked, addPendingUnlock]);
 
+
+  const getUnlockDescription = useCallback((quizId: string): string | null => {
+    const quiz = getQuizById(quizId);
+    return quiz?.unlockCondition?.description || null;
+  }, [getQuizById]);
 
   return {
     getUnlockProgress,

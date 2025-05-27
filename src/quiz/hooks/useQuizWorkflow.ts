@@ -111,6 +111,8 @@ export function useQuizWorkflow(): QuizWorkflowReturn {
         if (unlockedQuizzes.length > 0) {
           console.log(`[useQuizWorkflow] ${unlockedQuizzes.length} quizzes unlocked after answer`);
         }
+        // Return the unlocked quizzes (required by callback signature)
+        return unlockedQuizzes;
       });
       
       if (!result.isCorrect) {

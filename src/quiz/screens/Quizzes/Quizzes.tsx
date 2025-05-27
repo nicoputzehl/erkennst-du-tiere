@@ -1,7 +1,6 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
 	ScrollView,
@@ -12,7 +11,7 @@ import {
 } from 'react-native';
 import { Quiz } from '../../types';
 import { QuizGrid } from './components/QuizGrid';
-import { useQuizzes } from './hooks/useQuizzes';
+import { useQuizzesScreen } from './hooks/useQuizzesScreen';
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -23,34 +22,8 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 		router.navigate('/settings');
 	};
 
-	const { initializeQuizState } = useQuizzes();
-	const [isLoading, setIsLoading] = useState(true);
-
-	// Initialisiere alle Quiz-Zustände beim Start
-	useEffect(() => {
-		const loadQuizStates = async () => {
-			setIsLoading(true);
-			try {
-				console.log('[QuizzesScreen] Initializing quiz states...');
-
-				// Initialisiere die Zustände aller Quizzes
-				for (const quiz of quizzes) {
-					await initializeQuizState(quiz.id);
-				}
-
-				console.log('[QuizzesScreen] All quiz states initialized');
-			} catch (error) {
-				console.error(
-					'[QuizzesScreen] Error initializing quiz states:',
-					error
-				);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		loadQuizStates();
-	}, [quizzes, initializeQuizState]);
+	// Alle Logik ist jetzt im Hook
+	const { isLoading } = useQuizzesScreen(quizzes);
 
 	return (
 		<ThemedView>
