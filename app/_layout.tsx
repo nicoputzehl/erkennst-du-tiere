@@ -1,4 +1,4 @@
-// app/_layout.tsx - Aktualisierte Version
+// app/_layout.tsx - Multi-Provider Architektur
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -10,9 +10,12 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/src/common/hooks/useColorScheme';
-import { QuizDataProvider } from '@/src/quiz/contexts/QuizDataProvider'; // ✅ NEU
-import { QuizProvider } from '@/src/quiz/contexts/QuizProvider'; // ⚠️ Wird später vereinfacht
-import { ToastProvider } from '@/src/quiz/contexts/ToastProvider';
+
+// ✅ Multi-Provider Architektur
+import { QuizDataProvider } from '@/src/quiz/contexts/QuizDataProvider';
+import { QuizStateProvider } from '@/src/quiz/contexts/QuizStateProvider';
+import { UIStateProvider } from '@/src/quiz/contexts/UIStateProvider';
+import { QuizProvider } from '@/src/quiz/contexts/QuizProvider';
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
@@ -25,20 +28,22 @@ export default function RootLayout() {
 	}
 
 	return (
-		<ToastProvider>
-			<QuizDataProvider>
-				<QuizProvider>
-					<ThemeProvider
-						value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-					>
-						<Stack>
-							<Stack.Screen name='index' options={{ headerShown: false }} />
-							<Stack.Screen name='+not-found' />
-						</Stack>
-						<StatusBar style='auto' />
-					</ThemeProvider>
-				</QuizProvider>
-			</QuizDataProvider>
-		</ToastProvider>
+		<QuizDataProvider>     
+			<QuizStateProvider>  
+				<UIStateProvider>  
+					<QuizProvider>   
+						<ThemeProvider
+							value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+						>
+							<Stack>
+								<Stack.Screen name='index' options={{ headerShown: false }} />
+								<Stack.Screen name='+not-found' />
+							</Stack>
+							<StatusBar style='auto' />
+						</ThemeProvider>
+					</QuizProvider>
+				</UIStateProvider>
+			</QuizStateProvider>
+		</QuizDataProvider>
 	);
 }
