@@ -11,57 +11,57 @@ export const namibia: QuestionWithAnimal[] = [
       unsolvedThumbnailUrl: require("./img/thumbnails/leopard_unsolved.jpg"),
     },
   },
-  {
-    id: 2,
-    animal: "nilpferd",
-    images: {
-      imageUrl: require("./img/nilpferd.jpg"),
-      thumbnailUrl: require("./img/thumbnails/nilpferd.jpg"),
-      unsolvedImageUrl: require("./img/nilpferd_unsolved.jpg"),
-      unsolvedThumbnailUrl: require("./img/thumbnails/nilpferd_unsolved.jpg"),
-    },
-  },
+  // {
+  //   id: 2,
+  //   animal: "nilpferd",
+  //   images: {
+  //     imageUrl: require("./img/nilpferd.jpg"),
+  //     thumbnailUrl: require("./img/thumbnails/nilpferd.jpg"),
+  //     unsolvedImageUrl: require("./img/nilpferd_unsolved.jpg"),
+  //     unsolvedThumbnailUrl: require("./img/thumbnails/nilpferd_unsolved.jpg"),
+  //   },
+  // },
 
-  {
-    id: 3,
-    animal: "flamingo",
-    images: {
-      imageUrl: require("./img/flamingo.jpg"),
-      thumbnailUrl: require("./img/thumbnails/flamingo.jpg"),
-      unsolvedImageUrl: require("./img/flamingo_unsolved.jpg"),
-      unsolvedThumbnailUrl: require("./img/thumbnails/flamingo_unsolved.jpg"),
-    },
-  },
-  {
-    id: 4,
-    animal: "loewe",
-    images: {
-      imageUrl: require("./img/loewe.jpg"),
-      thumbnailUrl: require("./img/thumbnails/loewe.jpg"),
-      unsolvedImageUrl: require("./img/loewe_unsolved.jpg"),
-      unsolvedThumbnailUrl: require("./img/thumbnails/loewe_unsolved.jpg"),
-    },
-  },
-  {
-    id: 5,
-    animal: "oryxantilope",
-    images: {
-      imageUrl: require("./img/oryxantilope.jpg"),
-      thumbnailUrl: require("./img/thumbnails/oryxantilope.jpg"),
-      unsolvedImageUrl: require("./img/oryxantilope_unsolved.jpg"),
-      unsolvedThumbnailUrl: require("./img/thumbnails/oryxantilope_unsolved.jpg"),
-    },
-  },
-  {
-    id: 6,
-    animal: "nashorn",
-    images: {
-      imageUrl: require("./img/nashorn.jpg"),
-      thumbnailUrl: require("./img/thumbnails/nashorn.jpg"),
-      unsolvedImageUrl: require("./img/nashorn_unsolved.jpg"),
-      unsolvedThumbnailUrl: require("./img/thumbnails/nashorn_unsolved.jpg"),
-    },
-  },
+  // {
+  //   id: 3,
+  //   animal: "flamingo",
+  //   images: {
+  //     imageUrl: require("./img/flamingo.jpg"),
+  //     thumbnailUrl: require("./img/thumbnails/flamingo.jpg"),
+  //     unsolvedImageUrl: require("./img/flamingo_unsolved.jpg"),
+  //     unsolvedThumbnailUrl: require("./img/thumbnails/flamingo_unsolved.jpg"),
+  //   },
+  // },
+  // {
+  //   id: 4,
+  //   animal: "loewe",
+  //   images: {
+  //     imageUrl: require("./img/loewe.jpg"),
+  //     thumbnailUrl: require("./img/thumbnails/loewe.jpg"),
+  //     unsolvedImageUrl: require("./img/loewe_unsolved.jpg"),
+  //     unsolvedThumbnailUrl: require("./img/thumbnails/loewe_unsolved.jpg"),
+  //   },
+  // },
+  // {
+  //   id: 5,
+  //   animal: "oryxantilope",
+  //   images: {
+  //     imageUrl: require("./img/oryxantilope.jpg"),
+  //     thumbnailUrl: require("./img/thumbnails/oryxantilope.jpg"),
+  //     unsolvedImageUrl: require("./img/oryxantilope_unsolved.jpg"),
+  //     unsolvedThumbnailUrl: require("./img/thumbnails/oryxantilope_unsolved.jpg"),
+  //   },
+  // },
+  // {
+  //   id: 6,
+  //   animal: "nashorn",
+  //   images: {
+  //     imageUrl: require("./img/nashorn.jpg"),
+  //     thumbnailUrl: require("./img/thumbnails/nashorn.jpg"),
+  //     unsolvedImageUrl: require("./img/nashorn_unsolved.jpg"),
+  //     unsolvedThumbnailUrl: require("./img/thumbnails/nashorn_unsolved.jpg"),
+  //   },
+  // },
   // {
   //   id: 7,
   //   animal: "zebra",

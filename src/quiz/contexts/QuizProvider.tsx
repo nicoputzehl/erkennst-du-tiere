@@ -310,7 +310,43 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   }, [appState.quizStates]);
 
   // =============================================================================
-  // UNLOCK-MANAGEMENT - Vereinfacht
+  // TOAST-FUNKTIONEN - Vereinfacht (FRÜHER DEFINIERT)
+  // =============================================================================
+  
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration?: number) => {
+    updateState(prev => ({
+      ...prev,
+      toastVisible: true,
+      toastData: { message, type, duration }
+    }));
+  }, [updateState]);
+
+  const hideToast = useCallback(() => {
+    updateState(prev => ({
+      ...prev,
+      toastVisible: false,
+      toastData: null
+    }));
+  }, [updateState]);
+
+  const showSuccessToast = useCallback((message: string, duration?: number) => {
+    showToast(message, 'success', duration);
+  }, [showToast]);
+
+  const showErrorToast = useCallback((message: string, duration?: number) => {
+    showToast(message, 'error', duration);
+  }, [showToast]);
+
+  const showInfoToast = useCallback((message: string, duration?: number) => {
+    showToast(message, 'info', duration);
+  }, [showToast]);
+
+  const showWarningToast = useCallback((message: string, duration?: number) => {
+    showToast(message, 'warning', duration);
+  }, [showToast]);
+
+  // =============================================================================
+  // UNLOCK-MANAGEMENT - Vereinfacht (JETZT NACH TOAST-FUNKTIONEN)
   // =============================================================================
   
   const getUnlockProgress = useCallback((quizId: string) => {
@@ -342,11 +378,18 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       }));
       
       unlockedQuizzes.push(updatedQuiz);
+      
+      // 🎉 TOAST FÜR FREIGESCHALTETES QUIZ ANZEIGEN (JETZT VERFÜGBAR!)
+      showSuccessToast(
+        `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
+        4000
+      );
+      
       nextUnlockable = getNextUnlockableQuiz(Object.values(appState.quizzes), quizStatesMap);
     }
     
     return unlockedQuizzes;
-  }, [appState.quizzes, appState.quizStates, updateState]);
+  }, [appState.quizzes, appState.quizStates, updateState, showSuccessToast]);
 
   // =============================================================================
   // ANSWER-PROCESSING - Vereinfacht
@@ -391,41 +434,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     return { isCorrect: false };
   }, [appState.quizStates, updateState, checkForUnlocks]);
 
-  // =============================================================================
-  // TOAST-FUNKTIONEN - Vereinfacht
-  // =============================================================================
-  
-  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' | 'warning' = 'info', duration?: number) => {
-    updateState(prev => ({
-      ...prev,
-      toastVisible: true,
-      toastData: { message, type, duration }
-    }));
-  }, [updateState]);
 
-  const hideToast = useCallback(() => {
-    updateState(prev => ({
-      ...prev,
-      toastVisible: false,
-      toastData: null
-    }));
-  }, [updateState]);
-
-  const showSuccessToast = useCallback((message: string, duration?: number) => {
-    showToast(message, 'success', duration);
-  }, [showToast]);
-
-  const showErrorToast = useCallback((message: string, duration?: number) => {
-    showToast(message, 'error', duration);
-  }, [showToast]);
-
-  const showInfoToast = useCallback((message: string, duration?: number) => {
-    showToast(message, 'info', duration);
-  }, [showToast]);
-
-  const showWarningToast = useCallback((message: string, duration?: number) => {
-    showToast(message, 'warning', duration);
-  }, [showToast]);
 
   // =============================================================================
   // QUIZ-MANAGER-FUNKTIONEN - Vereinfacht
