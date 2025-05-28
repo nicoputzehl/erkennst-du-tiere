@@ -1,6 +1,6 @@
-import { ContentKey, QuizImages } from '../../core/content/types';
+import { ContentKey, QuizImages } from '../common/utils';
 
-// ====== GRUNDLEGENDE QUIZ-TYPEN ======
+// ====== GRUNDLEGENDE ENUMS ======
 
 export enum QuestionType {
   TEXT = 'text'
@@ -17,15 +17,13 @@ export enum QuizMode {
   ALL_UNLOCKED = 'all_unlocked'
 }
 
-// ====== BASIS-QUESTION ======
+// ====== QUESTION TYPES ======
 
 export interface BaseQuestion {
   id: number;
   images: QuizImages;
   answer: string;
 }
-
-// ====== ERWEITERTE QUESTION ======
 
 export interface Question<T extends ContentKey = ContentKey> extends BaseQuestion {
   alternativeAnswers?: string[];
@@ -37,20 +35,18 @@ export interface Question<T extends ContentKey = ContentKey> extends BaseQuestio
   };
 }
 
-// ====== QUIZ-QUESTION (mit Status) ======
-
 export interface QuizQuestion<T extends ContentKey = ContentKey> extends Question<T> {
   status: QuestionStatus;
 }
 
-// ====== UNLOCK-CONDITION ======
+// ====== UNLOCK TYPES ======
 
 export interface SimpleUnlockCondition {
   requiredQuizId: string;
   description: string;
 }
 
-// ====== QUIZ ======
+// ====== QUIZ TYPES ======
 
 export interface Quiz<T extends ContentKey = ContentKey> {
   id: string;
@@ -63,8 +59,6 @@ export interface Quiz<T extends ContentKey = ContentKey> {
   initialUnlockedQuestions?: number;
 }
 
-// ====== QUIZ-STATE ======
-
 export interface QuizState<T extends ContentKey = ContentKey> {
   id: string;
   title: string;
@@ -72,3 +66,34 @@ export interface QuizState<T extends ContentKey = ContentKey> {
   completedQuestions: number;
   quizMode?: QuizMode;
 }
+
+// ====== CONFIG TYPES ======
+
+export interface QuizConfig<T extends ContentKey = ContentKey> {
+  id: string;
+  title: string;
+  questions: Question<T>[];
+  initiallyLocked?: boolean;
+  unlockCondition?: SimpleUnlockCondition;
+  order?: number;
+  quizMode?: QuizMode;
+  initialUnlockedQuestions?: number;
+}
+
+// ====== UTILITY TYPES ======
+
+export type QuizWithState<T extends ContentKey = ContentKey> = {
+  quiz: Quiz<T>;
+  state: QuizState<T>;
+};
+
+export type QuizProgress = {
+  quizId: string;
+  completed: number;
+  total: number;
+  percentage: number;
+};
+
+// ====== LEGACY COMPATIBILITY ======
+// Re-exports für Rückwärtskompatibilität
+export type { ContentKey, QuizImages };

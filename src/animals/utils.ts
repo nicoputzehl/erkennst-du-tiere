@@ -1,18 +1,20 @@
-import { createQuiz, createUnlockCondition } from '../../quiz/factories/quizHelpers';
-import { Question, Quiz, QuizMode } from '../../quiz/types/base';
-import { QuestionWithAnimal, AnimalKey } from '../types';
-import { ANIMAL_LIST } from '../data/animal_list';
-import { QuizImages } from '@/src/core/content/types';
+import { createQuiz, createUnlockCondition } from '../quiz/utils';
+import { Question, Quiz, QuizMode } from '../quiz/types';
+import { QuestionWithAnimal, AnimalKey } from './types';
+import { ANIMAL_LIST } from './data';
+import { QuizImages } from '../common/utils';
+
+// ====== ANIMAL-QUESTION CREATION ======
 
 export function createAnimalQuestion(
   id: number, 
   animalKey: AnimalKey, 
   images: QuizImages
-): Question<AnimalKey> {
-  const animal = ANIMAL_LIST[animalKey];
+): Question<string> {
+  const animal = ANIMAL_LIST[animalKey as keyof typeof ANIMAL_LIST];
   
   if (!animal) {
-    throw new Error(`Animal "${animalKey}" not found in ANIMAL_LIST`);
+    throw new Error(`Animal "${String(animalKey)}" not found in ANIMAL_LIST`);
   }
   
   return {
@@ -22,10 +24,11 @@ export function createAnimalQuestion(
     alternativeAnswers: animal.alternativeNames,
     funFact: animal.funFact,
     wikipediaName: animal.wikipediaName,
-    data: { content: animalKey },
+    data: { content: String(animalKey) }, // Convert to string
   };
 }
 
+// ====== ANIMAL-QUIZ CREATION ======
 
 export interface AnimalQuizConfig {
   id: string;
@@ -38,16 +41,18 @@ export interface AnimalQuizConfig {
   requiresQuiz?: string; // Einfacher als unlockCondition
 }
 
-export function createAnimalQuiz(config: AnimalQuizConfig): Quiz<AnimalKey> {
+export function createAnimalQuiz(config: AnimalQuizConfig): Quiz<string> {
+  // Konvertiere Animal-Questions zu Questions
   const questions = config.animalQuestions.map(aq => 
     createAnimalQuestion(aq.id, aq.animal, aq.images)
-  );
+  ) as Question<string>[];
 
+  // Erstelle Unlock-Condition wenn requiresQuiz gesetzt
   const unlockCondition = config.requiresQuiz 
     ? createUnlockCondition(config.requiresQuiz)
     : undefined;
 
-  return createQuiz({
+  return createQuiz<string>({
     id: config.id,
     title: config.title,
     questions,
@@ -59,11 +64,13 @@ export function createAnimalQuiz(config: AnimalQuizConfig): Quiz<AnimalKey> {
   });
 }
 
+// ====== CONVENIENCE-FUNKTIONEN ======
+
 export function createSimpleAnimalQuiz(
   id: string,
   title: string,
   animalQuestions: QuestionWithAnimal[]
-): Quiz<AnimalKey> {
+): Quiz<string> {
   return createAnimalQuiz({
     id,
     title,
@@ -79,7 +86,7 @@ export function createLockedAnimalQuiz(
   animalQuestions: QuestionWithAnimal[],
   requiredQuizId: string,
   order: number = 1
-): Quiz<AnimalKey> {
+): Quiz<string> {
   return createAnimalQuiz({
     id,
     title,
@@ -88,4 +95,12 @@ export function createLockedAnimalQuiz(
     initiallyLocked: true,
     requiresQuiz: requiredQuizId,
   });
+}
+
+// ====== LEGACY COMPATIBILITY ======
+
+export function createAnimalQuestions(animalQuestions: QuestionWithAnimal[]): Question<string>[] {
+  return animalQuestions.map(aq => 
+    createAnimalQuestion(aq.id, aq.animal, aq.images)
+  ) as Question<string>[];
 }

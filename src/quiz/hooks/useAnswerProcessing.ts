@@ -1,10 +1,9 @@
-import { useCallback } from 'react';
-import { ContentKey } from '@/src/core/content/types';
-import { Quiz, QuizState } from '../types';
 import { normalizeString } from '@/utils/helper';
-import { calculateAnswerResult, getNextActiveQuestionId, isCompleted } from '../domain/quizLogic';
-import { useQuizState } from '../contexts/QuizStateProvider';
+import { useCallback } from 'react';
 import { useQuizData } from '../contexts/QuizDataProvider';
+import { useQuizState } from '../contexts/QuizStateProvider';
+import { ContentKey, Quiz, QuizState } from '../types';
+import { calculateAnswerResult, getNextActiveQuestionId, isCompleted } from '../utils';
 
 interface AnswerResult<T extends ContentKey = ContentKey> {
   isCorrect: boolean;

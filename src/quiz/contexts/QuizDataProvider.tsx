@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { ContentKey } from '@/src/core/content/types';
-import { Quiz } from '../types';
-import { initializeAllQuizzes } from '@/src/core/initialization/quizInitialization';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { ContentKey, Quiz } from '../types';
 // Import der Quiz-Definitionen (löst Auto-Registrierung aus)
 import '@/src/animals/quizzes';
+import { initializeAllQuizzes } from '@/src/common/utils';
 
 interface QuizDataState {
   quizzes: Record<string, Quiz>;

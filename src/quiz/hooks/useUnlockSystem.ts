@@ -3,7 +3,7 @@ import { Quiz, SimpleUnlockCondition } from '../types';
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
-import { isCompleted } from '../domain/quizLogic';
+import { isCompleted } from '../utils';
 
 interface UnlockProgress {
   condition: SimpleUnlockCondition | null;

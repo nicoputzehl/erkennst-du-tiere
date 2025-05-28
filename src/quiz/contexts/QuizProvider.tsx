@@ -1,18 +1,17 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import { ContentKey } from '@/src/core/content/types';
-import { Quiz, QuizState } from '../types';
+import React, { createContext, ReactNode, useContext } from 'react';
+import { ContentKey, Quiz, QuizState } from '../types';
 
 import { useQuizData } from './QuizDataProvider';
 import { useQuizState } from './QuizStateProvider';
 import { useUIState } from './UIStateProvider';
 
-import { 
-  AnswerResult, 
-  UnlockProgress, 
-  useAnswerProcessing, 
-  useDataManagement, 
-  useQuizOperations, 
-  useUnlockSystem 
+import {
+  AnswerResult,
+  UnlockProgress,
+  useAnswerProcessing,
+  useDataManagement,
+  useQuizOperations,
+  useUnlockSystem
 } from '../hooks';
 
 interface QuizContextValue {

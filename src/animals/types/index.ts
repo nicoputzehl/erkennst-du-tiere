@@ -1,6 +1,6 @@
-import { QuizImages } from "@/src/core/content/types";
-import { Question } from "../../quiz/types";
-import { ANIMAL_LIST } from "../data/animal_list";
+import { Question, QuizImages } from "@/src/quiz";
+import { ANIMAL_LIST } from "../data";
+
 
 export type AnimalKey = keyof typeof ANIMAL_LIST;
 

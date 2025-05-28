@@ -10,11 +10,13 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/src/common/hooks/useColorScheme';
 
-import { PersistenceProvider } from '@/src/quiz/contexts/PersistenceProvider';
-import { QuizDataProvider } from '@/src/quiz/contexts/QuizDataProvider';
-import { QuizStateProvider } from '@/src/quiz/contexts/QuizStateProvider';
-import { UIStateProvider } from '@/src/quiz/contexts/UIStateProvider';
-import { QuizProvider } from '@/src/quiz/contexts/QuizProvider';
+import {
+	PersistenceProvider,
+	QuizDataProvider,
+	QuizStateProvider,
+	UIStateProvider,
+	QuizProvider,
+} from '@/src/quiz';
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();

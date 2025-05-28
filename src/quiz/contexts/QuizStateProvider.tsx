@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { ContentKey } from '@/src/core/content/types';
-import { QuizState, QuizMode } from '../types';
-import { createQuizState, isCompleted, getNextActiveQuestionId } from '../domain/quizLogic';
-import { useQuizData } from './QuizDataProvider';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { ContentKey, QuizMode, QuizState } from '../types';
 import { usePersistence } from './PersistenceProvider';
+import { useQuizData } from './QuizDataProvider';
+import { createQuizState, getNextActiveQuestionId, isCompleted } from '../utils';
 
 interface QuizStateData {
   quizStates: Record<string, QuizState>;
