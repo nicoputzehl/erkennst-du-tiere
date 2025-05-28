@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { Quiz, UnlockCondition } from '../types';
-import { getNextUnlockableQuiz, calculateUnlockProgress } from '../domain/unlockLogic';
+import { Quiz, SimpleUnlockCondition } from '../types';
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
+import { isCompleted } from '../domain/quizLogic';
 
 interface UnlockProgress {
-  condition: UnlockCondition | null;
+  condition: SimpleUnlockCondition | null;
   progress: number;
   isMet: boolean;
 }
@@ -18,55 +18,77 @@ interface UseUnlockSystemReturn {
   getUnlockDescription: (quizId: string) => string | null;
 }
 
+/**
+ * VEREINFACHTES UNLOCK-SYSTEM
+ * Arbeitet mit den einfachen SimpleUnlockCondition aus den Quiz-Definitionen
+ * Keine hartcodierten Regeln mehr - die Logik ist generisch und wiederverwendbar
+ */
 export function useUnlockSystem(): UseUnlockSystemReturn {
   const { getQuizById, getAllQuizzes } = useQuizData();
   const { quizStates } = useQuizState();
-  const { showSuccessToast } = useUIState();
+  const { showSuccessToast, addPendingUnlock } = useUIState();
 
   const getUnlockProgress = useCallback((quizId: string): UnlockProgress => {
     console.log(`[useUnlockSystem] Checking unlock progress for quiz: ${quizId}`);
     
     const quiz = getQuizById(quizId);
-    if (!quiz || !quiz.unlockCondition) {
-      return { condition: null, progress: 0, isMet: true };
+    if (!quiz || !quiz.initiallyLocked || !quiz.unlockCondition) {
+      return { condition: null, progress: 100, isMet: true };
     }
 
-    const allQuizzes = getAllQuizzes();
-    const quizStatesMap = new Map(Object.entries(quizStates));
-    const { isMet, progress } = calculateUnlockProgress(quiz.unlockCondition, allQuizzes, quizStatesMap);
+    // Prüfe ob das erforderliche Quiz abgeschlossen ist
+    const requiredQuizState = quizStates[quiz.unlockCondition.requiredQuizId];
+    const isRequiredQuizCompleted = requiredQuizState ? isCompleted(requiredQuizState) : false;
 
-    console.log(`[useUnlockSystem] Quiz ${quizId} unlock progress: ${progress}, isMet: ${isMet}`);
+    console.log(`[useUnlockSystem] Quiz ${quizId} requires ${quiz.unlockCondition.requiredQuizId} - completed: ${isRequiredQuizCompleted}`);
     
     return { 
-      condition: quiz.unlockCondition, 
-      progress, 
-      isMet 
+      condition: quiz.unlockCondition,
+      progress: isRequiredQuizCompleted ? 100 : 0,
+      isMet: isRequiredQuizCompleted
     };
-  }, [getQuizById, getAllQuizzes, quizStates]);
+  }, [getQuizById, quizStates]);
+
+    const isQuizUnlocked = useCallback((quizId: string): boolean => {
+    const quiz = getQuizById(quizId);
+    if (!quiz) return false;
+    
+    // Wenn Quiz nicht gesperrt ist, ist es freigeschaltet
+    if (!quiz.initiallyLocked) return true;
+    
+    // Prüfe einfache Unlock-Bedingung
+    const { isMet } = getUnlockProgress(quizId);
+    return isMet;
+  }, [getQuizById, getUnlockProgress]);
 
   const checkForUnlocks = useCallback((): Quiz[] => {
     console.log('[useUnlockSystem] Checking for newly unlockable quizzes');
     
     const allQuizzes = getAllQuizzes();
-    const quizStatesMap = new Map(Object.entries(quizStates));
     const unlockedQuizzes: Quiz[] = [];
     
-    let nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
-    while (nextUnlockable) {
-      const updatedQuiz = { ...nextUnlockable, initiallyLocked: false };
-      
-      unlockedQuizzes.push(updatedQuiz);
-      
-      console.log(`[useUnlockSystem] Quiz "${updatedQuiz.title}" has been unlocked!`);
-      showSuccessToast(
-        `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
-        4000
-      );
-      
-      // TODO: Actually update the quiz in QuizDataProvider
-      // For now we just notify about the unlock
-      
-      nextUnlockable = getNextUnlockableQuiz(allQuizzes, quizStatesMap);
+    // Prüfe alle gesperrten Quizzes
+    for (const quiz of allQuizzes) {
+      if (quiz.initiallyLocked && quiz.unlockCondition) {
+        const requiredQuizState = quizStates[quiz.unlockCondition.requiredQuizId];
+        
+        // Wenn das erforderliche Quiz abgeschlossen ist, aber dieses Quiz noch gesperrt
+        if (requiredQuizState && isCompleted(requiredQuizState) && !isQuizUnlocked(quiz.id)) {
+          const updatedQuiz = { ...quiz, initiallyLocked: false };
+          unlockedQuizzes.push(updatedQuiz);
+          
+          console.log(`[useUnlockSystem] Quiz "${updatedQuiz.title}" has been unlocked!`);
+          
+          // DIREKTE TOAST-ANZEIGE (für sofortige Freischaltung)
+          showSuccessToast(
+            `🎉 Neues Quiz "${updatedQuiz.title}" wurde freigeschaltet!`,
+            4000
+          );
+          
+          // PENDING UNLOCK (für spätere Anzeige auf Quizzes-Screen)
+          addPendingUnlock(updatedQuiz.id, updatedQuiz.title);
+        }
+      }
     }
     
     if (unlockedQuizzes.length > 0) {
@@ -74,25 +96,12 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     }
     
     return unlockedQuizzes;
-  }, [getAllQuizzes, quizStates, showSuccessToast]);
+  }, [getAllQuizzes, quizStates, showSuccessToast, isQuizUnlocked, addPendingUnlock]);
 
-  const isQuizUnlocked = useCallback((quizId: string): boolean => {
-    const quiz = getQuizById(quizId);
-    if (!quiz) return false;
-    
-    // If quiz is not initially locked, it's always unlocked
-    if (!quiz.initiallyLocked) return true;
-    
-    // Check unlock condition
-    const { isMet } = getUnlockProgress(quizId);
-    return isMet;
-  }, [getQuizById, getUnlockProgress]);
 
   const getUnlockDescription = useCallback((quizId: string): string | null => {
     const quiz = getQuizById(quizId);
-    if (!quiz || !quiz.unlockCondition) return null;
-    
-    return quiz.unlockCondition.description;
+    return quiz?.unlockCondition?.description || null;
   }, [getQuizById]);
 
   return {

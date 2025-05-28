@@ -2,14 +2,15 @@ import { useCallback } from 'react';
 import { ContentKey } from '@/src/core/content/types';
 import { Quiz, QuizState } from '../types';
 import { normalizeString } from '@/utils/helper';
-import { calculateAnswerResult, getNextActiveQuestionId } from '../domain/quizLogic';
+import { calculateAnswerResult, getNextActiveQuestionId, isCompleted } from '../domain/quizLogic';
 import { useQuizState } from '../contexts/QuizStateProvider';
+import { useQuizData } from '../contexts/QuizDataProvider';
 
 interface AnswerResult<T extends ContentKey = ContentKey> {
   isCorrect: boolean;
   newState?: QuizState<T>;
   nextQuestionId?: number;
-  unlockedQuiz?: Quiz;
+  unlockedQuizzes?: Quiz[];
 }
 
 interface UseAnswerProcessingReturn {
@@ -17,18 +18,19 @@ interface UseAnswerProcessingReturn {
     quizId: string,
     questionId: number,
     answer: string,
-    onUnlock?: (unlockedQuizzes: Quiz[]) => void
+    onUnlock?: (unlockedQuizzes: Quiz[]) => Quiz[]
   ) => Promise<AnswerResult<T>>;
 }
 
 export function useAnswerProcessing(): UseAnswerProcessingReturn {
   const { getQuizState, updateQuizState } = useQuizState();
+  const { getAllQuizzes } = useQuizData();
 
   const processAnswer = useCallback(async <T extends ContentKey = ContentKey>(
     quizId: string,
     questionId: number,
     answer: string,
-    onUnlock?: (unlockedQuizzes: Quiz[]) => void
+    onUnlock?: (unlockedQuizzes: Quiz[]) => Quiz[]
   ): Promise<AnswerResult<T>> => {
     console.log(`[useAnswerProcessing] Processing answer for quiz ${quizId}, question ${questionId}`);
     
@@ -55,20 +57,47 @@ export function useAnswerProcessing(): UseAnswerProcessingReturn {
     // Calculate next question
     const nextQuestionId = getNextActiveQuestionId(result.newState);
     
-    // Check for unlocks (if callback provided)
-    let unlockedQuizzes: Quiz[] = [];
+    // DIREKTE UNLOCK-PRÜFUNG nach State-Update
+    const unlockedQuizzes: Quiz[] = [];
+    
+    // Prüfe ob das aktuelle Quiz durch diese Antwort abgeschlossen wurde
+    const isCurrentQuizCompleted = isCompleted(result.newState);
+    console.log(`[useAnswerProcessing] Current quiz ${quizId} completed: ${isCurrentQuizCompleted}`);
+    
+    if (isCurrentQuizCompleted) {
+      // Prüfe alle Quizzes, die durch dieses Quiz freigeschaltet werden könnten
+      const allQuizzes = getAllQuizzes();
+      
+      for (const quiz of allQuizzes) {
+        if (quiz.initiallyLocked && quiz.unlockCondition) {
+          // Wenn dieses Quiz das erforderliche Quiz für die Freischaltung ist
+          if (quiz.unlockCondition.requiredQuizId === quizId) {
+            console.log(`[useAnswerProcessing] Quiz "${quiz.title}" should be unlocked by completing ${quizId}`);
+            unlockedQuizzes.push({ ...quiz, initiallyLocked: false });
+          }
+        }
+      }
+    }
+    
+    // Rufe auch das Unlock-Callback auf (für andere Unlock-Checks)
     if (onUnlock) {
-      // We'll call the unlock callback to let the parent handle unlock logic
-      onUnlock([]);
+      console.log(`[useAnswerProcessing] Calling unlock callback`);
+      const additionalUnlocks = onUnlock([]);
+      unlockedQuizzes.push(...additionalUnlocks);
+    }
+
+    if (unlockedQuizzes.length > 0) {
+      console.log(`[useAnswerProcessing] Found ${unlockedQuizzes.length} unlocked quizzes:`, 
+        unlockedQuizzes.map(q => q.title));
     }
 
     return {
       isCorrect: true,
       newState: result.newState,
       nextQuestionId: nextQuestionId || undefined,
-      unlockedQuiz: unlockedQuizzes[0] || undefined
+      unlockedQuizzes
     };
-  }, [getQuizState, updateQuizState]);
+  }, [getQuizState, updateQuizState, getAllQuizzes]);
 
   return {
     processAnswer,

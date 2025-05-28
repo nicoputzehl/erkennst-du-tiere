@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { Toast, ToastProps } from '../components/Toast';
 
+interface PendingUnlock {
+  quizId: string;
+  quizTitle: string;
+  unlockedAt: number;
+  shown: boolean;
+}
+
 interface UIState {
   isGlobalLoading: boolean;
   loadingOperations: Set<string>;
@@ -10,6 +17,9 @@ interface UIState {
   
   lastNavigatedQuizId: string | null;
   navigationHistory: string[];
+  
+  // NEU: Pending Unlock Notifications
+  pendingUnlocks: PendingUnlock[];
 }
 
 interface UIStateContextValue {
@@ -29,6 +39,12 @@ interface UIStateContextValue {
   navigationHistory: string[];
   trackNavigation: (quizId: string) => void;
   clearNavigationHistory: () => void;
+  
+  // NEU: Pending Unlock Management
+  addPendingUnlock: (quizId: string, quizTitle: string) => void;
+  checkPendingUnlocks: () => void;
+  clearPendingUnlocks: () => void;
+  getPendingUnlocksCount: () => number;
 }
 
 const UIStateContext = createContext<UIStateContextValue | null>(null);
@@ -41,6 +57,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
     toastData: null,
     lastNavigatedQuizId: null,
     navigationHistory: [],
+    pendingUnlocks: [],
   });
 
   const updateUIState = useCallback((updater: (prev: UIState) => UIState) => {
@@ -150,6 +167,78 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
     }));
   }, [updateUIState]);
 
+  // NEU: Pending Unlock Management
+  const addPendingUnlock = useCallback((quizId: string, quizTitle: string) => {
+    console.log(`[UIStateProvider] Adding pending unlock: ${quizTitle} (${quizId})`);
+    
+    updateUIState(prev => {
+      // Prüfe ob bereits vorhanden
+      const existingUnlock = prev.pendingUnlocks.find(unlock => unlock.quizId === quizId);
+      if (existingUnlock) {
+        console.log(`[UIStateProvider] Pending unlock for ${quizId} already exists`);
+        return prev;
+      }
+      
+      const newUnlock: PendingUnlock = {
+        quizId,
+        quizTitle,
+        unlockedAt: Date.now(),
+        shown: false
+      };
+      
+      return {
+        ...prev,
+        pendingUnlocks: [...prev.pendingUnlocks, newUnlock]
+      };
+    });
+  }, [updateUIState]);
+
+  const checkPendingUnlocks = useCallback(() => {
+    console.log(`[UIStateProvider] Checking pending unlocks (${uiState.pendingUnlocks.length} total)`);
+    
+    const unshownUnlocks = uiState.pendingUnlocks.filter(unlock => !unlock.shown);
+    
+    if (unshownUnlocks.length > 0) {
+      console.log(`[UIStateProvider] Found ${unshownUnlocks.length} unshown unlock notifications`);
+      
+      // Zeige Toasts mit Verzögerung
+      unshownUnlocks.forEach((unlock, index) => {
+        setTimeout(() => {
+          console.log(`[UIStateProvider] Showing pending unlock toast for: ${unlock.quizTitle}`);
+          showSuccessToast(
+            `🎉 "${unlock.quizTitle}" ist jetzt verfügbar!`,
+            4000
+          );
+        }, index * 1000); // 1s Verzögerung zwischen Toasts
+      });
+      
+      // Markiere alle als gezeigt
+      updateUIState(prev => ({
+        ...prev,
+        pendingUnlocks: prev.pendingUnlocks.map(unlock => 
+          unshownUnlocks.includes(unlock) 
+            ? { ...unlock, shown: true }
+            : unlock
+        )
+      }));
+    } else {
+      console.log(`[UIStateProvider] No pending unlock notifications to show`);
+    }
+  }, [uiState.pendingUnlocks, showSuccessToast, updateUIState]);
+
+  const clearPendingUnlocks = useCallback(() => {
+    console.log('[UIStateProvider] Clearing all pending unlocks');
+    
+    updateUIState(prev => ({
+      ...prev,
+      pendingUnlocks: []
+    }));
+  }, [updateUIState]);
+
+  const getPendingUnlocksCount = useCallback((): number => {
+    return uiState.pendingUnlocks.filter(unlock => !unlock.shown).length;
+  }, [uiState.pendingUnlocks]);
+
   const contextValue: UIStateContextValue = {
     isGlobalLoading: uiState.isGlobalLoading,
     isOperationLoading,
@@ -167,6 +256,12 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
     navigationHistory: uiState.navigationHistory,
     trackNavigation,
     clearNavigationHistory,
+    
+    // NEU: Pending Unlock Functions
+    addPendingUnlock,
+    checkPendingUnlocks,
+    clearPendingUnlocks,
+    getPendingUnlocksCount,
   };
 
   return (
@@ -232,5 +327,22 @@ export function useNavigationTracking() {
     history: navigationHistory,
     trackQuizNavigation: trackNavigation,
     clearHistory: clearNavigationHistory,
+  };
+}
+
+// NEU: Convenience Hook für Pending Unlocks
+export function usePendingUnlocks() {
+  const { 
+    addPendingUnlock, 
+    checkPendingUnlocks, 
+    clearPendingUnlocks, 
+    getPendingUnlocksCount 
+  } = useUIState();
+  
+  return {
+    addPendingUnlock,
+    checkPendingUnlocks,
+    clearPendingUnlocks,
+    getPendingUnlocksCount,
   };
 }

@@ -1,7 +1,7 @@
 import { createQuiz, CompleteContentQuizConfig } from '../../core/content/quizFactory';
 import { createQuestionsFromAnimals } from '../adapter/animalQuestions';
 import { QuestionWithAnimal, AnimalKey } from '../types';
-import { Question, Quiz, QuizMode, UnlockCondition } from '../../quiz/types';
+import { Question, Quiz, QuizMode, SimpleUnlockCondition } from '../../quiz/types';
 import { ANIMAL_LIST } from '../data/animal_list';
 import { QuizImages } from '@/src/core/content/types';
 
@@ -9,17 +9,13 @@ export interface AnimalQuizConfig {
   id: string;
   title: string;
   initiallyLocked?: boolean;
-  unlockCondition?: UnlockCondition;
+  unlockCondition?: SimpleUnlockCondition; // Viel einfacher als vorher!
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
   animalQuestions: QuestionWithAnimal[];
 }
 
-/**
- * Adaptiert AnimalQuizConfig zu CompleteContentQuizConfig
- * Jetzt als einfache Funktion
- */
 const adaptAnimalQuizConfig = (config: AnimalQuizConfig): CompleteContentQuizConfig<AnimalKey> => {
   const questions = createQuestionsFromAnimals(config.animalQuestions);
   
@@ -36,18 +32,11 @@ const adaptAnimalQuizConfig = (config: AnimalQuizConfig): CompleteContentQuizCon
   };
 };
 
-/**
- * Erstellt ein Animal-Quiz aus der gegebenen Konfiguration
- * Direkte funktionale Komposition statt Klassen
- */
 const createAnimalQuiz = (config: AnimalQuizConfig): Quiz<AnimalKey> => {
   const contentConfig = adaptAnimalQuizConfig(config);
   return createQuiz<AnimalKey>(contentConfig);
 };
 
-/**
- * Direkte Animal-zu-Question Konvertierung - ganz ohne Adapter!
- */
 export const createAnimalQuestion = (
   id: number, 
   animalKey: AnimalKey, 
@@ -69,15 +58,11 @@ export const createAnimalQuestion = (
     data: { content: animalKey }
   };
 };
-
-/**
- * Batch-Konvertierung für mehrere Animal-Questions
- */  
+ 
 export const createAnimalQuestions = (animalQuestions: QuestionWithAnimal[]): Question[] => {
   return animalQuestions.map(aq => 
     createAnimalQuestion(aq.id, aq.animal, aq.images)
   );
 };
-
 
 export { createAnimalQuiz };
