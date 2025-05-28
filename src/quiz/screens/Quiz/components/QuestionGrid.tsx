@@ -1,11 +1,11 @@
 import { QuestionListTile } from '@/src/quiz/screens/Quiz/components/QuestionListTile';
-import { QuizQuestion } from '@/src/quiz/types';
+import { QuizQuestion } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 import { QUIZ_LAYOUT } from '../constants/constants';
 
 interface QuestionGridProps {
-  questions: QuizQuestion[];
+  questions: QuizQuestion[]; // Kein Generic!
   itemWidth: number;
   onQuestionClick: (questionId: string) => void;
 }
@@ -16,7 +16,7 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   onQuestionClick,
 }) => {
 
-  const renderItem: ListRenderItem<QuizQuestion> = useCallback(
+  const renderItem: ListRenderItem<QuizQuestion> = useCallback( // Kein Generic!
     ({ item }) => (
       <QuestionListTile
         item={item}
@@ -28,10 +28,9 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   );
 
   const keyExtractor = useCallback(
-    (item: QuizQuestion) => item.id.toString(),
+    (item: QuizQuestion) => item.id.toString(), // Kein Generic!
     []
   );
-
 
   const flatListProps = useMemo(
     () => ({

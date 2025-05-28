@@ -1,9 +1,13 @@
-export type QuizImages = {
+// ====== EINFACHE BILD-TYPES ======
+
+export interface QuizImages {
   imageUrl: string;
   thumbnailUrl?: string;
   unsolvedImageUrl?: string;
   unsolvedThumbnailUrl?: string;
 }
+
+// ====== EINFACHE CONTENT-TYPES ======
 
 export interface ContentItem {
   name: string;
@@ -12,20 +16,18 @@ export interface ContentItem {
   wikipediaName?: string;
 }
 
+// Vereinfacht: ContentKey ist einfach ein String
 export type ContentKey = string;
 
-export interface ContentQuestion {
-  id: number;
-  images: QuizImages;
-  contentKey: ContentKey;
-}
+// ====== QUIZ-DEFINITION TYPES (VEREINFACHT) ======
 
-
-export interface QuizDefinition<T extends ContentKey = ContentKey> {
+export interface QuizDefinition {
   id: string;
-  quiz: any; // Avoid circular dependency
+  quiz: any; // Vermeidet Circular Dependencies - Quiz-Type wird im Quiz-Modul definiert
   contentType: string;
 }
+
+// ====== REGISTRY LOGIC (VEREINFACHT) ======
 
 const allQuizDefinitions: QuizDefinition[] = [];
 
@@ -56,9 +58,10 @@ export function getAllQuizDefinitions(): QuizDefinition[] {
   return [...allQuizDefinitions];
 }
 
-export const createQuestionsFromContent = (questions: ContentQuestion[]): any[] => {
-  // This function is now mainly used by animals module
-  // Implementation moved to animals/utils.ts
+// ====== LEGACY COMPATIBILITY ======
+
+// Deprecated - nur für Rückwärtskompatibilität
+export const createQuestionsFromContent = (questions: any[]): any[] => {
   console.warn('[Common] createQuestionsFromContent is deprecated, use animal-specific functions');
   return questions;
 };

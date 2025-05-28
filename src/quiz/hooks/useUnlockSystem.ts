@@ -1,26 +1,26 @@
 import { useCallback } from 'react';
-import { Quiz, SimpleUnlockCondition } from '../types';
+import { Quiz, UnlockCondition } from '../types'; // Vereinfachte Types ohne Generics
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
 import { isCompleted } from '../utils';
 
 interface UnlockProgress {
-  condition: SimpleUnlockCondition | null;
+  condition: UnlockCondition | null; // Vereinfacht!
   progress: number;
   isMet: boolean;
 }
 
 interface UseUnlockSystemReturn {
   getUnlockProgress: (quizId: string) => UnlockProgress;
-  checkForUnlocks: () => Quiz[];
+  checkForUnlocks: () => Quiz[]; // Vereinfacht!
   isQuizUnlocked: (quizId: string) => boolean;
   getUnlockDescription: (quizId: string) => string | null;
 }
 
 /**
  * VEREINFACHTES UNLOCK-SYSTEM
- * Arbeitet mit den einfachen SimpleUnlockCondition aus den Quiz-Definitionen
+ * Arbeitet mit den einfachen UnlockCondition aus den Quiz-Definitionen
  * Keine hartcodierten Regeln mehr - die Logik ist generisch und wiederverwendbar
  */
 export function useUnlockSystem(): UseUnlockSystemReturn {
@@ -49,7 +49,7 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     };
   }, [getQuizById, quizStates]);
 
-    const isQuizUnlocked = useCallback((quizId: string): boolean => {
+  const isQuizUnlocked = useCallback((quizId: string): boolean => {
     const quiz = getQuizById(quizId);
     if (!quiz) return false;
     
@@ -61,7 +61,7 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     return isMet;
   }, [getQuizById, getUnlockProgress]);
 
-  const checkForUnlocks = useCallback((): Quiz[] => {
+  const checkForUnlocks = useCallback((): Quiz[] => { // Vereinfacht!
     console.log('[useUnlockSystem] Checking for newly unlockable quizzes');
     
     const allQuizzes = getAllQuizzes();
@@ -97,7 +97,6 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     
     return unlockedQuizzes;
   }, [getAllQuizzes, quizStates, showSuccessToast, isQuizUnlocked, addPendingUnlock]);
-
 
   const getUnlockDescription = useCallback((quizId: string): string | null => {
     const quiz = getQuizById(quizId);

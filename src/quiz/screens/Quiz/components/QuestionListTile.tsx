@@ -2,11 +2,11 @@ import { useMemo, useCallback, memo } from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
-import { QuestionStatus, QuizQuestion } from '../../../types';
+import { QuestionStatus, QuizQuestion } from '../../../types'; // Vereinfachte Types ohne Generics
 import { ImageType, useImageDisplay } from '@/src/quiz/hooks/useImageDisplay';
 
 interface QuestionListTileProps {
-	item: QuizQuestion;
+	item: QuizQuestion; // Kein Generic!
 	itemWidth: number;
 	onClick: (questionId: string) => void;
 }

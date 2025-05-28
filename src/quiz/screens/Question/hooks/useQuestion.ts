@@ -1,11 +1,11 @@
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types';
+import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
 export const useQuestion = (
   quizId: string,
-  question: QuizQuestion
+  question: QuizQuestion // Kein Generic!
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
   const { getQuizState, updateQuizState, answerQuizQuestion, showSuccessToast } = useQuiz();
@@ -16,7 +16,7 @@ export const useQuestion = (
   const [isUpdating, setIsUpdating] = useState(false);
   const [statusChanged, setStatusChanged] = useState(false);
 
-  const quizState = getQuizState(quizId);
+  const quizState = getQuizState(quizId); // Kein Generic!
 
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,7 +27,7 @@ export const useQuestion = (
   );
 
   const processCorrectAnswer = useCallback(async (
-    newState: QuizState
+    newState: QuizState // Kein Generic!
   ) => {
     setIsCorrect(true);
     setShowResult(true);

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { ContentKey, QuizState } from '../types';
+import { QuizState } from '../types'; // Vereinfachte Types ohne Generics
 import { useAnswerProcessing } from './useAnswerProcessing';
 import { useDataManagement } from './useDataManagement';
 import { useQuizOperations } from './useQuizOperations';
@@ -14,13 +14,13 @@ interface QuizWorkflowReturn {
   }>;
   
   // Complete answer workflow
-  submitAnswerWorkflow: <T extends ContentKey = ContentKey>(
+  submitAnswerWorkflow: (
     quizId: string,
     questionId: number,
     answer: string
   ) => Promise<{
     isCorrect: boolean;
-    newState?: QuizState<T>;
+    newState?: QuizState; // Vereinfacht!
     nextQuestionId?: number;
     hasUnlocks: boolean;
     completedQuiz: boolean;
@@ -96,7 +96,7 @@ export function useQuizWorkflow(): QuizWorkflowReturn {
     }
   }, [isQuizUnlocked, startQuiz]);
 
-  const submitAnswerWorkflow = useCallback(async <T extends ContentKey = ContentKey>(
+  const submitAnswerWorkflow = useCallback(async (
     quizId: string,
     questionId: number,
     answer: string
@@ -105,7 +105,7 @@ export function useQuizWorkflow(): QuizWorkflowReturn {
     
     try {
       // Process the answer
-      const result = await processAnswer<T>(quizId, questionId, answer, (unlockedQuizzes) => {
+      const result = await processAnswer(quizId, questionId, answer, (unlockedQuizzes) => {
         // Handle unlocks if any
         if (unlockedQuizzes.length > 0) {
           console.log(`[useQuizWorkflow] ${unlockedQuizzes.length} quizzes unlocked after answer`);

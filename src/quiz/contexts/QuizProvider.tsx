@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext } from 'react';
-import { ContentKey, Quiz, QuizState } from '../types';
+import { Quiz, QuizState } from '../types'; // Vereinfachte Types ohne Generics
 
 import { useQuizData } from './QuizDataProvider';
 import { useQuizState } from './QuizStateProvider';
@@ -15,13 +15,13 @@ import {
 } from '../hooks';
 
 interface QuizContextValue {
-  getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
-  getAllQuizzes: <T extends ContentKey = ContentKey>() => Quiz<T>[];
+  getQuizById: (id: string) => Quiz | undefined; // Kein Generic!
+  getAllQuizzes: () => Quiz[]; // Vereinfacht!
   
-  getQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | undefined;
-  initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
-  updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => Promise<void>;
-  resetQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
+  getQuizState: (quizId: string) => QuizState | undefined; // Kein Generic!
+  initializeQuizState: (quizId: string) => Promise<QuizState | null>; // Vereinfacht!
+  updateQuizState: (quizId: string, newState: QuizState) => Promise<void>; // Vereinfacht!
+  resetQuizState: (quizId: string) => Promise<QuizState | null>; // Vereinfacht!
   
   getQuizProgress: (quizId: string) => number;
   getQuizProgressString: (quizId: string) => string | null;
@@ -29,7 +29,7 @@ interface QuizContextValue {
   getNextActiveQuestion: (quizId: string, currentQuestionId?: number) => number | null;
   
   currentQuizId: string | null;
-  currentQuizState: QuizState<ContentKey> | null;
+  currentQuizState: QuizState | null; // Kein Generic!
   isLoading: boolean;
   initialized: boolean;
   isInitializing: boolean;
@@ -39,11 +39,7 @@ interface QuizContextValue {
   showInfoToast: (message: string, duration?: number) => void;
   showWarningToast: (message: string, duration?: number) => void;
   
-  answerQuizQuestion: <T extends ContentKey = ContentKey>(
-    quizId: string,
-    questionId: number,
-    answer: string
-  ) => Promise<AnswerResult<T>>;
+  answerQuizQuestion: (quizId: string, questionId: number, answer: string) => Promise<AnswerResult>; // Vereinfacht!
   
   getUnlockProgress: (quizId: string) => UnlockProgress;
   checkForUnlocks: () => Quiz[];
@@ -117,12 +113,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const initialized = dataInitialized && stateInitialized;
   const isInitializing = !initialized;
 
-  const answerQuizQuestion = async <T extends ContentKey = ContentKey>(
-    quizId: string,
-    questionId: number,
-    answer: string
-  ): Promise<AnswerResult<T>> => {
-    return processAnswer<T>(quizId, questionId, answer, checkForUnlocks);
+  const answerQuizQuestion = async (quizId: string, questionId: number, answer: string): Promise<AnswerResult> => { // Vereinfacht!
+    return processAnswer(quizId, questionId, answer, checkForUnlocks);
   };
 
   const contextValue: QuizContextValue = {

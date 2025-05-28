@@ -1,13 +1,97 @@
-import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { ContentKey, QuizMode, QuizState } from '../types';
+import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState, useRef } from 'react';
+import { QuizMode, QuizState } from '../types';
 import { usePersistence } from './PersistenceProvider';
 import { useQuizData } from './QuizDataProvider';
-import { createQuizState, getNextActiveQuestionId, isCompleted } from '../utils';
+import { 
+  createQuizState, 
+  getNextActiveQuestionId, 
+  isCompleted,
+  calculateQuizProgress,
+  createProgressString
+} from '../utils';
+
+
+export const stateOperations = {
+  initializeState: (
+    quizId: string,
+    existingStates: Record<string, QuizState>,
+    getQuizById: (id: string) => any
+  ): QuizState | null => {
+    const existingState = existingStates[quizId];
+    if (existingState) {
+      return existingState;
+    }
+
+    const quiz = getQuizById(quizId);
+    if (!quiz) {
+      return null;
+    }
+
+    return createQuizState(
+      quiz.questions,
+      quiz.id,
+      quiz.title,
+      quiz.quizMode || QuizMode.SEQUENTIAL,
+      quiz.initialUnlockedQuestions || 2
+    );
+  },
+
+  calculateStateUpdate: (
+    quizId: string,
+    newState: QuizState,
+    currentStates: Record<string, QuizState>,
+    currentQuizId: string | null
+  ) => {
+    const updatedStates = { ...currentStates, [quizId]: newState };
+    const updatedCurrentState = currentQuizId === quizId ? newState : null;
+    
+    return {
+      quizStates: updatedStates,
+      currentQuizState: updatedCurrentState,
+    };
+  },
+
+  calculateResetState: (
+    quizId: string,
+    currentStates: Record<string, QuizState>,
+    currentQuizId: string | null,
+    getQuizById: (id: string) => any
+  ) => {
+    const quiz = getQuizById(quizId);
+    if (!quiz) {
+      return null;
+    }
+
+    const newState = createQuizState(
+      quiz.questions,
+      quiz.id,
+      quiz.title,
+      quiz.quizMode || QuizMode.SEQUENTIAL,
+      quiz.initialUnlockedQuestions || 2
+    );
+
+    const updatedStates = { ...currentStates, [quizId]: newState };
+    const updatedCurrentState = currentQuizId === quizId ? newState : null;
+    
+    return {
+      newState,
+      quizStates: updatedStates,
+      currentQuizState: updatedCurrentState,
+    };
+  },
+
+  calculateStatistics: (quizStates: Record<string, QuizState>) => ({
+    completedCount: Object.values(quizStates).filter(state => isCompleted(state)).length,
+    totalQuestions: Object.values(quizStates).reduce((total, state) => total + (state.questions?.length || 0), 0),
+    completedQuestions: Object.values(quizStates).reduce((total, state) => total + (state.completedQuestions || 0), 0),
+  }),
+};
+
 
 interface QuizStateData {
   quizStates: Record<string, QuizState>;
   currentQuizId: string | null;
-  currentQuizState: QuizState<ContentKey> | null;
+  currentQuizState: QuizState | null;
   initialized: boolean;
   isLoading: boolean;
 }
@@ -15,14 +99,14 @@ interface QuizStateData {
 interface QuizStateContextValue {
   quizStates: Record<string, QuizState>;
   currentQuizId: string | null;
-  currentQuizState: QuizState<ContentKey> | null;
+  currentQuizState: QuizState | null;
   initialized: boolean;
   isLoading: boolean;
   
-  getQuizState: <T extends ContentKey = ContentKey>(quizId: string) => QuizState<T> | undefined;
-  initializeQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
-  updateQuizState: <T extends ContentKey = ContentKey>(quizId: string, newState: QuizState<T>) => Promise<void>;
-  resetQuizState: <T extends ContentKey = ContentKey>(quizId: string) => Promise<QuizState<T> | null>;
+  getQuizState: (quizId: string) => QuizState | undefined;
+  initializeQuizState: (quizId: string) => Promise<QuizState | null>;
+  updateQuizState: (quizId: string, newState: QuizState) => Promise<void>;
+  resetQuizState: (quizId: string) => Promise<QuizState | null>;
   
   getQuizProgress: (quizId: string) => number;
   getQuizProgressString: (quizId: string) => string | null;
@@ -39,6 +123,7 @@ interface QuizStateContextValue {
 
 const QuizStateContext = createContext<QuizStateContextValue | null>(null);
 
+
 export function QuizStateProvider({ children }: { children: ReactNode }) {
   const { getQuizById, initialized: quizDataInitialized } = useQuizData();
   const { saveQuizStates, loadQuizStates, clearQuizStates } = usePersistence();
@@ -51,13 +136,25 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     isLoading: false,
   });
 
-  // Auto-save whenever quiz states change
+  
+  const initializationRef = useRef(false);
+  const saveInProgressRef = useRef(false);
+
+
+  // WICHTIG: saveStatesIfInitialized mit festen Dependencies
   const saveStatesIfInitialized = useCallback(async (quizStates: Record<string, QuizState>) => {
+    if (saveInProgressRef.current) {
+      return; // Verhindere parallele Saves
+    }
+
     if (stateData.initialized && quizDataInitialized) {
+      saveInProgressRef.current = true;
       try {
         await saveQuizStates(quizStates);
       } catch (error) {
         console.error('[QuizStateProvider] Error auto-saving quiz states:', error);
+      } finally {
+        saveInProgressRef.current = false;
       }
     }
   }, [saveQuizStates, stateData.initialized, quizDataInitialized]);
@@ -66,8 +163,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     setStateData(prev => {
       const newState = updater(prev);
       
-      // Auto-save wenn Zustände sich geändert haben
-      if (newState.quizStates !== prev.quizStates) {
+      if (newState.quizStates !== prev.quizStates && Object.keys(newState.quizStates).length > 0) {
         saveStatesIfInitialized(newState.quizStates);
       }
       
@@ -75,102 +171,71 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     });
   }, [saveStatesIfInitialized]);
 
-  const getQuizState = useCallback(<T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => {
-    return stateData.quizStates[quizId] as QuizState<T> | undefined;
+
+  const getQuizState = useCallback((quizId: string): QuizState | undefined => {
+    return stateData.quizStates[quizId];
   }, [stateData.quizStates]);
 
-  const initializeQuizState = useCallback(async <T extends ContentKey = ContentKey>(
-    quizId: string
-  ): Promise<QuizState<T> | null> => {
-    const quiz = getQuizById(quizId);
-    if (!quiz) {
-      console.warn(`[QuizStateProvider] Quiz with ID ${quizId} not found`);
-      return null;
-    }
-
-    const existingState = stateData.quizStates[quizId];
-    if (existingState) {
-      console.log(`[QuizStateProvider] Quiz state ${quizId} already exists`);
-      return existingState as QuizState<T>;
-    }
-
-    console.log(`[QuizStateProvider] Creating new quiz state for ${quizId}`);
-    const newState = createQuizState(
-      quiz.questions,
-      quiz.id,
-      quiz.title,
-      quiz.quizMode || QuizMode.SEQUENTIAL,
-      quiz.initialUnlockedQuestions || 2
+  const initializeQuizState = useCallback(async (quizId: string): Promise<QuizState | null> => {
+    const newState = stateOperations.initializeState(
+      quizId,
+      stateData.quizStates,
+      getQuizById
     );
 
+    if (newState && !stateData.quizStates[quizId]) {
+      updateStateData(prev => ({
+        ...prev,
+        quizStates: { ...prev.quizStates, [quizId]: newState }
+      }));
+    }
+
+    return newState;
+  }, [stateData.quizStates, getQuizById, updateStateData]);
+
+  const updateQuizState = useCallback(async (quizId: string, newState: QuizState): Promise<void> => {
+    const update = stateOperations.calculateStateUpdate(
+      quizId,
+      newState,
+      stateData.quizStates,
+      stateData.currentQuizId
+    );
+    
     updateStateData(prev => ({
       ...prev,
-      quizStates: { ...prev.quizStates, [quizId]: newState }
+      ...update,
     }));
+  }, [stateData.quizStates, stateData.currentQuizId, updateStateData]);
 
-    return newState as QuizState<T>;
-  }, [getQuizById, stateData.quizStates, updateStateData]);
-
-  const updateQuizState = useCallback(async <T extends ContentKey = ContentKey>(
-    quizId: string, 
-    newState: QuizState<T>
-  ): Promise<void> => {
-    console.log(`[QuizStateProvider] Updating quiz state for ${quizId}`);
-    
-    updateStateData(prev => {
-      const updatedStates = { ...prev.quizStates, [quizId]: newState };
-      const updatedCurrentState = prev.currentQuizId === quizId ? newState : prev.currentQuizState;
-      
-      return {
-        ...prev,
-        quizStates: updatedStates,
-        currentQuizState: updatedCurrentState,
-      };
-    });
-  }, [updateStateData]);
-
-  const resetQuizState = useCallback(async <T extends ContentKey = ContentKey>(
-    quizId: string
-  ): Promise<QuizState<T> | null> => {
-    const quiz = getQuizById(quizId);
-    if (!quiz) {
-      console.warn(`[QuizStateProvider] Cannot reset - Quiz with ID ${quizId} not found`);
-      return null;
-    }
-
-    console.log(`[QuizStateProvider] Resetting quiz state for ${quizId}`);
-    const newState = createQuizState(
-      quiz.questions,
-      quiz.id,
-      quiz.title,
-      quiz.quizMode || QuizMode.SEQUENTIAL,
-      quiz.initialUnlockedQuestions || 2
+  const resetQuizState = useCallback(async (quizId: string): Promise<QuizState | null> => {
+    const resetResult = stateOperations.calculateResetState(
+      quizId,
+      stateData.quizStates,
+      stateData.currentQuizId,
+      getQuizById
     );
 
-    updateStateData(prev => {
-      const updatedStates = { ...prev.quizStates, [quizId]: newState };
-      const updatedCurrentState = prev.currentQuizId === quizId ? newState : prev.currentQuizState;
-      
-      return {
+    if (resetResult) {
+      updateStateData(prev => ({
         ...prev,
-        quizStates: updatedStates,
-        currentQuizState: updatedCurrentState,
-      };
-    });
+        quizStates: resetResult.quizStates,
+        currentQuizState: resetResult.currentQuizState,
+      }));
+      
+      return resetResult.newState;
+    }
 
-    return newState as QuizState<T>;
-  }, [getQuizById, updateStateData]);
+    return null;
+  }, [stateData.quizStates, stateData.currentQuizId, getQuizById, updateStateData]);
 
   const getQuizProgress = useCallback((quizId: string): number => {
     const state = stateData.quizStates[quizId];
-    if (!state || !state.questions?.length) return 0;
-    return Math.round((state.completedQuestions / state.questions.length) * 100);
+    return state ? calculateQuizProgress(state) : 0;
   }, [stateData.quizStates]);
 
   const getQuizProgressString = useCallback((quizId: string): string | null => {
     const state = stateData.quizStates[quizId];
-    if (!state || !state.questions?.length) return null;
-    return `${state.completedQuestions} von ${state.questions.length} gelöst`;
+    return state ? createProgressString(state) : null;
   }, [stateData.quizStates]);
 
   const isQuizCompleted = useCallback((quizId: string): boolean => {
@@ -184,8 +249,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   }, [stateData.quizStates]);
 
   const setCurrentQuiz = useCallback((quizId: string | null, quizState?: QuizState | null) => {
-    console.log(`[QuizStateProvider] Setting current quiz to ${quizId}`);
-    
     updateStateData(prev => ({
       ...prev,
       currentQuizId: quizId,
@@ -194,8 +257,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   }, [updateStateData]);
 
   const resetAllQuizStates = useCallback(async (): Promise<void> => {
-    console.log('[QuizStateProvider] Resetting all quiz states');
-    
     try {
       await clearQuizStates();
       
@@ -211,29 +272,32 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
   }, [clearQuizStates, updateStateData]);
 
+
   const getCompletedQuizzesCount = useCallback((): number => {
-    return Object.values(stateData.quizStates).filter(state => isCompleted(state)).length;
+    const stats = stateOperations.calculateStatistics(stateData.quizStates);
+    return stats.completedCount;
   }, [stateData.quizStates]);
 
   const getTotalQuestionsCount = useCallback((): number => {
-    return Object.values(stateData.quizStates).reduce((total, state) => {
-      return total + (state.questions?.length || 0);
-    }, 0);
+    const stats = stateOperations.calculateStatistics(stateData.quizStates);
+    return stats.totalQuestions;
   }, [stateData.quizStates]);
 
   const getCompletedQuestionsCount = useCallback((): number => {
-    return Object.values(stateData.quizStates).reduce((total, state) => {
-      return total + (state.completedQuestions || 0);
-    }, 0);
+    const stats = stateOperations.calculateStatistics(stateData.quizStates);
+    return stats.completedQuestions;
   }, [stateData.quizStates]);
 
-  // Load initial state from persistence
-  useEffect(() => {
-    const initializeQuizStates = async () => {
-      if (!quizDataInitialized) {
-        return;
-      }
 
+  useEffect(() => {
+    // Verhindere doppelte Initialisierung
+    if (initializationRef.current || !quizDataInitialized) {
+      return;
+    }
+
+    const initializeQuizStates = async () => {
+      initializationRef.current = true;
+      
       try {
         console.log('[QuizStateProvider] Initializing quiz states from persistence...');
         
@@ -256,7 +320,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     };
 
     initializeQuizStates();
-  }, [quizDataInitialized, loadQuizStates, updateStateData]);
+  }, [quizDataInitialized, loadQuizStates, updateStateData]); // Stabile Dependencies
 
   const contextValue: QuizStateContextValue = {
     quizStates: stateData.quizStates,
@@ -297,5 +361,120 @@ export function useQuizState() {
   }
   return context;
 }
+
+export const createTestableQuizStateProvider = (mockDependencies: {
+  getQuizById: (id: string) => any;
+  saveQuizStates: (states: Record<string, QuizState>) => Promise<void>;
+  loadQuizStates: () => Promise<Record<string, QuizState> | null>;
+  clearQuizStates: () => Promise<void>;
+}) => {
+  const TestableProvider = ({ children }: { children: ReactNode }) => {
+    const [stateData, setStateData] = useState<QuizStateData>({
+      quizStates: {},
+      currentQuizId: null,
+      currentQuizState: null,
+      initialized: true,
+      isLoading: false,
+    });
+
+    const contextValue: QuizStateContextValue = {
+      ...stateData,
+      getQuizState: (quizId: string) => stateData.quizStates[quizId],
+      initializeQuizState: async (quizId: string) => {
+        const newState = stateOperations.initializeState(
+          quizId,
+          stateData.quizStates,
+          mockDependencies.getQuizById
+        );
+        if (newState) {
+          setStateData(prev => ({
+            ...prev,
+            quizStates: { ...prev.quizStates, [quizId]: newState }
+          }));
+        }
+        return newState;
+      },
+      updateQuizState: async (quizId: string, newState: QuizState) => {
+        const update = stateOperations.calculateStateUpdate(
+          quizId,
+          newState,
+          stateData.quizStates,
+          stateData.currentQuizId
+        );
+        setStateData(prev => ({ ...prev, ...update }));
+      },
+      resetQuizState: async (quizId: string) => {
+        const resetResult = stateOperations.calculateResetState(
+          quizId,
+          stateData.quizStates,
+          stateData.currentQuizId,
+          mockDependencies.getQuizById
+        );
+        if (resetResult) {
+          setStateData(prev => ({
+            ...prev,
+            quizStates: resetResult.quizStates,
+            currentQuizState: resetResult.currentQuizState,
+          }));
+          return resetResult.newState;
+        }
+        return null;
+      },
+      getQuizProgress: (quizId: string) => {
+        const state = stateData.quizStates[quizId];
+        return state ? calculateQuizProgress(state) : 0;
+      },
+      getQuizProgressString: (quizId: string) => {
+        const state = stateData.quizStates[quizId];
+        return state ? createProgressString(state) : null;
+      },
+      isQuizCompleted: (quizId: string) => {
+        const state = stateData.quizStates[quizId];
+        return state ? isCompleted(state) : false;
+      },
+      getNextActiveQuestion: (quizId: string, currentQuestionId?: number) => {
+        const state = stateData.quizStates[quizId];
+        return state ? getNextActiveQuestionId(state, currentQuestionId) : null;
+      },
+      setCurrentQuiz: (quizId: string | null, quizState?: QuizState | null) => {
+        setStateData(prev => ({
+          ...prev,
+          currentQuizId: quizId,
+          currentQuizState: quizState || (quizId ? prev.quizStates[quizId] : null) || null,
+        }));
+      },
+      resetAllQuizStates: async () => {
+        await mockDependencies.clearQuizStates();
+        setStateData(prev => ({
+          ...prev,
+          quizStates: {},
+          currentQuizId: null,
+          currentQuizState: null,
+        }));
+      },
+      getCompletedQuizzesCount: () => {
+        const stats = stateOperations.calculateStatistics(stateData.quizStates);
+        return stats.completedCount;
+      },
+      getTotalQuestionsCount: () => {
+        const stats = stateOperations.calculateStatistics(stateData.quizStates);
+        return stats.totalQuestions;
+      },
+      getCompletedQuestionsCount: () => {
+        const stats = stateOperations.calculateStatistics(stateData.quizStates);
+        return stats.completedQuestions;
+      },
+    };
+
+    return (
+      <QuizStateContext.Provider value={contextValue}>
+        {children}
+      </QuizStateContext.Provider>
+    );
+  };
+  
+  TestableProvider.displayName = 'TestableQuizStateProvider';
+  return TestableProvider;
+};
 
 export type { QuizStateContextValue };

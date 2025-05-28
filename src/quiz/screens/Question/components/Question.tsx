@@ -1,5 +1,5 @@
 import { ThemedView } from '@/src/common/components/ThemedView';
-import { QuizQuestion } from '@/src/quiz/types';
+import { QuizQuestion } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import React, { memo } from 'react';
 import { View, ScrollView, StyleSheet, Animated } from 'react-native';
 import { AnswerInput } from './AnswerInput';
@@ -13,10 +13,9 @@ import { QuestionResult } from './QuestionResult/QuestionResult';
 interface QuestionProps {
 	quizId: string;
 	questionId: string;
-	question: QuizQuestion;
+	question: QuizQuestion; // Kein Generic!
 }
 
-// TODO QuizMode entfernen
 export const Question: React.FC<QuestionProps> = memo(
 	({ quizId, question }) => {
 		const {

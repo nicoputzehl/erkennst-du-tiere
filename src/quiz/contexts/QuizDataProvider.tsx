@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { ContentKey, Quiz } from '../types';
+import { Quiz } from '../types'; // Vereinfachte Quiz-Type ohne Generics
 // Import der Quiz-Definitionen (löst Auto-Registrierung aus)
 import '@/src/animals/quizzes';
 import { initializeAllQuizzes } from '@/src/common/utils';
@@ -11,16 +11,15 @@ interface QuizDataState {
 }
 
 interface QuizDataContextValue {
-  getQuizById: <T extends ContentKey = ContentKey>(id: string) => Quiz<T> | undefined;
-  getAllQuizzes: <T extends ContentKey = ContentKey>() => Quiz<T>[];
-  getQuizzesByOrder: <T extends ContentKey = ContentKey>() => Quiz<T>[];
+  getQuizById: (id: string) => Quiz | undefined; // Kein Generic mehr!
+  getAllQuizzes: () => Quiz[]; // Vereinfacht!
+  getQuizzesByOrder: () => Quiz[]; // Vereinfacht!
   initialized: boolean;
   isInitializing: boolean;
-  registerQuiz: <T extends ContentKey = ContentKey>(id: string, quiz: Quiz<T>) => void;
+  registerQuiz: (id: string, quiz: Quiz) => void; // Kein Generic mehr!
 }
 
 const QuizDataContext = createContext<QuizDataContextValue | null>(null);
-
 
 export function QuizDataProvider({ children }: { children: ReactNode }) {
   const [dataState, setDataState] = useState<QuizDataState>({
@@ -29,10 +28,7 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
     isInitializing: true,
   });
 
-  const registerQuiz = useCallback(<T extends ContentKey = ContentKey>(
-    id: string, 
-    quiz: Quiz<T>
-  ) => {
+  const registerQuiz = useCallback((id: string, quiz: Quiz) => { // Vereinfacht!
     console.log(`[QuizDataProvider] Registering quiz: ${id}`);
     setDataState(prev => ({
       ...prev,
@@ -40,18 +36,18 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const getQuizById = useCallback(<T extends ContentKey = ContentKey>(id: string): Quiz<T> | undefined => {
-    return dataState.quizzes[id] as Quiz<T> | undefined;
+  const getQuizById = useCallback((id: string): Quiz | undefined => { // Kein Generic!
+    return dataState.quizzes[id];
   }, [dataState.quizzes]);
 
-  const getAllQuizzes = useCallback(<T extends ContentKey = ContentKey>(): Quiz<T>[] => {
-    const allQuizzes = Object.values(dataState.quizzes) as Quiz<T>[];
+  const getAllQuizzes = useCallback((): Quiz[] => { // Vereinfacht!
+    const allQuizzes = Object.values(dataState.quizzes);
     console.log(`[QuizDataProvider] getAllQuizzes called, returning ${allQuizzes.length} quizzes`);
     return allQuizzes;
   }, [dataState.quizzes]);
 
-  const getQuizzesByOrder = useCallback(<T extends ContentKey = ContentKey>(): Quiz<T>[] => {
-    const allQuizzes = Object.values(dataState.quizzes) as Quiz<T>[];
+  const getQuizzesByOrder = useCallback((): Quiz[] => { // Vereinfacht!
+    const allQuizzes = Object.values(dataState.quizzes);
     return allQuizzes.sort((a, b) => (a.order || 0) - (b.order || 0));
   }, [dataState.quizzes]);
 

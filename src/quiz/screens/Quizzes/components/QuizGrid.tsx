@@ -1,10 +1,10 @@
-import { Quiz } from '@/src/quiz/types';
+import { Quiz } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QuizCard } from './QuizCard/QuizCard';
 
 type QuizGridProps = {
-  quizzes: Quiz[];
+  quizzes: Quiz[]; // Kein Generic!
 };
 
 export const QuizGrid = ({ quizzes }: QuizGridProps) => {

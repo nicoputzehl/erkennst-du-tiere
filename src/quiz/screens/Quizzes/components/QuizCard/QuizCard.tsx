@@ -1,10 +1,10 @@
-import { Quiz } from '@/src/quiz/types';
+import { Quiz } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import { useQuizzes } from '../../hooks/useQuizzes';
 import { ActiveQuizCard } from './ActiveQuizCard';
 import { LockedQuizCard } from './LockedQuizCard';
 
 // Factory-Funktion, die die richtige Komponente basierend auf dem Quiz-Status zurückgibt
-export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
+export const QuizCard = ({ quiz }: { quiz: Quiz }) => { // Kein Generic!
 	const {
 		getUnlockInfo,
 		isLoading,

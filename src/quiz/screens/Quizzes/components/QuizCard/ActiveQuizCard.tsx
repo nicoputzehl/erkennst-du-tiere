@@ -1,4 +1,4 @@
-import { Quiz } from '@/src/quiz/types';
+import { Quiz } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import {
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 type ActiveQuizCardProps = {
-	quiz: Quiz;
+	quiz: Quiz; // Kein Generic!
 	quizCardProgress: number;
 	quizCardProgressString: string | null;
 	onPress: (id: string) => void;

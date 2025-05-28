@@ -1,14 +1,8 @@
-import { ContentKey, QuizImages } from '../common/utils';
-
-// ====== GRUNDLEGENDE ENUMS ======
-
-export enum QuestionType {
-  TEXT = 'text'
-}
+// ====== EINFACHE ENUMS ======
 
 export enum QuestionStatus {
   INACTIVE = 'inactive',
-  ACTIVE = 'active',
+  ACTIVE = 'active', 
   SOLVED = 'solved'
 }
 
@@ -17,83 +11,91 @@ export enum QuizMode {
   ALL_UNLOCKED = 'all_unlocked'
 }
 
-// ====== QUESTION TYPES ======
+// ====== BILD-TYPES ======
 
-export interface BaseQuestion {
+export interface QuizImages {
+  imageUrl: string;
+  thumbnailUrl?: string;
+  unsolvedImageUrl?: string;
+  unsolvedThumbnailUrl?: string;
+}
+
+// ====== FRAGEN-TYPES (VEREINFACHT) ======
+
+// Basis-Frage ohne Status
+export interface Question {
   id: number;
   images: QuizImages;
   answer: string;
-}
-
-export interface Question<T extends ContentKey = ContentKey> extends BaseQuestion {
   alternativeAnswers?: string[];
   funFact?: string;
   wikipediaName?: string;
-  questionType?: QuestionType;
-  data?: {
-    content: T;
-  };
+  // Vereinfacht: Nur String statt Generic
+  contentKey?: string;
 }
 
-export interface QuizQuestion<T extends ContentKey = ContentKey> extends Question<T> {
+// Frage mit Status (für aktive Quizzes)
+export interface QuizQuestion extends Question {
   status: QuestionStatus;
 }
 
-// ====== UNLOCK TYPES ======
+// ====== UNLOCK-TYPES (VEREINFACHT) ======
 
-export interface SimpleUnlockCondition {
+export interface UnlockCondition {
   requiredQuizId: string;
   description: string;
 }
 
-// ====== QUIZ TYPES ======
+// ====== QUIZ-TYPES (VEREINFACHT) ======
 
-export interface Quiz<T extends ContentKey = ContentKey> {
+// Basis-Quiz Definition (ohne Generics!)
+export interface Quiz {
   id: string;
   title: string;
-  questions: Question<T>[];
+  questions: Question[];
   initiallyLocked?: boolean;
-  unlockCondition?: SimpleUnlockCondition;
+  unlockCondition?: UnlockCondition;
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
 }
 
-export interface QuizState<T extends ContentKey = ContentKey> {
+// Quiz-Zustand zur Laufzeit
+export interface QuizState {
   id: string;
   title: string;
-  questions: QuizQuestion<T>[];
+  questions: QuizQuestion[];
   completedQuestions: number;
   quizMode?: QuizMode;
 }
 
-// ====== CONFIG TYPES ======
+// ====== CONFIG-TYPES (VEREINFACHT) ======
 
-export interface QuizConfig<T extends ContentKey = ContentKey> {
+export interface QuizConfig {
   id: string;
   title: string;
-  questions: Question<T>[];
+  questions: Question[];
   initiallyLocked?: boolean;
-  unlockCondition?: SimpleUnlockCondition;
+  unlockCondition?: UnlockCondition;
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
 }
 
-// ====== UTILITY TYPES ======
+// ====== UTILITY-TYPES ======
 
-export type QuizWithState<T extends ContentKey = ContentKey> = {
-  quiz: Quiz<T>;
-  state: QuizState<T>;
-};
-
-export type QuizProgress = {
+export interface QuizProgress {
   quizId: string;
   completed: number;
   total: number;
   percentage: number;
-};
+}
 
-// ====== LEGACY COMPATIBILITY ======
-// Re-exports für Rückwärtskompatibilität
-export type { ContentKey, QuizImages };
+// ====== LEGACY-KOMPATIBILITÄT ======
+// Alte Typen werden zu einfachen Strings gemappt
+
+export type ContentKey = string;
+
+// Aliases für Rückwärtskompatibilität
+export type SimpleUnlockCondition = UnlockCondition;
+export type BaseQuestion = Question;
