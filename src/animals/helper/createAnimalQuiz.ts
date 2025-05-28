@@ -1,47 +1,14 @@
-import { createQuiz, CompleteContentQuizConfig } from '../../core/content/quizFactory';
-import { createQuestionsFromAnimals } from '../adapter/animalQuestions';
+import { createQuiz, createUnlockCondition } from '../../quiz/factories/quizHelpers';
+import { Question, Quiz, QuizMode } from '../../quiz/types/base';
 import { QuestionWithAnimal, AnimalKey } from '../types';
-import { Question, Quiz, QuizMode, SimpleUnlockCondition } from '../../quiz/types';
 import { ANIMAL_LIST } from '../data/animal_list';
 import { QuizImages } from '@/src/core/content/types';
 
-export interface AnimalQuizConfig {
-  id: string;
-  title: string;
-  initiallyLocked?: boolean;
-  unlockCondition?: SimpleUnlockCondition; // Viel einfacher als vorher!
-  order?: number;
-  quizMode?: QuizMode;
-  initialUnlockedQuestions?: number;
-  animalQuestions: QuestionWithAnimal[];
-}
-
-const adaptAnimalQuizConfig = (config: AnimalQuizConfig): CompleteContentQuizConfig<AnimalKey> => {
-  const questions = createQuestionsFromAnimals(config.animalQuestions);
-  
-  return {
-    id: config.id,
-    title: config.title,
-    questions,
-    initiallyLocked: config.initiallyLocked,
-    unlockCondition: config.unlockCondition,
-    order: config.order,
-    quizMode: config.quizMode,
-    initialUnlockedQuestions: config.initialUnlockedQuestions,
-    questionType: 'text'
-  };
-};
-
-const createAnimalQuiz = (config: AnimalQuizConfig): Quiz<AnimalKey> => {
-  const contentConfig = adaptAnimalQuizConfig(config);
-  return createQuiz<AnimalKey>(contentConfig);
-};
-
-export const createAnimalQuestion = (
+export function createAnimalQuestion(
   id: number, 
   animalKey: AnimalKey, 
   images: QuizImages
-): Question => {
+): Question<AnimalKey> {
   const animal = ANIMAL_LIST[animalKey];
   
   if (!animal) {
@@ -55,14 +22,70 @@ export const createAnimalQuestion = (
     alternativeAnswers: animal.alternativeNames,
     funFact: animal.funFact,
     wikipediaName: animal.wikipediaName,
-    data: { content: animalKey }
+    data: { content: animalKey },
   };
-};
- 
-export const createAnimalQuestions = (animalQuestions: QuestionWithAnimal[]): Question[] => {
-  return animalQuestions.map(aq => 
+}
+
+
+export interface AnimalQuizConfig {
+  id: string;
+  title: string;
+  animalQuestions: QuestionWithAnimal[];
+  order?: number;
+  quizMode?: QuizMode;
+  initialUnlockedQuestions?: number;
+  initiallyLocked?: boolean;
+  requiresQuiz?: string; // Einfacher als unlockCondition
+}
+
+export function createAnimalQuiz(config: AnimalQuizConfig): Quiz<AnimalKey> {
+  const questions = config.animalQuestions.map(aq => 
     createAnimalQuestion(aq.id, aq.animal, aq.images)
   );
-};
 
-export { createAnimalQuiz };
+  const unlockCondition = config.requiresQuiz 
+    ? createUnlockCondition(config.requiresQuiz)
+    : undefined;
+
+  return createQuiz({
+    id: config.id,
+    title: config.title,
+    questions,
+    initiallyLocked: config.initiallyLocked,
+    unlockCondition,
+    order: config.order,
+    quizMode: config.quizMode,
+    initialUnlockedQuestions: config.initialUnlockedQuestions,
+  });
+}
+
+export function createSimpleAnimalQuiz(
+  id: string,
+  title: string,
+  animalQuestions: QuestionWithAnimal[]
+): Quiz<AnimalKey> {
+  return createAnimalQuiz({
+    id,
+    title,
+    animalQuestions,
+    order: 1,
+    initiallyLocked: false,
+  });
+}
+
+export function createLockedAnimalQuiz(
+  id: string,
+  title: string,
+  animalQuestions: QuestionWithAnimal[],
+  requiredQuizId: string,
+  order: number = 1
+): Quiz<AnimalKey> {
+  return createAnimalQuiz({
+    id,
+    title,
+    animalQuestions,
+    order,
+    initiallyLocked: true,
+    requiresQuiz: requiredQuizId,
+  });
+}
