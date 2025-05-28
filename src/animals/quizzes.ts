@@ -1,62 +1,44 @@
-import { registerQuizDefinitions } from '@/src/core/initialization/quizInitialization';
-import { createAnimalQuiz } from './helper/createAnimalQuiz';
+import { registerQuizDefinitions } from '../common/utils';
+import { createSimpleAnimalQuiz, createLockedAnimalQuiz } from './utils';
 import { emojiAnimals, namibia, weirdAnimals } from './data/quizzes';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
+// ====== EINFACHE QUIZ-DEFINITIONEN ======
+
 const animalQuizDefinitions = [
+  // Starter-Quiz (immer freigeschaltet)
   {
     id: 'namibia',
-    quiz: createAnimalQuiz({
-      id: 'namibia',
-      title: 'Tiere Namibias',
-      animalQuestions: namibia,
-      order: 1,
-      initiallyLocked: false, // Startquiz - immer freigeschaltet
-    }),
+    quiz: createSimpleAnimalQuiz('namibia', 'Tiere Namibias', namibia),
     contentType: ANIMAL_CONTENT_TYPE
   },
+
+  // Folge-Quizzes (mit einfacher Unlock-Chain)
   {
     id: 'emoji_animals',
-    quiz: createAnimalQuiz({
-      id: 'emoji_animals',
-      title: 'Emojis',
-      animalQuestions: emojiAnimals,
-      order: 2,
-      initiallyLocked: true,
-      unlockCondition: {
-        requiredQuizId: 'namibia',
-        description: 'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.'
-      }
-    }),
+    quiz: createLockedAnimalQuiz('emoji_animals', 'Emojis', emojiAnimals, 'namibia', 2),
     contentType: ANIMAL_CONTENT_TYPE
   },
+
   {
     id: 'weird_animals',
-    quiz: createAnimalQuiz({
-      id: 'weird_animals',
-      title: 'Weird Animals',
-      animalQuestions: weirdAnimals,
-      order: 3,
-      initiallyLocked: true,
-      unlockCondition: {
-        requiredQuizId: 'emoji_animals',
-        description: 'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.'
-      }
-    }),
+    quiz: createLockedAnimalQuiz('weird_animals', 'Weird Animals', weirdAnimals, 'emoji_animals', 3),
     contentType: ANIMAL_CONTENT_TYPE
   }
 ];
 
+// Quiz-Definitionen registrieren
 registerQuizDefinitions(animalQuizDefinitions);
 
-/**
- * Export für direkten Zugriff (falls nötig)
- */
+// ====== EXPORTS ======
+
 export const allAnimalQuizCategories = animalQuizDefinitions.map(def => ({
   id: def.id,
   title: def.quiz.title,
-  contentType: def.contentType
+  contentType: def.contentType,
+  order: def.quiz.order || 1,
+  isLocked: def.quiz.initiallyLocked || false,
 }));
 
 export { animalQuizDefinitions };

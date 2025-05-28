@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
-import { isCompleted } from '../domain/quizLogic';
+import { isCompleted } from '../utils';
 
 /**
  * Hook der beim Screen-Load prüft, ob bereits abgeschlossene Quizzes

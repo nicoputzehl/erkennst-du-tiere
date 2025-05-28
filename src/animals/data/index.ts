@@ -1,6 +1,7 @@
-import { Animal } from "../../types";
+import { Animal } from "../types";
 
-const ANIMAL_LIST: Record<string, Animal> = {
+
+export const ANIMAL_LIST: Record<string, Animal> = {
   // A
   axolotl: {
     name: "Axolotl",
@@ -166,4 +167,6 @@ const ANIMAL_LIST: Record<string, Animal> = {
   }
 } as const;
 
-export { ANIMAL_LIST }; 
+// ====== QUIZ DATA RE-EXPORTS ======
+// Re-export quiz data for convenience
+export * from './quizzes';

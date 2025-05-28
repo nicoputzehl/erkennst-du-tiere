@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
-import { ContentKey } from '@/src/core/content/types';
-import { QuizState } from '../types';
+import { ContentKey, QuizState } from '../types';
 import { useAnswerProcessing } from './useAnswerProcessing';
-import { useUnlockSystem } from './useUnlockSystem';
-import { useQuizOperations } from './useQuizOperations';
 import { useDataManagement } from './useDataManagement';
+import { useQuizOperations } from './useQuizOperations';
+import { useUnlockSystem } from './useUnlockSystem';
 
 interface QuizWorkflowReturn {
   // Complete quiz workflow

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
+import { usePersistence } from '../contexts/PersistenceProvider';
 
 interface UseDataManagementReturn {
   clearAllData: () => Promise<void>;
@@ -29,8 +30,11 @@ export function useDataManagement(): UseDataManagementReturn {
     isOperationLoading,
     showSuccessToast,
     showErrorToast,
-    clearNavigationHistory
+    clearNavigationHistory,
+    clearPendingUnlocks // NEU: Pending Unlocks auch clearen
   } = useUIState();
+
+  const { clearAllData: clearPersistenceData } = usePersistence();
 
   const clearAllData = useCallback(async (): Promise<void> => {
     const operationKey = 'clearAllData';
@@ -39,14 +43,20 @@ export function useDataManagement(): UseDataManagementReturn {
     startLoading(operationKey);
     
     try {
-      // Reset all quiz states (this also clears storage)
+      // 1. Verwende den zentralen Persistence-Layer
+      await clearPersistenceData();
+      
+      // 2. Reset all quiz states (jetzt ohne direkten Storage-Zugriff)
       await resetAllQuizStates();
       
-      // Clear navigation history
+      // 3. Clear navigation history
       clearNavigationHistory();
       
+      // 4. NEU: Clear pending unlocks komplett
+      clearPendingUnlocks();
+      
       showSuccessToast('Alle Daten wurden erfolgreich gelöscht!');
-      console.log('[useDataManagement] All data cleared successfully');
+      console.log('[useDataManagement] All data cleared successfully - including pending unlocks');
     } catch (error) {
       console.error('[useDataManagement] Error clearing all data:', error);
       showErrorToast(`Fehler beim Löschen der Daten: ${error}`);
@@ -54,7 +64,16 @@ export function useDataManagement(): UseDataManagementReturn {
     } finally {
       stopLoading(operationKey);
     }
-  }, [resetAllQuizStates, clearNavigationHistory, showSuccessToast, showErrorToast, startLoading, stopLoading]);
+  }, [
+    clearPersistenceData, 
+    resetAllQuizStates, 
+    clearNavigationHistory, 
+    clearPendingUnlocks, // NEU!
+    showSuccessToast, 
+    showErrorToast, 
+    startLoading, 
+    stopLoading
+  ]);
 
   const getStatistics = useCallback(() => {
     console.log('[useDataManagement] Calculating statistics');

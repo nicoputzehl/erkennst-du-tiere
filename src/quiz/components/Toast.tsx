@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+// src/quiz/components/Toast.tsx - Einfache, stabile Version ohne komplexe Animations
+
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 
 export interface ToastProps {
@@ -18,11 +20,24 @@ export const Toast: React.FC<ToastProps> = ({
   onHide,
   position = 'top'
 }) => {
-  const [fadeAnim] = useState(new Animated.Value(0));
-  const [slideAnim] = useState(new Animated.Value(-100));
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(-100)).current;
+  const hideTimeoutRef = useRef<number | undefined>(undefined);
+
+  const hideToast = useCallback(() => {
+    console.log('[Toast] Hiding toast');
+    onHide();
+  }, [onHide]);
 
   useEffect(() => {
+    // Clear existing timeout
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+
     if (visible) {
+      console.log(`[Toast] Showing toast: "${message}"`);
+      
       // Show animation
       Animated.parallel([
         Animated.timing(fadeAnim, {
@@ -37,36 +52,37 @@ export const Toast: React.FC<ToastProps> = ({
         }),
       ]).start();
 
-      // Auto-hide after duration - verzögert bis Animation fertig
-      const timer = setTimeout(() => {
+      // Auto-hide after duration
+      hideTimeoutRef.current = setTimeout(() => {
         hideToast();
-      }, duration);
-
-      return () => clearTimeout(timer);
+      }, duration) as unknown as number;
+    } else {
+      // Hide animation
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: position === 'top' ? -100 : 100,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
     }
-  }, [visible, duration]);
 
-  const hideToast = useCallback(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: position === 'top' ? -100 : 100,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      // Verzögere den onHide-Aufruf bis zum nächsten Event-Loop-Zyklus
-      setTimeout(() => {
-        onHide();
-      }, 0);
-    });
-  }, [fadeAnim, slideAnim, position, onHide]);
+    // Cleanup timeout on unmount
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, [visible, message, duration, position, fadeAnim, slideAnim, hideToast]); // Alle Dependencies
 
-  if (!visible) return null;
+  if (!visible) {
+    return null;
+  }
 
   const getBackgroundColor = () => {
     switch (type) {
@@ -113,7 +129,7 @@ const styles = StyleSheet.create({
     top: 50,
   },
   bottomPosition: {
-    bottom: 50,
+    bottom: 100,
   },
   toastContent: {
     padding: 16,
