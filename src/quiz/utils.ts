@@ -1,13 +1,13 @@
 import { normalizeString } from '../../utils/helper';
-import { 
-  Question, 
-  QuestionStatus, 
-  QuizMode, 
-  QuizQuestion, 
-  QuizState, 
+import {
+  Question,
+  QuestionStatus,
+  QuizMode,
+  QuizQuestion,
+  QuizState,
   Quiz,
   QuizConfig,
-  UnlockCondition 
+  UnlockCondition
 } from './types';
 
 
@@ -27,7 +27,7 @@ export const createQuiz = (config: QuizConfig): Quiz => ({
 
 
 export const createUnlockCondition = (
-  requiredQuizId: string, 
+  requiredQuizId: string,
   description?: string
 ): UnlockCondition => ({
   requiredQuizId,
@@ -43,27 +43,27 @@ export const calculateInitialQuestionStatus = (
     if (quizMode === QuizMode.ALL_UNLOCKED) {
       return QuestionStatus.ACTIVE;
     }
-    return index < initialUnlockedQuestions ? 
-      QuestionStatus.ACTIVE : 
+    return index < initialUnlockedQuestions ?
+      QuestionStatus.ACTIVE :
       QuestionStatus.INACTIVE;
   });
 };
 
 
 export const createQuizState = (
-  questions: Question[], 
-  id: string, 
+  questions: Question[],
+  id: string,
   title: string = "Generic Quiz",
   quizMode: QuizMode = QuizMode.SEQUENTIAL,
   initialUnlockedQuestions: number = 2
 ): QuizState => {
-  
+
   const questionStatus = calculateInitialQuestionStatus(
-    questions.length, 
-    quizMode, 
+    questions.length,
+    quizMode,
     initialUnlockedQuestions
   );
-  
+
   return {
     id,
     title,
@@ -88,17 +88,17 @@ export const isAnswerCorrect = (
 ): boolean => {
   const normalizedUserAnswer = normalizeAnswer(userAnswer);
   const normalizedCorrectAnswer = normalizeAnswer(correctAnswer);
-  
+
   if (normalizedUserAnswer === normalizedCorrectAnswer) {
     return true;
   }
-  
+
   if (alternativeAnswers && alternativeAnswers.length > 0) {
-    return alternativeAnswers.some(alt => 
+    return alternativeAnswers.some(alt =>
       normalizeAnswer(alt) === normalizedUserAnswer
     );
   }
-  
+
   return false;
 };
 
@@ -205,25 +205,25 @@ export const findFirstUnsolvedQuestion = (questions: QuizQuestion[]): QuizQuesti
 
 
 export const getNextActiveQuestionId = (
-  state: QuizState, 
+  state: QuizState,
   currentQuestionId?: number
 ): number | null => {
   const sortedQuestions = sortQuestionsByIds(state.questions);
-  
+
   if (currentQuestionId !== undefined) {
     const currentIndex = sortedQuestions.findIndex(q => q.id === currentQuestionId);
-    
+
     if (currentIndex !== -1) {
       // Suche vorwärts
       const nextForward = findNextUnsolvedQuestionForward(sortedQuestions, currentIndex);
       if (nextForward) return nextForward.id;
-      
+
       // Suche rückwärts
       const nextBackward = findNextUnsolvedQuestionBackward(sortedQuestions, currentIndex);
       if (nextBackward) return nextBackward.id;
     }
   }
-  
+
   // Finde erste ungelöste Frage
   const firstUnsolved = findFirstUnsolvedQuestion(sortedQuestions);
   return firstUnsolved ? firstUnsolved.id : null;
@@ -241,7 +241,7 @@ export const checkUnlockCondition = (
 ): { isMet: boolean; progress: number } => {
   const requiredQuizState = quizStates[condition.requiredQuizId];
   const isRequiredQuizCompleted = requiredQuizState ? isCompleted(requiredQuizState) : false;
-  
+
   return {
     isMet: isRequiredQuizCompleted,
     progress: isRequiredQuizCompleted ? 100 : 0
@@ -256,7 +256,7 @@ export const canUnlockQuiz = (
   if (!quiz.initiallyLocked || !quiz.unlockCondition) {
     return true;
   }
-  
+
   const { isMet } = checkUnlockCondition(quiz.unlockCondition, quizStates);
   return isMet;
 };
@@ -269,5 +269,5 @@ export const calculateQuizProgress = (state: QuizState): number => {
 
 export const createProgressString = (state: QuizState): string | null => {
   if (!state.questions?.length) return null;
-  return `${state.completedQuestions} von ${state.questions.length} gelöst`;
+  return `${state.completedQuestions}/${state.questions.length}`;
 };

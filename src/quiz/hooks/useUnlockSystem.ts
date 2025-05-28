@@ -17,12 +17,6 @@ interface UseUnlockSystemReturn {
   isQuizUnlocked: (quizId: string) => boolean;
   getUnlockDescription: (quizId: string) => string | null;
 }
-
-/**
- * VEREINFACHTES UNLOCK-SYSTEM
- * Arbeitet mit den einfachen UnlockCondition aus den Quiz-Definitionen
- * Keine hartcodierten Regeln mehr - die Logik ist generisch und wiederverwendbar
- */
 export function useUnlockSystem(): UseUnlockSystemReturn {
   const { getQuizById, getAllQuizzes } = useQuizData();
   const { quizStates, getQuizProgress } = useQuizState();
@@ -64,7 +58,7 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     return isMet;
   }, [getQuizById, getUnlockProgress]);
 
-  const checkForUnlocks = useCallback((): Quiz[] => { // Vereinfacht!
+  const checkForUnlocks = useCallback((): Quiz[] => {
     console.log('[useUnlockSystem] Checking for newly unlockable quizzes');
     
     const allQuizzes = getAllQuizzes();

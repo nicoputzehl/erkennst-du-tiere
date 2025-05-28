@@ -6,7 +6,7 @@ import { QuestionStatus, QuizQuestion } from '../../../types'; // Vereinfachte T
 import { ImageType, useImageDisplay } from '@/src/quiz/hooks/useImageDisplay';
 
 interface QuestionListTileProps {
-	item: QuizQuestion; // Kein Generic!
+	item: QuizQuestion;
 	itemWidth: number;
 	onClick: (questionId: string) => void;
 }

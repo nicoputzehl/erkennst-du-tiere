@@ -3,7 +3,6 @@ import { useQuizzes } from '../../hooks/useQuizzes';
 import { QuizCardActiveLong } from './QuizCardActiveLong';
 import { QuizCardLockedLong } from './QuizCardLockedLong';
 
-// Factory-Funktion, die die richtige Komponente basierend auf dem Quiz-Status zurückgibt
 export const QuizCard = ({ quiz }: { quiz: Quiz }) => { // Kein Generic!
 	const {
 		getUnlockInfo,

@@ -6,14 +6,12 @@ import { useQuizOperations } from './useQuizOperations';
 import { useUnlockSystem } from './useUnlockSystem';
 
 interface QuizWorkflowReturn {
-  // Complete quiz workflow
   startQuizWorkflow: (quizId: string) => Promise<{
     success: boolean;
     quizState?: QuizState;
     error?: string;
   }>;
   
-  // Complete answer workflow
   submitAnswerWorkflow: (
     quizId: string,
     questionId: number,
@@ -26,21 +24,18 @@ interface QuizWorkflowReturn {
     completedQuiz: boolean;
   }>;
   
-  // Complete reset workflow
   resetQuizWorkflow: (quizId: string) => Promise<{
     success: boolean;
     quizState?: QuizState;
     error?: string;
   }>;
   
-  // Quiz completion check
   checkQuizCompletion: (quizId: string) => {
     isCompleted: boolean;
     progress: number;
     nextQuestionId: number | null;
   };
-  
-  // Data management workflow
+
   clearDataWorkflow: () => Promise<{
     success: boolean;
     error?: string;

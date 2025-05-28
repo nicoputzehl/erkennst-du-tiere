@@ -1,5 +1,3 @@
-// src/quiz/hooks/index.ts - Angepasst für vereinfachte Types
-
 export { useAnswerProcessing } from './useAnswerProcessing';
 export type { AnswerResult, UseAnswerProcessingReturn } from './useAnswerProcessing';
 

@@ -9,12 +9,12 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { Quiz } from '../../types'; // Vereinfachte Types ohne Generics
+import { Quiz } from '../../types';
 import { QuizGrid } from './components/QuizGrid';
 import { useQuizzesScreen } from './hooks/useQuizzesScreen';
 
 type QuizzesProps = {
-	quizzes: Quiz[]; // Kein Generic!
+	quizzes: Quiz[];
 };
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
@@ -22,7 +22,6 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 		router.navigate('/settings');
 	};
 
-	// Alle Logik ist jetzt im Hook
 	const { isLoading } = useQuizzesScreen(quizzes);
 
 	return (

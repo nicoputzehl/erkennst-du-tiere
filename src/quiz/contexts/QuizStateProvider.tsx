@@ -141,10 +141,9 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   const saveInProgressRef = useRef(false);
 
 
-  // WICHTIG: saveStatesIfInitialized mit festen Dependencies
   const saveStatesIfInitialized = useCallback(async (quizStates: Record<string, QuizState>) => {
     if (saveInProgressRef.current) {
-      return; // Verhindere parallele Saves
+      return;
     }
 
     if (stateData.initialized && quizDataInitialized) {
@@ -290,7 +289,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
 
 
   useEffect(() => {
-    // Verhindere doppelte Initialisierung
     if (initializationRef.current || !quizDataInitialized) {
       return;
     }
@@ -320,7 +318,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     };
 
     initializeQuizStates();
-  }, [quizDataInitialized, loadQuizStates, updateStateData]); // Stabile Dependencies
+  }, [quizDataInitialized, loadQuizStates, updateStateData]);
 
   const contextValue: QuizStateContextValue = {
     quizStates: stateData.quizStates,

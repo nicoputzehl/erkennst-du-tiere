@@ -4,9 +4,9 @@ import { useQuizState } from '../contexts/QuizStateProvider';
 import { useUIState } from '../contexts/UIStateProvider';
 
 interface UseQuizOperationsReturn {
-  startQuiz: (quizId: string) => Promise<QuizState | null>; // Vereinfacht!
-  loadQuiz: (quizId: string) => Promise<QuizState | null>; // Vereinfacht!
-  resetQuiz: (quizId: string) => Promise<QuizState | null>; // Vereinfacht!
+  startQuiz: (quizId: string) => Promise<QuizState | null>;
+  loadQuiz: (quizId: string) => Promise<QuizState | null>;
+  resetQuiz: (quizId: string) => Promise<QuizState | null>;
   setCurrentQuiz: (quizId: string | null) => void;
   isOperationLoading: (operation: string) => boolean;
 }
@@ -29,7 +29,7 @@ export function useQuizOperations(): UseQuizOperationsReturn {
     trackNavigation
   } = useUIState();
 
-  const startQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => { // Vereinfacht!
+  const startQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => {
     const operationKey = `startQuiz_${quizId}`;
     console.log(`[useQuizOperations] Starting quiz: ${quizId}`);
     
@@ -61,13 +61,13 @@ export function useQuizOperations(): UseQuizOperationsReturn {
     }
   }, [initializeQuizState, setCurrentQuizInState, trackNavigation, showErrorToast, startLoading, stopLoading]);
 
-  const loadQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => { // Vereinfacht!
+  const loadQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => {
     console.log(`[useQuizOperations] Loading quiz: ${quizId}`);
     // Loading a quiz is the same as starting it in our current implementation
     return startQuiz(quizId);
   }, [startQuiz]);
 
-  const resetQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => { // Vereinfacht!
+  const resetQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => {
     const operationKey = `resetQuiz_${quizId}`;
     console.log(`[useQuizOperations] Resetting quiz: ${quizId}`);
     

@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { Quiz } from '../types'; // Vereinfachte Quiz-Type ohne Generics
-// Import der Quiz-Definitionen (löst Auto-Registrierung aus)
+import { Quiz } from '../types';
 import '@/src/animals/quizzes';
 import { initializeAllQuizzes } from '@/src/common/utils';
 
@@ -11,12 +10,12 @@ interface QuizDataState {
 }
 
 interface QuizDataContextValue {
-  getQuizById: (id: string) => Quiz | undefined; // Kein Generic mehr!
-  getAllQuizzes: () => Quiz[]; // Vereinfacht!
-  getQuizzesByOrder: () => Quiz[]; // Vereinfacht!
+  getQuizById: (id: string) => Quiz | undefined;
+  getAllQuizzes: () => Quiz[];
+  getQuizzesByOrder: () => Quiz[];
   initialized: boolean;
   isInitializing: boolean;
-  registerQuiz: (id: string, quiz: Quiz) => void; // Kein Generic mehr!
+  registerQuiz: (id: string, quiz: Quiz) => void;
 }
 
 const QuizDataContext = createContext<QuizDataContextValue | null>(null);
@@ -28,7 +27,7 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
     isInitializing: true,
   });
 
-  const registerQuiz = useCallback((id: string, quiz: Quiz) => { // Vereinfacht!
+  const registerQuiz = useCallback((id: string, quiz: Quiz) => { 
     console.log(`[QuizDataProvider] Registering quiz: ${id}`);
     setDataState(prev => ({
       ...prev,
@@ -36,17 +35,17 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
-  const getQuizById = useCallback((id: string): Quiz | undefined => { // Kein Generic!
+  const getQuizById = useCallback((id: string): Quiz | undefined => {
     return dataState.quizzes[id];
   }, [dataState.quizzes]);
 
-  const getAllQuizzes = useCallback((): Quiz[] => { // Vereinfacht!
+  const getAllQuizzes = useCallback((): Quiz[] => {
     const allQuizzes = Object.values(dataState.quizzes);
     console.log(`[QuizDataProvider] getAllQuizzes called, returning ${allQuizzes.length} quizzes`);
     return allQuizzes;
   }, [dataState.quizzes]);
 
-  const getQuizzesByOrder = useCallback((): Quiz[] => { // Vereinfacht!
+  const getQuizzesByOrder = useCallback((): Quiz[] => {
     const allQuizzes = Object.values(dataState.quizzes);
     return allQuizzes.sort((a, b) => (a.order || 0) - (b.order || 0));
   }, [dataState.quizzes]);

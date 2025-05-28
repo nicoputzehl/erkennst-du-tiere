@@ -1,4 +1,3 @@
-// src/quiz/contexts/PersistenceProvider.tsx - Neuer vereinfachter Persistence-Layer
 import React, { createContext, useContext, useCallback, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,7 +15,7 @@ interface PersistenceContextValue {
 
 const PersistenceContext = createContext<PersistenceContextValue | null>(null);
 
-// Storage Keys - zentral verwaltet
+
 const STORAGE_KEYS = {
   QUIZ_STATES: 'quiz_states_v3',
   UI_STATE: 'ui_state_v1',
@@ -29,7 +28,6 @@ interface PersistedData {
 }
 
 export function PersistenceProvider({ children }: { children: ReactNode }) {
-  // Generische Save-Funktion
   const saveData = useCallback(async (key: string, data: any): Promise<void> => {
     try {
       console.log(`[PersistenceProvider] Saving data for key: ${key}`);
@@ -50,7 +48,6 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Generische Load-Funktion
   const loadData = useCallback(async (key: string): Promise<any | null> => {
     try {
       console.log(`[PersistenceProvider] Loading data for key: ${key}`);
@@ -63,7 +60,6 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
       
       const persistedData: PersistedData = JSON.parse(jsonValue);
       
-      // Version check für zukünftige Migrationen
       if (persistedData.version !== 1) {
         console.warn(`[PersistenceProvider] Version mismatch for ${key}: ${persistedData.version} vs 1`);
       }
@@ -76,7 +72,7 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Generische Remove-Funktion
+
   const removeData = useCallback(async (key: string): Promise<void> => {
     try {
       console.log(`[PersistenceProvider] Removing data for key: ${key}`);
@@ -88,7 +84,6 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Quiz States Persistence
   const saveQuizStates = useCallback(async (quizStates: Record<string, any>): Promise<void> => {
     await saveData(STORAGE_KEYS.QUIZ_STATES, quizStates);
   }, [saveData]);
@@ -101,7 +96,7 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     await removeData(STORAGE_KEYS.QUIZ_STATES);
   }, [removeData]);
 
-  // UI State Persistence  
+
   const saveUIState = useCallback(async (uiState: any): Promise<void> => {
     await saveData(STORAGE_KEYS.UI_STATE, uiState);
   }, [saveData]);
@@ -114,7 +109,7 @@ export function PersistenceProvider({ children }: { children: ReactNode }) {
     await removeData(STORAGE_KEYS.UI_STATE);
   }, [removeData]);
 
-  // Master Clear Function
+
   const clearAllData = useCallback(async (): Promise<void> => {
     console.log('[PersistenceProvider] Clearing all persisted data');
     

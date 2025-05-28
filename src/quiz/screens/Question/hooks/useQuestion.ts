@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 export const useQuestion = (
   quizId: string,
-  question: QuizQuestion // Kein Generic!
+  question: QuizQuestion
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
   const { getQuizState, updateQuizState, answerQuizQuestion, showSuccessToast } = useQuiz();
@@ -16,7 +16,7 @@ export const useQuestion = (
   const [isUpdating, setIsUpdating] = useState(false);
   const [statusChanged, setStatusChanged] = useState(false);
 
-  const quizState = getQuizState(quizId); // Kein Generic!
+  const quizState = getQuizState(quizId);
 
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,7 +27,7 @@ export const useQuestion = (
   );
 
   const processCorrectAnswer = useCallback(async (
-    newState: QuizState // Kein Generic!
+    newState: QuizState
   ) => {
     setIsCorrect(true);
     setShowResult(true);

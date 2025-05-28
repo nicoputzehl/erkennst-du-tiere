@@ -5,7 +5,7 @@ import { FlatList, ListRenderItem } from 'react-native';
 import { QUIZ_LAYOUT } from '../constants/constants';
 
 interface QuestionGridProps {
-  questions: QuizQuestion[]; // Kein Generic!
+  questions: QuizQuestion[];
   itemWidth: number;
   onQuestionClick: (questionId: string) => void;
 }
@@ -16,7 +16,7 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   onQuestionClick,
 }) => {
 
-  const renderItem: ListRenderItem<QuizQuestion> = useCallback( // Kein Generic!
+  const renderItem: ListRenderItem<QuizQuestion> = useCallback(
     ({ item }) => (
       <QuestionListTile
         item={item}
@@ -28,7 +28,7 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   );
 
   const keyExtractor = useCallback(
-    (item: QuizQuestion) => item.id.toString(), // Kein Generic!
+    (item: QuizQuestion) => item.id.toString(),
     []
   );
 

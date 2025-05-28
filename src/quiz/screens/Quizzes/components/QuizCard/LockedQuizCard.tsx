@@ -3,7 +3,7 @@ import { Quiz } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { View, Text, StyleSheet } from "react-native";
 
 type LockedQuizCardProps = {
-  quiz: Quiz; // Kein Generic!
+  quiz: Quiz;
   unlockProgress: UnlockProgress | null;
 };
 
@@ -11,14 +11,12 @@ export const LockedQuizCard = ({ quiz, unlockProgress }: LockedQuizCardProps) =>
 
   return (
     <View style={styles.lockedContainer}>
-      {/* Erste Karte mit Titel und Schloss */}
       <View style={[styles.quizCard, styles.locked]}>
         <Text style={[styles.quizTitle, styles.lockedText]}>
           {quiz.title} {'🔒'}
         </Text>
       </View>
 
-      {/* Zweite Karte mit Bedingungen */}
       <View style={[styles.quizCard, styles.locked]}>
         {unlockProgress?.condition && (
           <View style={styles.unlockInfo}>

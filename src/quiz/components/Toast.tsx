@@ -1,5 +1,3 @@
-// src/quiz/components/Toast.tsx - Einfache, stabile Version ohne komplexe Animations
-
 import React, { useEffect, useRef, useCallback } from 'react';
 import { Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 
@@ -30,7 +28,6 @@ export const Toast: React.FC<ToastProps> = ({
   }, [onHide]);
 
   useEffect(() => {
-    // Clear existing timeout
     if (hideTimeoutRef.current) {
       clearTimeout(hideTimeoutRef.current);
     }

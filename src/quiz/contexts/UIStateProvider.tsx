@@ -24,7 +24,6 @@ interface UIState {
 	lastNavigatedQuizId: string | null;
 	navigationHistory: string[];
 
-	// NEU: Pending Unlock Notifications
 	pendingUnlocks: PendingUnlock[];
 }
 
@@ -46,11 +45,10 @@ interface UIStateContextValue {
   trackNavigation: (quizId: string) => void;
   clearNavigationHistory: () => void;
   
-  // Erweiterte Pending Unlock Management
   addPendingUnlock: (quizId: string, quizTitle: string) => void;
   checkPendingUnlocks: () => void;
   clearPendingUnlocks: () => void;
-  resetPendingUnlocks: () => void; // NEU!
+  resetPendingUnlocks: () => void; 
   getPendingUnlocksCount: () => number;
 }
 
@@ -217,7 +215,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 		}));
 	}, [updateUIState]);
 
-	// NEU: Pending Unlock Management
+	
 	const addPendingUnlock = useCallback(
 		(quizId: string, quizTitle: string) => {
 			console.log(
@@ -225,7 +223,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 			);
 
 			updateUIState((prev) => {
-				// Prüfe ob bereits vorhanden
+				
 				const existingUnlock = prev.pendingUnlocks.find(
 					(unlock) => unlock.quizId === quizId
 				);
@@ -264,7 +262,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 				`[UIStateProvider] Found ${unshownUnlocks.length} unshown unlock notifications`
 			);
 
-			// SOFORT alle als gezeigt markieren (verhindert Doppel-Toasts)
+			
 			updateUIState((prev) => ({
 				...prev,
 				pendingUnlocks: prev.pendingUnlocks.map((unlock) =>
@@ -272,9 +270,9 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 				),
 			}));
 
-			// VIEL SCHNELLERES TIMING: 300ms statt 800ms + nur 500ms zwischen Toasts
+			
 			unshownUnlocks.forEach((unlock, index) => {
-				const delay = 300 + index * 500; // Viel schneller!
+				const delay = 300 + index * 500; 
 
 				console.log(
 					`[UIStateProvider] Scheduling toast for "${unlock.quizTitle}" with ${delay}ms delay`
@@ -286,7 +284,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 					);
 					showSuccessToast(
 						`🎉 "${unlock.quizTitle}" ist jetzt verfügbar!`,
-						3000 // Auch kürzere Toast-Dauer
+						3000 
 					);
 				}, delay);
 			});
@@ -313,7 +311,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 			...prev,
 			pendingUnlocks: prev.pendingUnlocks.map((unlock) => ({
 				...unlock,
-				shown: false, // Alle wieder auf unshown setzen
+				shown: false, 
 			})),
 		}));
 	}, [updateUIState]);
@@ -340,7 +338,7 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 		trackNavigation,
 		clearNavigationHistory,
 
-		// NEU: Pending Unlock Functions
+		
 		addPendingUnlock,
 		checkPendingUnlocks,
 		clearPendingUnlocks,
@@ -415,7 +413,7 @@ export function usePendingUnlocks() {
     addPendingUnlock, 
     checkPendingUnlocks, 
     clearPendingUnlocks, 
-    resetPendingUnlocks, // NEU!
+    resetPendingUnlocks, 
     getPendingUnlocksCount 
   } = useUIState();
   
@@ -423,7 +421,7 @@ export function usePendingUnlocks() {
     addPendingUnlock,
     checkPendingUnlocks,
     clearPendingUnlocks,
-    resetPendingUnlocks, // NEU!
+    resetPendingUnlocks, 
     getPendingUnlocksCount,
   };
 }

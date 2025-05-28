@@ -13,7 +13,7 @@ import { QuestionResult } from './QuestionResult/QuestionResult';
 interface QuestionProps {
 	quizId: string;
 	questionId: string;
-	question: QuizQuestion; // Kein Generic!
+	question: QuizQuestion;
 }
 
 export const Question: React.FC<QuestionProps> = memo(

@@ -31,7 +31,7 @@ export function useDataManagement(): UseDataManagementReturn {
     showSuccessToast,
     showErrorToast,
     clearNavigationHistory,
-    clearPendingUnlocks // NEU: Pending Unlocks auch clearen
+    clearPendingUnlocks
   } = useUIState();
 
   const { clearAllData: clearPersistenceData } = usePersistence();
@@ -68,7 +68,7 @@ export function useDataManagement(): UseDataManagementReturn {
     clearPersistenceData, 
     resetAllQuizStates, 
     clearNavigationHistory, 
-    clearPendingUnlocks, // NEU!
+    clearPendingUnlocks,
     showSuccessToast, 
     showErrorToast, 
     startLoading, 

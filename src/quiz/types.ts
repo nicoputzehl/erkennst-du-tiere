@@ -1,5 +1,3 @@
-// ====== EINFACHE ENUMS ======
-
 export enum QuestionStatus {
   INACTIVE = 'inactive',
   ACTIVE = 'active', 
@@ -11,8 +9,6 @@ export enum QuizMode {
   ALL_UNLOCKED = 'all_unlocked'
 }
 
-// ====== BILD-TYPES ======
-
 export interface QuizImages {
   imageUrl: string;
   thumbnailUrl?: string;
@@ -20,9 +16,6 @@ export interface QuizImages {
   unsolvedThumbnailUrl?: string;
 }
 
-// ====== FRAGEN-TYPES (VEREINFACHT) ======
-
-// Basis-Frage ohne Status
 export interface Question {
   id: number;
   images: QuizImages;
@@ -30,25 +23,19 @@ export interface Question {
   alternativeAnswers?: string[];
   funFact?: string;
   wikipediaName?: string;
-  // Vereinfacht: Nur String statt Generic
   contentKey?: string;
 }
 
-// Frage mit Status (für aktive Quizzes)
 export interface QuizQuestion extends Question {
   status: QuestionStatus;
 }
-
-// ====== UNLOCK-TYPES (VEREINFACHT) ======
 
 export interface UnlockCondition {
   requiredQuizId: string;
   description: string;
 }
 
-// ====== QUIZ-TYPES (VEREINFACHT) ======
 
-// Basis-Quiz Definition (ohne Generics!)
 export interface Quiz {
   id: string;
   title: string;
@@ -58,9 +45,9 @@ export interface Quiz {
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
+  titleImage?: string;
 }
 
-// Quiz-Zustand zur Laufzeit
 export interface QuizState {
   id: string;
   title: string;
@@ -68,8 +55,6 @@ export interface QuizState {
   completedQuestions: number;
   quizMode?: QuizMode;
 }
-
-// ====== CONFIG-TYPES (VEREINFACHT) ======
 
 export interface QuizConfig {
   id: string;
@@ -80,9 +65,8 @@ export interface QuizConfig {
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
+  titleimage?: string;
 }
-
-// ====== UTILITY-TYPES ======
 
 export interface QuizProgress {
   quizId: string;
@@ -90,12 +74,3 @@ export interface QuizProgress {
   total: number;
   percentage: number;
 }
-
-// ====== LEGACY-KOMPATIBILITÄT ======
-// Alte Typen werden zu einfachen Strings gemappt
-
-export type ContentKey = string;
-
-// Aliases für Rückwärtskompatibilität
-export type SimpleUnlockCondition = UnlockCondition;
-export type BaseQuestion = Question;

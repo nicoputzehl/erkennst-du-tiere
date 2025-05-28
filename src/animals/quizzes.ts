@@ -4,17 +4,14 @@ import { emojiAnimals, namibia, weirdAnimals } from './data/quizzes';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
-// ====== EINFACHE QUIZ-DEFINITIONEN ======
 
 const animalQuizDefinitions = [
-  // Starter-Quiz (immer freigeschaltet)
   {
     id: 'namibia',
     quiz: createSimpleAnimalQuiz('namibia', 'Tiere Namibias', namibia),
     contentType: ANIMAL_CONTENT_TYPE
   },
 
-  // Folge-Quizzes (mit einfacher Unlock-Chain)
   {
     id: 'emoji_animals',
     quiz: createLockedAnimalQuiz('emoji_animals', 'Emojis', emojiAnimals, 'namibia', 2),
@@ -30,7 +27,6 @@ const animalQuizDefinitions = [
 
 registerQuizDefinitions(animalQuizDefinitions);
 
-// ====== EXPORTS ======
 
 export const allAnimalQuizCategories = animalQuizDefinitions.map(def => ({
   id: def.id,

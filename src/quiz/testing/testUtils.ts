@@ -1,7 +1,5 @@
 import { Question, QuizQuestion, QuizState, Quiz, QuestionStatus, QuizMode } from '../types';
 
-// ====== TEST DATA FACTORIES (PURE FUNCTIONS) ======
-
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
  */
@@ -65,7 +63,6 @@ export const createTestQuizState = (overrides: Partial<QuizState> = {}): QuizSta
   ...overrides,
 });
 
-// ====== TEST DATA BUILDERS (FUNCTIONAL COMPOSITION) ======
 
 /**
  * Builder für komplexe Quiz-States - funktionale Komposition
@@ -126,7 +123,6 @@ export const quizCollectionBuilder = () => {
   };
 };
 
-// ====== MOCK FACTORIES (PURE FUNCTIONS) ======
 
 /**
  * Erstellt Mock Quiz-States - reine Funktion
@@ -157,7 +153,6 @@ export const createMockUnlockChain = (): Quiz[] => {
     .build();
 };
 
-// ====== TEST ASSERTION HELPERS (PURE FUNCTIONS) ======
 
 /**
  * Prüft ob Quiz-State korrekt ist - reine Funktion

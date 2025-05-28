@@ -29,29 +29,23 @@ export const processAnswerLogic = (
   unlockedQuizzes: Quiz[];
 }> => {
   return new Promise(async (resolve) => {
-    // Get current quiz state
     const currentState = dependencies.getCurrentState(quizId);
     if (!currentState) {
       throw new Error(`Quiz with ID ${quizId} not found`);
     }
 
-    // Process the answer using pure function
     const processedAnswer = normalizeString(answer);
     const result = calculateAnswerResult(currentState, questionId, processedAnswer);
 
-    // If answer is incorrect, return early
     if (!result.isCorrect) {
       resolve({ isCorrect: false, unlockedQuizzes: [] });
       return;
     }
 
-    // Update quiz state
     await dependencies.updateState(quizId, result.newState);
     
-    // Calculate next question using pure function
     const nextQuestionId = getNextActiveQuestionId(result.newState);
     
-    // Check for unlocks using pure functions
     const unlockedQuizzes: Quiz[] = [];
     
     if (isCompleted(result.newState)) {
@@ -74,8 +68,6 @@ export const processAnswerLogic = (
     });
   });
 };
-
-// ====== TESTABLE HOOK INTERFACE ======
 
 interface AnswerResult {
   isCorrect: boolean;
@@ -107,7 +99,6 @@ export function useAnswerProcessing(): UseAnswerProcessingReturn {
     onUnlock?: (unlockedQuizzes: Quiz[]) => Quiz[]
   ): Promise<AnswerResult> => {
     
-    // Injiziere Dependencies für bessere Testbarkeit
     const dependencies = {
       getCurrentState: getQuizState,
       updateState: updateQuizState,
@@ -116,7 +107,6 @@ export function useAnswerProcessing(): UseAnswerProcessingReturn {
 
     const result = await processAnswerLogic(quizId, questionId, answer, dependencies);
     
-    // Handle external unlock callback
     if (onUnlock && result.unlockedQuizzes.length > 0) {
       const additionalUnlocks = onUnlock(result.unlockedQuizzes);
       result.unlockedQuizzes.push(...additionalUnlocks);
@@ -127,8 +117,6 @@ export function useAnswerProcessing(): UseAnswerProcessingReturn {
 
   return { processAnswer };
 }
-
-// ====== TEST-FREUNDLICHE FACTORY-FUNKTION ======
 
 /**
  * Erstellt Hook mit Mock-Dependencies für Tests

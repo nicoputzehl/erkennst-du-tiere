@@ -1,17 +1,19 @@
-import { QuestionWithAnimal } from "../../../types";
+import { Question } from "@/src/quiz";
 
-export const weirdAnimals: QuestionWithAnimal[] = [
+
+export const weirdAnimals: Question[] = [
   {
     id: 1,
-    animal: "nacktmull",
+    answer: "nacktmull",
     images: {
       imageUrl: require("./img/weird_animals-nacktmull.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-nacktmull.jpg"),
     },
+    funFact: "Obwohl sie wie winzige Würstchen mit Zähnen aussehen, sind Nacktmulle die einzigen eusoziale Säugetiere - sie leben wie Ameisen in Kolonien mit einer Königin und Arbeitern, die nie fortpflanzen.",
   },
   {
     id: 2,
-    animal: "axolotl",
+    answer: "axolotl",
     images: {
       imageUrl: require("./img/weird_animals-axolotl.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-axolotl.jpg"),
@@ -19,7 +21,9 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 3,
-    animal: "fingertier",
+    answer: "fingertier",
+    alternativeAnswers: ["Aye-Aye"],
+    funFact: "Die Aye-Ayes leben in der Dschungel und sind sehr gefragt, weil sie ihre Fäden mit ihren Fingern anziehen und damit ihre Beine bewegen.",
     images: {
       imageUrl: require("./img/weird_animals-aye-aye.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-aye-aye.jpg"),
@@ -27,7 +31,8 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 4,
-    animal: "quokka",
+    answer: "quokka",
+    funFact: "Die Quokkas leben in Australien und sind einzigartig, weil sie ihre Beine in der Lage haben, sich zu bewegen, indem sie ihre Fäden mit ihren Fingern anziehen.",
     images: {
       imageUrl: require("./img/weird_animals-quokka.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-quokka.jpg"),
@@ -35,7 +40,8 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 6,
-    animal: "gottesanbeterin",
+    answer: "gottesanbeterin",
+    alternativeAnswers: ["Mantis"],
     images: {
       imageUrl: require("./img/weird_animals-gottesanbeterin.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-gottesanbeterin.jpg"),
@@ -43,15 +49,18 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 7,
-    animal: "schuppentier",
+    answer: "schuppentier",
+    alternativeAnswers: ["Pangolin"],
+    wikipediaName: "Schuppentiere",
     images: {
       imageUrl: require("./img/weird_animals-schuppentier.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-schuppentier.jpg"),
-    },
+    }
   },
   {
     id: 8,
-    animal: "schnabeltier",
+    answer: "schnabeltier",
+    alternativeAnswers: ["Playpus"],
     images: {
       imageUrl: require("./img/weird_animals-schnabeltier.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-schnabeltier.jpg"),
@@ -59,7 +68,8 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 9,
-    animal: "dumbo_oktopuss",
+    answer: "dumbo_oktopuss",
+    wikipediaName: "Dumbo-Oktopusse",
     images: {
       imageUrl: require("./img/weird_animals-dumbo_oktopuss.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-dumbo_oktopuss.jpg"),
@@ -67,7 +77,7 @@ export const weirdAnimals: QuestionWithAnimal[] = [
   },
   {
     id: 10,
-    animal: "seepferdchen",
+    answer: "seepferdchen",
     images: {
       imageUrl: require("./img/weird_animals-seepferdchen.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-seepferdchen.jpg"),
