@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import {
@@ -8,16 +9,16 @@ import {
 	View,
 } from 'react-native';
 import { getProgressColor } from './quizCardUtils';
+import { sharedStyles } from './styles';
 import { QuizCardActiveProps } from './types';
 
-export const ActiveQuizCard = ({
+export const QuizCardActiveLong = ({
 	quiz,
 	onPress,
 	isLoading,
 	quizCardProgress,
 	quizCardProgressString,
 }: QuizCardActiveProps) => {
-
 	useEffect(() => {
 		console.log(
 			`[ActiveQuizCard] Quiz ${quiz.id} progress: ${quizCardProgress}%`
@@ -28,7 +29,7 @@ export const ActiveQuizCard = ({
 		<TouchableOpacity
 			key={quiz.id}
 			style={[
-				styles.quizCard,
+				sharedStyles.quizCardLongOuter,
 				!quizCardProgressString && styles.new,
 				isLoading && styles.loadingCard,
 			]}
@@ -41,7 +42,36 @@ export const ActiveQuizCard = ({
 				</View>
 			) : (
 				<>
-					<LinearGradient
+					{/* <LinearGradient
+						colors={[
+							getProgressColor(quizCardProgress),
+							getProgressColor(quizCardProgress),
+							'transparent',
+						]}
+						style={styles.progressGradient}
+						start={{ x: 0, y: 0 }}
+						end={{ x: 1, y: 0 }}
+						locations={[0, quizCardProgress / 100, quizCardProgress / 100]}
+					/> */}
+
+					<View style={sharedStyles.quizCardLongInner}>
+						<View style={sharedStyles.quizCardLongStartItem}>
+							<Image
+								source={require('@/assets/images/test-title.jpg')}
+								contentFit='cover'
+								cachePolicy='memory-disk'
+								priority='high'
+								placeholder={require('@/assets/images/placeholder.jpg')}
+								placeholderContentFit='cover'
+								onError={(error) => {
+									console.warn(`Failed to load question image:`, error);
+								}}
+								allowDownscaling={true}
+								style={styles.image}
+							/>
+						</View>
+							<View style={sharedStyles.quizCardLongcontent}>
+													<LinearGradient
 						colors={[
 							getProgressColor(quizCardProgress),
 							getProgressColor(quizCardProgress),
@@ -53,13 +83,17 @@ export const ActiveQuizCard = ({
 						locations={[0, quizCardProgress / 100, quizCardProgress / 100]}
 					/>
 
-					<Text style={styles.quizTitle}>{quiz.title}</Text>
+							<Text style={sharedStyles.quizTitle}>{quiz.title}</Text>
 
-					{quizCardProgressString ? (
-						<Text style={styles.progressText}>{quizCardProgressString}</Text>
-					) : (
-						<Text style={styles.newText}>Neu</Text>
-					)}
+							{quizCardProgressString ? (
+								<Text style={styles.progressText}>
+									{quizCardProgressString}
+								</Text>
+							) : (
+								<Text style={styles.newText}>Neu</Text>
+							)}
+						</View>
+					</View>
 				</>
 			)}
 		</TouchableOpacity>
@@ -67,21 +101,11 @@ export const ActiveQuizCard = ({
 };
 
 const styles = StyleSheet.create({
-	quizCard: {
-		backgroundColor: '#f5f5f5',
-		padding: 16,
-		borderRadius: 8,
-		flex: 1,
-		height: 100,
-		maxWidth: '47%',
-		minWidth: '47%',
+	image: {
+		width: '100%',
+		height: '100%',
 	},
-	quizTitle: {
-		fontSize: 18,
-		fontWeight: '600',
-		marginBottom: 8,
-		zIndex: 1,
-	},
+
 	progressGradient: {
 		position: 'absolute',
 		top: 0,
@@ -94,6 +118,7 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#666',
 		zIndex: 1,
+		textAlign: 'right',
 	},
 	new: {
 		borderStyle: 'dotted',
