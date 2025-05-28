@@ -23,12 +23,11 @@ const animalQuizDefinitions = [
 
   {
     id: 'weird_animals',
-    quiz: createLockedAnimalQuiz('weird_animals', 'Weird Animals', weirdAnimals, 'emoji_animals', 3),
+    quiz: createLockedAnimalQuiz('weird_animals', 'Weird Animals', weirdAnimals, 'emoji_animals', 3, 'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.'),
     contentType: ANIMAL_CONTENT_TYPE
   }
 ];
 
-// Quiz-Definitionen registrieren
 registerQuizDefinitions(animalQuizDefinitions);
 
 // ====== EXPORTS ======

@@ -6,16 +6,16 @@ import { ANIMAL_LIST } from './data';
 // ====== ANIMAL-QUESTION CREATION (VEREINFACHT) ======
 
 export function createAnimalQuestion(
-  id: number, 
-  animalKey: AnimalKey, 
+  id: number,
+  animalKey: AnimalKey,
   images: QuizImages
 ): Question {
   const animal = ANIMAL_LIST[animalKey as keyof typeof ANIMAL_LIST];
-  
+
   if (!animal) {
     throw new Error(`Animal "${String(animalKey)}" not found in ANIMAL_LIST`);
   }
-  
+
   return {
     id,
     images,
@@ -37,18 +37,20 @@ export interface AnimalQuizConfig {
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
   initiallyLocked?: boolean;
-  requiresQuiz?: string; // Einfacher als unlockCondition
+  // TODO besser machen
+  requiresQuiz?: string;
+  requiresDescription?: string;
 }
 
 export function createAnimalQuiz(config: AnimalQuizConfig): Quiz {
   // Konvertiere Animal-Questions zu Questions
-  const questions = config.animalQuestions.map(aq => 
+  const questions = config.animalQuestions.map(aq =>
     createAnimalQuestion(aq.id, aq.animal, aq.images)
   );
 
   // Erstelle Unlock-Condition wenn requiresQuiz gesetzt
-  const unlockCondition = config.requiresQuiz 
-    ? createUnlockCondition(config.requiresQuiz)
+  const unlockCondition = config.requiresQuiz
+    ? createUnlockCondition(config.requiresQuiz, config.requiresDescription)
     : undefined;
 
   return createQuiz({
@@ -84,7 +86,8 @@ export function createLockedAnimalQuiz(
   title: string,
   animalQuestions: QuestionWithAnimal[],
   requiredQuizId: string,
-  order: number = 1
+  order: number = 1,
+  requiredDescription?: string
 ): Quiz {
   return createAnimalQuiz({
     id,
@@ -93,13 +96,14 @@ export function createLockedAnimalQuiz(
     order,
     initiallyLocked: true,
     requiresQuiz: requiredQuizId,
+    requiresDescription: requiredDescription
   });
 }
 
 // ====== LEGACY COMPATIBILITY (VEREINFACHT) ======
 
 export function createAnimalQuestions(animalQuestions: QuestionWithAnimal[]): Question[] {
-  return animalQuestions.map(aq => 
+  return animalQuestions.map(aq =>
     createAnimalQuestion(aq.id, aq.animal, aq.images)
   );
 }
