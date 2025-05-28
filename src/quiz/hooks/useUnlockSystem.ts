@@ -25,7 +25,7 @@ interface UseUnlockSystemReturn {
  */
 export function useUnlockSystem(): UseUnlockSystemReturn {
   const { getQuizById, getAllQuizzes } = useQuizData();
-  const { quizStates } = useQuizState();
+  const { quizStates, getQuizProgress } = useQuizState();
   const { showSuccessToast, addPendingUnlock } = useUIState();
 
   const getUnlockProgress = useCallback((quizId: string): UnlockProgress => {
@@ -41,13 +41,16 @@ export function useUnlockSystem(): UseUnlockSystemReturn {
     const isRequiredQuizCompleted = requiredQuizState ? isCompleted(requiredQuizState) : false;
 
     console.log(`[useUnlockSystem] Quiz ${quizId} requires ${quiz.unlockCondition.requiredQuizId} - completed: ${isRequiredQuizCompleted}`);
+
+    const requiredQuizProgress = getQuizProgress(quiz.unlockCondition.requiredQuizId);
+    console.log(`[useUnlockSystem] Quiz ${quizId} requires ${quiz.unlockCondition.requiredQuizId} - progress: ${requiredQuizProgress}`);
     
     return { 
       condition: quiz.unlockCondition,
-      progress: isRequiredQuizCompleted ? 100 : 0,
+      progress: isRequiredQuizCompleted ? 100 : requiredQuizProgress,
       isMet: isRequiredQuizCompleted
     };
-  }, [getQuizById, quizStates]);
+  }, [getQuizById, quizStates, getQuizProgress]);
 
   const isQuizUnlocked = useCallback((quizId: string): boolean => {
     const quiz = getQuizById(quizId);
