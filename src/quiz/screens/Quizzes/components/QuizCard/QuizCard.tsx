@@ -3,7 +3,7 @@ import { useQuizzes } from '../../hooks/useQuizzes';
 import { QuizCardActiveLong } from './QuizCardActiveLong';
 import { QuizCardLockedLong } from './QuizCardLockedLong';
 
-export const QuizCard = ({ quiz }: { quiz: Quiz }) => { // Kein Generic!
+export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
 	const {
 		getUnlockInfo,
 		isLoading,

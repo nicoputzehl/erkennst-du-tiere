@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { QuizCard } from './QuizCard/QuizCard';
 
 type QuizGridProps = {
-  quizzes: Quiz[]; // Kein Generic!
+  quizzes: Quiz[];
 };
 
 export const QuizGrid = ({ quizzes }: QuizGridProps) => {

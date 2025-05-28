@@ -1,6 +1,6 @@
 import { registerQuizDefinitions } from '../common/utils';
-import { createSimpleAnimalQuiz, createLockedAnimalQuiz } from './utils';
 import { emojiAnimals, namibia, weirdAnimals } from './data/quizzes';
+import { createQuiz, createUnlockCondition } from '../quiz';
 
 export const ANIMAL_CONTENT_TYPE = 'animal';
 
@@ -8,19 +8,38 @@ export const ANIMAL_CONTENT_TYPE = 'animal';
 const animalQuizDefinitions = [
   {
     id: 'namibia',
-    quiz: createSimpleAnimalQuiz('namibia', 'Tiere Namibias', namibia),
+    quiz: createQuiz({ id: 'namibia', title: 'Tiere Namibias', titleimage: require('./data/quizzes/namibia/img/namibia_title.jpg'), questions: namibia }),
     contentType: ANIMAL_CONTENT_TYPE
   },
 
   {
     id: 'emoji_animals',
-    quiz: createLockedAnimalQuiz('emoji_animals', 'Emojis', emojiAnimals, 'namibia', 2),
+    quiz: createQuiz(
+      {
+        id: 'emoji_animals',
+        title: 'Emojis',
+        questions: emojiAnimals,
+        titleimage: require('./data/quizzes/emoji_animals/img/emoji_title.png'),
+        order: 2,
+        initiallyLocked: false,
+        unlockCondition: createUnlockCondition('namibia', 'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.')
+      }),
     contentType: ANIMAL_CONTENT_TYPE
   },
 
   {
     id: 'weird_animals',
-    quiz: createLockedAnimalQuiz('weird_animals', 'Weird Animals', weirdAnimals, 'emoji_animals', 3, 'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.'),
+    quiz: createQuiz(
+      {
+        id: 'weird_animals',
+        title: 'Weird Animals',
+        titleimage: require('./data/quizzes/weird_animals/img/weird_animals_title.jpg'),
+        questions: weirdAnimals,
+        order: 3,
+        initiallyLocked: true,
+        unlockCondition: createUnlockCondition('emoji_animals', 'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.')
+      }),
+
     contentType: ANIMAL_CONTENT_TYPE
   }
 ];

@@ -57,7 +57,9 @@ export const QuizCardActiveLong = ({
 					<View style={sharedStyles.quizCardLongInner}>
 						<View style={sharedStyles.quizCardLongStartItem}>
 							<Image
-								source={require('@/assets/images/test-title.jpg')}
+								source={
+									quiz.titleImage || require('@/assets/images/test-title.jpg')
+								}
 								contentFit='cover'
 								cachePolicy='memory-disk'
 								priority='high'
@@ -70,18 +72,18 @@ export const QuizCardActiveLong = ({
 								style={styles.image}
 							/>
 						</View>
-							<View style={sharedStyles.quizCardLongcontent}>
-													<LinearGradient
-						colors={[
-							getProgressColor(quizCardProgress),
-							getProgressColor(quizCardProgress),
-							'transparent',
-						]}
-						style={styles.progressGradient}
-						start={{ x: 0, y: 0 }}
-						end={{ x: 1, y: 0 }}
-						locations={[0, quizCardProgress / 100, quizCardProgress / 100]}
-					/>
+						<View style={sharedStyles.quizCardLongcontent}>
+							<LinearGradient
+								colors={[
+									getProgressColor(quizCardProgress),
+									getProgressColor(quizCardProgress),
+									'transparent',
+								]}
+								style={styles.progressGradient}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 1, y: 0 }}
+								locations={[0, quizCardProgress / 100, quizCardProgress / 100]}
+							/>
 
 							<Text style={sharedStyles.quizTitle}>{quiz.title}</Text>
 
