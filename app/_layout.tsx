@@ -1,4 +1,3 @@
-// app/_layout.tsx - Multi-Provider Architektur
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -11,7 +10,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/src/common/hooks/useColorScheme';
 
-// ✅ Multi-Provider Architektur
+import { PersistenceProvider } from '@/src/quiz/contexts/PersistenceProvider';
 import { QuizDataProvider } from '@/src/quiz/contexts/QuizDataProvider';
 import { QuizStateProvider } from '@/src/quiz/contexts/QuizStateProvider';
 import { UIStateProvider } from '@/src/quiz/contexts/UIStateProvider';
@@ -28,22 +27,24 @@ export default function RootLayout() {
 	}
 
 	return (
-		<QuizDataProvider>     
-			<QuizStateProvider>  
-				<UIStateProvider>  
-					<QuizProvider>   
-						<ThemeProvider
-							value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-						>
-							<Stack>
-								<Stack.Screen name='index' options={{ headerShown: false }} />
-								<Stack.Screen name='+not-found' />
-							</Stack>
-							<StatusBar style='auto' />
-						</ThemeProvider>
-					</QuizProvider>
-				</UIStateProvider>
-			</QuizStateProvider>
-		</QuizDataProvider>
+		<PersistenceProvider>
+			<QuizDataProvider>     
+				<QuizStateProvider>  
+					<UIStateProvider>  
+						<QuizProvider>   
+							<ThemeProvider
+								value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+							>
+								<Stack>
+									<Stack.Screen name='index' options={{ headerShown: false }} />
+									<Stack.Screen name='+not-found' />
+								</Stack>
+								<StatusBar style='auto' />
+							</ThemeProvider>
+						</QuizProvider>
+					</UIStateProvider>
+				</QuizStateProvider>
+			</QuizDataProvider>
+		</PersistenceProvider>
 	);
 }

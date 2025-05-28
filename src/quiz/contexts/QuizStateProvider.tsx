@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContentKey } from '@/src/core/content/types';
 import { QuizState, QuizMode } from '../types';
 import { createQuizState, isCompleted, getNextActiveQuestionId } from '../domain/quizLogic';
 import { useQuizData } from './QuizDataProvider';
+import { usePersistence } from './PersistenceProvider';
 
 interface QuizStateData {
   quizStates: Record<string, QuizState>;
@@ -40,59 +40,9 @@ interface QuizStateContextValue {
 
 const QuizStateContext = createContext<QuizStateContextValue | null>(null);
 
-const QUIZ_STATES_STORAGE_KEY = 'quiz_states_v2';
-
-interface PersistedQuizStateData {
-  quizStates: Record<string, QuizState>;
-  currentQuizId: string | null;
-  version: number;
-  lastUpdated: number;
-}
-
-const saveQuizStates = async (data: QuizStateData) => {
-  try {
-    const persistedData: PersistedQuizStateData = {
-      quizStates: data.quizStates,
-      currentQuizId: data.currentQuizId,
-      version: 1,
-      lastUpdated: Date.now(),
-    };
-    await AsyncStorage.setItem(QUIZ_STATES_STORAGE_KEY, JSON.stringify(persistedData));
-    console.log('[QuizStateProvider] Quiz states saved');
-  } catch (error) {
-    console.error('[QuizStateProvider] Error saving quiz states:', error);
-  }
-};
-
-const loadQuizStates = async (): Promise<Partial<QuizStateData> | null> => {
-  try {
-    const data = await AsyncStorage.getItem(QUIZ_STATES_STORAGE_KEY);
-    if (data) {
-      const parsed: PersistedQuizStateData = JSON.parse(data);
-      console.log('[QuizStateProvider] Quiz states loaded');
-      return {
-        quizStates: parsed.quizStates || {},
-        currentQuizId: parsed.currentQuizId || null,
-      };
-    }
-  } catch (error) {
-    console.error('[QuizStateProvider] Error loading quiz states:', error);
-  }
-  return null;
-};
-
-const clearQuizStates = async () => {
-  try {
-    await AsyncStorage.removeItem(QUIZ_STATES_STORAGE_KEY);
-    console.log('[QuizStateProvider] Quiz states cleared');
-  } catch (error) {
-    console.error('[QuizStateProvider] Error clearing quiz states:', error);
-    throw error;
-  }
-};
-
 export function QuizStateProvider({ children }: { children: ReactNode }) {
   const { getQuizById, initialized: quizDataInitialized } = useQuizData();
+  const { saveQuizStates, loadQuizStates, clearQuizStates } = usePersistence();
   
   const [stateData, setStateData] = useState<QuizStateData>({
     quizStates: {},
@@ -102,15 +52,29 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     isLoading: false,
   });
 
+  // Auto-save whenever quiz states change
+  const saveStatesIfInitialized = useCallback(async (quizStates: Record<string, QuizState>) => {
+    if (stateData.initialized && quizDataInitialized) {
+      try {
+        await saveQuizStates(quizStates);
+      } catch (error) {
+        console.error('[QuizStateProvider] Error auto-saving quiz states:', error);
+      }
+    }
+  }, [saveQuizStates, stateData.initialized, quizDataInitialized]);
+
   const updateStateData = useCallback((updater: (prev: QuizStateData) => QuizStateData) => {
     setStateData(prev => {
       const newState = updater(prev);
-      if (newState.initialized && quizDataInitialized) {
-        saveQuizStates(newState);
+      
+      // Auto-save wenn Zustände sich geändert haben
+      if (newState.quizStates !== prev.quizStates) {
+        saveStatesIfInitialized(newState.quizStates);
       }
+      
       return newState;
     });
-  }, [quizDataInitialized]);
+  }, [saveStatesIfInitialized]);
 
   const getQuizState = useCallback(<T extends ContentKey = ContentKey>(quizId: string): QuizState<T> | undefined => {
     return stateData.quizStates[quizId] as QuizState<T> | undefined;
@@ -233,13 +197,20 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   const resetAllQuizStates = useCallback(async (): Promise<void> => {
     console.log('[QuizStateProvider] Resetting all quiz states');
     
-    updateStateData(prev => ({
-      ...prev,
-      quizStates: {},
-      currentQuizId: null,
-      currentQuizState: null,
-    }));
-  }, [updateStateData]);
+    try {
+      await clearQuizStates();
+      
+      updateStateData(prev => ({
+        ...prev,
+        quizStates: {},
+        currentQuizId: null,
+        currentQuizState: null,
+      }));
+    } catch (error) {
+      console.error('[QuizStateProvider] Error resetting all quiz states:', error);
+      throw error;
+    }
+  }, [clearQuizStates, updateStateData]);
 
   const getCompletedQuizzesCount = useCallback((): number => {
     return Object.values(stateData.quizStates).filter(state => isCompleted(state)).length;
@@ -257,6 +228,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }, 0);
   }, [stateData.quizStates]);
 
+  // Load initial state from persistence
   useEffect(() => {
     const initializeQuizStates = async () => {
       if (!quizDataInitialized) {
@@ -264,23 +236,17 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
       }
 
       try {
-        console.log('[QuizStateProvider] Initializing quiz states...');
+        console.log('[QuizStateProvider] Initializing quiz states from persistence...');
         
-        const savedData = await loadQuizStates();
-        if (savedData) {
-          updateStateData(prev => ({
-            ...prev,
-            ...savedData,
-            initialized: true,
-          }));
-        } else {
-          updateStateData(prev => ({
-            ...prev,
-            initialized: true,
-          }));
-        }
+        const savedStates = await loadQuizStates();
         
-        console.log('[QuizStateProvider] Quiz states initialization complete');
+        updateStateData(prev => ({
+          ...prev,
+          quizStates: savedStates || {},
+          initialized: true,
+        }));
+        
+        console.log(`[QuizStateProvider] Quiz states initialization complete - loaded ${Object.keys(savedStates || {}).length} states`);
       } catch (error) {
         console.error('[QuizStateProvider] Quiz states initialization error:', error);
         updateStateData(prev => ({
@@ -291,7 +257,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     };
 
     initializeQuizStates();
-  }, [quizDataInitialized, updateStateData]);
+  }, [quizDataInitialized, loadQuizStates, updateStateData]);
 
   const contextValue: QuizStateContextValue = {
     quizStates: stateData.quizStates,
@@ -334,8 +300,3 @@ export function useQuizState() {
 }
 
 export type { QuizStateContextValue };
-
-export const QuizStateUtils = {
-  clearPersistedStates: clearQuizStates,
-  STORAGE_KEY: QUIZ_STATES_STORAGE_KEY,
-} as const;
