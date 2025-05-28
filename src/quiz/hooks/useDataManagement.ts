@@ -13,15 +13,6 @@ interface UseDataManagementReturn {
     completionPercentage: number;
   };
   isOperationLoading: (operation: string) => boolean;
-  
-  exportData: () => Promise<{
-    quizStates: Record<string, any>;
-    exportTimestamp: number;
-  }>;
-  getStorageStats: () => Promise<{
-    quizStatesSize: number;
-    totalStorageUsed: number;
-  }>;
 }
 
 export function useDataManagement(): UseDataManagementReturn {
@@ -39,10 +30,11 @@ export function useDataManagement(): UseDataManagementReturn {
     isOperationLoading,
     showSuccessToast,
     showErrorToast,
-    clearNavigationHistory
+    clearNavigationHistory,
+    clearPendingUnlocks // NEU: Pending Unlocks auch clearen
   } = useUIState();
 
-  const { clearAllData: clearPersistenceData, loadQuizStates } = usePersistence();
+  const { clearAllData: clearPersistenceData } = usePersistence();
 
   const clearAllData = useCallback(async (): Promise<void> => {
     const operationKey = 'clearAllData';
@@ -51,14 +43,20 @@ export function useDataManagement(): UseDataManagementReturn {
     startLoading(operationKey);
     
     try {
+      // 1. Verwende den zentralen Persistence-Layer
       await clearPersistenceData();
       
+      // 2. Reset all quiz states (jetzt ohne direkten Storage-Zugriff)
       await resetAllQuizStates();
       
+      // 3. Clear navigation history
       clearNavigationHistory();
       
+      // 4. NEU: Clear pending unlocks komplett
+      clearPendingUnlocks();
+      
       showSuccessToast('Alle Daten wurden erfolgreich gelöscht!');
-      console.log('[useDataManagement] All data cleared successfully');
+      console.log('[useDataManagement] All data cleared successfully - including pending unlocks');
     } catch (error) {
       console.error('[useDataManagement] Error clearing all data:', error);
       showErrorToast(`Fehler beim Löschen der Daten: ${error}`);
@@ -66,7 +64,16 @@ export function useDataManagement(): UseDataManagementReturn {
     } finally {
       stopLoading(operationKey);
     }
-  }, [clearPersistenceData, resetAllQuizStates, clearNavigationHistory, showSuccessToast, showErrorToast, startLoading, stopLoading]);
+  }, [
+    clearPersistenceData, 
+    resetAllQuizStates, 
+    clearNavigationHistory, 
+    clearPendingUnlocks, // NEU!
+    showSuccessToast, 
+    showErrorToast, 
+    startLoading, 
+    stopLoading
+  ]);
 
   const getStatistics = useCallback(() => {
     console.log('[useDataManagement] Calculating statistics');
@@ -93,48 +100,10 @@ export function useDataManagement(): UseDataManagementReturn {
     return stats;
   }, [quizStates, getCompletedQuizzesCount, getTotalQuestionsCount, getCompletedQuestionsCount]);
 
-  const exportData = useCallback(async () => {
-    console.log('[useDataManagement] Exporting quiz data');
-    
-    try {
-      const quizStatesData = await loadQuizStates();
-      
-      return {
-        quizStates: quizStatesData || {},
-        exportTimestamp: Date.now(),
-      };
-    } catch (error) {
-      console.error('[useDataManagement] Error exporting data:', error);
-      throw error;
-    }
-  }, [loadQuizStates]);
-
-  const getStorageStats = useCallback(async () => {
-    console.log('[useDataManagement] Calculating storage statistics');
-    
-    try {
-      const quizStatesData = await loadQuizStates();
-      const quizStatesSize = JSON.stringify(quizStatesData || {}).length;
-      
-      return {
-        quizStatesSize,
-        totalStorageUsed: quizStatesSize,
-      };
-    } catch (error) {
-      console.error('[useDataManagement] Error calculating storage stats:', error);
-      return {
-        quizStatesSize: 0,
-        totalStorageUsed: 0,
-      };
-    }
-  }, [loadQuizStates]);
-
   return {
     clearAllData,
     getStatistics,
     isOperationLoading,
-    exportData,
-    getStorageStats,
   };
 }
 

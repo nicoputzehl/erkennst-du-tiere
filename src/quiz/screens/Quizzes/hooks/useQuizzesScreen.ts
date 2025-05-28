@@ -22,15 +22,23 @@ export function useQuizzesScreen(quizzes: Quiz[]): UseQuizzesScreenReturn {
   useFocusEffect(
     useCallback(() => {
       console.log('[useQuizzesScreen] Screen focused - checking for pending unlocks');
-      const pendingCount = getPendingUnlocksCount();
-      console.log(`[useQuizzesScreen] Found ${pendingCount} pending unlock notifications`);
       
-      if (pendingCount > 0) {
-        // Kleine Verzögerung damit der Screen-Übergang smooth ist
-        setTimeout(() => {
+      // Kleine Verzögerung damit der Screen-Übergang smooth ist
+      const timer = setTimeout(() => {
+        const pendingCount = getPendingUnlocksCount();
+        console.log(`[useQuizzesScreen] Found ${pendingCount} pending unlock notifications`);
+        
+        if (pendingCount > 0) {
+          console.log('[useQuizzesScreen] Triggering pending unlock toasts');
           checkPendingUnlocks();
-        }, 500);
-      }
+        } else {
+          console.log('[useQuizzesScreen] No pending unlocks to show');
+        }
+      }, 500);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }, [checkPendingUnlocks, getPendingUnlocksCount])
   );
 
@@ -49,6 +57,7 @@ export function useQuizzesScreen(quizzes: Quiz[]): UseQuizzesScreenReturn {
       
       // NEU: Nach der Initialisierung prüfen auf verpasste Unlocks
       setTimeout(() => {
+        console.log('[useQuizzesScreen] Running missed unlock detection');
         detectMissedUnlocks();
       }, 200);
       
