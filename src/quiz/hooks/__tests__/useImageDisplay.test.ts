@@ -1,0 +1,398 @@
+import { QuestionStatus } from '@/src/quiz/types';
+import { createTestQuizQuestion } from '../../testing/testUtils';
+import { ImageType, useImageDisplay } from '../useImageDisplay';
+
+
+// Mock für React hooks
+const mockUseMemo = jest.fn();
+jest.mock('react', () => ({
+  useMemo: (fn: () => any, deps: any[]) => mockUseMemo(fn, deps),
+}));
+
+describe('useImageDisplay Hook', () => {
+  beforeEach(() => {
+    // Reset mocks before each test
+    mockUseMemo.mockImplementation((fn, deps) => fn());
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('getImageUrl', () => {
+    it('should return unsolved image when question is unsolved and unsolved image exists', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/unsolved.jpg');
+    });
+
+    it('should return regular image when question is solved', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.SOLVED,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/image.jpg');
+    });
+
+    it('should return regular image when unsolved image does not exist', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: undefined,
+          unsolvedThumbnailUrl: undefined,
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/image.jpg');
+    });
+
+    it('should return unsolved thumbnail when question is unsolved and unsolved thumbnail exists', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/unsolved-thumb.jpg');
+    });
+
+    it('should return regular thumbnail when question is solved', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.SOLVED,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/thumb.jpg');
+    });
+
+    it('should fallback to regular image when thumbnail does not exist', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.SOLVED,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: undefined,
+          unsolvedImageUrl: undefined,
+          unsolvedThumbnailUrl: undefined,
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/image.jpg');
+    });
+
+    it('should fallback to regular thumbnail when unsolved thumbnail does not exist', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: undefined,
+          unsolvedThumbnailUrl: undefined,
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/thumb.jpg');
+    });
+
+    it('should handle default test question from testUtils', () => {
+      const question = createTestQuizQuestion(); // Standard TestQuestion
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      // Default status ist ACTIVE, keine unsolved images
+      expect(getImageUrl(ImageType.IMG)).toBe('test-image.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('test-thumb.jpg');
+    });
+  });
+
+  describe('shouldShowUnsolvedImage', () => {
+    it('should return true when question is active and unsolved image exists', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: undefined,
+        },
+      });
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(true);
+    });
+
+    it('should return true when question is active and unsolved thumbnail exists', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: undefined,
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(true);
+    });
+
+    it('should return false when question is solved', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.SOLVED,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(false);
+    });
+
+    it('should return false when question is active but no unsolved images exist', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: undefined,
+          unsolvedThumbnailUrl: undefined,
+        },
+      });
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(false);
+    });
+
+    it('should return false for default test question (no unsolved images)', () => {
+      const question = createTestQuizQuestion(); // Standard TestQuestion
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(false);
+    });
+
+    it('should handle empty string as falsy for unsolved images', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: '',
+          unsolvedThumbnailUrl: '',
+        },
+      });
+
+      const { shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(shouldShowUnsolvedImage).toBe(false);
+    });
+  });
+
+  describe('useMemo dependencies', () => {
+    it('should call useMemo with correct dependencies for createImageSelector', () => {
+      const question = createTestQuizQuestion();
+
+      useImageDisplay(question);
+
+      // Check first useMemo call (createImageSelector)
+      expect(mockUseMemo).toHaveBeenNthCalledWith(1, expect.any(Function), [question.images]);
+    });
+
+    it('should call useMemo with correct dependencies for shouldShowUnsolvedImage', () => {
+      const question = createTestQuizQuestion();
+
+      useImageDisplay(question);
+
+      // Check second useMemo call (shouldShowUnsolvedImage)
+      expect(mockUseMemo).toHaveBeenNthCalledWith(
+        2,
+        expect.any(Function),
+        [question.status, question.images.unsolvedImageUrl, question.images.unsolvedThumbnailUrl]
+      );
+    });
+
+    it('should call useMemo with correct dependencies for getImageUrl', () => {
+      const question = createTestQuizQuestion();
+
+      useImageDisplay(question);
+
+      // Check third useMemo call (getImageUrl)
+      expect(mockUseMemo).toHaveBeenNthCalledWith(3, expect.any(Function), expect.any(Array));
+    });
+  });
+
+  describe('edge cases', () => {
+    it('should handle null/undefined image URLs gracefully', () => {
+      const question = createTestQuizQuestion({
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: null as any,
+          unsolvedImageUrl: null as any,
+          unsolvedThumbnailUrl: null as any,
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(() => {
+        getImageUrl(ImageType.IMG);
+        getImageUrl(ImageType.THUMBNAIL);
+      }).not.toThrow();
+    });
+
+    it('should work with different QuestionStatus values', () => {
+      const statuses = [QuestionStatus.SOLVED, QuestionStatus.ACTIVE];
+
+      statuses.forEach(status => {
+        const question = createTestQuizQuestion({ status });
+
+        expect(() => {
+          const { getImageUrl } = useImageDisplay(question);
+          getImageUrl(ImageType.IMG);
+          getImageUrl(ImageType.THUMBNAIL);
+        }).not.toThrow();
+      });
+    });
+
+    it('should handle minimal question data', () => {
+      const question = createTestQuizQuestion({
+        images: {
+          imageUrl: 'minimal.jpg',
+        },
+      });
+
+      const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.IMG)).toBe('minimal.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('minimal.jpg'); // Fallback
+      expect(shouldShowUnsolvedImage).toBe(false);
+    });
+  });
+
+  describe('closure behavior', () => {
+    it('should maintain consistent behavior across multiple calls', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      // Multiple calls should return same result
+      const firstCall = getImageUrl(ImageType.IMG);
+      const secondCall = getImageUrl(ImageType.IMG);
+
+      expect(firstCall).toBe(secondCall);
+      expect(firstCall).toBe('https://example.com/unsolved.jpg');
+    });
+
+    it('should handle both ImageType values correctly', () => {
+      const question = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'https://example.com/image.jpg',
+          thumbnailUrl: 'https://example.com/thumb.jpg',
+          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl } = useImageDisplay(question);
+
+      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/unsolved.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/unsolved-thumb.jpg');
+    });
+
+    it('should work with default test question setup', () => {
+      const question = createTestQuizQuestion();
+
+      const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(question);
+
+      // Test default behavior
+      expect(shouldShowUnsolvedImage).toBe(false);
+      expect(getImageUrl(ImageType.IMG)).toBe('test-image.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('test-thumb.jpg');
+    });
+  });
+
+  describe('integration with testUtils patterns', () => {
+    it('should work with different question statuses from testUtils', () => {
+      const activeQuestion = createTestQuizQuestion({ status: QuestionStatus.ACTIVE });
+      const solvedQuestion = createTestQuizQuestion({ status: QuestionStatus.SOLVED });
+
+      const activeResult = useImageDisplay(activeQuestion);
+      const solvedResult = useImageDisplay(solvedQuestion);
+
+      expect(activeResult.shouldShowUnsolvedImage).toBe(false); // keine unsolved images in default
+      expect(solvedResult.shouldShowUnsolvedImage).toBe(false);
+    });
+
+    it('should handle complex image configurations', () => {
+      const questionWithUnsolvedImages = createTestQuizQuestion({
+        status: QuestionStatus.ACTIVE,
+        images: {
+          imageUrl: 'solved.jpg',
+          thumbnailUrl: 'solved-thumb.jpg',
+          unsolvedImageUrl: 'unsolved.jpg',
+          unsolvedThumbnailUrl: 'unsolved-thumb.jpg',
+        },
+      });
+
+      const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(questionWithUnsolvedImages);
+
+      expect(shouldShowUnsolvedImage).toBe(true);
+      expect(getImageUrl(ImageType.IMG)).toBe('unsolved.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('unsolved-thumb.jpg');
+    });
+  });
+});

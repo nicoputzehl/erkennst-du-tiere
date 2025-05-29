@@ -52,8 +52,6 @@ export const Question: React.FC<QuestionProps> = memo(
 			useNativeKeyboardAnimation: true,
 		});
 
-		console.log(getImageUrl(ImageType.IMG));
-
 		return (
 			<View style={styles.container}>
 				<ScrollView
@@ -65,16 +63,8 @@ export const Question: React.FC<QuestionProps> = memo(
 					bounces={false}
 				>
 					<QuestionImage
-						imageUrl={
-							showUnsolvedImages && !showResult
-								? question.images.unsolvedImageUrl!
-								: question.images.imageUrl
-						}
-						thumbnailUrl={
-							showUnsolvedImages && !showResult
-								? question.images.unsolvedThumbnailUrl
-								: question.images.thumbnailUrl
-						}
+						imageUrl={getImageUrl(ImageType.IMG)}
+						thumbnailUrl={getImageUrl(ImageType.THUMBNAIL)}
 						animatedHeight={imageHeight}
 					/>
 

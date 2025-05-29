@@ -5,6 +5,8 @@ Es wird ein Bild von einem Tier gezeigt, und man muss den Namen es Tieres eingeb
 
 ## Ideen
 
+* Text in App Description, dass googlen zum Konzept gehörtS
+* Solved Image als Hint anzeigen
 * Logging mit Farben
 * komplexere Unlock Bedingungen
 * Hint System
