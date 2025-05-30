@@ -1,52 +1,67 @@
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { LoadingComponent } from '@/src/common/components/LoadingComponent';
 import { ThemedView } from '@/src/common/components/ThemedView';
-import { ProgressBar } from '@/src/quiz/screens/Quiz/components/ProgressBar';
+import { QuizProgress } from '@/src/quiz/screens/Quiz/components/QuizProgress';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { QuestionGrid } from './components/QuestionGrid';
 import { QUIZ_LAYOUT } from './constants/constants';
 import { useQuizScreen } from './hooks/useQuizScreen';
 import { calculateItemWidth } from './utils/utils';
+import Header from '@/src/common/components/Header';
 
 interface QuizScreenProps {
 	quizId: string | null;
 }
 
-export const QuizScreen: React.FC<QuizScreenProps> = ({
-	quizId,
-}) => {
-	const { quizState, isLoading, error, handleQuestionClick, getQuizProgress } =
-		useQuizScreen(quizId);
+export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
+	const {
+		quizState,
+		isLoading,
+		error,
+		handleQuestionClick,
+		getQuizProgress,
+		navigateToQuizzes,
+	} = useQuizScreen(quizId);
 	const itemWidth = calculateItemWidth();
 
-	if (isLoading) {
-		return <LoadingComponent message='Quiz wird geladen...' />;
-	}
+	const renderLoadingState = () => (
+		<LoadingComponent message='Quiz wird geladen...' />
+	);
 
-	if (error) {
-		return <ErrorComponent message={error} />;
-	}
+	const renderErrorState = () => (
+		<ErrorComponent message={error || 'Quiz nicht gefunden'} />
+	);
 
-	if (!quizState) {
-		return <ErrorComponent message='Quiz nicht gefunden' />;
-	}
-	return (
-		<ThemedView style={styles.container}>
-			<ProgressBar
-				completed={quizState.completedQuestions}
-				total={quizState.questions.length}
-				progress={getQuizProgress(quizState.id)}
+	const renderQuizContent = () => (
+		<ThemedView
+			style={styles.container}
+			gradientType='primary'
+		>
+			<Header
+				showBackButton
+				onBackPress={navigateToQuizzes}
+				title={quizState!.title}
 			/>
 			<View style={styles.scrollContent}>
 				<QuestionGrid
-					questions={quizState.questions}
+					questions={quizState!.questions}
 					itemWidth={itemWidth}
 					onQuestionClick={handleQuestionClick}
 				/>
 			</View>
+			<QuizProgress
+				completed={quizState!.completedQuestions}
+				total={quizState!.questions.length}
+				progress={getQuizProgress(quizState!.id)}
+			/>
 		</ThemedView>
 	);
+
+	if (isLoading) return renderLoadingState();
+	if (error || !quizState) return renderErrorState();
+
+	return renderQuizContent();
 };
 
 const styles = StyleSheet.create({
@@ -54,26 +69,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: QUIZ_LAYOUT.padding,
 	},
-	centeredContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		padding: QUIZ_LAYOUT.padding,
-	},
-	scrollView: {},
 	scrollContent: {
 		flex: 1,
 		padding: QUIZ_LAYOUT.padding,
 		justifyContent: 'center',
-	},
-	loadingText: {
-		marginTop: 16,
-		fontSize: 16,
-		color: '#0a7ea4',
-	},
-	errorText: {
-		fontSize: 16,
-		color: '#dc3545',
-		textAlign: 'center',
 	},
 });

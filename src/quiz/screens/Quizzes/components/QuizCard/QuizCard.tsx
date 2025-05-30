@@ -1,32 +1,30 @@
-import { Quiz } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
+import { Quiz } from '@/src/quiz/types';
 import { useQuizzes } from '../../hooks/useQuizzes';
-import { QuizCardActiveLong } from './QuizCardActiveLong';
-import { QuizCardLockedLong } from './QuizCardLockedLong';
+import { QuizCardView } from './QuizCardView';
 
 export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
-	const {
-		getUnlockInfo,
-		isLoading,
-		navigateToQuiz,
-		getQuizProgress,
-		getQuizProgressString,
-	} = useQuizzes();
-	console.log(`[QuizCard] Rendering card for ${quiz.id} - ${quiz.title}`);
-	console.debug('[QuizCard] unlockInfo:', getUnlockInfo(quiz.id));
-	const unlockInfo = quiz.initiallyLocked ? getUnlockInfo(quiz.id) : null;
-	const isLocked = quiz.initiallyLocked && !unlockInfo?.isMet;
+  const {
+    getUnlockInfo,
+    isLoading,
+    navigateToQuiz,
+    getQuizProgress,
+    getQuizProgressString,
+  } = useQuizzes();
 
-	if (isLocked) {
-		return <QuizCardLockedLong quiz={quiz} unlockProgress={unlockInfo} />;
-	}
+  const unlockInfo = quiz.initiallyLocked ? getUnlockInfo(quiz.id) : undefined;
+  const isLocked = !!(quiz.initiallyLocked && !unlockInfo?.isMet);
 
-	return (
-		<QuizCardActiveLong
-			quiz={quiz}
-			isLoading={isLoading}
-			onPress={navigateToQuiz}
-			quizCardProgress={getQuizProgress(quiz.id)}
-			quizCardProgressString={getQuizProgressString(quiz.id)}
-		/>
-	);
+  return (
+    <QuizCardView
+      quiz={quiz}
+      variant={isLocked ? 'locked' : 'active'}
+      // Active props
+      onPress={!isLocked ? navigateToQuiz : undefined}
+      isLoading={!isLocked ? isLoading : false}
+      quizCardProgress={!isLocked ? getQuizProgress(quiz.id) : null}
+      quizCardProgressString={!isLocked ? getQuizProgressString(quiz.id) : null}
+      // Locked props
+      unlockProgress={isLocked ? unlockInfo : undefined}
+    />
+  );
 };

@@ -1,4 +1,4 @@
-import { normalizeString } from '../../utils/helper';
+
 import {
   Question,
   QuestionStatus,
@@ -9,6 +9,8 @@ import {
   QuizConfig,
   UnlockCondition
 } from './types';
+import { isAnswerCorrect } from './utils/answerComparison';
+import { normalizeString } from './utils/normalizeString';
 
 
 /**
@@ -79,28 +81,6 @@ export const createQuizState = (
 
 export const normalizeAnswer = (answer: string): string => {
   return normalizeString(answer);
-};
-
-
-export const isAnswerCorrect = (
-  userAnswer: string,
-  correctAnswer: string,
-  alternativeAnswers?: string[]
-): boolean => {
-  const normalizedUserAnswer = normalizeAnswer(userAnswer);
-  const normalizedCorrectAnswer = normalizeAnswer(correctAnswer);
-
-  if (normalizedUserAnswer === normalizedCorrectAnswer) {
-    return true;
-  }
-
-  if (alternativeAnswers && alternativeAnswers.length > 0) {
-    return alternativeAnswers.some(alt =>
-      normalizeAnswer(alt) === normalizedUserAnswer
-    );
-  }
-
-  return false;
 };
 
 

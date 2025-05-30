@@ -4,7 +4,7 @@ import { Question } from "@/src/quiz";
 export const weirdAnimals: Question[] = [
   {
     id: 1,
-    answer: "nacktmull",
+    answer: "Nacktmull",
     images: {
       imageUrl: require("./img/weird_animals-nacktmull.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-nacktmull.jpg"),
@@ -13,7 +13,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 2,
-    answer: "axolotl",
+    answer: "Axolotl",
     images: {
       imageUrl: require("./img/weird_animals-axolotl.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-axolotl.jpg"),
@@ -21,7 +21,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 3,
-    answer: "fingertier",
+    answer: "Fingertier",
     alternativeAnswers: ["Aye-Aye"],
     funFact: "Die Aye-Ayes leben in der Dschungel und sind sehr gefragt, weil sie ihre Fäden mit ihren Fingern anziehen und damit ihre Beine bewegen.",
     images: {
@@ -31,7 +31,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 4,
-    answer: "quokka",
+    answer: "Quokka",
     funFact: "Die Quokkas leben in Australien und sind einzigartig, weil sie ihre Beine in der Lage haben, sich zu bewegen, indem sie ihre Fäden mit ihren Fingern anziehen.",
     images: {
       imageUrl: require("./img/weird_animals-quokka.jpg"),
@@ -40,7 +40,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 6,
-    answer: "gottesanbeterin",
+    answer: "Gottesanbeterin",
     alternativeAnswers: ["Mantis"],
     images: {
       imageUrl: require("./img/weird_animals-gottesanbeterin.jpg"),
@@ -49,7 +49,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 7,
-    answer: "schuppentier",
+    answer: "Schuppentier",
     alternativeAnswers: ["Pangolin"],
     wikipediaName: "Schuppentiere",
     images: {
@@ -59,7 +59,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 8,
-    answer: "schnabeltier",
+    answer: "Schnabeltier",
     alternativeAnswers: ["Playpus"],
     images: {
       imageUrl: require("./img/weird_animals-schnabeltier.jpg"),
@@ -68,7 +68,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 9,
-    answer: "dumbo_oktopuss",
+    answer: "Dumbo-Oktopuss",
     wikipediaName: "Dumbo-Oktopusse",
     images: {
       imageUrl: require("./img/weird_animals-dumbo_oktopuss.jpg"),
@@ -77,7 +77,7 @@ export const weirdAnimals: Question[] = [
   },
   {
     id: 10,
-    answer: "seepferdchen",
+    answer: "Seepferdchen",
     images: {
       imageUrl: require("./img/weird_animals-seepferdchen.jpg"),
       thumbnailUrl: require("./img/thumbnails/weird_animals-seepferdchen.jpg"),

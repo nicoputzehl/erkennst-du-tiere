@@ -30,15 +30,18 @@ export default function RootLayout() {
 
 	return (
 		<PersistenceProvider>
-			<QuizDataProvider>     
-				<QuizStateProvider>  
-					<UIStateProvider>  
-						<QuizProvider>   
+			<QuizDataProvider>
+				<QuizStateProvider>
+					<UIStateProvider>
+						<QuizProvider>
 							<ThemeProvider
-								value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-							>
-								<Stack>
-									<Stack.Screen name='index' options={{ headerShown: false }} />
+								value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+								<Stack
+									screenOptions={{headerShown: false,}}>
+									<Stack.Screen
+										name='index'
+										options={{ headerShown: false }}
+									/>
 									<Stack.Screen name='+not-found' />
 								</Stack>
 								<StatusBar style='auto' />

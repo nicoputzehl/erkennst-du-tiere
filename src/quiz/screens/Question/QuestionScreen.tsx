@@ -1,5 +1,4 @@
 import { Question } from './components/Question';
-import { useQuestionScreenConfig } from './hooks/useQuestionScreenConfig';
 import { useQuestionState } from './hooks/useQuestionState';
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { LoadingComponent } from '@/src/common/components/LoadingComponent';
@@ -14,7 +13,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	questionId,
 }) => {
   const {quizState, question, isLoading} = useQuestionState({quizId, questionId});
-	useQuestionScreenConfig({ quizTitle: quizState?.title });
+
 
 
 	if (isLoading) {

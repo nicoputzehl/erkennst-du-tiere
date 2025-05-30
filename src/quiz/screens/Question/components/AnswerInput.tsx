@@ -4,10 +4,11 @@ import {
   TextInput, 
   View, 
   TouchableOpacity, 
-  ActivityIndicator, 
-  Text,
+  ActivityIndicator,
   Keyboard
 } from 'react-native';
+import { ThemedText } from '@/src/common/components/ThemedText';
+import { useThemeColor } from '@/src/common/hooks/useThemeColor';
 
 interface AnswerInputProps {
   value: string;
@@ -23,13 +24,19 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
   isSubmitting = false,
 }) => {
   const inputRef = useRef<TextInput>(null);
+  
+  // Theme colors - sicherstellen dass nur Strings zurückgegeben werden
+  const textColor = useThemeColor({}, 'text') as string;
+  const tintColor = useThemeColor({}, 'tint') as string;
+  const placeholderColor = useThemeColor(
+    { light: '#666', dark: '#666' }, 
+    'text'
+  ) as string;
 
-  // Auto-focus on mount for better UX
   useEffect(() => {
     const timer = setTimeout(() => {
       inputRef.current?.focus();
-    }, 300); // Small delay to ensure component is mounted
-
+    }, 300);
     return () => clearTimeout(timer);
   }, []);
 
@@ -42,7 +49,6 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
 
   const handleSubmit = () => {
     if (!value.trim() || isSubmitting) return;
-    
     Keyboard.dismiss();
     onSubmitEditing();
   };
@@ -56,6 +62,10 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
           ref={inputRef}
           style={[
             styles.input,
+            { 
+              color: textColor,
+              borderBottomColor: tintColor,
+            },
             isSubmitting && styles.inputDisabled
           ]}
           value={value}
@@ -64,18 +74,19 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
           autoCapitalize="none"
           autoCorrect={false}
           placeholder="Antwort eingeben..."
-          placeholderTextColor="#999"
+          placeholderTextColor={placeholderColor}
           textAlignVertical="center"
           editable={!isSubmitting}
           returnKeyType="done"
-          submitBehavior='blurAndSubmit'
-          maxLength={50} // Reasonable limit
+          submitBehavior="blurAndSubmit"
+          maxLength={50}
         />
       </View>
       
       <TouchableOpacity 
         style={[
-          styles.submitButton, 
+          styles.submitButton,
+          { backgroundColor: tintColor },
           isSubmitDisabled && styles.disabledButton
         ]}
         onPress={handleSubmit}
@@ -85,10 +96,22 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(({
         {isSubmitting ? (
           <View style={styles.loadingContent}>
             <ActivityIndicator size="small" color="#fff" />
-            <Text style={styles.loadingButtonText}>Prüfen...</Text>
+            <ThemedText 
+              style={styles.loadingButtonText}
+              lightColor="#fff"
+              darkColor="#fff"
+            >
+              Prüfen...
+            </ThemedText>
           </View>
         ) : (
-          <Text style={styles.submitButtonText}>Prüfen</Text>
+          <ThemedText 
+            style={styles.submitButtonText}
+            lightColor="#fff"
+            darkColor="#fff"
+          >
+            Prüfen
+          </ThemedText>
         )}
       </TouchableOpacity>
     </View>
@@ -116,7 +139,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: '#ddd',
     borderWidth: 0,
     borderBottomWidth: 2,
     paddingHorizontal: 12,
@@ -124,15 +146,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     backgroundColor: 'transparent',
     textAlign: 'center',
-    color: '#333',
     fontWeight: '500',
   },
   inputDisabled: {
     opacity: 0.7,
-    backgroundColor: '#f5f5f5',
   },
   submitButton: {
-    backgroundColor: '#0a7ea4',
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 12,
@@ -140,22 +159,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 50,
-    // Schatten
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   disabledButton: {
     opacity: 0.5,
-    backgroundColor: '#ccc',
   },
   submitButtonText: {
-    color: '#fff',
     fontWeight: '700',
     fontSize: 16,
     letterSpacing: 0.5,
@@ -166,7 +179,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   loadingButtonText: {
-    color: '#fff',
     fontWeight: '600',
     fontSize: 14,
   },

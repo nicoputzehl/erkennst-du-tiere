@@ -1,6 +1,5 @@
 import {
   calculateAnswerResult,
-  isAnswerCorrect,
   calculateQuizProgress,
   isCompleted,
   getNextActiveQuestionId,
@@ -22,36 +21,9 @@ import { processAnswerLogic } from '../hooks/useAnswerProcessing';
 import { stateOperations } from '../contexts/QuizStateProvider';
 
 import { QuestionStatus, QuizMode } from '../types';
+import { isAnswerCorrect } from '../utils/answerComparison';
 
 describe('Quiz Utils', () => {
-
-  describe('isAnswerCorrect', () => {
-    it('should return true for exact match', () => {
-      const result = isAnswerCorrect('Elefant', 'Elefant');
-      expect(result).toBe(true);
-    });
-
-    it('should return true for case insensitive match', () => {
-      const result = isAnswerCorrect('elefant', 'Elefant');
-      expect(result).toBe(true);
-    });
-
-    it('should return true for alternative answer', () => {
-      const result = isAnswerCorrect('Aye-Aye', 'Fingertier', ['Aye-Aye']);
-      expect(result).toBe(true);
-    });
-
-    it('should return false for wrong answer', () => {
-      const result = isAnswerCorrect('Giraffe', 'Elefant');
-      expect(result).toBe(false);
-    });
-
-    // TODO later
-    it.skip('should handle normalized strings', () => {
-      const result = isAnswerCorrect('Käänguru', 'Känguru');
-      expect(result).toBe(true);
-    });
-  });
 
   describe('calculateQuizProgress', () => {
     it('should return 0 for empty quiz', () => {

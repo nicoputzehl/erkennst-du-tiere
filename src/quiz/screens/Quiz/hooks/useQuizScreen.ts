@@ -1,18 +1,17 @@
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
 
 import { QuizState } from '@/src/quiz/types';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useQuizScreen = (quizId: string | null) => {
   const { loadQuiz, getQuizState, getQuizProgress } = useQuiz();
 
-  
+
   const [quizState, setQuizState] = useState<QuizState | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigation = useNavigation();
 
   // Initialize quiz when component mounts
   useEffect(() => {
@@ -22,7 +21,7 @@ export const useQuizScreen = (quizId: string | null) => {
         setIsLoading(false);
         return;
       }
-      
+
       setIsLoading(true);
       try {
         console.log(`[useQuizScreen] Loading quiz: ${quizId}`);
@@ -40,7 +39,7 @@ export const useQuizScreen = (quizId: string | null) => {
         setIsLoading(false);
       }
     };
-    
+
     initializeQuiz();
   }, [quizId, loadQuiz]);
 
@@ -56,15 +55,6 @@ export const useQuizScreen = (quizId: string | null) => {
     }, [quizId, getQuizState])
   );
 
-  // Handle navigation options
-  useEffect(() => {
-    navigation.setOptions({
-      title: quizState?.title || 'Quiz-Übersicht',
-      headerShown: true,
-      headerBackTitle: 'Zurück',
-      headerBackButtonDisplayMode: 'minimal',
-    });
-  }, [navigation, quizState]);
 
   // Handle question selection
   const handleQuestionClick = useCallback(
@@ -76,11 +66,17 @@ export const useQuizScreen = (quizId: string | null) => {
     [quizId]
   );
 
+  const navigateToQuizzes = useCallback(() => {
+    router.back();
+  }, []);
+
+
   return {
     quizState,
     isLoading,
     error,
     handleQuestionClick,
     getQuizProgress,
+    navigateToQuizzes,
   };
 };

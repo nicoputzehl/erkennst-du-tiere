@@ -1,4 +1,3 @@
-import { normalizeString } from '@/utils/helper';
 import { useCallback } from 'react';
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
@@ -34,8 +33,7 @@ export const processAnswerLogic = (
       throw new Error(`Quiz with ID ${quizId} not found`);
     }
 
-    const processedAnswer = normalizeString(answer);
-    const result = calculateAnswerResult(currentState, questionId, processedAnswer);
+    const result = calculateAnswerResult(currentState, questionId, answer);
 
     if (!result.isCorrect) {
       resolve({ isCorrect: false, unlockedQuizzes: [] });

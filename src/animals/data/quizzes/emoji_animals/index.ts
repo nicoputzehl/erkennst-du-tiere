@@ -4,7 +4,7 @@ import { Question } from "@/src/quiz";
 export const emojiAnimals: Question[] = [
   {
     id: 1,
-    answer: "faultier",
+    answer: "Faultier",
     images: {
       imageUrl: require("./img/faultier.png"),
       thumbnailUrl: require("./img/thumbnails/faultier.png"),
@@ -12,7 +12,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 2,
-    answer: "tiger",
+    answer: "Tiger",
     images: {
       imageUrl: require("./img/tiger.png"),
       thumbnailUrl: require("./img/thumbnails/tiger.png"),
@@ -20,7 +20,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 3,
-    answer: "delfin",
+    answer: "Delfin",
     images: {
       imageUrl: require("./img/delfin.png"),
       thumbnailUrl: require("./img/thumbnails/delfin.png"),
@@ -28,7 +28,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 4,
-    answer: "flamingo",
+    answer: "Flamingo",
     images: {
       imageUrl: require("./img/flamingo.png"),
       thumbnailUrl: require("./img/thumbnails/flamingo.png"),
@@ -36,7 +36,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 5,
-    answer: "leopard",
+    answer: "Leopard",
     images: {
       imageUrl: require("./img/leopard.png"),
       thumbnailUrl: require("./img/thumbnails/leopard.png"),
@@ -44,7 +44,8 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 6,
-    answer: "nilpferd",
+    answer: "Flusspferd",
+    alternativeAnswers: ["Nilpferd", "Hippopotamus"],
     images: {
       imageUrl: require("./img/nilpferd.png"),
       thumbnailUrl: require("./img/thumbnails/nilpferd.png"),
@@ -52,7 +53,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 7,
-    answer: "zebra",
+    answer: "Zebra",
     images: {
       imageUrl: require("./img/zebra.png"),
       thumbnailUrl: require("./img/thumbnails/zebra.png"),
@@ -60,7 +61,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 8,
-    answer: "giraffe",
+    answer: "Giraffe",
     images: {
       imageUrl: require("./img/giraffe.png"),
       thumbnailUrl: require("./img/thumbnails/giraffe.png"),
@@ -68,7 +69,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 9,
-    answer: "elefant",
+    answer: "Elefant",
     images: {
       imageUrl: require("./img/elefant.png"),
       thumbnailUrl: require("./img/thumbnails/elefant.png"),
@@ -76,7 +77,8 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 10,
-    answer: "kamel",
+    answer: "Kamel",
+    alternativeAnswers: ["Trampeltier"],
     images: {
       imageUrl: require("./img/kamel.png"),
       thumbnailUrl: require("./img/thumbnails/kamel.png"),
@@ -84,7 +86,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 11,
-    answer: "seehund",
+    answer: "Seehund",
     images: {
       imageUrl: require("./img/seehund.png"),
       thumbnailUrl: require("./img/thumbnails/seehund.png"),
@@ -92,7 +94,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 12,
-    answer: "lama",
+    answer: "Lama",
     images: {
       imageUrl: require("./img/lama.png"),
       thumbnailUrl: require("./img/thumbnails/lama.png"),
@@ -100,7 +102,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 13,
-    answer: "hai",
+    answer: "Hai",
     images: {
       imageUrl: require("./img/hai.png"),
       thumbnailUrl: require("./img/thumbnails/hai.png"),
@@ -108,7 +110,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 14,
-    answer: "orangutang",
+    answer: "Orangutan",
     images: {
       imageUrl: require("./img/orang_utan.png"),
       thumbnailUrl: require("./img/thumbnails/orang_utan.png"),
@@ -116,7 +118,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 15,
-    answer: "stinktier",
+    answer: "Stinktier",
     images: {
       imageUrl: require("./img/stinktier.png"),
       thumbnailUrl: require("./img/thumbnails/stinktier.png"),
@@ -124,7 +126,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 16,
-    answer: "pfau",
+    answer: "Pfau",
     images: {
       imageUrl: require("./img/pfau.png"),
       thumbnailUrl: require("./img/thumbnails/pfau.png"),
@@ -132,7 +134,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 17,
-    answer: "gorilla",
+    answer: "Gorilla",
     images: {
       imageUrl: require("./img/gorilla.png"),
       thumbnailUrl: require("./img/thumbnails/gorilla.png"),
@@ -140,7 +142,7 @@ export const emojiAnimals: Question[] = [
   },
   {
     id: 18,
-    answer: "nashorn",
+    answer: "Nashorn",
     images: {
       imageUrl: require("./img/nashorn.png"),
       thumbnailUrl: require("./img/thumbnails/nashorn.png"),

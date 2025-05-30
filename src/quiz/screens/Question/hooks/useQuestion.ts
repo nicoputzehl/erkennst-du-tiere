@@ -17,12 +17,13 @@ export const useQuestion = (
   const [statusChanged, setStatusChanged] = useState(false);
 
   const quizState = getQuizState(quizId);
+  const quizTitle = useMemo(() => quizState?.title, [quizState]);
 
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const showUnsolvedImages = useMemo(() => 
-    question.status !== 'solved' && (question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl), 
+  const showUnsolvedImages = useMemo(() =>
+    question.status !== 'solved' && (question.images.unsolvedImageUrl || question.images.unsolvedThumbnailUrl),
     [question]
   );
 
@@ -62,29 +63,29 @@ export const useQuestion = (
     setIsSubmitting(true);
     try {
       console.log(`[useQuestion] Submitting answer for quiz ${quizId}, question ${question.id}`);
-      
+
       const result = await answerQuizQuestion(
         quizId,
         question.id,
         answer.trim()
       );
 
-      console.log(`[useQuestion] Answer result:`, { 
-        isCorrect: result.isCorrect, 
-        hasUnlocks: result.unlockedQuizzes?.length || 0 
+      console.log(`[useQuestion] Answer result:`, {
+        isCorrect: result.isCorrect,
+        hasUnlocks: result.unlockedQuizzes?.length || 0
       });
 
       if (result.isCorrect && result.newState) {
         processCorrectAnswer(result.newState);
-        
+
         // TOAST FÜR FREIGESCHALTETE QUIZZES IN QUESTION-ANSICHT
         if (result.unlockedQuizzes && result.unlockedQuizzes.length > 0) {
           console.log(`[useQuestion] Showing toasts for ${result.unlockedQuizzes.length} unlocked quiz(zes)`);
-          
+
           // Zeige Toast für jedes freigeschaltete Quiz
           result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
             console.log(`[useQuestion] Scheduling toast for "${unlockedQuiz.title}" with delay ${index * 500}ms`);
-            
+
             // Delay für mehrere Toasts, damit sie nacheinander erscheinen
             setTimeout(() => {
               console.log(`[useQuestion] Showing toast for "${unlockedQuiz.title}"`);
@@ -123,6 +124,7 @@ export const useQuestion = (
     answer,
     isSubmitting,
     statusChanged,
-    showUnsolvedImages
+    showUnsolvedImages,
+    quizTitle
   };
 };

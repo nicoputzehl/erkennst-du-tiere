@@ -1,5 +1,5 @@
 import { QuestionListTile } from '@/src/quiz/screens/Quiz/components/QuestionListTile';
-import { QuizQuestion } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
+import { QuizQuestion } from '@/src/quiz/types';
 import React, { useCallback, useMemo } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 import { QUIZ_LAYOUT } from '../constants/constants';
@@ -15,7 +15,6 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
   itemWidth,
   onQuestionClick,
 }) => {
-
   const renderItem: ListRenderItem<QuizQuestion> = useCallback(
     ({ item }) => (
       <QuestionListTile
@@ -47,13 +46,17 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
       },
       showsVerticalScrollIndicator: false,
       removeClippedSubviews: true,
-      maxToRenderPerBatch: 10,
+      maxToRenderPerBatch: 15,
       updateCellsBatchingPeriod: 50,
-      initialNumToRender: 20,
-      windowSize: 5,
-      lazy: true,
+      initialNumToRender: 21, // 3x7 für optimale Performance
+      windowSize: 7,
+      getItemLayout: (data: any, index: number) => ({
+        length: itemWidth + QUIZ_LAYOUT.gap,
+        offset: (itemWidth + QUIZ_LAYOUT.gap) * Math.floor(index / 3),
+        index,
+      }),
     }),
-    []
+    [itemWidth]
   );
 
   return (

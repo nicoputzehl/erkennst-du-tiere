@@ -6,7 +6,7 @@ export default function SettingsRoute() {
     <>
       <Stack.Screen options={{ 
         title: 'Einstellungen',
-        headerShown: true 
+        headerShown: false 
       }} />
       <SettingsScreen />
     </>
