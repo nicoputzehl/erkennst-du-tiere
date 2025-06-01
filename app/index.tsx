@@ -4,6 +4,8 @@ import QuizzesScreen from '@/src/quiz/screens/Quizzes/Quizzes';
 import { LoadingComponent } from '@/src/common/components/LoadingComponent';
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { useMemo } from 'react';
+import { TestMigrationIntegration } from '@/src/stores/TestMigratinIntegration';
+import { TestEnhancedIntegration } from '@/src/stores/TestEnhancedIntegration';
 
 export default function QuizzesRoute() {
 	const { getAllQuizzes, isLoading, isInitializing, initialized } = useQuiz();
@@ -33,6 +35,8 @@ export default function QuizzesRoute() {
 	if (isLoading) {
 		return <LoadingComponent message="Quizzes werden geladen..." />;
 	}
+
+	return <TestEnhancedIntegration />
 
 	return <QuizzesScreen quizzes={quizzes} />;
 }

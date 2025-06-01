@@ -17,6 +17,7 @@ import {
 	UIStateProvider,
 	QuizProvider,
 } from '@/src/quiz';
+import { QuizStoreProvider } from '@/src/stores/QuizStoreProvider';
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
@@ -34,18 +35,20 @@ export default function RootLayout() {
 				<QuizStateProvider>
 					<UIStateProvider>
 						<QuizProvider>
-							<ThemeProvider
-								value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-								<Stack
-									screenOptions={{headerShown: false,}}>
-									<Stack.Screen
-										name='index'
-										options={{ headerShown: false }}
-									/>
-									<Stack.Screen name='+not-found' />
-								</Stack>
-								<StatusBar style='auto' />
-							</ThemeProvider>
+							<QuizStoreProvider>
+								<ThemeProvider
+									value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+								>
+									<Stack screenOptions={{ headerShown: false }}>
+										<Stack.Screen
+											name='index'
+											options={{ headerShown: false }}
+										/>
+										<Stack.Screen name='+not-found' />
+									</Stack>
+									<StatusBar style='auto' />
+								</ThemeProvider>
+							</QuizStoreProvider>
 						</QuizProvider>
 					</UIStateProvider>
 				</QuizStateProvider>
