@@ -1,8 +1,5 @@
-
 import {
-  Question,
   QuestionStatus,
-  QuizMode,
   QuizQuestion,
   QuizState,
   Quiz,
@@ -12,23 +9,34 @@ import {
 import { isAnswerCorrect } from './utils/answerComparison';
 import { normalizeString } from './utils/normalizeString';
 
-
 /**
- * Erstellt eine Quiz-Konfiguration - reine Funktion ohne Seiteneffekte
+ * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen
+ * Trennt sauber zwischen Inhalt (Quiz) und Konfiguration (QuizConfig)
  */
-export const createQuiz = (config: QuizConfig): Quiz => ({
-  id: config.id,
-  title: config.title,
-  questions: config.questions,
+export const createQuizConfig = (
+  quiz: Quiz,
+  config: Partial<Omit<QuizConfig, keyof Quiz>> = {}
+): QuizConfig => ({
+  ...quiz,
   initiallyLocked: config.initiallyLocked ?? false,
   unlockCondition: config.unlockCondition,
   order: config.order ?? 1,
-  quizMode: config.quizMode ?? QuizMode.SEQUENTIAL,
   initialUnlockedQuestions: config.initialUnlockedQuestions ?? 2,
-  titleImage: config.titleImage
 });
 
+/**
+ * Extrahiert Quiz-Inhalt aus QuizConfig
+ */
+export const extractQuizContent = (config: QuizConfig): Quiz => ({
+  id: config.id,
+  title: config.title,
+  questions: config.questions,
+  titleImage: config.titleImage,
+});
 
+/**
+ * Erstellt Unlock-Bedingung
+ */
 export const createUnlockCondition = (
   requiredQuizId: string,
   description?: string
@@ -37,45 +45,42 @@ export const createUnlockCondition = (
   description: description || `Schließe das Quiz "${requiredQuizId}" ab, um dieses Quiz freizuschalten.`
 });
 
+/**
+ * Berechnet initiale Fragen-Status basierend auf Quiz-Konfiguration
+ */
 export const calculateInitialQuestionStatus = (
   questionCount: number,
-  quizMode: QuizMode,
   initialUnlockedQuestions: number
 ): QuestionStatus[] => {
   return Array.from({ length: questionCount }, (_, index) => {
-    if (quizMode === QuizMode.ALL_UNLOCKED) {
-      return QuestionStatus.ACTIVE;
-    }
     return index < initialUnlockedQuestions ?
       QuestionStatus.ACTIVE :
       QuestionStatus.INACTIVE;
   });
 };
 
-
+/**
+ * Erstellt Quiz-State aus Quiz-Inhalt und Konfiguration
+ */
 export const createQuizState = (
-  questions: Question[],
-  id: string,
-  title: string = "Generic Quiz",
-  quizMode: QuizMode = QuizMode.SEQUENTIAL,
-  initialUnlockedQuestions: number = 2
+  quiz: Quiz,
+  config: Pick<QuizConfig, 'initialUnlockedQuestions'> = {}
 ): QuizState => {
+  const initialUnlockedQuestions = config.initialUnlockedQuestions || 2;
 
   const questionStatus = calculateInitialQuestionStatus(
-    questions.length,
-    quizMode,
+    quiz.questions.length,
     initialUnlockedQuestions
   );
 
   return {
-    id,
-    title,
-    questions: questions.map((q, i) => ({
+    id: quiz.id,
+    title: quiz.title,
+    questions: quiz.questions.map((q, i) => ({
       ...q,
       status: questionStatus[i],
     })) as QuizQuestion[],
     completedQuestions: 0,
-    quizMode
   };
 };
 
@@ -83,16 +88,13 @@ export const normalizeAnswer = (answer: string): string => {
   return normalizeString(answer);
 };
 
-
 export const findNextInactiveQuestionIndex = (questions: QuizQuestion[]): number => {
   return questions.findIndex(q => q.status === QuestionStatus.INACTIVE);
 };
 
-
 export const calculateNewQuestionsAfterCorrectAnswer = (
   questions: QuizQuestion[],
   questionIndex: number,
-  quizMode?: QuizMode
 ): QuizQuestion[] => {
   const newQuestions = questions.map((q, index) => {
     if (index === questionIndex) {
@@ -101,15 +103,14 @@ export const calculateNewQuestionsAfterCorrectAnswer = (
     return q;
   });
 
-  // Sequential Mode: Nächste Frage freischalten
-  if (!quizMode || quizMode === QuizMode.SEQUENTIAL) {
-    const nextInactiveIndex = findNextInactiveQuestionIndex(newQuestions);
-    if (nextInactiveIndex !== -1) {
-      newQuestions[nextInactiveIndex] = {
-        ...newQuestions[nextInactiveIndex],
-        status: QuestionStatus.ACTIVE
-      };
-    }
+
+  const nextInactiveIndex = findNextInactiveQuestionIndex(newQuestions);
+  if (nextInactiveIndex !== -1) {
+    newQuestions[nextInactiveIndex] = {
+      ...newQuestions[nextInactiveIndex],
+      status: QuestionStatus.ACTIVE
+    };
+
   }
 
   return newQuestions;
@@ -135,7 +136,6 @@ export const calculateAnswerResult = (
   const newQuestions = calculateNewQuestionsAfterCorrectAnswer(
     state.questions,
     questionIndex,
-    state.quizMode
   );
 
   return {
@@ -148,11 +148,9 @@ export const calculateAnswerResult = (
   };
 };
 
-
 export const sortQuestionsByIds = (questions: QuizQuestion[]): QuizQuestion[] => {
   return [...questions].sort((a, b) => a.id - b.id);
 };
-
 
 export const findNextUnsolvedQuestionForward = (
   sortedQuestions: QuizQuestion[],
@@ -166,7 +164,6 @@ export const findNextUnsolvedQuestionForward = (
   return null;
 };
 
-
 export const findNextUnsolvedQuestionBackward = (
   sortedQuestions: QuizQuestion[],
   currentIndex: number
@@ -179,11 +176,9 @@ export const findNextUnsolvedQuestionBackward = (
   return null;
 };
 
-
 export const findFirstUnsolvedQuestion = (questions: QuizQuestion[]): QuizQuestion | null => {
   return questions.find(q => q.status !== 'solved') || null;
 };
-
 
 export const getNextActiveQuestionId = (
   state: QuizState,
@@ -210,11 +205,9 @@ export const getNextActiveQuestionId = (
   return firstUnsolved ? firstUnsolved.id : null;
 };
 
-
 export const isCompleted = (state: QuizState): boolean => {
   return state.completedQuestions === state.questions.length;
 };
-
 
 export const checkUnlockCondition = (
   condition: UnlockCondition,
@@ -229,19 +222,17 @@ export const checkUnlockCondition = (
   };
 };
 
-
 export const canUnlockQuiz = (
-  quiz: Quiz,
+  config: QuizConfig,
   quizStates: Record<string, QuizState>
 ): boolean => {
-  if (!quiz.initiallyLocked || !quiz.unlockCondition) {
+  if (!config.initiallyLocked || !config.unlockCondition) {
     return true;
   }
 
-  const { isMet } = checkUnlockCondition(quiz.unlockCondition, quizStates);
+  const { isMet } = checkUnlockCondition(config.unlockCondition, quizStates);
   return isMet;
 };
-
 
 export const calculateQuizProgress = (state: QuizState): number => {
   if (!state.questions?.length) return 0;

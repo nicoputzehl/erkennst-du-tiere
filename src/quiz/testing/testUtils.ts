@@ -1,4 +1,5 @@
-import { Question, QuizQuestion, QuizState, Quiz, QuestionStatus, QuizMode } from '../types';
+import { Question, QuizQuestion, QuizState, Quiz, QuizConfig, QuestionStatus } from '../types';
+import { createQuizConfig } from '../utils';
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
@@ -36,18 +37,28 @@ export const createTestQuizQuestion = (
 });
 
 /**
- * Erstellt Test-Quiz - reine Factory-Funktion
+ * Erstellt Test-Quiz-Inhalt - reine Factory-Funktion
  */
 export const createTestQuiz = (overrides: Partial<Quiz> = {}): Quiz => ({
   id: 'test-quiz',
   title: 'Test Quiz',
   questions: [createTestQuestion()],
-  initiallyLocked: false,
-  order: 1,
-  quizMode: QuizMode.SEQUENTIAL,
-  initialUnlockedQuestions: 2,
   ...overrides,
 });
+
+/**
+ * Erstellt Test-Quiz-Konfiguration - reine Factory-Funktion
+ */
+export const createTestQuizConfig = (overrides: Partial<QuizConfig> = {}): QuizConfig => {
+  const baseQuiz = createTestQuiz(overrides);
+  
+  return createQuizConfig(baseQuiz, {
+    initiallyLocked: overrides.initiallyLocked ?? false,
+    order: overrides.order ?? 1,
+    initialUnlockedQuestions: overrides.initialUnlockedQuestions ?? 2,
+    unlockCondition: overrides.unlockCondition,
+  });
+};
 
 /**
  * Erstellt Test-Quiz-State - reine Factory-Funktion
@@ -57,10 +68,8 @@ export const createTestQuizState = (overrides: Partial<QuizState> = {}): QuizSta
   title: 'Test Quiz State',
   questions: [createTestQuizQuestion()],
   completedQuestions: 0,
-  quizMode: QuizMode.SEQUENTIAL,
   ...overrides,
 });
-
 
 /**
  * Builder für komplexe Quiz-States - funktionale Komposition
@@ -86,9 +95,6 @@ export const quizStateBuilder = (baseState: Partial<QuizState> = {}) => ({
     return quizStateBuilder({ ...baseState, questions });
   },
   
-  withMode: (mode: QuizMode) => {
-    return quizStateBuilder({ ...baseState, quizMode: mode });
-  },
   
   build: (): QuizState => createTestQuizState(baseState),
 });
@@ -98,29 +104,36 @@ export const quizStateBuilder = (baseState: Partial<QuizState> = {}) => ({
  */
 export const quizCollectionBuilder = () => {
   let quizzes: Quiz[] = [];
+  let configs: QuizConfig[] = [];
   
   return {
     addQuiz: (quiz: Partial<Quiz> = {}) => {
-      quizzes.push(createTestQuiz(quiz));
+      const testQuiz = createTestQuiz(quiz);
+      const testConfig = createTestQuizConfig(testQuiz);
+      quizzes.push(testQuiz);
+      configs.push(testConfig);
       return quizCollectionBuilder();
     },
     
     addLockedQuiz: (requiredQuizId: string, quiz: Partial<Quiz> = {}) => {
-      quizzes.push(createTestQuiz({
-        ...quiz,
+      const testQuiz = createTestQuiz(quiz);
+      const testConfig = createTestQuizConfig({
+        ...testQuiz,
         initiallyLocked: true,
         unlockCondition: {
           requiredQuizId,
           description: `Complete ${requiredQuizId} to unlock`
         }
-      }));
+      });
+      quizzes.push(testQuiz);
+      configs.push(testConfig);
       return quizCollectionBuilder();
     },
     
-    build: (): Quiz[] => quizzes,
+    buildQuizzes: (): Quiz[] => quizzes,
+    buildConfigs: (): QuizConfig[] => configs,
   };
 };
-
 
 /**
  * Erstellt Mock Quiz-States - reine Funktion
@@ -143,18 +156,19 @@ export const createMockQuizStates = (
 /**
  * Erstellt Mock Unlock-Chain - reine Funktion
  */
-export const createMockUnlockChain = (): Quiz[] => {
-  return quizCollectionBuilder()
+export const createMockUnlockChain = (): { quizzes: Quiz[], configs: QuizConfig[] } => {
+  const builder = quizCollectionBuilder()
     .addQuiz({ id: 'quiz1', title: 'First Quiz' })
     .addLockedQuiz('quiz1', { id: 'quiz2', title: 'Second Quiz' })
-    .addLockedQuiz('quiz2', { id: 'quiz3', title: 'Third Quiz' })
-    .build();
+    .addLockedQuiz('quiz2', { id: 'quiz3', title: 'Third Quiz' });
+    
+  return {
+    quizzes: builder.buildQuizzes(),
+    configs: builder.buildConfigs()
+  };
 };
 
-
-/**
- * Prüft ob Quiz-State korrekt ist - reine Funktion
- */
+// Vergleichsfunktionen und Assertions bleiben unverändert...
 export const assertQuizStateValid = (state: QuizState): boolean => {
   return (
     state.id.length > 0 &&
@@ -165,22 +179,22 @@ export const assertQuizStateValid = (state: QuizState): boolean => {
   );
 };
 
-/**
- * Prüft ob Quiz korrekt konfiguriert ist - reine Funktion
- */
 export const assertQuizValid = (quiz: Quiz): boolean => {
   return (
     quiz.id.length > 0 &&
     quiz.title.length > 0 &&
-    quiz.questions.length > 0 &&
-    (quiz.order || 0) >= 0 &&
-    (quiz.initialUnlockedQuestions || 0) >= 0
+    quiz.questions.length > 0
   );
 };
 
-/**
- * Vergleicht zwei Quiz-States - reine Funktion
- */
+export const assertQuizConfigValid = (config: QuizConfig): boolean => {
+  return (
+    assertQuizValid(config) &&
+    (config.order || 0) >= 0 &&
+    (config.initialUnlockedQuestions || 0) >= 0
+  );
+};
+
 export const areQuizStatesEqual = (state1: QuizState, state2: QuizState): boolean => {
   return (
     state1.id === state2.id &&
@@ -194,42 +208,26 @@ export const areQuizStatesEqual = (state1: QuizState, state2: QuizState): boolea
 };
 
 // ====== SCENARIO BUILDERS (FUNCTIONAL COMPOSITION) ======
-
-/**
- * Baut Test-Szenarien für verschiedene Quiz-Zustände
- */
 export const scenarioBuilder = {
-  /**
-   * Szenario: Leeres Quiz
-   */
   emptyQuiz: () => createTestQuizState({
     questions: [],
     completedQuestions: 0,
   }),
   
-  /**
-   * Szenario: Quiz in Bearbeitung
-   */
   quizInProgress: () => quizStateBuilder()
     .withQuestions(5)
     .withCompletedQuestions(2)
     .withSolvedQuestions([0, 1])
     .build(),
   
-  /**
-   * Szenario: Abgeschlossenes Quiz
-   */
   completedQuiz: () => quizStateBuilder()
     .withQuestions(3)
     .withCompletedQuestions(3)
     .withSolvedQuestions([0, 1, 2])
     .build(),
   
-  /**
-   * Szenario: Unlock-Kette
-   */
   unlockChain: () => ({
-    quizzes: createMockUnlockChain(),
+    ...createMockUnlockChain(),
     quizStates: createMockQuizStates(['quiz1'], ['quiz1']), // quiz1 abgeschlossen
   }),
 };

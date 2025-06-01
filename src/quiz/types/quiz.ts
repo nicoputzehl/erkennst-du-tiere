@@ -1,46 +1,42 @@
 import { Question, QuestionBase } from "./question";
 import { UnlockCondition } from "./unlock";
 
-
-//  TODO entfernen
-export enum QuizMode {
-  SEQUENTIAL = 'sequential',
-  ALL_UNLOCKED = 'all_unlocked'
-}
-
-
+/**
+ * Quiz Content - Reine Inhaltsdaten ohne Konfiguration
+ * Wird für die Datenanzeige und -verwaltung verwendet
+ */
 export interface Quiz {
   id: string;
   title: string;
   questions: QuestionBase[];
-  initiallyLocked?: boolean;
-  unlockCondition?: UnlockCondition;
-  order?: number;
-  quizMode?: QuizMode;
-  initialUnlockedQuestions?: number;
   titleImage?: string;
 }
 
+/**
+ * Quiz Configuration - Erweitert Quiz um Konfigurationsoptionen
+ * Wird für die Quiz-Erstellung und -Registrierung verwendet
+ */
+export interface QuizConfig extends Quiz {
+  initiallyLocked?: boolean;
+  unlockCondition?: UnlockCondition;
+  order?: number;
+  initialUnlockedQuestions?: number;
+}
+
+/**
+ * Quiz State - Runtime-Zustand eines Quiz
+ * Erweitert Quiz um Status-Informationen
+ */
 export interface QuizState {
   id: string;
   title: string;
   questions: Question[];
   completedQuestions: number;
-  quizMode?: QuizMode;
 }
 
-export interface QuizConfig {
-  id: string;
-  title: string;
-  questions: QuestionBase[];
-  initiallyLocked?: boolean;
-  unlockCondition?: UnlockCondition;
-  order?: number;
-  quizMode?: QuizMode;
-  initialUnlockedQuestions?: number;
-  titleImage?: string;
-}
-
+/**
+ * Quiz Progress - Fortschrittsinformationen
+ */
 export interface QuizProgress {
   quizId: string;
   completed: number;

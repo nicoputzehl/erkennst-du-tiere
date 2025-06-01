@@ -1,21 +1,33 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { Quiz } from '../types';
+import { Quiz, QuizConfig } from '../types';
 import '@/src/animals/quizzes';
 import { initializeAllQuizzes } from '@/src/common/utils';
+import { extractQuizContent } from '../utils';
 
 interface QuizDataState {
   quizzes: Record<string, Quiz>;
+  quizConfigs: Record<string, QuizConfig>;
   initialized: boolean;
   isInitializing: boolean;
 }
 
 interface QuizDataContextValue {
+  // Quiz-Inhalt (für Anzeige)
   getQuizById: (id: string) => Quiz | undefined;
   getAllQuizzes: () => Quiz[];
   getQuizzesByOrder: () => Quiz[];
+  
+  // Quiz-Konfiguration (für Logik)
+  getQuizConfigById: (id: string) => QuizConfig | undefined;
+  getAllQuizConfigs: () => QuizConfig[];
+  getQuizConfigsByOrder: () => QuizConfig[];
+  
+  // Status
   initialized: boolean;
   isInitializing: boolean;
-  registerQuiz: (id: string, quiz: Quiz) => void;
+  
+  // Registrierung (intern)
+  registerQuizConfig: (id: string, config: QuizConfig) => void;
 }
 
 const QuizDataContext = createContext<QuizDataContextValue | null>(null);
@@ -23,15 +35,20 @@ const QuizDataContext = createContext<QuizDataContextValue | null>(null);
 export function QuizDataProvider({ children }: { children: ReactNode }) {
   const [dataState, setDataState] = useState<QuizDataState>({
     quizzes: {},
+    quizConfigs: {},
     initialized: false,
     isInitializing: true,
   });
 
-  const registerQuiz = useCallback((id: string, quiz: Quiz) => { 
-    console.log(`[QuizDataProvider] Registering quiz: ${id}`);
+  const registerQuizConfig = useCallback((id: string, config: QuizConfig) => { 
+    console.log(`[QuizDataProvider] Registering quiz config: ${id}`);
+    
+    const quiz = extractQuizContent(config);
+    
     setDataState(prev => ({
       ...prev,
-      quizzes: { ...prev.quizzes, [id]: quiz }
+      quizzes: { ...prev.quizzes, [id]: quiz },
+      quizConfigs: { ...prev.quizConfigs, [id]: config }
     }));
   }, []);
 
@@ -46,16 +63,33 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
   }, [dataState.quizzes]);
 
   const getQuizzesByOrder = useCallback((): Quiz[] => {
-    const allQuizzes = Object.values(dataState.quizzes);
-    return allQuizzes.sort((a, b) => (a.order || 0) - (b.order || 0));
-  }, [dataState.quizzes]);
+    const allConfigs = Object.values(dataState.quizConfigs);
+    return allConfigs
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .map(config => dataState.quizzes[config.id])
+      .filter(Boolean);
+  }, [dataState.quizzes, dataState.quizConfigs]);
+
+
+  const getQuizConfigById = useCallback((id: string): QuizConfig | undefined => {
+    return dataState.quizConfigs[id];
+  }, [dataState.quizConfigs]);
+
+  const getAllQuizConfigs = useCallback((): QuizConfig[] => {
+    return Object.values(dataState.quizConfigs);
+  }, [dataState.quizConfigs]);
+
+  const getQuizConfigsByOrder = useCallback((): QuizConfig[] => {
+    const allConfigs = Object.values(dataState.quizConfigs);
+    return allConfigs.sort((a, b) => (a.order || 0) - (b.order || 0));
+  }, [dataState.quizConfigs]);
 
   useEffect(() => {
     const initializeQuizRegistry = async () => {
       try {
         console.log('[QuizDataProvider] Initializing quiz registry...');
         
-        (globalThis as any).registerQuizInProvider = registerQuiz;
+        (globalThis as any).registerQuizInProvider = registerQuizConfig;
         
         await initializeAllQuizzes();
         
@@ -80,15 +114,25 @@ export function QuizDataProvider({ children }: { children: ReactNode }) {
     return () => {
       delete (globalThis as any).registerQuizInProvider;
     };
-  }, [registerQuiz]);
+  }, [registerQuizConfig]);
 
   const contextValue: QuizDataContextValue = {
+    // Quiz-Inhalt
     getQuizById,
     getAllQuizzes,
     getQuizzesByOrder,
+    
+    // Quiz-Konfiguration
+    getQuizConfigById,
+    getAllQuizConfigs,
+    getQuizConfigsByOrder,
+    
+    // Status
     initialized: dataState.initialized,
     isInitializing: dataState.isInitializing,
-    registerQuiz,
+    
+    // Registrierung
+    registerQuizConfig,
   };
 
   return (

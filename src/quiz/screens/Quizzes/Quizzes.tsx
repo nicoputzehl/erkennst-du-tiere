@@ -61,18 +61,6 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 
 	// Dynamische Styles basierend auf Theme
 	const dynamicStyles = StyleSheet.create({
-		header: {
-			...styles.header,
-			backgroundColor:
-				colorScheme === 'dark'
-					? 'rgba(0, 0, 0, 0.2)'
-					: 'rgba(255, 255, 255, 0.1)',
-			borderBottomWidth: 1,
-			borderBottomColor:
-				colorScheme === 'dark'
-					? 'rgba(255, 255, 255, 0.1)'
-					: 'rgba(0, 0, 0, 0.1)',
-		},
 		settingsButton: {
 			...styles.settingsButton,
 			backgroundColor:
@@ -85,7 +73,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	return (
 		<ThemedView
 			style={styles.container}
-			gradientType='primary' // Nutzt jetzt Colors.gradientPrimary
+			gradientType='primary'
 		>
 			<Header
 				title='Erkennst du: Tiere'
@@ -105,27 +93,6 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 					</TouchableOpacity>
 				}
 			/>
-			{/* <View style={dynamicStyles.header}>
-        <ThemedText 
-          type="title" 
-          style={[styles.headerTitle, { color: typeof textColor === 'string' ? textColor : '#FFFFFF' }]}
-        >
-          Erkennst du: Tiere
-        </ThemedText>
-        <TouchableOpacity
-          onPress={handleNavigateToSettings}
-          style={dynamicStyles.settingsButton}
-          activeOpacity={0.7}
-          accessibilityLabel="Einstellungen öffnen"
-          accessibilityRole="button"
-        >
-          <FontAwesome6 
-            name="gear" 
-            size={24} 
-            color={typeof textColor === 'string' ? textColor : '#FFFFFF'} 
-          />
-        </TouchableOpacity>
-      </View> */}
 
 			{isLoading ? renderLoadingState() : renderContent()}
 		</ThemedView>
@@ -135,20 +102,6 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-	},
-	header: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		paddingHorizontal: 16,
-		paddingTop: 16,
-		paddingBottom: 12,
-		marginBottom: 8,
-	},
-	headerTitle: {
-		flex: 1,
-		textAlign: 'center',
-		marginRight: 40, // Kompensiert Settings-Button für perfekte Zentrierung
 	},
 	settingsButton: {
 		padding: 10,

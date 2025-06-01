@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState, useRef } from 'react';
-import { QuizMode, QuizState } from '../types';
+import {  QuizState, Quiz, QuizConfig } from '../types';
 import { usePersistence } from './PersistenceProvider';
 import { useQuizData } from './QuizDataProvider';
 import { 
@@ -10,12 +10,12 @@ import {
   createProgressString
 } from '../utils';
 
-
 export const stateOperations = {
   initializeState: (
     quizId: string,
     existingStates: Record<string, QuizState>,
-    getQuizById: (id: string) => any
+    getQuizById: (id: string) => Quiz | undefined,
+    getQuizConfigById: (id: string) => QuizConfig | undefined
   ): QuizState | null => {
     const existingState = existingStates[quizId];
     if (existingState) {
@@ -23,17 +23,15 @@ export const stateOperations = {
     }
 
     const quiz = getQuizById(quizId);
-    if (!quiz) {
+    const config = getQuizConfigById(quizId);
+    
+    if (!quiz || !config) {
       return null;
     }
 
-    return createQuizState(
-      quiz.questions,
-      quiz.id,
-      quiz.title,
-      quiz.quizMode || QuizMode.SEQUENTIAL,
-      quiz.initialUnlockedQuestions || 2
-    );
+    return createQuizState(quiz, {
+      initialUnlockedQuestions: config.initialUnlockedQuestions || 2
+    });
   },
 
   calculateStateUpdate: (
@@ -55,20 +53,19 @@ export const stateOperations = {
     quizId: string,
     currentStates: Record<string, QuizState>,
     currentQuizId: string | null,
-    getQuizById: (id: string) => any
+    getQuizById: (id: string) => Quiz | undefined,
+    getQuizConfigById: (id: string) => QuizConfig | undefined
   ) => {
     const quiz = getQuizById(quizId);
-    if (!quiz) {
+    const config = getQuizConfigById(quizId);
+    
+    if (!quiz || !config) {
       return null;
     }
 
-    const newState = createQuizState(
-      quiz.questions,
-      quiz.id,
-      quiz.title,
-      quiz.quizMode || QuizMode.SEQUENTIAL,
-      quiz.initialUnlockedQuestions || 2
-    );
+    const newState = createQuizState(quiz, {
+      initialUnlockedQuestions: config.initialUnlockedQuestions || 2
+    });
 
     const updatedStates = { ...currentStates, [quizId]: newState };
     const updatedCurrentState = currentQuizId === quizId ? newState : null;
@@ -86,7 +83,6 @@ export const stateOperations = {
     completedQuestions: Object.values(quizStates).reduce((total, state) => total + (state.completedQuestions || 0), 0),
   }),
 };
-
 
 interface QuizStateData {
   quizStates: Record<string, QuizState>;
@@ -123,9 +119,8 @@ interface QuizStateContextValue {
 
 const QuizStateContext = createContext<QuizStateContextValue | null>(null);
 
-
 export function QuizStateProvider({ children }: { children: ReactNode }) {
-  const { getQuizById, initialized: quizDataInitialized } = useQuizData();
+  const { getQuizById, getQuizConfigById, initialized: quizDataInitialized } = useQuizData();
   const { saveQuizStates, loadQuizStates, clearQuizStates } = usePersistence();
   
   const [stateData, setStateData] = useState<QuizStateData>({
@@ -136,10 +131,8 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     isLoading: false,
   });
 
-  
   const initializationRef = useRef(false);
   const saveInProgressRef = useRef(false);
-
 
   const saveStatesIfInitialized = useCallback(async (quizStates: Record<string, QuizState>) => {
     if (saveInProgressRef.current) {
@@ -170,7 +163,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     });
   }, [saveStatesIfInitialized]);
 
-
   const getQuizState = useCallback((quizId: string): QuizState | undefined => {
     return stateData.quizStates[quizId];
   }, [stateData.quizStates]);
@@ -179,7 +171,8 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     const newState = stateOperations.initializeState(
       quizId,
       stateData.quizStates,
-      getQuizById
+      getQuizById,
+      getQuizConfigById
     );
 
     if (newState && !stateData.quizStates[quizId]) {
@@ -190,7 +183,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
 
     return newState;
-  }, [stateData.quizStates, getQuizById, updateStateData]);
+  }, [stateData.quizStates, getQuizById, getQuizConfigById, updateStateData]);
 
   const updateQuizState = useCallback(async (quizId: string, newState: QuizState): Promise<void> => {
     const update = stateOperations.calculateStateUpdate(
@@ -211,7 +204,8 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
       quizId,
       stateData.quizStates,
       stateData.currentQuizId,
-      getQuizById
+      getQuizById,
+      getQuizConfigById
     );
 
     if (resetResult) {
@@ -225,7 +219,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
 
     return null;
-  }, [stateData.quizStates, stateData.currentQuizId, getQuizById, updateStateData]);
+  }, [stateData.quizStates, stateData.currentQuizId, getQuizById, getQuizConfigById, updateStateData]);
 
   const getQuizProgress = useCallback((quizId: string): number => {
     const state = stateData.quizStates[quizId];
@@ -271,7 +265,6 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
   }, [clearQuizStates, updateStateData]);
 
-
   const getCompletedQuizzesCount = useCallback((): number => {
     const stats = stateOperations.calculateStatistics(stateData.quizStates);
     return stats.completedCount;
@@ -287,7 +280,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     return stats.completedQuestions;
   }, [stateData.quizStates]);
 
-
+  // Initialization effect
   useEffect(() => {
     if (initializationRef.current || !quizDataInitialized) {
       return;
@@ -361,7 +354,8 @@ export function useQuizState() {
 }
 
 export const createTestableQuizStateProvider = (mockDependencies: {
-  getQuizById: (id: string) => any;
+  getQuizById: (id: string) => Quiz | undefined;
+  getQuizConfigById: (id: string) => QuizConfig | undefined;
   saveQuizStates: (states: Record<string, QuizState>) => Promise<void>;
   loadQuizStates: () => Promise<Record<string, QuizState> | null>;
   clearQuizStates: () => Promise<void>;
@@ -382,7 +376,8 @@ export const createTestableQuizStateProvider = (mockDependencies: {
         const newState = stateOperations.initializeState(
           quizId,
           stateData.quizStates,
-          mockDependencies.getQuizById
+          mockDependencies.getQuizById,
+          mockDependencies.getQuizConfigById
         );
         if (newState) {
           setStateData(prev => ({
@@ -406,7 +401,8 @@ export const createTestableQuizStateProvider = (mockDependencies: {
           quizId,
           stateData.quizStates,
           stateData.currentQuizId,
-          mockDependencies.getQuizById
+          mockDependencies.getQuizById,
+          mockDependencies.getQuizConfigById
         );
         if (resetResult) {
           setStateData(prev => ({

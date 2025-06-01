@@ -1,14 +1,14 @@
-import { Quiz } from "@/src/quiz";
+import { QuizConfig } from "@/src/quiz";
 
-const allQuizzes: Quiz[] = [];
+const allQuizConfigs: QuizConfig[] = [];
 
-export function registerQuizzes(quizzes: Quiz[]): void {
-  console.log(`[QuizInit] Registering ${quizzes.length} quizzes`);
-  allQuizzes.push(...quizzes);
+export function registerQuizzes(quizConfigs: QuizConfig[]): void {
+  console.log(`[QuizInit] Registering ${quizConfigs.length} quiz configs`);
+  allQuizConfigs.push(...quizConfigs);
 }
 
 export async function initializeAllQuizzes(): Promise<void> {
-  console.log(`[QuizInit] Starting initialization of ${allQuizzes.length} quizzes`);
+  console.log(`[QuizInit] Starting initialization of ${allQuizConfigs.length} quiz configs`);
   
   const registerQuizInProvider = (globalThis as any).registerQuizInProvider;
   if (!registerQuizInProvider) {
@@ -17,14 +17,14 @@ export async function initializeAllQuizzes(): Promise<void> {
     return;
   }
   
-  for (const quiz of allQuizzes) {
-    console.log(`[QuizInit] Registering quiz '${quiz.id}'`);
-    registerQuizInProvider(quiz.id, quiz);
+  for (const config of allQuizConfigs) {
+    console.log(`[QuizInit] Registering quiz config '${config.id}'`);
+    registerQuizInProvider(config.id, config);
   }
 
-  console.log(`[QuizInit] Successfully initialized ${allQuizzes.length} quizzes`);
+  console.log(`[QuizInit] Successfully initialized ${allQuizConfigs.length} quiz configs`);
 }
 
-export function getAllQuizzes(): Quiz[] {
-  return [...allQuizzes];
+export function getAllQuizConfigs(): QuizConfig[] {
+  return [...allQuizConfigs];
 }
