@@ -1,7 +1,9 @@
+// src/quiz/contexts/QuizStateProvider.tsx - Store Bridge Integration
 import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState, useRef } from 'react';
-import {  QuizState, Quiz, QuizConfig } from '../types';
+import { QuizState, Quiz, QuizConfig } from '../types';
 import { usePersistence } from './PersistenceProvider';
 import { useQuizData } from './QuizDataProvider';
+import { useStoreBridge } from '@/src/stores/useStoreBridge';
 import { 
   createQuizState, 
   getNextActiveQuestionId, 
@@ -10,6 +12,7 @@ import {
   createProgressString
 } from '../utils';
 
+// Original operations bleiben für Kompatibilität
 export const stateOperations = {
   initializeState: (
     quizId: string,
@@ -119,22 +122,48 @@ interface QuizStateContextValue {
 
 const QuizStateContext = createContext<QuizStateContextValue | null>(null);
 
+// Feature Flag für Store Integration
+const USE_STORE_BRIDGE = true; // Kann später entfernt werden
+
 export function QuizStateProvider({ children }: { children: ReactNode }) {
   const { getQuizById, getQuizConfigById, initialized: quizDataInitialized } = useQuizData();
   const { saveQuizStates, loadQuizStates, clearQuizStates } = usePersistence();
+  const storeBridge = useStoreBridge();
   
   const [stateData, setStateData] = useState<QuizStateData>({
-    quizStates: {},
-    currentQuizId: null,
-    currentQuizState: null,
-    initialized: false,
-    isLoading: false,
+    quizStates: USE_STORE_BRIDGE ? storeBridge.quizStates : {},
+    currentQuizId: USE_STORE_BRIDGE ? storeBridge.currentQuizId : null,
+    currentQuizState: USE_STORE_BRIDGE ? storeBridge.currentQuizState : null,
+    initialized: USE_STORE_BRIDGE ? storeBridge.initialized : false,
+    isLoading: USE_STORE_BRIDGE ? storeBridge.isLoading : false,
   });
 
   const initializationRef = useRef(false);
   const saveInProgressRef = useRef(false);
 
+  // Sync with Store Bridge wenn aktiviert
+  useEffect(() => {
+    if (!USE_STORE_BRIDGE) return;
+
+    setStateData(prev => ({
+      ...prev,
+      quizStates: storeBridge.quizStates,
+      currentQuizId: storeBridge.currentQuizId,
+      currentQuizState: storeBridge.currentQuizState,
+      initialized: storeBridge.initialized,
+      isLoading: storeBridge.isLoading,
+    }));
+  }, [
+    storeBridge.quizStates,
+    storeBridge.currentQuizId,
+    storeBridge.currentQuizState,
+    storeBridge.initialized,
+    storeBridge.isLoading
+  ]);
+
   const saveStatesIfInitialized = useCallback(async (quizStates: Record<string, QuizState>) => {
+    if (USE_STORE_BRIDGE) return; // Store übernimmt Persistence
+    
     if (saveInProgressRef.current) {
       return;
     }
@@ -152,6 +181,8 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   }, [saveQuizStates, stateData.initialized, quizDataInitialized]);
 
   const updateStateData = useCallback((updater: (prev: QuizStateData) => QuizStateData) => {
+    if (USE_STORE_BRIDGE) return; // Store übernimmt State Management
+    
     setStateData(prev => {
       const newState = updater(prev);
       
@@ -164,10 +195,17 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
   }, [saveStatesIfInitialized]);
 
   const getQuizState = useCallback((quizId: string): QuizState | undefined => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getQuizState(quizId);
+    }
     return stateData.quizStates[quizId];
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const initializeQuizState = useCallback(async (quizId: string): Promise<QuizState | null> => {
+    if (USE_STORE_BRIDGE) {
+      return await storeBridge.initializeQuizState(quizId);
+    }
+
     const newState = stateOperations.initializeState(
       quizId,
       stateData.quizStates,
@@ -183,9 +221,13 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
 
     return newState;
-  }, [stateData.quizStates, getQuizById, getQuizConfigById, updateStateData]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates, getQuizById, getQuizConfigById, updateStateData]);
 
   const updateQuizState = useCallback(async (quizId: string, newState: QuizState): Promise<void> => {
+    if (USE_STORE_BRIDGE) {
+      return await storeBridge.updateQuizState(quizId, newState);
+    }
+
     const update = stateOperations.calculateStateUpdate(
       quizId,
       newState,
@@ -197,9 +239,13 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
       ...prev,
       ...update,
     }));
-  }, [stateData.quizStates, stateData.currentQuizId, updateStateData]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates, stateData.currentQuizId, updateStateData]);
 
   const resetQuizState = useCallback(async (quizId: string): Promise<QuizState | null> => {
+    if (USE_STORE_BRIDGE) {
+      return await storeBridge.resetQuizState(quizId);
+    }
+
     const resetResult = stateOperations.calculateResetState(
       quizId,
       stateData.quizStates,
@@ -219,37 +265,60 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     }
 
     return null;
-  }, [stateData.quizStates, stateData.currentQuizId, getQuizById, getQuizConfigById, updateStateData]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates, stateData.currentQuizId, getQuizById, getQuizConfigById, updateStateData]);
 
   const getQuizProgress = useCallback((quizId: string): number => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getQuizProgress(quizId);
+    }
     const state = stateData.quizStates[quizId];
     return state ? calculateQuizProgress(state) : 0;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const getQuizProgressString = useCallback((quizId: string): string | null => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getQuizProgressString(quizId);
+    }
     const state = stateData.quizStates[quizId];
     return state ? createProgressString(state) : null;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const isQuizCompleted = useCallback((quizId: string): boolean => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.isQuizCompleted(quizId);
+    }
     const state = stateData.quizStates[quizId];
     return state ? isCompleted(state) : false;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const getNextActiveQuestion = useCallback((quizId: string, currentQuestionId?: number): number | null => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getNextActiveQuestion(quizId, currentQuestionId);
+    }
     const state = stateData.quizStates[quizId];
     return state ? getNextActiveQuestionId(state, currentQuestionId) : null;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const setCurrentQuiz = useCallback((quizId: string | null, quizState?: QuizState | null) => {
+    if (USE_STORE_BRIDGE) {
+      storeBridge.setCurrentQuiz(quizId);
+      return;
+    }
+    
     updateStateData(prev => ({
       ...prev,
       currentQuizId: quizId,
       currentQuizState: quizState || (quizId ? prev.quizStates[quizId] : null) || null,
     }));
-  }, [updateStateData]);
+  }, [USE_STORE_BRIDGE, storeBridge, updateStateData]);
 
   const resetAllQuizStates = useCallback(async (): Promise<void> => {
+    if (USE_STORE_BRIDGE) {
+      // TODO: Store Bridge erweitern um resetAll Funktionalität
+      console.warn('[QuizStateProvider] resetAllQuizStates not yet implemented in Store Bridge');
+      return;
+    }
+
     try {
       await clearQuizStates();
       
@@ -263,26 +332,35 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
       console.error('[QuizStateProvider] Error resetting all quiz states:', error);
       throw error;
     }
-  }, [clearQuizStates, updateStateData]);
+  }, [USE_STORE_BRIDGE, clearQuizStates, updateStateData]);
 
   const getCompletedQuizzesCount = useCallback((): number => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getCompletedQuizzesCount();
+    }
     const stats = stateOperations.calculateStatistics(stateData.quizStates);
     return stats.completedCount;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const getTotalQuestionsCount = useCallback((): number => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getTotalQuestionsCount();
+    }
     const stats = stateOperations.calculateStatistics(stateData.quizStates);
     return stats.totalQuestions;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
   const getCompletedQuestionsCount = useCallback((): number => {
+    if (USE_STORE_BRIDGE) {
+      return storeBridge.getCompletedQuestionsCount();
+    }
     const stats = stateOperations.calculateStatistics(stateData.quizStates);
     return stats.completedQuestions;
-  }, [stateData.quizStates]);
+  }, [USE_STORE_BRIDGE, storeBridge, stateData.quizStates]);
 
-  // Initialization effect
+  // Original Initialization für Legacy System
   useEffect(() => {
-    if (initializationRef.current || !quizDataInitialized) {
+    if (USE_STORE_BRIDGE || initializationRef.current || !quizDataInitialized) {
       return;
     }
 
@@ -311,7 +389,7 @@ export function QuizStateProvider({ children }: { children: ReactNode }) {
     };
 
     initializeQuizStates();
-  }, [quizDataInitialized, loadQuizStates, updateStateData]);
+  }, [USE_STORE_BRIDGE, quizDataInitialized, loadQuizStates, updateStateData]);
 
   const contextValue: QuizStateContextValue = {
     quizStates: stateData.quizStates,
@@ -353,6 +431,7 @@ export function useQuizState() {
   return context;
 }
 
+// Export für Tests bleibt unverändert
 export const createTestableQuizStateProvider = (mockDependencies: {
   getQuizById: (id: string) => Quiz | undefined;
   getQuizConfigById: (id: string) => QuizConfig | undefined;

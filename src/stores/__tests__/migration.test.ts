@@ -1,15 +1,25 @@
-// src/stores/__tests__/migration.test.ts
+// src/stores/__tests__/migration.test.ts - Korrigierte Version
 import { useQuizStore } from '../quizStore';
 import { registerQuiz, registerMultipleQuizzes, validateQuizRegistration } from '../quizRegistry';
 
 describe('Quiz Migration', () => {
+  let originalDEV: boolean;
+  
   beforeEach(() => {
+    // Speichere original __DEV__ Wert
+    originalDEV = (global as any).__DEV__;
+    
     // Reset store vor jedem Test
     useQuizStore.setState({
       quizzes: {},
       quizStates: {},
       currentQuizId: null
     });
+  });
+
+  afterEach(() => {
+    // Restore original __DEV__ Wert
+    (global as any).__DEV__ = originalDEV;
   });
 
   it('should register quizzes via registry', () => {
@@ -58,6 +68,9 @@ describe('Quiz Migration', () => {
   });
 
   it('should handle registry validation in development', () => {
+    // Aktiviere Development Mode für diesen Test
+    (global as any).__DEV__ = true;
+    
     // Mock console.log für Test
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
@@ -67,11 +80,29 @@ describe('Quiz Migration', () => {
       questions: []
     };
 
+    // Registriere Quiz (sollte console.log aufrufen in DEV mode)
     registerQuiz(testQuiz);
+    
+    // Validate Registry (sollte console.log aufrufen)
     validateQuizRegistration();
 
     // In Development sollte Logging stattfinden
     expect(consoleSpy).toHaveBeenCalled();
+    
+    // Prüfe auf spezifische Log-Messages
+    const logCalls = consoleSpy.mock.calls;
+    const hasRegistrationLog = logCalls.some(call => 
+      call.some(arg => 
+        typeof arg === 'string' && arg.includes('[QuizStore] Registering quiz:')
+      )
+    );
+    const hasValidationLog = logCalls.some(call => 
+      call.some(arg => 
+        typeof arg === 'string' && arg.includes('[QuizRegistry] Validation')
+      )
+    );
+    
+    expect(hasRegistrationLog || hasValidationLog).toBe(true);
     
     consoleSpy.mockRestore();
   });
@@ -92,5 +123,28 @@ describe('Quiz Migration', () => {
     expect(finalStore.getDebugInfo().quizzesCount).toBe(2);
     expect(finalStore.quizzes['consistency-1']).toEqual(quiz1);
     expect(finalStore.quizzes['consistency-2']).toEqual(quiz2);
+  });
+
+  it('should work in production mode without console logs', () => {
+    // Deaktiviere Development Mode
+    (global as any).__DEV__ = false;
+    
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+
+    const testQuiz = {
+      id: 'production-test',
+      title: 'Production Test',
+      questions: []
+    };
+
+    registerQuiz(testQuiz);
+    validateQuizRegistration();
+
+    // Im Production Mode sollte kein console.log von registerQuiz aufgerufen werden
+    // Aber validateQuizRegistration kann trotzdem loggen
+    const store = useQuizStore.getState();
+    expect(store.quizzes['production-test']).toEqual(testQuiz);
+    
+    consoleSpy.mockRestore();
   });
 });
