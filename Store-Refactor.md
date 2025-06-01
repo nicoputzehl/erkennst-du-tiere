@@ -130,9 +130,9 @@
 **Nächste Store-Erweiterung (Schritt 4):**
 
 - 🔲 Toast-System integrieren
-- 🔲 Navigation Tracking
-- 🔲 Pending Unlocks Management
-- 🔲 Enhanced UI-State
+- ✅ Navigation Tracking
+- ✅ Pending Unlocks Management
+- ✅ Enhanced UI-State
 
 ## 🔧 Development Setup
 

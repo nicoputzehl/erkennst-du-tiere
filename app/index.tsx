@@ -6,6 +6,7 @@ import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { useMemo } from 'react';
 import { TestMigrationIntegration } from '@/src/stores/TestMigratinIntegration';
 import { TestEnhancedIntegration } from '@/src/stores/TestEnhancedIntegration';
+import { TestUIIntegration } from '@/src/stores/TestUIIntegration';
 
 export default function QuizzesRoute() {
 	const { getAllQuizzes, isLoading, isInitializing, initialized } = useQuiz();
@@ -36,7 +37,7 @@ export default function QuizzesRoute() {
 		return <LoadingComponent message="Quizzes werden geladen..." />;
 	}
 
-	return <TestEnhancedIntegration />
+	return <TestUIIntegration />
 
 	return <QuizzesScreen quizzes={quizzes} />;
 }
