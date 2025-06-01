@@ -25,7 +25,7 @@ export const createQuiz = (config: QuizConfig): Quiz => ({
   order: config.order ?? 1,
   quizMode: config.quizMode ?? QuizMode.SEQUENTIAL,
   initialUnlockedQuestions: config.initialUnlockedQuestions ?? 2,
-  titleImage: config.titleimage
+  titleImage: config.titleImage
 });
 
 

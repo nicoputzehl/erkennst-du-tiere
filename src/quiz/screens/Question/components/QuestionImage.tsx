@@ -15,7 +15,7 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
     
     // Sicherstellen dass nur ein String zurückgegeben wird
     const backgroundColor = useThemeColor(
-      { light: '#f5f5f5', dark: '#2a2a2a' }, 
+      { light: 'rgba(0, 0, 0, 0.05)', dark: 'rgba(255, 255, 255, 0.1)' }, 
       'background'
     ) as string;
     
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+
   },
   fullImageOverlay: {
     position: 'absolute',

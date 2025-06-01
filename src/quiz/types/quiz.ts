@@ -1,45 +1,18 @@
-export enum QuestionStatus {
-  INACTIVE = 'inactive',
-  ACTIVE = 'active', 
-  SOLVED = 'solved'
-}
+import { Question, QuestionBase } from "./question";
+import { UnlockCondition } from "./unlock";
 
+
+//  TODO entfernen
 export enum QuizMode {
   SEQUENTIAL = 'sequential',
   ALL_UNLOCKED = 'all_unlocked'
-}
-
-export interface QuizImages {
-  imageUrl: string;
-  thumbnailUrl?: string;
-  unsolvedImageUrl?: string;
-  unsolvedThumbnailUrl?: string;
-}
-
-export interface Question {
-  id: number;
-  images: QuizImages;
-  answer: string;
-  alternativeAnswers?: string[];
-  funFact?: string;
-  wikipediaName?: string;
-  contentKey?: string;
-}
-
-export interface QuizQuestion extends Question {
-  status: QuestionStatus;
-}
-
-export interface UnlockCondition {
-  requiredQuizId: string;
-  description: string;
 }
 
 
 export interface Quiz {
   id: string;
   title: string;
-  questions: Question[];
+  questions: QuestionBase[];
   initiallyLocked?: boolean;
   unlockCondition?: UnlockCondition;
   order?: number;
@@ -51,7 +24,7 @@ export interface Quiz {
 export interface QuizState {
   id: string;
   title: string;
-  questions: QuizQuestion[];
+  questions: Question[];
   completedQuestions: number;
   quizMode?: QuizMode;
 }
@@ -59,13 +32,13 @@ export interface QuizState {
 export interface QuizConfig {
   id: string;
   title: string;
-  questions: Question[];
+  questions: QuestionBase[];
   initiallyLocked?: boolean;
   unlockCondition?: UnlockCondition;
   order?: number;
   quizMode?: QuizMode;
   initialUnlockedQuestions?: number;
-  titleimage?: string;
+  titleImage?: string;
 }
 
 export interface QuizProgress {

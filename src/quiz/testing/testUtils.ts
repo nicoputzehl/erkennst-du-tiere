@@ -13,7 +13,6 @@ export const createTestQuestion = (overrides: Partial<Question> = {}): Question 
   alternativeAnswers: ['Alt Answer'],
   funFact: 'Test fun fact',
   wikipediaName: 'Test_Wikipedia',
-  contentKey: 'test-content',
   ...overrides,
 });
 
@@ -32,7 +31,6 @@ export const createTestQuizQuestion = (
   alternativeAnswers: ['Alt Answer'],
   funFact: 'Test fun fact',
   wikipediaName: 'Test_Wikipedia',
-  contentKey: 'test-content',
   status: QuestionStatus.ACTIVE,
   ...overrides,
 });
