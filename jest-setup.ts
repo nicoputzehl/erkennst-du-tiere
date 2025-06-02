@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-// jest-setup.ts - Enhanced Version mit UI Store Support
+// jest-setup.ts - Korrigierte Version mit TypeScript Fix
 
 // Mock für AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -53,31 +53,34 @@ jest.mock('react-native-gesture-handler', () => {
   };
 });
 
-// Enhanced localStorage Mock für Zustand Stores
-const createEnhancedLocalStorage = () => {
+// Enhanced localStorage Mock für Zustand Stores - FIXED Storage interface
+const createEnhancedLocalStorage = (): Storage => {
   const storage: Record<string, string> = {};
   
   return {
-    getItem: jest.fn((key: string) => {
-      return Promise.resolve(storage[key] || null);
-    }),
-    setItem: jest.fn((key: string, value: string) => {
+    // Synchronous methods for Storage interface
+    getItem: jest.fn((key: string): string | null => {
+      return storage[key] || null;
+    }) as jest.MockedFunction<(key: string) => string | null>,
+    
+    setItem: jest.fn((key: string, value: string): void => {
       storage[key] = value;
-      return Promise.resolve();
-    }),
-    removeItem: jest.fn((key: string) => {
+    }) as jest.MockedFunction<(key: string, value: string) => void>,
+    
+    removeItem: jest.fn((key: string): void => {
       delete storage[key];
-      return Promise.resolve();
-    }),
-    clear: jest.fn(() => {
+    }) as jest.MockedFunction<(key: string) => void>,
+    
+    clear: jest.fn((): void => {
       Object.keys(storage).forEach(key => delete storage[key]);
-      return Promise.resolve();
-    }),
-    getAllKeys: jest.fn(() => {
-      return Promise.resolve(Object.keys(storage));
-    }),
+    }) as jest.MockedFunction<() => void>,
+    
+    // Storage interface required properties
     length: 0,
-    key: jest.fn(() => null),
+    key: jest.fn((index: number): string | null => {
+      const keys = Object.keys(storage);
+      return keys[index] || null;
+    }) as jest.MockedFunction<(index: number) => string | null>,
   };
 };
 
@@ -94,7 +97,7 @@ Object.defineProperty(window, 'localStorage', {
 const originalConsoleWarn = console.warn;
 const originalConsoleError = console.error;
 
-console.warn = (...args: any[]) => {
+console.warn = (...args: unknown[]) => {
   // Filter out specific warnings we don't want in tests
   if (
     typeof args[0] === 'string' && 
@@ -111,7 +114,7 @@ console.warn = (...args: any[]) => {
 };
 
 // Also suppress certain error logs in tests
-console.error = (...args: any[]) => {
+console.error = (...args: unknown[]) => {
   if (
     typeof args[0] === 'string' && 
     (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
@@ -169,15 +172,15 @@ jest.mock('react-native', () => {
   return RN;
 });
 
-// Enhanced Timer Management for Tests
+// Enhanced Timer Management for Tests - FIXED TypeScript issues
 let timerId = 0;
 const timers: Map<number, NodeJS.Timeout> = new Map();
 
 const originalSetTimeout = global.setTimeout;
 const originalClearTimeout = global.clearTimeout;
 
-// Enhanced setTimeout mock that works with both Jest fake timers and real timers
-global.setTimeout = jest.fn((callback: Function, delay?: number) => {
+// Enhanced setTimeout mock with proper typing
+global.setTimeout = jest.fn((callback: (...args: unknown[]) => void, delay?: number): any => {
   if (jest.isMockFunction(originalSetTimeout)) {
     // Jest fake timers are active
     return originalSetTimeout(callback, delay);
@@ -186,11 +189,11 @@ global.setTimeout = jest.fn((callback: Function, delay?: number) => {
   // Real timers - create trackable timer
   const id = ++timerId;
   const timer = originalSetTimeout(callback, delay || 0);
-  timers.set(id, timer);
-  return id as any;
-});
+  timers.set(id, timer as unknown as NodeJS.Timeout);
+  return id;
+}) as any;
 
-global.clearTimeout = jest.fn((id: any) => {
+global.clearTimeout = jest.fn((id: any): void => {
   if (jest.isMockFunction(originalClearTimeout)) {
     // Jest fake timers are active
     return originalClearTimeout(id);
@@ -202,10 +205,10 @@ global.clearTimeout = jest.fn((id: any) => {
     originalClearTimeout(timer);
     timers.delete(id);
   }
-});
+}) as any;
 
 // Zustand Store Reset Utilities für Tests
-const storeResetFunctions: Array<() => void> = [];
+const storeResetFunctions: (() => void)[] = [];
 
 export const registerStoreReset = (resetFn: () => void) => {
   storeResetFunctions.push(resetFn);
@@ -228,7 +231,7 @@ beforeEach(() => {
   storeResetFunctions.forEach(resetFn => {
     try {
       resetFn();
-    } catch (error) {
+    } catch {
       // Ignore reset errors in tests
     }
   });

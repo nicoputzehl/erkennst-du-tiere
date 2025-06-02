@@ -301,7 +301,7 @@ const createStore = () => {
 
     checkPendingUnlocks: () => {
       const state = get();
-      const unshownUnlocks = state.pendingUnlocks.filter(unlock => !unlock.shown);
+      const unshownUnlocks = state.pendingUnlocks.filter((unlock: PendingUnlock) => !unlock.shown);
 
       if (unshownUnlocks.length > 0) {
         if (__DEV__ && !isTestEnvironment) {
@@ -343,7 +343,7 @@ const createStore = () => {
     },
 
     getPendingUnlocksCount: (): number => {
-      return get().pendingUnlocks.filter(unlock => !unlock.shown).length;
+      return get().pendingUnlocks.filter((unlock: PendingUnlock) => !unlock.shown).length;
     },
 
     // Debug
