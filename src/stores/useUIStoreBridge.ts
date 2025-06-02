@@ -1,5 +1,4 @@
-// src/stores/useUIStoreBridge.ts
-// Bridge zwischen neuem UI Store und altem UIStateProvider
+// src/stores/useUIStoreBridge.ts - Korrigierte Version
 import { useCallback } from 'react';
 import { useUIStore } from './uiStore';
 
@@ -31,9 +30,10 @@ interface UIStoreBridgeReturn {
   resetPendingUnlocks: () => void;
   getPendingUnlocksCount: () => number;
   
-  // Toast State für UI Components
+  // Toast State für UI Components - FIXED für Kompatibilität
   activeToast: any | null;
   toastVisible: boolean;
+  toastData: any | null; // Legacy compatibility
   
   // Debug
   getDebugInfo: () => any;
@@ -42,7 +42,7 @@ interface UIStoreBridgeReturn {
 export function useUIStoreBridge(): UIStoreBridgeReturn {
   const uiStore = useUIStore();
   
-  // Wrapped toast functions für Kompatibilität
+  // Enhanced toast compatibility - wrapping für perfect compatibility
   const showToast = useCallback((
     message: string, 
     type: 'success' | 'error' | 'info' | 'warning' = 'info', 
@@ -51,10 +51,15 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     uiStore.showToast(message, type, duration);
   }, [uiStore]);
 
-  // Compatibility layer für hideToast mit timing
-  const hideToast = useCallback(() => {
-    uiStore.hideToast();
-  }, [uiStore]);
+  // Toast visibility derived from activeToast
+  const toastVisible = !!uiStore.activeToast;
+  
+  // Legacy toastData compatibility
+  const toastData = uiStore.activeToast ? {
+    message: uiStore.activeToast.message,
+    type: uiStore.activeToast.type,
+    duration: uiStore.activeToast.duration
+  } : null;
 
   return {
     // Loading State
@@ -69,7 +74,7 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     showErrorToast: uiStore.showErrorToast,
     showInfoToast: uiStore.showInfoToast,
     showWarningToast: uiStore.showWarningToast,
-    hideToast,
+    hideToast: uiStore.hideToast,
     
     // Navigation Tracking
     lastNavigatedQuizId: uiStore.lastNavigatedQuizId,
@@ -84,16 +89,17 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     resetPendingUnlocks: uiStore.resetPendingUnlocks,
     getPendingUnlocksCount: uiStore.getPendingUnlocksCount,
     
-    // Toast State für Components
+    // Toast State für Components - Enhanced Compatibility
     activeToast: uiStore.activeToast,
-    toastVisible: !!uiStore.activeToast,
+    toastVisible,
+    toastData, // Legacy support
     
     // Debug
     getDebugInfo: uiStore.getDebugInfo
   };
 }
 
-// Convenience Hooks für spezifische UI Bereiche
+// Enhanced Convenience Hooks mit besserer Kompatibilität
 export function useToastNotifications() {
   const bridge = useUIStoreBridge();
   
