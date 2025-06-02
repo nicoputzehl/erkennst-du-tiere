@@ -1,4 +1,4 @@
-// src/stores/uiStore.ts - Fixed Timer Implementation
+// src/stores/uiStore.ts - Fixed Timer Implementation & Test Compatibility
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -68,7 +68,7 @@ interface UIStore {
   };
 }
 
-// Environment Detection
+// Environment Detection - Fixed
 const isTestEnvironment = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test';
 const isJestEnvironment = typeof jest !== 'undefined';
 
@@ -79,20 +79,26 @@ const generateToastId = (): string => {
   return `toast-${Date.now()}-${toastIdCounter}`;
 };
 
-// Safe Timer Management - Fixed for Tests
+// Safe Timer Management - Enhanced for Tests & Production
 const createTimer = (callback: () => void, delay: number): any => {
   if (isTestEnvironment || isJestEnvironment) {
-    // In Tests: Immediate execution to avoid timer complications
+    // In Tests: Use real setTimeout but don't auto-execute for 0 delay
     if (delay === 0) {
-      callback();
-      return 0;
+      // Immediate execution but still async
+      return setTimeout(callback, 0);
     }
-    // For non-zero delays in tests, still use setTimeout but don't auto-execute
     return setTimeout(callback, delay);
   }
   
   // Normal environment: Standard setTimeout
   return setTimeout(callback, delay);
+};
+
+// Clear Timer - Safe for all environments
+const clearTimer = (timerId: any): void => {
+  if (timerId && typeof clearTimeout === 'function') {
+    clearTimeout(timerId);
+  }
 };
 
 // Store Creation Function
@@ -107,14 +113,14 @@ const createStore = () => {
     navigationHistory: [],
     pendingUnlocks: [],
 
-    // Toast Actions
+    // Toast Actions - Enhanced
     showToast: (message: string, type: ToastData['type'] = 'info', duration?: number) => {
       const id = generateToastId();
       const toast: ToastData = {
         id,
         message,
         type,
-        duration,
+        duration: duration || 3000, // Default 3 seconds
         position: 'top'
       };
 
@@ -123,7 +129,7 @@ const createStore = () => {
       }
 
       set((state: UIStore) => {
-        // Queue system: if there's an active toast, queue this one
+        // Enhanced Queue system: if there's an active toast, queue this one
         if (state.activeToast) {
           return {
             toasts: [...state.toasts, toast]
@@ -137,31 +143,31 @@ const createStore = () => {
         };
       }, false, 'showToast');
 
-      // Auto-hide after duration (only if duration is specified and > 0)
-      if (duration && duration > 0) {
+      // Auto-hide after duration (enhanced timing)
+      if (toast.duration && toast.duration > 0) {
         createTimer(() => {
           const currentStore = get();
           if (currentStore.activeToast?.id === id) {
             currentStore.hideToastById(id);
           }
-        }, duration);
+        }, toast.duration);
       }
     },
 
     showSuccessToast: (message: string, duration?: number) => {
-      get().showToast(message, 'success', duration);
+      get().showToast(message, 'success', duration || 3000);
     },
 
     showErrorToast: (message: string, duration?: number) => {
-      get().showToast(message, 'error', duration);
+      get().showToast(message, 'error', duration || 4000);
     },
 
     showInfoToast: (message: string, duration?: number) => {
-      get().showToast(message, 'info', duration);
+      get().showToast(message, 'info', duration || 3000);
     },
 
     showWarningToast: (message: string, duration?: number) => {
-      get().showToast(message, 'warning', duration);
+      get().showToast(message, 'warning', duration || 3500);
     },
 
     hideToast: () => {
@@ -203,15 +209,21 @@ const createStore = () => {
       }, false, 'hideToastById');
     },
 
-    // Loading Actions
+    // Loading Actions - Enhanced
     startLoading: (operation: string = 'global') => {
       set((state: UIStore) => {
         const newOperations = new Set(state.loadingOperations);
         newOperations.add(operation);
 
+        const newIsLoading = operation === 'global' || state.isGlobalLoading || newOperations.size > 0;
+
+        if (__DEV__ && !isTestEnvironment) {
+          console.log(`[UIStore] Starting loading: ${operation}, global: ${newIsLoading}`);
+        }
+
         return {
           loadingOperations: newOperations,
-          isGlobalLoading: operation === 'global' || state.isGlobalLoading || newOperations.size > 0
+          isGlobalLoading: newIsLoading
         };
       }, false, 'startLoading');
     },
@@ -221,9 +233,15 @@ const createStore = () => {
         const newOperations = new Set(state.loadingOperations);
         newOperations.delete(operation);
 
+        const newIsLoading = operation === 'global' ? false : (newOperations.size > 0);
+
+        if (__DEV__ && !isTestEnvironment) {
+          console.log(`[UIStore] Stopping loading: ${operation}, global: ${newIsLoading}`);
+        }
+
         return {
           loadingOperations: newOperations,
-          isGlobalLoading: operation === 'global' ? false : (newOperations.size > 0)
+          isGlobalLoading: newIsLoading
         };
       }, false, 'stopLoading');
     },
@@ -232,8 +250,13 @@ const createStore = () => {
       return get().loadingOperations.has(operation);
     },
 
-    // Navigation Actions
+    // Navigation Actions - Enhanced
     trackNavigation: (quizId: string) => {
+      if (!quizId || quizId.trim() === '') {
+        if (__DEV__) console.warn('[UIStore] Invalid quizId for navigation tracking');
+        return;
+      }
+
       if (__DEV__ && !isTestEnvironment) {
         console.log('[UIStore] Tracking navigation to:', quizId);
       }
@@ -241,7 +264,7 @@ const createStore = () => {
       set((state: UIStore) => {
         const newHistory = [...state.navigationHistory];
 
-        // Remove existing entry
+        // Remove existing entry if present
         const existingIndex = newHistory.indexOf(quizId);
         if (existingIndex > -1) {
           newHistory.splice(existingIndex, 1);
@@ -263,14 +286,23 @@ const createStore = () => {
     },
 
     clearNavigationHistory: () => {
+      if (__DEV__ && !isTestEnvironment) {
+        console.log('[UIStore] Clearing navigation history');
+      }
+
       set({
         lastNavigatedQuizId: null,
         navigationHistory: []
       }, false, 'clearNavigationHistory');
     },
 
-    // Pending Unlock Actions
+    // Pending Unlock Actions - Enhanced
     addPendingUnlock: (quizId: string, quizTitle: string) => {
+      if (!quizId || !quizTitle) {
+        if (__DEV__) console.warn('[UIStore] Invalid parameters for addPendingUnlock');
+        return;
+      }
+
       if (__DEV__ && !isTestEnvironment) {
         console.log('[UIStore] Adding pending unlock:', quizTitle);
       }
@@ -282,6 +314,9 @@ const createStore = () => {
         );
         
         if (existingUnlock) {
+          if (__DEV__ && !isTestEnvironment) {
+            console.log('[UIStore] Pending unlock already exists for:', quizId);
+          }
           return state; // No change
         }
 
@@ -304,35 +339,48 @@ const createStore = () => {
 
       if (unshownUnlocks.length > 0) {
         if (__DEV__ && !isTestEnvironment) {
-          console.log(`[UIStore] Found ${unshownUnlocks.length} unshown unlocks`);
+          console.log(`[UIStore] Found ${unshownUnlocks.length} unshown unlock notifications`);
         }
 
-        // Mark as shown
+        // Mark as shown first
         set((state: UIStore) => ({
           pendingUnlocks: state.pendingUnlocks.map((unlock: PendingUnlock) =>
             unshownUnlocks.includes(unlock) ? { ...unlock, shown: true } : unlock
           )
         }), false, 'markUnlocksShown');
 
-        // Show toasts with delay - simplified for tests
+        // Show toasts with staggered delay
         unshownUnlocks.forEach((unlock: PendingUnlock, index: number) => {
-          const delay = 300 + index * 500;
+          const delay = 300 + index * 500; // 300ms + 500ms per additional toast
           
           createTimer(() => {
-            get().showSuccessToast(
+            const currentStore = get();
+            currentStore.showSuccessToast(
               `🎉 "${unlock.quizTitle}" ist jetzt verfügbar!`,
               3000
             );
           }, delay);
         });
+      } else {
+        if (__DEV__ && !isTestEnvironment) {
+          console.log('[UIStore] No pending unlock notifications to show');
+        }
       }
     },
 
     clearPendingUnlocks: () => {
+      if (__DEV__ && !isTestEnvironment) {
+        console.log('[UIStore] Clearing all pending unlocks');
+      }
+
       set({ pendingUnlocks: [] }, false, 'clearPendingUnlocks');
     },
 
     resetPendingUnlocks: () => {
+      if (__DEV__ && !isTestEnvironment) {
+        console.log('[UIStore] Resetting pending unlocks (marking all as unshown)');
+      }
+
       set((state: UIStore) => ({
         pendingUnlocks: state.pendingUnlocks.map(unlock => ({
           ...unlock,
@@ -345,7 +393,7 @@ const createStore = () => {
       return get().pendingUnlocks.filter((unlock: PendingUnlock) => !unlock.shown).length;
     },
 
-    // Debug
+    // Debug - Enhanced
     getDebugInfo: () => {
       const state = get();
       return {
@@ -358,7 +406,7 @@ const createStore = () => {
     }
   });
 
-  // Test Environment: Simple store without devtools
+  // Test Environment: Simple store without devtools/middleware
   if (isTestEnvironment || isJestEnvironment) {
     return create<UIStore>(baseStore);
   }
@@ -366,7 +414,7 @@ const createStore = () => {
   // Production/Development: Full store with devtools
   return create<UIStore>()(
     devtools(baseStore, {
-      name: 'UI Store',
+      name: 'UI Store Enhanced',
       trace: __DEV__,
       enabled: __DEV__
     })
@@ -375,7 +423,7 @@ const createStore = () => {
 
 export const useUIStore = createStore();
 
-// Reset function for tests
+// Reset function for tests - Enhanced
 export const resetUIStore = () => {
   if (isTestEnvironment || isJestEnvironment) {
     useUIStore.setState({
@@ -388,6 +436,21 @@ export const resetUIStore = () => {
       pendingUnlocks: []
     });
   }
+};
+
+// Store utilities for better testing
+export const getUIStoreSnapshot = () => {
+  if (isTestEnvironment || isJestEnvironment) {
+    const state = useUIStore.getState();
+    return {
+      toastCount: state.toasts.length + (state.activeToast ? 1 : 0),
+      isLoading: state.isGlobalLoading,
+      operationsCount: state.loadingOperations.size,
+      historyCount: state.navigationHistory.length,
+      unlocksCount: state.pendingUnlocks.length
+    };
+  }
+  return null;
 };
 
 // Export types

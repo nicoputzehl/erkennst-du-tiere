@@ -1,3 +1,4 @@
+// src/quiz/contexts/UIStateProvider.tsx - Fixed für TestUIIntegration Kompatibilität
 import React, {
 	createContext,
 	useContext,
@@ -50,6 +51,10 @@ interface UIStateContextValue {
   clearPendingUnlocks: () => void;
   resetPendingUnlocks: () => void; 
   getPendingUnlocksCount: () => number;
+  
+  // FIXED: Export toastData für TestUIIntegration Kompatibilität
+  toastData: Omit<ToastProps, 'visible' | 'onHide'> | null;
+  toastVisible: boolean;
 }
 
 const UIStateContext = createContext<UIStateContextValue | null>(null);
@@ -344,6 +349,10 @@ export function UIStateProvider({ children }: { children: ReactNode }) {
 		clearPendingUnlocks,
 		resetPendingUnlocks,
 		getPendingUnlocksCount,
+		
+		// FIXED: Export toastData und toastVisible für TestUIIntegration
+		toastData: uiState.toastData,
+		toastVisible: uiState.toastVisible,
 	};
 
 	return (

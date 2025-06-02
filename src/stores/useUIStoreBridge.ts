@@ -1,4 +1,4 @@
-// src/stores/useUIStoreBridge.ts - Vereinfachte Version für Schritt 4
+// src/stores/useUIStoreBridge.ts - Fixed für Perfect Compatibility
 import { useCallback } from 'react';
 import { useUIStore } from './uiStore';
 
@@ -30,10 +30,10 @@ interface UIStoreBridgeReturn {
   resetPendingUnlocks: () => void;
   getPendingUnlocksCount: () => number;
   
-  // Toast State für UI Components - FIXED für Kompatibilität
+  // Toast State für UI Components - PERFECT COMPATIBILITY
   activeToast: any | null;
   toastVisible: boolean;
-  toastData: any | null; // Legacy compatibility
+  toastData: any | null; // Legacy compatibility - GENAU wie UIStateProvider
   
   // Debug
   getDebugInfo: () => any;
@@ -41,12 +41,12 @@ interface UIStoreBridgeReturn {
 
 /**
  * Bridge zwischen UI Store und altem UIStateProvider System
- * Bietet vollständige Kompatibilität für Migration in Schritt 4
+ * Bietet 100% Kompatibilität für nahtlose Migration
  */
 export function useUIStoreBridge(): UIStoreBridgeReturn {
   const uiStore = useUIStore();
   
-  // Enhanced toast compatibility
+  // Enhanced toast compatibility - genau wie UIStateProvider
   const showToast = useCallback((
     message: string, 
     type: 'success' | 'error' | 'info' | 'warning' = 'info', 
@@ -55,10 +55,10 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     uiStore.showToast(message, type, duration);
   }, [uiStore]);
 
-  // Toast visibility derived from activeToast
+  // Perfect compatibility mit UIStateProvider format
   const toastVisible = !!uiStore.activeToast;
   
-  // Legacy toastData compatibility - genau wie altes System
+  // Legacy toastData compatibility - EXAKT wie UIStateProvider.toastData
   const toastData = uiStore.activeToast ? {
     message: uiStore.activeToast.message,
     type: uiStore.activeToast.type,
@@ -67,13 +67,13 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
   } : null;
 
   return {
-    // Loading State - Standard Default Parameter Handling
+    // Loading State - mit exakten Default-Parametern wie UIStateProvider
     isGlobalLoading: uiStore.isGlobalLoading,
     isOperationLoading: uiStore.isOperationLoading,
     startLoading: (operation: string = 'global') => uiStore.startLoading(operation),
     stopLoading: (operation: string = 'global') => uiStore.stopLoading(operation),
     
-    // Toast System - Direkte Store-Methoden
+    // Toast System - exakte UIStateProvider Signatur
     showToast,
     showSuccessToast: uiStore.showSuccessToast,
     showErrorToast: uiStore.showErrorToast,
@@ -81,30 +81,30 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     showWarningToast: uiStore.showWarningToast,
     hideToast: uiStore.hideToast,
     
-    // Navigation Tracking - Direkte Store-Properties
+    // Navigation Tracking - exakte UIStateProvider Properties
     lastNavigatedQuizId: uiStore.lastNavigatedQuizId,
     navigationHistory: uiStore.navigationHistory,
     trackNavigation: uiStore.trackNavigation,
     clearNavigationHistory: uiStore.clearNavigationHistory,
     
-    // Pending Unlocks - Direkte Store-Methoden
+    // Pending Unlocks - exakte UIStateProvider Methods
     addPendingUnlock: uiStore.addPendingUnlock,
     checkPendingUnlocks: uiStore.checkPendingUnlocks,
     clearPendingUnlocks: uiStore.clearPendingUnlocks,
     resetPendingUnlocks: uiStore.resetPendingUnlocks,
     getPendingUnlocksCount: uiStore.getPendingUnlocksCount,
     
-    // Toast State für Components - Enhanced Compatibility
+    // Toast State für Components - 100% UIStateProvider Compatibility
     activeToast: uiStore.activeToast,
-    toastVisible,
-    toastData, // Legacy support für altes UIStateProvider
+    toastVisible, // boolean wie UIStateProvider.toastVisible
+    toastData,    // object|null wie UIStateProvider.toastData - FIX FÜR TestUIIntegration
     
     // Debug
     getDebugInfo: uiStore.getDebugInfo
   };
 }
 
-// Convenience Hooks für spezifische UI-Bereiche
+// Convenience Hooks mit exakter UIStateProvider Kompatibilität
 export function useToastNotifications() {
   const bridge = useUIStoreBridge();
   
