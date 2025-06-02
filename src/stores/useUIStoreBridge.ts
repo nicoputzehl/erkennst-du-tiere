@@ -1,4 +1,4 @@
-// src/stores/useUIStoreBridge.ts - Korrigierte Version
+// src/stores/useUIStoreBridge.ts - Vereinfachte Version für Schritt 4
 import { useCallback } from 'react';
 import { useUIStore } from './uiStore';
 
@@ -39,10 +39,14 @@ interface UIStoreBridgeReturn {
   getDebugInfo: () => any;
 }
 
+/**
+ * Bridge zwischen UI Store und altem UIStateProvider System
+ * Bietet vollständige Kompatibilität für Migration in Schritt 4
+ */
 export function useUIStoreBridge(): UIStoreBridgeReturn {
   const uiStore = useUIStore();
   
-  // Enhanced toast compatibility - wrapping für perfect compatibility
+  // Enhanced toast compatibility
   const showToast = useCallback((
     message: string, 
     type: 'success' | 'error' | 'info' | 'warning' = 'info', 
@@ -54,21 +58,22 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
   // Toast visibility derived from activeToast
   const toastVisible = !!uiStore.activeToast;
   
-  // Legacy toastData compatibility
+  // Legacy toastData compatibility - genau wie altes System
   const toastData = uiStore.activeToast ? {
     message: uiStore.activeToast.message,
     type: uiStore.activeToast.type,
-    duration: uiStore.activeToast.duration
+    duration: uiStore.activeToast.duration,
+    position: uiStore.activeToast.position
   } : null;
 
   return {
-    // Loading State
+    // Loading State - Standard Default Parameter Handling
     isGlobalLoading: uiStore.isGlobalLoading,
     isOperationLoading: uiStore.isOperationLoading,
-    startLoading: uiStore.startLoading,
-    stopLoading: uiStore.stopLoading,
+    startLoading: (operation: string = 'global') => uiStore.startLoading(operation),
+    stopLoading: (operation: string = 'global') => uiStore.stopLoading(operation),
     
-    // Toast System
+    // Toast System - Direkte Store-Methoden
     showToast,
     showSuccessToast: uiStore.showSuccessToast,
     showErrorToast: uiStore.showErrorToast,
@@ -76,13 +81,13 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     showWarningToast: uiStore.showWarningToast,
     hideToast: uiStore.hideToast,
     
-    // Navigation Tracking
+    // Navigation Tracking - Direkte Store-Properties
     lastNavigatedQuizId: uiStore.lastNavigatedQuizId,
     navigationHistory: uiStore.navigationHistory,
     trackNavigation: uiStore.trackNavigation,
     clearNavigationHistory: uiStore.clearNavigationHistory,
     
-    // Pending Unlocks
+    // Pending Unlocks - Direkte Store-Methoden
     addPendingUnlock: uiStore.addPendingUnlock,
     checkPendingUnlocks: uiStore.checkPendingUnlocks,
     clearPendingUnlocks: uiStore.clearPendingUnlocks,
@@ -92,14 +97,14 @@ export function useUIStoreBridge(): UIStoreBridgeReturn {
     // Toast State für Components - Enhanced Compatibility
     activeToast: uiStore.activeToast,
     toastVisible,
-    toastData, // Legacy support
+    toastData, // Legacy support für altes UIStateProvider
     
     // Debug
     getDebugInfo: uiStore.getDebugInfo
   };
 }
 
-// Enhanced Convenience Hooks mit besserer Kompatibilität
+// Convenience Hooks für spezifische UI-Bereiche
 export function useToastNotifications() {
   const bridge = useUIStoreBridge();
   

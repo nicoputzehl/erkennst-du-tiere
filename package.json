@@ -10,6 +10,8 @@
 		"web": "expo start --web",
 		"lint": "expo lint",
 		"test": "jest --watchAll",
+		"test:minimal": "jest --testPathPattern='quizStore.test|uiStore.test|migration.test'",
+		"test:ui-bridge": "jest useUIStoreBridge.test.ts",
 		"ios:prebuild": "npx expo prebuild -p ios --clean"
 	},
 	"dependencies": {

@@ -1,4 +1,4 @@
-// src/stores/TestUIIntegration.tsx
+// src/stores/TestUIIntegration.tsx - Fixed Version
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useUIStoreBridge } from './useUIStoreBridge';
@@ -30,13 +30,14 @@ export function TestUIIntegration() {
     setTestResults(prev => [newResult, ...prev.slice(0, 19)]);
   };
 
-  // Auto-Comparison zwischen UI-Systemen
+  // Auto-Comparison zwischen UI-Systemen - Fixed Toast Comparison
   useEffect(() => {
     const runAutoComparison = () => {
       try {
         const comparison = {
           loadingMatch: newUISystem.isGlobalLoading === oldUISystem.isGlobalLoading,
-          // toastVisibleMatch: newUISystem.toastVisible === !!oldUISystem.toastData, // Fix: Use toastData instead
+          // Fixed: Compare toast visibility correctly
+          toastVisibleMatch: newUISystem.toastVisible === !!oldUISystem.toastData, 
           navigationMatch: newUISystem.lastNavigatedQuizId === oldUISystem.lastNavigatedQuizId,
           historyLengthMatch: newUISystem.navigationHistory.length === oldUISystem.navigationHistory.length,
           pendingUnlocksMatch: newUISystem.getPendingUnlocksCount() === oldUISystem.getPendingUnlocksCount(),
@@ -66,19 +67,51 @@ export function TestUIIntegration() {
 
   const runToastTest = () => {
     try {
-      // Test verschiedene Toast-Typen
-      newUISystem.showSuccessToast('New System: Success Toast');
-      oldUISystem.showSuccessToast('Old System: Success Toast');
+      // Clear any existing toasts first
+      if (newUISystem.toastVisible) {
+        newUISystem.hideToast();
+      }
+      
+      // Test verschiedene Toast-Typen mit Delays für bessere Sichtbarkeit
+      setTimeout(() => {
+        newUISystem.showSuccessToast('New System: Success Toast');
+        oldUISystem.showSuccessToast('Old System: Success Toast');
+        
+        addTestResult('Toast Test', 'success', 
+          `Success Toasts - New: ${newUISystem.toastVisible}, Old: ${!!oldUISystem.toastData}`);
+      }, 100);
 
       setTimeout(() => {
+        // Hide old system toast to show next
+        if (oldUISystem.toastData) {
+          oldUISystem.hideToast();
+        }
+        if (newUISystem.toastVisible) {
+          newUISystem.hideToast();
+        }
+        
         newUISystem.showErrorToast('New System: Error Toast');
         oldUISystem.showErrorToast('Old System: Error Toast');
-      }, 1000);
+        
+        addTestResult('Toast Test', 'success', 
+          `Error Toasts - New: ${newUISystem.toastVisible}, Old: ${!!oldUISystem.toastData}`);
+      }, 2000);
 
       setTimeout(() => {
+        // Hide previous toasts
+        if (oldUISystem.toastData) {
+          oldUISystem.hideToast();
+        }
+        if (newUISystem.toastVisible) {
+          newUISystem.hideToast();
+        }
+        
         newUISystem.showWarningToast('New System: Warning Toast');
         oldUISystem.showWarningToast('Old System: Warning Toast');
-      }, 2000);
+        
+        addTestResult('Toast Test', 'success', 
+          `Warning Toasts - New: ${newUISystem.toastVisible}, Old: ${!!oldUISystem.toastData}`);
+      }, 4000);
 
       addTestResult('Toast Test', 'success', 'Toast-Sequenz gestartet');
     } catch (error) {
@@ -93,14 +126,14 @@ export function TestUIIntegration() {
       oldUISystem.startLoading('old-system-test');
 
       addTestResult('Loading Test', 'success', 
-        `Loading States - New: ${newUISystem.isGlobalLoading}, Old: ${oldUISystem.isGlobalLoading}`);
+        `Loading States Started - New: ${newUISystem.isGlobalLoading}, Old: ${oldUISystem.isGlobalLoading}`);
 
       setTimeout(() => {
         newUISystem.stopLoading('new-system-test');
         oldUISystem.stopLoading('old-system-test');
 
         addTestResult('Loading Test', 'success', 
-          `Loading Stopped - New: ${newUISystem.isGlobalLoading}, Old: ${oldUISystem.isGlobalLoading}`);
+          `Loading States Stopped - New: ${newUISystem.isGlobalLoading}, Old: ${oldUISystem.isGlobalLoading}`);
       }, 2000);
     } catch (error) {
       addTestResult('Loading Test', 'error', `Loading Test Error: ${error}`, error);
@@ -144,8 +177,17 @@ export function TestUIIntegration() {
         match ? 'success' : 'warning', 
         `Pending Unlocks - New: ${newCount}, Old: ${oldCount}, Match: ${match}`);
 
-      // Test checking unlocks
+      // Test checking unlocks - with proper delay
       setTimeout(() => {
+        // Clear existing toasts first
+        if (newUISystem.toastVisible) {
+          newUISystem.hideToast();
+        }
+        if (oldUISystem.toastData) {
+          oldUISystem.hideToast();
+        }
+        
+        // Check unlocks
         newUISystem.checkPendingUnlocks();
         oldUISystem.checkPendingUnlocks();
 
@@ -156,40 +198,9 @@ export function TestUIIntegration() {
         addTestResult('Unlock Test', 
           matchAfter ? 'success' : 'warning', 
           `After Check - New: ${newCountAfter}, Old: ${oldCountAfter}, Match: ${matchAfter}`);
-      }, 1000);
+      }, 1500);
     } catch (error) {
       addTestResult('Unlock Test', 'error', `Unlock Test Error: ${error}`, error);
-    }
-  };
-
-  const runStressTest = () => {
-    try {
-      addTestResult('Stress Test', 'success', 'Starting stress test...');
-      
-      // Rapid operations
-      for (let i = 0; i < 20; i++) {
-        setTimeout(() => {
-          newUISystem.showToast(`New Stress Toast ${i}`, i % 2 === 0 ? 'info' : 'success', 500);
-          newUISystem.startLoading(`new-stress-${i}`);
-          newUISystem.trackNavigation(`new-stress-quiz-${i}`);
-          
-          if (i % 5 === 0) {
-            newUISystem.addPendingUnlock(`stress-unlock-${i}`, `Stress Unlock ${i}`);
-          }
-          
-          setTimeout(() => {
-            newUISystem.stopLoading(`new-stress-${i}`);
-          }, 200);
-        }, i * 100);
-      }
-
-      setTimeout(() => {
-        const debugInfo = newUISystem.getDebugInfo();
-        addTestResult('Stress Test', 'success', 
-          `Stress test completed - Toasts: ${debugInfo.toastCount}, Operations: ${debugInfo.activeOperations.length}`);
-      }, 3000);
-    } catch (error) {
-      addTestResult('Stress Test', 'error', `Stress Test Error: ${error}`, error);
     }
   };
 
@@ -199,7 +210,10 @@ export function TestUIIntegration() {
       const operations = [
         () => {
           newUISystem.showSuccessToast('Compatibility Success');
-          oldUISystem.showSuccessToast('Compatibility Success');
+          // Don't show old system toast simultaneously to avoid conflicts
+          setTimeout(() => {
+            oldUISystem.showSuccessToast('Compatibility Success Old');
+          }, 500);
         },
         () => {
           newUISystem.startLoading('compatibility-test');
@@ -215,14 +229,14 @@ export function TestUIIntegration() {
         setTimeout(() => {
           op();
           addTestResult('Compatibility Test', 'success', `Operation ${index + 1} executed`);
-        }, index * 500);
+        }, index * 800); // Increased delay
       });
 
       setTimeout(() => {
         newUISystem.stopLoading('compatibility-test');
         oldUISystem.stopLoading('compatibility-test');
         addTestResult('Compatibility Test', 'success', 'All compatibility operations completed');
-      }, 2000);
+      }, 3000);
     } catch (error) {
       addTestResult('Compatibility Test', 'error', `Compatibility Error: ${error}`, error);
     }
@@ -232,20 +246,33 @@ export function TestUIIntegration() {
     setTestResults([]);
   };
 
+  const clearAllToasts = () => {
+    // Clear both systems
+    if (newUISystem.toastVisible) {
+      newUISystem.hideToast();
+    }
+    if (oldUISystem.toastData) {
+      oldUISystem.hideToast();
+    }
+    addTestResult('Clear Toasts', 'success', 'All toasts cleared');
+  };
+
   const runAllTests = () => {
     clearResults();
     addTestResult('Test Suite', 'success', 'Starting UI Integration Tests...');
     
-    runToastTest();
+    // Clear any existing toasts first
+    clearAllToasts();
+    
     setTimeout(() => runLoadingTest(), 1000);
-    setTimeout(() => runNavigationTest(), 2000);
-    setTimeout(() => runUnlockTest(), 3000);
-    setTimeout(() => runCompatibilityTest(), 4000);
-    setTimeout(() => runStressTest(), 5000);
+    setTimeout(() => runNavigationTest(), 2500);
+    setTimeout(() => runUnlockTest(), 4000);
+    setTimeout(() => runCompatibilityTest(), 6000);
+    setTimeout(() => runToastTest(), 8000); // Toast test last to avoid conflicts
     
     setTimeout(() => {
       addTestResult('Test Suite', 'success', 'All UI tests completed');
-    }, 10000);
+    }, 15000);
   };
 
   return (
@@ -258,7 +285,7 @@ export function TestUIIntegration() {
         <Text style={styles.stat}>New UI Loading: {newUISystem.isGlobalLoading ? 'Ja' : 'Nein'}</Text>
         <Text style={styles.stat}>Old UI Loading: {oldUISystem.isGlobalLoading ? 'Ja' : 'Nein'}</Text>
         <Text style={styles.stat}>New Toast Visible: {newUISystem.toastVisible ? 'Ja' : 'Nein'}</Text>
-        {/* <Text style={styles.stat}>Old Toast Data: {oldUISystem.toastData ? 'Ja' : 'Nein'}</Text>ein'}</Text> */}
+        <Text style={styles.stat}>Old Toast Data: {oldUISystem.toastData ? 'Ja' : 'Nein'}</Text>
         <Text style={styles.stat}>New Nav History: {newUISystem.navigationHistory.length}</Text>
         <Text style={styles.stat}>Old Nav History: {oldUISystem.navigationHistory.length}</Text>
         <Text style={styles.stat}>New Pending Unlocks: {newUISystem.getPendingUnlocksCount()}</Text>
@@ -278,6 +305,16 @@ export function TestUIIntegration() {
             Nav: {autoComparison.navigationMatch ? '✅' : '❌'} | 
             Unlocks: {autoComparison.pendingUnlocksMatch ? '✅' : '❌'}
           </Text>
+          {!autoComparison.allMatches && (
+            <View style={styles.debugContainer}>
+              <Text style={styles.debugText}>
+                New Toast Visible: {newUISystem.toastVisible ? 'true' : 'false'}{'\n'}
+                Old Toast Data: {oldUISystem.toastData ? 'true' : 'false'}{'\n'}
+                New Active Toast: {newUISystem.activeToast ? `"${newUISystem.activeToast.message}"` : 'null'}{'\n'}
+                Old Toast Message: {oldUISystem.toastData ? `"${oldUISystem.toastData.message}"` : 'null'}
+              </Text>
+            </View>
+          )}
         </View>
       )}
 
@@ -309,8 +346,8 @@ export function TestUIIntegration() {
           </TouchableOpacity>
         </View>
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button} onPress={runStressTest}>
-            <Text style={styles.buttonText}>Stress Test</Text>
+          <TouchableOpacity style={styles.button} onPress={clearAllToasts}>
+            <Text style={styles.buttonText}>Clear Toasts</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={clearResults}>
             <Text style={styles.buttonText}>Clear Results</Text>
@@ -348,8 +385,8 @@ export function TestUIIntegration() {
         </Text>
       </View>
 
-      {/* Toast Components */}
-      {newUISystem.activeToast && (
+      {/* Toast Components - Only render if toasts are visible */}
+      {newUISystem.activeToast && newUISystem.toastVisible && (
         <Toast
           visible={newUISystem.toastVisible}
           message={newUISystem.activeToast.message}
@@ -420,6 +457,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     marginBottom: 4,
+  },
+  debugContainer: {
+    marginTop: 8,
+    backgroundColor: '#f8f9fa',
+    padding: 8,
+    borderRadius: 4,
   },
   buttonRow: {
     flexDirection: 'row',

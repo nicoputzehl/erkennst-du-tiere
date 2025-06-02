@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-// jest-setup.ts - Korrigierte Version mit TypeScript Fix
+// jest-setup.ts - Vereinfachte Version für Store Migration
 
 // Mock für AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -20,45 +20,11 @@ jest.mock('expo-constants', () => ({
   }
 }));
 
-// Mock für React Native Gesture Handler
-jest.mock('react-native-gesture-handler', () => {
-  const View = require('react-native/Libraries/Components/View/View');
-  return {
-    Swipeable: View,
-    DrawerLayout: View,
-    State: {},
-    ScrollView: View,
-    Slider: View,
-    Switch: View,
-    TextInput: View,
-    ToolbarAndroid: View,
-    ViewPagerAndroid: View,
-    DrawerLayoutAndroid: View,
-    WebView: View,
-    NativeViewGestureHandler: View,
-    TapGestureHandler: View,
-    FlingGestureHandler: View,
-    ForceTouchGestureHandler: View,
-    LongPressGestureHandler: View,
-    PanGestureHandler: View,
-    PinchGestureHandler: View,
-    RotationGestureHandler: View,
-    RawButton: View,
-    BaseButton: View,
-    RectButton: View,
-    BorderlessButton: View,
-    FlatList: View,
-    gestureHandlerRootHOC: jest.fn(() => (Component: any) => Component),
-    Directions: {},
-  };
-});
-
-// Enhanced localStorage Mock für Zustand Stores - FIXED Storage interface
+// Enhanced localStorage Mock für Zustand Stores
 const createEnhancedLocalStorage = (): Storage => {
   const storage: Record<string, string> = {};
   
   return {
-    // Synchronous methods for Storage interface
     getItem: jest.fn((key: string): string | null => {
       return storage[key] || null;
     }) as jest.MockedFunction<(key: string) => string | null>,
@@ -75,7 +41,6 @@ const createEnhancedLocalStorage = (): Storage => {
       Object.keys(storage).forEach(key => delete storage[key]);
     }) as jest.MockedFunction<() => void>,
     
-    // Storage interface required properties
     length: 0,
     key: jest.fn((index: number): string | null => {
       const keys = Object.keys(storage);
@@ -93,37 +58,21 @@ Object.defineProperty(window, 'localStorage', {
   writable: true,
 });
 
-// Enhanced console.warn suppression für Tests
+// Simplified console.warn suppression für Tests
 const originalConsoleWarn = console.warn;
-const originalConsoleError = console.error;
 
 console.warn = (...args: unknown[]) => {
-  // Filter out specific warnings we don't want in tests
+  // Filter out zustand/storage warnings in tests
   if (
     typeof args[0] === 'string' && 
     (args[0].includes('[zustand persist middleware]') ||
      args[0].includes('Unable to update item') ||
-     args[0].includes('storage is currently unavailable') ||
-     args[0].includes('[UIStore]') ||
-     args[0].includes('[QuizStore]'))
+     args[0].includes('storage is currently unavailable'))
   ) {
     return; // Suppress these warnings in tests
   }
   
   originalConsoleWarn(...args);
-};
-
-// Also suppress certain error logs in tests
-console.error = (...args: unknown[]) => {
-  if (
-    typeof args[0] === 'string' && 
-    (args[0].includes('Warning: ReactDOM.render is no longer supported') ||
-     args[0].includes('Warning: componentWillReceiveProps has been renamed'))
-  ) {
-    return; // Suppress these errors in tests
-  }
-  
-  originalConsoleError(...args);
 };
 
 // Set test environment flag
@@ -139,84 +88,33 @@ if (process.env) {
 (global as any).__DEV__ = false; // Disable dev logs in tests
 (global as any).__TEST__ = true; // Test flag
 
-// React Native Mock für Testing mit Enhanced Support
+// React Native Mock für Testing - Minimal Version
 jest.mock('react-native', () => {
   const RN = jest.requireActual('react-native');
   
-  // Enhanced mocks for problematic components
+  // Basic mocks for problematic components
   RN.NativeModules = {
     ...RN.NativeModules,
-    RNCNetInfo: {
-      getCurrentState: jest.fn(() => Promise.resolve()),
-      addListener: jest.fn(),
-      removeListeners: jest.fn(),
-    },
-  };
-
-  // Mock Animated with enhanced support
-  RN.Animated = {
-    ...RN.Animated,
-    timing: jest.fn(() => ({
-      start: jest.fn(),
-    })),
-    spring: jest.fn(() => ({
-      start: jest.fn(),
-    })),
-    Value: jest.fn(() => ({
-      setValue: jest.fn(),
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-    })),
   };
 
   return RN;
 });
 
-// Enhanced Timer Management for Tests - FIXED TypeScript issues
-let timerId = 0;
-const timers: Map<number, NodeJS.Timeout> = new Map();
-
+// Enhanced Timer Management für Tests - Fixed
 const originalSetTimeout = global.setTimeout;
 const originalClearTimeout = global.clearTimeout;
 
-// Enhanced setTimeout mock with proper typing
 global.setTimeout = jest.fn((callback: (...args: unknown[]) => void, delay?: number): any => {
-  if (jest.isMockFunction(originalSetTimeout)) {
-    // Jest fake timers are active
-    return originalSetTimeout(callback, delay);
-  }
-  
-  // Real timers - create trackable timer
-  const id = ++timerId;
-  const timer = originalSetTimeout(callback, delay || 0);
-  timers.set(id, timer as unknown as NodeJS.Timeout);
-  return id;
+  return originalSetTimeout(callback, delay || 0);
 }) as any;
 
 global.clearTimeout = jest.fn((id: any): void => {
-  if (jest.isMockFunction(originalClearTimeout)) {
-    // Jest fake timers are active
-    return originalClearTimeout(id);
-  }
-  
-  // Real timers
-  const timer = timers.get(id);
-  if (timer) {
-    originalClearTimeout(timer);
-    timers.delete(id);
-  }
+  originalClearTimeout(id);
 }) as any;
 
-// Zustand Store Reset Utilities für Tests
-const storeResetFunctions: (() => void)[] = [];
-
-export const registerStoreReset = (resetFn: () => void) => {
-  storeResetFunctions.push(resetFn);
-};
-
-// Enhanced beforeEach setup
+// Cleanup zwischen Tests
 beforeEach(() => {
-  // Clear all mock call histories
+  // Clear localStorage mocks
   if (global.localStorage.clear) {
     (global.localStorage.clear as jest.Mock).mockClear();
   }
@@ -226,101 +124,6 @@ beforeEach(() => {
   if (global.localStorage.setItem) {
     (global.localStorage.setItem as jest.Mock).mockClear();
   }
-  
-  // Clear all registered store reset functions
-  storeResetFunctions.forEach(resetFn => {
-    try {
-      resetFn();
-    } catch {
-      // Ignore reset errors in tests
-    }
-  });
-  
-  // Clear timer tracking
-  timers.clear();
-  timerId = 0;
-  
-  // Reset console mocks
-  if (jest.isMockFunction(console.log)) {
-    (console.log as jest.Mock).mockClear();
-  }
-});
-
-// Enhanced afterEach cleanup
-afterEach(() => {
-  // Clean up any remaining timers
-  timers.forEach(timer => {
-    originalClearTimeout(timer);
-  });
-  timers.clear();
-  
-  // If jest fake timers are running, clear them
-  if (jest.isMockFunction(originalSetTimeout)) {
-    jest.clearAllTimers();
-  }
-});
-
-// Test utilities export
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toHaveQuizState(quizId: string): R;
-      toHaveUIState(expectedState: any): R;
-    }
-  }
-}
-
-// Enhanced Custom Jest Matchers
-expect.extend({
-  toHaveQuizState(store: any, quizId: string) {
-    const hasQuizState = store.quizStates && store.quizStates[quizId];
-    
-    if (hasQuizState) {
-      return {
-        message: () => `expected store not to have quiz state for ${quizId}`,
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => `expected store to have quiz state for ${quizId}`,
-        pass: false,
-      };
-    }
-  },
-  
-  toHaveUIState(store: any, expectedState: any) {
-    const hasMatchingState = Object.keys(expectedState).every(key => {
-      const expected = expectedState[key];
-      const actual = store[key];
-      
-      if (typeof expected === 'boolean') {
-        return actual === expected;
-      }
-      if (typeof expected === 'number') {
-        return actual === expected;
-      }
-      if (typeof expected === 'string') {
-        return actual === expected;
-      }
-      if (Array.isArray(expected)) {
-        return Array.isArray(actual) && actual.length === expected.length;
-      }
-      
-      return true; // Default to true for complex objects
-    });
-    
-    if (hasMatchingState) {
-      return {
-        message: () => `expected store not to have matching UI state`,
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => `expected store to have matching UI state: ${JSON.stringify(expectedState)}`,
-        pass: false,
-      };
-    }
-  },
 });
 
 // Enhanced Mock für fetch (falls benötigt)
@@ -333,46 +136,15 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-// Enhanced Error Handling für Tests
-const originalUnhandledRejection = process.listeners('unhandledRejection');
-process.removeAllListeners('unhandledRejection');
-process.on('unhandledRejection', (reason, promise) => {
-  // Log unhandled rejections in tests but don't crash
-  if (process.env.NODE_ENV === 'test') {
-    console.warn('Unhandled Rejection in test:', reason);
-  } else {
-    // Call original handlers in non-test environments
-    originalUnhandledRejection.forEach(handler => {
-      if (typeof handler === 'function') {
-        handler(reason, promise);
-      }
-    });
-  }
-});
-
-// Export test utilities
+// Export test utilities - Minimal Version
 export const testUtils = {
-  registerStoreReset,
-  createEnhancedLocalStorage,
   mockTimers: () => {
     jest.useFakeTimers();
     return () => jest.useRealTimers();
   },
   advanceTimersByTime: (ms: number) => {
-    if (jest.isMockFunction(originalSetTimeout)) {
+    if (jest.isMockFunction(setTimeout)) {
       jest.advanceTimersByTime(ms);
     }
   },
-  runOnlyPendingTimers: () => {
-    if (jest.isMockFunction(originalSetTimeout)) {
-      jest.runOnlyPendingTimers();
-    }
-  },
-  clearAllTimers: () => {
-    if (jest.isMockFunction(originalSetTimeout)) {
-      jest.clearAllTimers();
-    }
-    timers.forEach(timer => originalClearTimeout(timer));
-    timers.clear();
-  }
 };
