@@ -1,5 +1,6 @@
 import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
 import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
+import { useUIStoreBridge } from '../../../../stores/useUIStoreBridge';
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -8,8 +9,8 @@ export const useQuestion = (
   question: QuizQuestion
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
-  const { getQuizState, updateQuizState, answerQuizQuestion, showSuccessToast } = useQuiz();
-
+  const { getQuizState, updateQuizState, answerQuizQuestion } = useQuiz();
+const uiStoreBridge = useUIStoreBridge();
   const [showResult, setShowResult] = useState(isSolved);
   const [isCorrect, setIsCorrect] = useState(isSolved);
   const [initialQuestionStatus] = useState<QuestionStatus>(question.status);
@@ -89,7 +90,7 @@ export const useQuestion = (
             // Delay für mehrere Toasts, damit sie nacheinander erscheinen
             setTimeout(() => {
               console.log(`[useQuestion] Showing toast for "${unlockedQuiz.title}"`);
-              showSuccessToast(
+              uiStoreBridge.showSuccessToast(
                 `🎉 Neues Quiz "${unlockedQuiz.title}" wurde freigeschaltet!`,
                 4000
               );
@@ -107,7 +108,7 @@ export const useQuestion = (
     } finally {
       setIsSubmitting(false);
     }
-  }, [quizId, question.id, answer, answerQuizQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer, showSuccessToast]);
+  }, [quizId, question.id, answer, answerQuizQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer, uiStoreBridge]);
 
   return {
     quizState,

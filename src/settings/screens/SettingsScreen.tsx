@@ -13,15 +13,15 @@ import {
 	View,
 } from 'react-native';
 import { router } from 'expo-router';
+import { useUIStoreBridge } from '../../stores/useUIStoreBridge';
 
 export function SettingsScreen() {
 	const {
 		resetQuiz,
 		getAllQuizzes,
 		clearAllData,
-		showSuccessToast,
-		showErrorToast,
 	} = useQuiz();
+	const uiStoreBridge = useUIStoreBridge();
 
 	const [isResetting, setIsResetting] = useState<Record<string, boolean>>({});
 	const [isResettingAll, setIsResettingAll] = useState(false);
@@ -33,14 +33,14 @@ export function SettingsScreen() {
 
 		try {
 			await resetQuiz(quizId);
-			showSuccessToast(
+			uiStoreBridge.showSuccessToast(
 				`Quiz "${
 					quizzes.find(q => q.id === quizId)?.title || quizId
 				}" zurückgesetzt!`
 			);
 		} catch (error) {
 			console.error(`[SettingsScreen] Error resetting quiz ${quizId}:`, error);
-			showErrorToast(`Fehler beim Zurücksetzen: ${error}`);
+			uiStoreBridge.showErrorToast(`Fehler beim Zurücksetzen: ${error}`);
 		} finally {
 			setIsResetting(prev => ({ ...prev, [quizId]: false }));
 		}
@@ -59,9 +59,9 @@ export function SettingsScreen() {
 						setIsResettingAll(true);
 						try {
 							await clearAllData();
-							showSuccessToast('Alle Quizzes wurden zurückgesetzt!');
+							uiStoreBridge.showSuccessToast('Alle Quizzes wurden zurückgesetzt!');
 						} catch (error) {
-							showErrorToast(`Fehler: ${error}`);
+							uiStoreBridge.showErrorToast(`Fehler: ${error}`);
 						} finally {
 							setIsResettingAll(false);
 						}

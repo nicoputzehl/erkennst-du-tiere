@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { useQuizData } from '../contexts/QuizDataProvider';
 import { useQuizState } from '../contexts/QuizStateProvider';
-import { useUIState } from '../contexts/UIStateProvider';
 import { isCompleted } from '../utils';
+import { useUIStoreBridge } from '../../stores/useUIStoreBridge';
 
 /**
  * Hook der beim Screen-Load prüft, ob bereits abgeschlossene Quizzes
@@ -11,7 +11,8 @@ import { isCompleted } from '../utils';
 export function useUnlockDetection() {
   const { getAllQuizzes } = useQuizData();
   const { quizStates } = useQuizState();
-  const { addPendingUnlock } = useUIState();
+  const uiStoreBridge = useUIStoreBridge();
+  
 
   const detectMissedUnlocks = useCallback(() => {
     console.log('[useUnlockDetection] Checking for missed unlocks from completed quizzes');
@@ -33,14 +34,14 @@ export function useUnlockDetection() {
         
         unlockedQuizzes.forEach(unlockedQuiz => {
           console.log(`[useUnlockDetection] Quiz "${unlockedQuiz.title}" should be unlocked by completed quiz ${quizId}`);
-          addPendingUnlock(unlockedQuiz.id, unlockedQuiz.title);
+          uiStoreBridge.addPendingUnlock(unlockedQuiz.id, unlockedQuiz.title);
           unlocksFound++;
         });
       }
     });
 
     console.log(`[useUnlockDetection] Detection complete - found ${unlocksFound} missed unlocks`);
-  }, [getAllQuizzes, quizStates, addPendingUnlock]);
+  }, [getAllQuizzes, quizStates, uiStoreBridge]);
 
   // Führe Detection beim Mount aus
   useEffect(() => {

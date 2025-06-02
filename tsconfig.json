@@ -12,6 +12,9 @@
       ],
       "@/animals": [
         "./src/animals/*"
+      ],
+      "@/src": [
+        "./src/*"
       ]
     }
   },

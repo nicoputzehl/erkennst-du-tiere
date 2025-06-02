@@ -1,9 +1,10 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+// src/quiz/contexts/QuizProvider.tsx - Fixed Infinite Loop (Schritt 5A - Fix)
+import React, { createContext, ReactNode, useContext, useRef } from 'react';
 import { Quiz, QuizState } from '../types';
 
 import { useQuizData } from './QuizDataProvider';
 import { useQuizState } from './QuizStateProvider';
-import { useUIState } from './UIStateProvider';
+
 
 import {
   AnswerResult,
@@ -13,6 +14,7 @@ import {
   useQuizOperations,
   useUnlockSystem
 } from '../hooks';
+import { useUIStoreBridge } from '../../stores/useUIStoreBridge';
 
 interface QuizContextValue {
   // Quiz-Inhalt (für Anzeige)
@@ -38,7 +40,7 @@ interface QuizContextValue {
   initialized: boolean;
   isInitializing: boolean;
   
-  // UI-Feedback
+  // UI-Feedback - via UI Store Bridge (but simplified)
   showSuccessToast: (message: string, duration?: number) => void;
   showErrorToast: (message: string, duration?: number) => void;
   showInfoToast: (message: string, duration?: number) => void;
@@ -53,7 +55,7 @@ interface QuizContextValue {
   isQuizUnlocked: (quizId: string) => boolean;
   getUnlockDescription: (quizId: string) => string | null;
   
-  // Quiz-Operationen
+  // Quiz-Operationen (simplified to avoid loops)
   startQuiz: (quizId: string) => Promise<QuizState | null>;
   loadQuiz: (quizId: string) => Promise<QuizState | null>;
   resetQuiz: (quizId: string) => Promise<QuizState | null>;
@@ -93,13 +95,9 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     getNextActiveQuestion,
   } = useQuizState();
   
-  const {
-    isGlobalLoading,
-    showSuccessToast,
-    showErrorToast,
-    showInfoToast,
-    showWarningToast,
-  } = useUIState();
+  // UI Store Bridge - with refs to prevent loops
+  const uiStoreBridge = useUIStoreBridge();
+  const processingRef = useRef(new Set<string>());
 
   const { processAnswer } = useAnswerProcessing();
   const { 
@@ -108,12 +106,14 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     isQuizUnlocked, 
     getUnlockDescription 
   } = useUnlockSystem();
+  
+  // SIMPLIFIED: Use Quiz State Provider hooks directly to avoid loops
   const { 
-    startQuiz, 
-    loadQuiz, 
-    resetQuiz, 
+    initializeQuizState: initQuizState,
+    resetQuizState: resetState,
     setCurrentQuiz 
-  } = useQuizOperations();
+  } = useQuizState();
+  
   const { 
     clearAllData, 
     getStatistics 
@@ -124,6 +124,83 @@ export function QuizProvider({ children }: { children: ReactNode }) {
 
   const answerQuizQuestion = async (quizId: string, questionId: number, answer: string): Promise<AnswerResult> => {
     return processAnswer(quizId, questionId, answer, checkForUnlocks);
+  };
+
+  // FIXED: Simplified Quiz Operations to prevent loops
+  const startQuiz = async (quizId: string): Promise<QuizState | null> => {
+    // Prevent duplicate operations
+    if (processingRef.current.has(`start-${quizId}`)) {
+      console.log(`[QuizProvider] Skipping duplicate startQuiz for: ${quizId}`);
+      return getQuizState(quizId) || null;
+    }
+
+    processingRef.current.add(`start-${quizId}`);
+    
+    try {
+      console.log(`[QuizProvider] Starting quiz: ${quizId}`);
+      
+      // Initialize quiz state if needed
+      const quizState = await initQuizState(quizId);
+      
+      if (quizState) {
+        // Set as current quiz (this will not trigger navigation tracking)
+        setCurrentQuiz(quizId, quizState);
+        console.log(`[QuizProvider] Quiz ${quizId} started successfully`);
+      }
+      
+      return quizState;
+    } catch (error) {
+      console.error(`[QuizProvider] Error starting quiz ${quizId}:`, error);
+      uiStoreBridge.showErrorToast(`Fehler beim Starten des Quiz: ${error}`);
+      return null;
+    } finally {
+      processingRef.current.delete(`start-${quizId}`);
+    }
+  };
+
+  const loadQuiz = async (quizId: string): Promise<QuizState | null> => {
+    return startQuiz(quizId);
+  };
+
+  const resetQuiz = async (quizId: string): Promise<QuizState | null> => {
+    // Prevent duplicate operations
+    if (processingRef.current.has(`reset-${quizId}`)) {
+      console.log(`[QuizProvider] Skipping duplicate resetQuiz for: ${quizId}`);
+      return getQuizState(quizId) || null;
+    }
+
+    processingRef.current.add(`reset-${quizId}`);
+    
+    try {
+      console.log(`[QuizProvider] Resetting quiz: ${quizId}`);
+      
+      const newState = await resetState(quizId);
+      
+      if (newState) {
+        uiStoreBridge.showSuccessToast(`Quiz "${newState.title}" wurde zurückgesetzt!`);
+        console.log(`[QuizProvider] Quiz ${quizId} reset successfully`);
+      }
+      
+      return newState;
+    } catch (error) {
+      console.error(`[QuizProvider] Error resetting quiz ${quizId}:`, error);
+      uiStoreBridge.showErrorToast(`Fehler beim Zurücksetzen des Quiz: ${error}`);
+      return null;
+    } finally {
+      processingRef.current.delete(`reset-${quizId}`);
+    }
+  };
+
+  const setCurrentQuizId = (quizId: string | null) => {
+    console.log(`[QuizProvider] Setting current quiz to: ${quizId}`);
+    
+    if (quizId) {
+      const quizState = getQuizState(quizId);
+      setCurrentQuiz(quizId, quizState);
+      // NOTE: No navigation tracking here to prevent loops
+    } else {
+      setCurrentQuiz(null, null);
+    }
   };
 
   const contextValue: QuizContextValue = {
@@ -146,15 +223,15 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     // Aktueller Quiz-Zustand
     currentQuizId,
     currentQuizState,
-    isLoading: isGlobalLoading,
+    isLoading: uiStoreBridge.isGlobalLoading,
     initialized,
     isInitializing,
     
-    // UI-Feedback
-    showSuccessToast,
-    showErrorToast,
-    showInfoToast,
-    showWarningToast,
+    // UI-Feedback - Simplified
+    showSuccessToast: uiStoreBridge.showSuccessToast,
+    showErrorToast: uiStoreBridge.showErrorToast,
+    showInfoToast: uiStoreBridge.showInfoToast,
+    showWarningToast: uiStoreBridge.showWarningToast,
     
     // Quiz-Interaktionen
     answerQuizQuestion,
@@ -165,11 +242,11 @@ export function QuizProvider({ children }: { children: ReactNode }) {
     isQuizUnlocked,
     getUnlockDescription,
     
-    // Quiz-Operationen
+    // Quiz-Operationen - Fixed
     startQuiz,
     loadQuiz,
     resetQuiz,
-    setCurrentQuizId: setCurrentQuiz,
+    setCurrentQuizId,
     
     // Daten-Management
     clearAllData,

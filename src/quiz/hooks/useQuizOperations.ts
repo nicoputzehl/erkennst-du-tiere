@@ -1,7 +1,8 @@
+// src/quiz/hooks/useQuizOperations.ts - Migrated to UI Store Bridge
 import { useCallback } from 'react';
 import { QuizState } from '../types'; // Vereinfachte Types ohne Generics
 import { useQuizState } from '../contexts/QuizStateProvider';
-import { useUIState } from '../contexts/UIStateProvider';
+import { useUIStoreBridge } from '../../stores/useUIStoreBridge'; // MIGRATED: UI Store Bridge
 
 interface UseQuizOperationsReturn {
   startQuiz: (quizId: string) => Promise<QuizState | null>;
@@ -20,20 +21,14 @@ export function useQuizOperations(): UseQuizOperationsReturn {
     currentQuizId
   } = useQuizState();
   
-  const {
-    startLoading,
-    stopLoading,
-    isOperationLoading,
-    showSuccessToast,
-    showErrorToast,
-    trackNavigation
-  } = useUIState();
+  // MIGRATED: UI operations now via Store Bridge instead of UIStateProvider
+  const uiStoreBridge = useUIStoreBridge();
 
   const startQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => {
     const operationKey = `startQuiz_${quizId}`;
     console.log(`[useQuizOperations] Starting quiz: ${quizId}`);
     
-    startLoading(operationKey);
+    uiStoreBridge.startLoading(operationKey); // MIGRATED
     
     try {
       // Initialize or get existing quiz state
@@ -44,7 +39,7 @@ export function useQuizOperations(): UseQuizOperationsReturn {
         setCurrentQuizInState(quizId, quizState);
         
         // Track navigation
-        trackNavigation(quizId);
+        uiStoreBridge.trackNavigation(quizId); // MIGRATED
         
         console.log(`[useQuizOperations] Quiz ${quizId} started successfully`);
       } else {
@@ -54,12 +49,12 @@ export function useQuizOperations(): UseQuizOperationsReturn {
       return quizState;
     } catch (error) {
       console.error(`[useQuizOperations] Error starting quiz ${quizId}:`, error);
-      showErrorToast(`Fehler beim Starten des Quiz: ${error}`);
+      uiStoreBridge.showErrorToast(`Fehler beim Starten des Quiz: ${error}`); // MIGRATED
       return null;
     } finally {
-      stopLoading(operationKey);
+      uiStoreBridge.stopLoading(operationKey); // MIGRATED
     }
-  }, [initializeQuizState, setCurrentQuizInState, trackNavigation, showErrorToast, startLoading, stopLoading]);
+  }, [initializeQuizState, setCurrentQuizInState, uiStoreBridge]);
 
   const loadQuiz = useCallback(async (quizId: string): Promise<QuizState | null> => {
     console.log(`[useQuizOperations] Loading quiz: ${quizId}`);
@@ -71,7 +66,7 @@ export function useQuizOperations(): UseQuizOperationsReturn {
     const operationKey = `resetQuiz_${quizId}`;
     console.log(`[useQuizOperations] Resetting quiz: ${quizId}`);
     
-    startLoading(operationKey);
+    uiStoreBridge.startLoading(operationKey); // MIGRATED
     
     try {
       // Reset quiz state
@@ -83,7 +78,7 @@ export function useQuizOperations(): UseQuizOperationsReturn {
           setCurrentQuizInState(quizId, newState);
         }
         
-        showSuccessToast(`Quiz "${newState.title}" wurde zurückgesetzt!`);
+        uiStoreBridge.showSuccessToast(`Quiz "${newState.title}" wurde zurückgesetzt!`); // MIGRATED
         console.log(`[useQuizOperations] Quiz ${quizId} reset successfully`);
       } else {
         console.warn(`[useQuizOperations] Failed to reset quiz ${quizId}`);
@@ -92,12 +87,12 @@ export function useQuizOperations(): UseQuizOperationsReturn {
       return newState;
     } catch (error) {
       console.error(`[useQuizOperations] Error resetting quiz ${quizId}:`, error);
-      showErrorToast(`Fehler beim Zurücksetzen des Quiz: ${error}`);
+      uiStoreBridge.showErrorToast(`Fehler beim Zurücksetzen des Quiz: ${error}`); // MIGRATED
       return null;
     } finally {
-      stopLoading(operationKey);
+      uiStoreBridge.stopLoading(operationKey); // MIGRATED
     }
-  }, [resetQuizState, currentQuizId, setCurrentQuizInState, showSuccessToast, showErrorToast, startLoading, stopLoading]);
+  }, [resetQuizState, currentQuizId, setCurrentQuizInState, uiStoreBridge]);
 
   const setCurrentQuiz = useCallback((quizId: string | null) => {
     console.log(`[useQuizOperations] Setting current quiz to: ${quizId}`);
@@ -106,19 +101,19 @@ export function useQuizOperations(): UseQuizOperationsReturn {
       // Get existing quiz state
       const quizState = getQuizState(quizId);
       setCurrentQuizInState(quizId, quizState);
-      trackNavigation(quizId);
+      uiStoreBridge.trackNavigation(quizId); // MIGRATED
     } else {
       // Clear current quiz
       setCurrentQuizInState(null, null);
     }
-  }, [getQuizState, setCurrentQuizInState, trackNavigation]);
+  }, [getQuizState, setCurrentQuizInState, uiStoreBridge]);
 
   return {
     startQuiz,
     loadQuiz,
     resetQuiz,
     setCurrentQuiz,
-    isOperationLoading,
+    isOperationLoading: uiStoreBridge.isOperationLoading, // MIGRATED
   };
 }
 

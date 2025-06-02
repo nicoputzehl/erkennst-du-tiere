@@ -14,7 +14,7 @@ interface QuizDataState {
 interface QuizDataContextValue {
   // Quiz-Inhalt (für Anzeige)
   getQuizById: (id: string) => Quiz | undefined;
-  getAllQuizzes: () => Quiz[];
+  getAllQuizzes: () => QuizConfig[];
   getQuizzesByOrder: () => Quiz[];
   
   // Quiz-Konfiguration (für Logik)

@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useQuizState } from '../contexts/QuizStateProvider';
-import { useUIState } from '../contexts/UIStateProvider';
+
 import { usePersistence } from '../contexts/PersistenceProvider';
+import { useUIStoreBridge } from '../../stores/useUIStoreBridge';
 
 interface UseDataManagementReturn {
   clearAllData: () => Promise<void>;
@@ -23,67 +24,55 @@ export function useDataManagement(): UseDataManagementReturn {
     getCompletedQuestionsCount,
     quizStates
   } = useQuizState();
-  
-  const {
-    startLoading,
-    stopLoading,
-    isOperationLoading,
-    showSuccessToast,
-    showErrorToast,
-    clearNavigationHistory,
-    clearPendingUnlocks
-  } = useUIState();
+
+
+  const uiStoreBridge = useUIStoreBridge();
 
   const { clearAllData: clearPersistenceData } = usePersistence();
 
   const clearAllData = useCallback(async (): Promise<void> => {
     const operationKey = 'clearAllData';
     console.log('[useDataManagement] Starting to clear all data');
-    
-    startLoading(operationKey);
-    
+
+    uiStoreBridge.startLoading(operationKey);
+
     try {
       // 1. Verwende den zentralen Persistence-Layer
       await clearPersistenceData();
-      
+
       // 2. Reset all quiz states (jetzt ohne direkten Storage-Zugriff)
       await resetAllQuizStates();
-      
+
       // 3. Clear navigation history
-      clearNavigationHistory();
-      
+      uiStoreBridge.clearNavigationHistory();
+
       // 4. NEU: Clear pending unlocks komplett
-      clearPendingUnlocks();
-      
-      showSuccessToast('Alle Daten wurden erfolgreich gelöscht!');
+      uiStoreBridge.clearPendingUnlocks();
+
+      uiStoreBridge.showSuccessToast('Alle Daten wurden erfolgreich gelöscht!');
       console.log('[useDataManagement] All data cleared successfully - including pending unlocks');
     } catch (error) {
       console.error('[useDataManagement] Error clearing all data:', error);
-      showErrorToast(`Fehler beim Löschen der Daten: ${error}`);
+      uiStoreBridge.showErrorToast(`Fehler beim Löschen der Daten: ${error}`);
       throw error;
     } finally {
-      stopLoading(operationKey);
+      uiStoreBridge.stopLoading(operationKey);
     }
   }, [
-    clearPersistenceData, 
-    resetAllQuizStates, 
-    clearNavigationHistory, 
-    clearPendingUnlocks,
-    showSuccessToast, 
-    showErrorToast, 
-    startLoading, 
-    stopLoading
+    clearPersistenceData,
+    resetAllQuizStates,
+    uiStoreBridge
   ]);
 
   const getStatistics = useCallback(() => {
     console.log('[useDataManagement] Calculating statistics');
-    
+
     const totalQuizzes = Object.keys(quizStates).length;
     const completedQuizzes = getCompletedQuizzesCount();
     const totalQuestions = getTotalQuestionsCount();
     const completedQuestions = getCompletedQuestionsCount();
-    
-    const completionPercentage = totalQuestions > 0 
+
+    const completionPercentage = totalQuestions > 0
       ? Math.round((completedQuestions / totalQuestions) * 100)
       : 0;
 
@@ -96,14 +85,14 @@ export function useDataManagement(): UseDataManagementReturn {
     };
 
     console.log('[useDataManagement] Statistics calculated:', stats);
-    
+
     return stats;
   }, [quizStates, getCompletedQuizzesCount, getTotalQuestionsCount, getCompletedQuestionsCount]);
 
   return {
     clearAllData,
     getStatistics,
-    isOperationLoading,
+    isOperationLoading: uiStoreBridge.isOperationLoading,
   };
 }
 

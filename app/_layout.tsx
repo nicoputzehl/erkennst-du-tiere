@@ -1,3 +1,4 @@
+// app/_layout.tsx - Simplified Provider Hierarchy (Schritt 5B)
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -14,7 +15,7 @@ import {
 	PersistenceProvider,
 	QuizDataProvider,
 	QuizStateProvider,
-	UIStateProvider,
+	// UIStateProvider, // REMOVED: Now handled by Store Bridge
 	QuizProvider,
 } from '@/src/quiz';
 import { QuizStoreProvider } from '@/src/stores/QuizStoreProvider';
@@ -33,24 +34,24 @@ export default function RootLayout() {
 		<PersistenceProvider>
 			<QuizDataProvider>
 				<QuizStateProvider>
-					<UIStateProvider>
-						<QuizProvider>
-							<QuizStoreProvider>
-								<ThemeProvider
-									value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-								>
-									<Stack screenOptions={{ headerShown: false }}>
-										<Stack.Screen
-											name='index'
-											options={{ headerShown: false }}
-										/>
-										<Stack.Screen name='+not-found' />
-									</Stack>
-									<StatusBar style='auto' />
-								</ThemeProvider>
-							</QuizStoreProvider>
-						</QuizProvider>
-					</UIStateProvider>
+					{/* UIStateProvider REMOVED - Now via QuizStoreProvider UI Store */}
+					<QuizProvider>
+						<QuizStoreProvider enableUIToasts={true}>
+							<ThemeProvider
+								value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+							>
+								<Stack screenOptions={{ headerShown: false }}>
+									<Stack.Screen
+										name='index'
+										options={{ headerShown: false }}
+									/>
+									<Stack.Screen name='+not-found' />
+								</Stack>
+								<StatusBar style='auto' />
+							</ThemeProvider>
+						</QuizStoreProvider>
+					</QuizProvider>
+					{/* UIStateProvider was here - REMOVED */}
 				</QuizStateProvider>
 			</QuizDataProvider>
 		</PersistenceProvider>

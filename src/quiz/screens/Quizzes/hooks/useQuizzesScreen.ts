@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Quiz } from '../../../types';
 import { useQuiz } from '../../../contexts/QuizProvider';
-import { usePendingUnlocks } from '../../../contexts/UIStateProvider';
 import { useUnlockDetection } from '../../../hooks/useUnlockDetection';
+import { useUIStoreBridge } from '../../../../stores/useUIStoreBridge';
 
 interface UseQuizzesScreenReturn {
   isLoading: boolean;
@@ -12,7 +12,9 @@ interface UseQuizzesScreenReturn {
 
 export function useQuizzesScreen(quizzes: Quiz[]): UseQuizzesScreenReturn {
   const { initializeQuizState } = useQuiz();
-  const { checkPendingUnlocks, getPendingUnlocksCount } = usePendingUnlocks();
+  const uiStoreBridge = useUIStoreBridge();
+
+  
   const [isLoading, setIsLoading] = useState(true);
 
   // NEU: Detect missed unlocks from already completed quizzes
@@ -25,12 +27,12 @@ export function useQuizzesScreen(quizzes: Quiz[]): UseQuizzesScreenReturn {
       
       // Kleine Verzögerung damit der Screen-Übergang smooth ist
       const timer = setTimeout(() => {
-        const pendingCount = getPendingUnlocksCount();
+        const pendingCount = uiStoreBridge.getPendingUnlocksCount();
         console.log(`[useQuizzesScreen] Found ${pendingCount} pending unlock notifications`);
         
         if (pendingCount > 0) {
           console.log('[useQuizzesScreen] Triggering pending unlock toasts');
-          checkPendingUnlocks();
+          uiStoreBridge.checkPendingUnlocks();
         } else {
           console.log('[useQuizzesScreen] No pending unlocks to show');
         }
@@ -39,7 +41,7 @@ export function useQuizzesScreen(quizzes: Quiz[]): UseQuizzesScreenReturn {
       return () => {
         clearTimeout(timer);
       };
-    }, [checkPendingUnlocks, getPendingUnlocksCount])
+    }, [uiStoreBridge])
   );
 
   // Initialize quiz states
