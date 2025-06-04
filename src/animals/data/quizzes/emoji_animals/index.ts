@@ -1,7 +1,7 @@
-import { Question } from "@/src/quiz";
+import {  QuestionBase } from "@/src/quiz";
 
 
-export const emojiAnimals: Question[] = [
+export const emojiAnimals: QuestionBase[] = [
   {
     id: 1,
     answer: "Stachelschwein",

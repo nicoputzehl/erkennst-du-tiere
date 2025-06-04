@@ -1,4 +1,4 @@
-import { QuestionStatus, QuizQuestion } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
+import { QuestionStatus, Question } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { useMemo } from "react";
 
 export enum ImageType {
@@ -11,7 +11,7 @@ interface UseImageDisplayReturn {
   shouldShowUnsolvedImage: boolean;
 }
 
-export const useImageDisplay = (question: QuizQuestion): UseImageDisplayReturn => { // Kein Generic!
+export const useImageDisplay = (question: Question): UseImageDisplayReturn => { // Kein Generic!
   // Closure Factory: Erstellt Funktionen basierend auf Image-Type
   const createImageSelector = useMemo(() => {
     return (type: ImageType) => {

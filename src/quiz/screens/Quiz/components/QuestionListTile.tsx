@@ -1,15 +1,14 @@
 import { useMemo, useCallback, memo } from 'react';
 import { Image } from 'expo-image';
-import { Image as RNImage } from 'react-native'; // <--- Importieren der nativen React Native Image-Komponente
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useThemeColor } from '@/src/common/hooks/useThemeColor';
 import { useColorScheme } from '@/src/common/hooks/useColorScheme';
-import { QuestionStatus, QuizQuestion } from '../../../types';
+import { Question, QuestionStatus } from '../../../types';
 import { ImageType, useImageDisplay } from '@/src/quiz/hooks/useImageDisplay';
 
 interface QuestionListTileProps {
-	item: QuizQuestion;
+	item: Question;
 	itemWidth: number;
 	onClick: (questionId: string) => void;
 }
@@ -18,20 +17,11 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 	({ item, itemWidth, onClick }) => {
 		const colorScheme = useColorScheme();
 		const { getImageUrl } = useImageDisplay(item);
-		const sourceId = getImageUrl(ImageType.THUMBNAIL); // Dies ist die Zahl, z.B. 164
 		const isSolved = item.status === QuestionStatus.SOLVED;
 		const isInactive = item.status === 'inactive';
 
-		console.log('[QuestionListTile] Rendering QuestionListTile...');
-		console.log('[QuestionListTile] Item:', item);
-		console.log(
-			'[QuestionListTile] getImage:',
-			getImageUrl(ImageType.THUMBNAIL)
-		);
-		const resolvedSource = RNImage.resolveAssetSource(sourceId);
 
-console.log('[QuestionListTile] Original Source ID from getImageUrl:', sourceId);
-console.log('[QuestionListTile] Resolved Source (URI):', resolvedSource)
+
 		// Theme-basierte Farben
 		const iconColor = useThemeColor({}, 'icon');
 
@@ -109,11 +99,6 @@ console.log('[QuestionListTile] Resolved Source (URI):', resolvedSource)
 					cachePolicy='memory-disk'
 					transition={200}
 					placeholder={{ blurhash: 'LGF5]+Yk^37c.8x]M{s-00?b%NWB' }}
-					onError={(error) => {
-    console.error('[QuestionListTile] Image loading error:', error.error);
-    console.log('[QuestionListTile] Failed source (after resolve attempt):', resolvedSource);
-    console.log('[QuestionListTile] Fallback source (raw ID):', sourceId);
-  }}
 				/>
 				{isSolved && (
 					<View style={styles.iconOverlay}>

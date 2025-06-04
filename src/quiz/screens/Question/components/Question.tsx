@@ -1,17 +1,17 @@
+import Header from '@/src/common/components/Header';
+import { Question } from '@/src/quiz/types';
 import React, { memo } from 'react';
-import { StyleSheet, Animated, View, KeyboardAvoidingView, Platform } from 'react-native';
-import { QuizQuestion } from '@/src/quiz/types';
+import { Animated, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { ImageType, useImageDisplay } from '../../../hooks/useImageDisplay';
+import { useKeyboardHandling } from '../hooks/useKeyboardHandling';
 import { AnswerInput } from './AnswerInput';
 import { QuestionImage } from './QuestionImage';
 import { QuestionResult } from './QuestionResult/QuestionResult';
-import { ImageType, useImageDisplay } from '../../../hooks/useImageDisplay';
-import Header from '@/src/common/components/Header';
-import { useKeyboardHandling } from '../hooks/useKeyboardHandling';
 
 interface QuestionProps {
   quizId: string;
   questionId: string;
-  question: QuizQuestion;
+  question: Question;
   answer: string;
   setAnswer: (answer: string) => void;
   isSubmitting: boolean;
@@ -25,7 +25,7 @@ interface QuestionProps {
   quizTitle: string;
 }
 
-export const Question: React.FC<QuestionProps> = memo(({
+export const QuestionComponent: React.FC<QuestionProps> = memo(({
   question,
   answer,
   setAnswer,
@@ -91,7 +91,7 @@ export const Question: React.FC<QuestionProps> = memo(({
   );
 });
 
-Question.displayName = 'Question';
+QuestionComponent.displayName = 'Question';
 
 const styles = StyleSheet.create({
   imageContainer: {

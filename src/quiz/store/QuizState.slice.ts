@@ -4,6 +4,8 @@ import { createQuizState } from "../utils/quizCreation";
 import { calculateAnswerResult, getNextActiveQuestionId } from "../utils/quizProgression";
 import { isCompleted } from "../utils/quizStatistics";
 import { QuizStore } from "./Quiz.store";
+import { HintUtils } from "../domain/hints";
+import { ContextualHint } from "../types/hint";
 
 
 interface AnswerResult {
@@ -12,6 +14,7 @@ interface AnswerResult {
   nextQuestionId?: number;
   unlockedQuizzes: Quiz[];
   completedQuiz: boolean;
+  triggeredHints?: ContextualHint[];
 }
 
 export interface QuizStateSlice {
@@ -90,7 +93,7 @@ export const createQuizStateSlice: StateCreator<QuizStore, [], [], QuizStateSlic
   },
   answerQuestion: async (quizId: string, questionId: number, answer: string): Promise<AnswerResult> => {
     console.log(`[QuizStateSlice] Processing answer for quiz ${quizId}, question ${questionId}: "${answer}"`);
-    const { quizStates, updateQuizState, showToast, checkForUnlocks, addPendingUnlock } = get(); // Zugriff auf andere Slices
+    const { quizStates, updateQuizState, showToast, checkForUnlocks, addPendingUnlock, recordWrongAnswer, addPoints } = get(); // Zugriff auf andere Slices
     const currentState = quizStates[quizId];
     if (!currentState) {
       console.warn(`[QuizStateSlice] Quiz state not found for ${quizId}`);
@@ -103,14 +106,34 @@ export const createQuizStateSlice: StateCreator<QuizStore, [], [], QuizStateSlic
     const result = calculateAnswerResult(currentState, questionId, answer);
     if (!result.isCorrect) {
       console.log(`[QuizStateSlice] Incorrect answer for quiz ${quizId}, question ${questionId}`);
+
+      const triggeredHints = recordWrongAnswer(quizId, questionId, answer);
+
       return {
         isCorrect: false,
         unlockedQuizzes: [],
-        completedQuiz: false
+        completedQuiz: false,
+        triggeredHints
       };
     }
     // Update state
     updateQuizState(quizId, result.newState);
+
+    // ← NEU: Bei korrekter Antwort Punkte vergeben
+    const question = result.newState.questions.find(q => q.id === questionId);
+    if (question) {
+      const points = HintUtils.calculatePointsForCorrectAnswer(question);
+      const transaction = HintUtils.createPointTransaction(
+        'earned',
+        points,
+        'Frage korrekt beantwortet',
+        quizId,
+        questionId
+      );
+      addPoints(transaction);
+      console.log(`[QuizStateSlice] Awarded ${points} points for correct answer`);
+    }
+
     // Check completion
     const completedQuiz = isCompleted(result.newState);
     const nextQuestionId = getNextActiveQuestionId(result.newState);

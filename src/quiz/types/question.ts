@@ -1,3 +1,4 @@
+import { Hint } from "./hint";
 import { QuizImages } from "./image";
 
 export enum QuestionStatus {
@@ -13,6 +14,7 @@ export interface QuestionBase {
   alternativeAnswers?: string[];
   funFact?: string;
   wikipediaName?: string;
+  hints?: Hint[]
 }
 
 

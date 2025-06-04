@@ -1,14 +1,14 @@
-import { QuestionStatus, QuizQuestion, QuizState } from '../types';
+import { Question, QuestionStatus, QuizState } from '../types';
 import { isAnswerCorrect } from './answerComparison';
 
-export const findNextInactiveQuestionIndex = (questions: QuizQuestion[]): number => {
+export const findNextInactiveQuestionIndex = (questions: Question[]): number => {
   return questions.findIndex(q => q.status === QuestionStatus.INACTIVE);
 };
 
 export const calculateNewQuestionsAfterCorrectAnswer = (
-  questions: QuizQuestion[],
+  questions: Question[],
   questionIndex: number,
-): QuizQuestion[] => {
+): Question[] => {
   // Füge diese Prüfung am Anfang hinzu
   if (questionIndex < 0 || questionIndex >= questions.length) {
     return [...questions]; // Gib eine Kopie des Original-Arrays zurück, um Unveränderlichkeit zu gewährleisten
@@ -64,14 +64,14 @@ export const calculateAnswerResult = (
   };
 };
 
-export const sortQuestionsByIds = (questions: QuizQuestion[]): QuizQuestion[] => {
+export const sortQuestionsByIds = (questions: Question[]): Question[] => {
   return [...questions].sort((a, b) => a.id - b.id);
 };
 
 export const findNextUnsolvedQuestionForward = (
-  sortedQuestions: QuizQuestion[],
+  sortedQuestions: Question[],
   currentIndex: number
-): QuizQuestion | null => {
+): Question | null => {
   for (let i = currentIndex + 1; i < sortedQuestions.length; i++) {
     if (sortedQuestions[i].status !== 'solved') {
       return sortedQuestions[i];
@@ -81,9 +81,9 @@ export const findNextUnsolvedQuestionForward = (
 };
 
 export const findNextUnsolvedQuestionBackward = (
-  sortedQuestions: QuizQuestion[],
+  sortedQuestions: Question[],
   currentIndex: number
-): QuizQuestion | null => {
+): Question | null => {
   // Schleife muss von currentIndex - 1 abwärts gehen
   for (let i = currentIndex - 1; i >= 0; i--) { // <-- Korrektur hier
     if (sortedQuestions[i].status !== QuestionStatus.SOLVED) {
@@ -93,7 +93,7 @@ export const findNextUnsolvedQuestionBackward = (
   return null;
 };
 
-export const findFirstUnsolvedQuestion = (questions: QuizQuestion[]): QuizQuestion | null => {
+export const findFirstUnsolvedQuestion = (questions: Question[]): Question | null => {
   return questions.find(q => q.status !== 'solved') || null;
 };
 

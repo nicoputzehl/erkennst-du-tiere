@@ -9,16 +9,22 @@ import { createQuizDataSlice, QuizDataSlice } from './QuizData.slice';
 import { createQuizStateSlice, QuizStateSlice } from './QuizState.slice';
 import { createUISlice, UISlice } from './UI.slice';
 import { createUnlockSlice, UnlockSlice } from './Unlock.slice';
+import {  UserPointsState } from '../types/hint';
+import { createHintSlice, HintSlice } from './Hint.slice';
+import { HintUtils } from '../domain/hints';
 
-export interface QuizStore extends QuizDataSlice, QuizStateSlice, UISlice, UnlockSlice {
+export interface QuizStore extends QuizDataSlice, QuizStateSlice, UISlice, UnlockSlice, HintSlice {
+  // GLOBALE User Points (NEU)
+  userPoints: UserPointsState;
   // Persistence-Aktion auf der obersten Ebene
   clearPersistedData: () => Promise<void>;
+
 }
 
 const STORAGE_KEY = 'quiz_store_v1';
 
 // Definieren des Typs für die persistierten Eigenschaften
-type PersistedQuizStore = Pick<QuizStore, 'quizStates' | 'navigationHistory' | 'pendingUnlocks'>;
+type PersistedQuizStore = Pick<QuizStore, 'quizStates' | 'navigationHistory' | 'pendingUnlocks' | 'userPoints'>;
 
 export const useQuizStore = create<QuizStore>()(
   persist(
@@ -28,6 +34,10 @@ export const useQuizStore = create<QuizStore>()(
       ...createQuizStateSlice(set, get, store), // Pass 'store' to slice creators
       ...createUISlice(set, get, store), // Pass 'store' to slice creators
       ...createUnlockSlice(set, get, store), // Pass 'store' to slice creators
+      ...createHintSlice(set, get, store), // Pass 'store' to slice creators
+
+
+      userPoints: HintUtils.getInitialUserPoints(),
 
       // Aktionen, die den gesamten Store betreffen oder Slices koordinieren
       resetAllQuizStates: () => {
@@ -53,6 +63,7 @@ export const useQuizStore = create<QuizStore>()(
           loadingOperations: new Set(), // Setze den Zustand der UISlice
           toast: null,               // Setze den Zustand der UISlice
           isQuizDataLoaded: false,
+          userPoints: HintUtils.getInitialUserPoints(),
         }));
 
         console.log('[QuizStore] All quiz states reset complete.');
@@ -78,6 +89,7 @@ export const useQuizStore = create<QuizStore>()(
             navigationHistory: [],
             // Reset UnlockSlice state
             pendingUnlocks: [],
+            userPoints: HintUtils.getInitialUserPoints(),
           });
           console.log('[QuizStore] All persisted data cleared and store reset.');
         } catch (error) {
@@ -119,6 +131,7 @@ export const useQuizStore = create<QuizStore>()(
         quizStates: state.quizStates,
         navigationHistory: state.navigationHistory,
         pendingUnlocks: state.pendingUnlocks,
+        userPoints: state.userPoints
       }),
       onRehydrateStorage: (state) => {
         console.log('[QuizStore] Rehydrating store - START onRehydrateStorage callback');

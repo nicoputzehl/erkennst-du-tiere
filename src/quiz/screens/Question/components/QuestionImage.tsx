@@ -4,8 +4,8 @@ import { StyleSheet, Animated, View, ActivityIndicator } from 'react-native';
 import { useThemeColor } from '@/src/common/hooks/useThemeColor';
 
 interface QuestionImageProps {
-  imageUrl: string;
-  thumbnailUrl?: string;
+  imageUrl: number;
+  thumbnailUrl?: number;
   animatedHeight?: Animated.Value;
 }
 
@@ -36,7 +36,7 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
         )}
         <Image
           source={imageUrl}
-          style={[styles.image, thumbnailUrl && styles.fullImageOverlay]}
+          style={[styles.image, !!thumbnailUrl && styles.fullImageOverlay]}
           contentFit="cover"
           cachePolicy="memory-disk"
           transition={thumbnailUrl ? 400 : 300}
@@ -53,7 +53,7 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
             setIsLoading(false);
           }}
           allowDownscaling={true}
-          recyclingKey={imageUrl}
+          recyclingKey={imageUrl.toString()}
         />
       </Animated.View>
     );

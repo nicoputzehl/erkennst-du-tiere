@@ -1,5 +1,5 @@
 import { createTestQuizQuestion, quizStateBuilder } from "../../testing/testUtils";
-import { QuestionStatus, QuizQuestion } from "../../types";
+import { QuestionStatus, Question } from "../../types";
 import { isAnswerCorrect } from "../answerComparison";
 import { calculateAnswerResult, calculateNewQuestionsAfterCorrectAnswer, findFirstUnsolvedQuestion, findNextInactiveQuestionIndex, findNextUnsolvedQuestionBackward, findNextUnsolvedQuestionForward, getNextActiveQuestionId, sortQuestionsByIds } from "../quizProgression";
 
@@ -10,7 +10,7 @@ jest.mock('../answerComparison', () => ({
 describe('Quiz Progression Utilities', () => {
 
   // Hilfsfunktion zur Erstellung von QuizQuestions mit spezifischem Status
-  const createQuestions = (statuses: QuestionStatus[]): QuizQuestion[] => {
+  const createQuestions = (statuses: QuestionStatus[]): Question[] => {
     return statuses.map((status, index) =>
       createTestQuizQuestion({ id: index + 1, status: status })
     );

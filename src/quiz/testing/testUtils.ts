@@ -1,10 +1,10 @@
-import { Question, QuestionStatus, Quiz, QuizConfig, QuizQuestion, QuizState } from '../types';
+import { Question, QuestionBase, QuestionStatus, Quiz, QuizConfig, QuizState } from '../types';
 import { createQuizConfig } from '../utils/quizCreation';
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
  */
-export const createTestQuestion = (overrides: Partial<Question> = {}): Question => ({
+export const createTestQuestion = (overrides: Partial<QuestionBase> = {}): QuestionBase => ({
   id: 1,
   images: {
     imageUrl: 4,
@@ -21,8 +21,8 @@ export const createTestQuestion = (overrides: Partial<Question> = {}): Question 
  * Erstellt Test-Quiz-Frage mit Status - reine Factory-Funktion
  */
 export const createTestQuizQuestion = (
-  overrides: Partial<QuizQuestion> = {}
-): QuizQuestion => ({
+  overrides: Partial<Question> = {}
+): Question => ({
   id: 1,
   images: {
     imageUrl: 4,
@@ -68,6 +68,7 @@ export const createTestQuizState = (overrides: Partial<QuizState> = {}): QuizSta
   title: 'Test Quiz State',
   questions: [createTestQuizQuestion()],
   completedQuestions: 0,
+  hintStates: {},
   ...overrides,
 });
 

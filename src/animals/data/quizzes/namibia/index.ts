@@ -1,6 +1,8 @@
-import { Question } from "@/src/quiz";
+import {  QuestionBase } from "@/src/quiz";
+import { createAutoFreeHint, createContextualHint, createCustomHint, createFirstLetterHint, createLetterCountHint } from "@/src/quiz/domain/hints/factories";
 
-export const namibia: Question[] = [
+
+export const namibia: QuestionBase[] = [
   {
     id: 1,
     answer: "Leopard",
@@ -11,6 +13,23 @@ export const namibia: Question[] = [
       unsolvedImageUrl: require("./img/leopard_unsolved.jpg"),
       unsolvedThumbnailUrl: require("./img/thumbnails/leopard_unsolved.jpg"),
     },
+        hints: [
+      // Basic Hints (immer verfügbar)
+      createLetterCountHint(1),     // 5 Punkte
+      createFirstLetterHint(1),     // 10 Punkte
+      
+      // Custom Hints (verschiedene Schwierigkeiten)
+      createCustomHint(1, "Lebensraum", "Dieses Tier ist ein hervorragender Kletterer.", 15),
+      createCustomHint(1, "Aussehen", "Hat ein goldgelbes Fell mit schwarzen Rosetten.", 12),
+      
+      // Contextual Hints (kostenlos bei Verwechslungen)
+      createContextualHint(1, ["jaguar"], "Richtige Richtung! Aber lebt in Afrika, nicht Südamerika."),
+      createContextualHint(1, ["gepard"], "Auch gefleckt, aber diese Katze kann sehr gut klettern!"),
+      createContextualHint(1, ["löwe"], "Falsche Großkatze - das gesuchte Tier hat Flecken!"),
+      
+      // Auto-Free Hint (nach 5 falschen Versuchen)
+      createAutoFreeHint(1, "Diese gefleckte Großkatze ist für ihre Kletterfähigkeiten bekannt.")
+    ]
   },
   {
     id: 2,

@@ -1,3 +1,4 @@
+import { HintState } from "./hint";
 import { Question, QuestionBase } from "./question";
 import { UnlockCondition } from "./unlock";
 
@@ -32,6 +33,8 @@ export interface QuizState {
   title: string;
   questions: Question[];
   completedQuestions: number;
+  hintStates: Record<number, HintState>;
+
 }
 
 /**
