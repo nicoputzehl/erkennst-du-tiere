@@ -9,7 +9,7 @@ import { createQuizDataSlice, QuizDataSlice } from './QuizData.slice';
 import { createQuizStateSlice, QuizStateSlice } from './QuizState.slice';
 import { createUISlice, UISlice } from './UI.slice';
 import { createUnlockSlice, UnlockSlice } from './Unlock.slice';
-import {  UserPointsState } from '../types/hint';
+import { UserPointsState } from '../types/hint';
 import { createHintSlice, HintSlice } from './Hint.slice';
 import { HintUtils } from '../domain/hints';
 
@@ -40,35 +40,87 @@ export const useQuizStore = create<QuizStore>()(
       userPoints: HintUtils.getInitialUserPoints(),
 
       // Aktionen, die den gesamten Store betreffen oder Slices koordinieren
+      // src/quiz/store/Quiz.store.ts - FIXED resetAllQuizStates function
+
+      // In der useQuizStore create function, ersetzen Sie die resetAllQuizStates Funktion:
+
       resetAllQuizStates: () => {
         console.log('[QuizStore] Resetting all quiz states (global action)...');
 
         const { quizzes, quizConfigs } = get();
+
+        // WICHTIG: Prüfe ob Quizzes vorhanden sind
+        if (Object.keys(quizzes).length === 0) {
+          console.warn('[QuizStore] No quizzes available for reset. This might indicate a problem.');
+
+          // Setze trotzdem alle Flags zurück
+          set((state) => ({
+            quizStates: {},
+            pendingUnlocks: [],
+            navigationHistory: [],
+            currentQuizId: null,
+            isLoading: false,
+            loadingOperations: new Set(),
+            toast: null,
+            isQuizDataLoaded: false, // WICHTIG: Reset auch das data loaded flag
+            userPoints: HintUtils.getInitialUserPoints(),
+          }));
+
+          console.log('[QuizStore] Reset completed despite missing quizzes.');
+          return;
+        }
+
         const newQuizStates: Record<string, QuizState> = {};
-        Object.values(quizzes).forEach(quiz => {
-          const newQuizState = createQuizState(quiz, {
-            initialUnlockedQuestions: quizConfigs[quiz.id]?.initialUnlockedQuestions || 2
+
+        try {
+          Object.values(quizzes).forEach(quiz => {
+            const config = quizConfigs[quiz.id];
+            if (config) {
+              const newQuizState = createQuizState(quiz, {
+                initialUnlockedQuestions: config.initialUnlockedQuestions || 2
+              });
+              if (newQuizState) {
+                newQuizStates[quiz.id] = newQuizState;
+              }
+            } else {
+              console.warn(`[QuizStore] No config found for quiz ${quiz.id}`);
+            }
           });
-          if (newQuizState) {
-            newQuizStates[quiz.id] = newQuizState;
-          }
-        });
 
-        set((state) => ({
-          quizStates: newQuizStates, // Setze den Zustand der QuizStatesSlice
-          pendingUnlocks: [],        // Setze den Zustand der UnlockSlice
-          navigationHistory: [],     // Setze den Zustand der UISlice
-          currentQuizId: null,       // Setze den Zustand der UISlice
-          isLoading: false,          // Setze den Zustand der UISlice
-          loadingOperations: new Set(), // Setze den Zustand der UISlice
-          toast: null,               // Setze den Zustand der UISlice
-          isQuizDataLoaded: false,
-          userPoints: HintUtils.getInitialUserPoints(),
-        }));
+          console.log(`[QuizStore] Created ${Object.keys(newQuizStates).length} new quiz states`);
 
-        console.log('[QuizStore] All quiz states reset complete.');
+          set((state) => ({
+            quizStates: newQuizStates,
+            pendingUnlocks: [],
+            navigationHistory: [],
+            currentQuizId: null,
+            isLoading: false,
+            loadingOperations: new Set(),
+            toast: null,
+            // WICHTIG: isQuizDataLoaded NICHT zurücksetzen, da die Quizzes noch geladen sind
+            // isQuizDataLoaded: false, // <- Das war das Problem!
+            userPoints: HintUtils.getInitialUserPoints(),
+          }));
+
+          console.log('[QuizStore] All quiz states reset complete.');
+
+        } catch (error) {
+          console.error('[QuizStore] Error during reset:', error);
+
+          // Bei Fehler sicherheitshalber alles zurücksetzen
+          set((state) => ({
+            quizStates: {},
+            pendingUnlocks: [],
+            navigationHistory: [],
+            currentQuizId: null,
+            isLoading: false,
+            loadingOperations: new Set(),
+            toast: null,
+            isQuizDataLoaded: false,
+            userPoints: HintUtils.getInitialUserPoints(),
+          }));
+        }
       },
-
       clearPersistedData: async () => {
         try {
           await AsyncStorage.removeItem(STORAGE_KEY);

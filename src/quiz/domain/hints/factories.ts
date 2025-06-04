@@ -9,36 +9,58 @@ console.log('🏭 [Factories] File loading...');
  */
 export const createLetterCountHint = (questionId: number): DynamicHint => {
   console.log('🏭 [createLetterCountHint] Creating hint for question:', questionId);
-  const hint = {
-
+  
+  const generator = (question: QuestionBase) => {
+    console.log('🏭 [generator] Generating letter count for:', question.answer);
+    return `Das gesuchte Tier hat ${question.answer.length} Buchstaben`;
+  };
+  
+  const hint: DynamicHint = {
     id: `${questionId}_letter_count`,
-    type: HintType.LETTER_COUNT as HintType.LETTER_COUNT,
+    type: HintType.LETTER_COUNT,
     cost: 5,
     title: 'Buchstabenanzahl',
     description: 'Zeigt die Anzahl der Buchstaben',
-    generator: (question: QuestionBase) => `Das gesuchte Tier hat ${question.answer.length} Buchstaben`
-  }
+    generator
+  };
 
   console.log('🏭 [createLetterCountHint] Created hint:', {
     id: hint.id,
-    hasGenerator: typeof hint.generator === 'function'
+    hasGenerator: typeof hint.generator === 'function',
+    generatorString: hint.generator.toString().substring(0, 50) + '...'
   });
 
-  return hint
+  return hint;
 };
 
 /**
  * Erstellt einen Erster-Buchstabe-Hint
  * Kosten: 10 Punkte
  */
-export const createFirstLetterHint = (questionId: number): DynamicHint => ({
-  id: `${questionId}_first_letter`,
-  type: HintType.FIRST_LETTER,
-  cost: 10,
-  title: 'Erster Buchstabe',
-  description: 'Zeigt den ersten Buchstaben',
-  generator: (question) => `Das gesuchte Tier beginnt mit "${question.answer[0].toUpperCase()}"`
-});
+export const createFirstLetterHint = (questionId: number): DynamicHint => {
+  console.log('🏭 [createFirstLetterHint] Creating hint for question:', questionId);
+  
+  const generator = (question: QuestionBase) => {
+    console.log('🏭 [generator] Generating first letter for:', question.answer);
+    return `Das gesuchte Tier beginnt mit "${question.answer[0].toUpperCase()}"`;
+  };
+
+  const hint: DynamicHint = {
+    id: `${questionId}_first_letter`,
+    type: HintType.FIRST_LETTER,
+    cost: 10,
+    title: 'Erster Buchstabe',
+    description: 'Zeigt den ersten Buchstaben',
+    generator
+  };
+
+  console.log('🏭 [createFirstLetterHint] Created hint:', {
+    id: hint.id,
+    hasGenerator: typeof hint.generator === 'function'
+  });
+
+  return hint;
+};
 
 /**
  * Erstellt einen benutzerdefinierten Hint
@@ -52,14 +74,18 @@ export const createCustomHint = (
   title: string,
   content: string,
   cost: number
-): StaticHint => ({
-  id: `${questionId}_custom_${title.toLowerCase().replace(/\s+/g, '_')}`,
-  type: HintType.CUSTOM,
-  cost,
-  title,
-  description: `Individueller Hinweis: ${title}`,
-  content
-});
+): StaticHint => {
+  console.log('🏭 [createCustomHint] Creating custom hint:', { questionId, title, cost });
+  
+  return {
+    id: `${questionId}_custom_${title.toLowerCase().replace(/\s+/g, '_')}`,
+    type: HintType.CUSTOM,
+    cost,
+    title,
+    description: `Individueller Hinweis: ${title}`,
+    content
+  };
+};
 
 /**
  * Erstellt einen kontextuellen Hint (reagiert auf bestimmte Antworten)
@@ -73,15 +99,19 @@ export const createContextualHint = (
   triggers: string[],
   content: string,
   cost: number = 0
-): ContextualHint => ({
-  id: `${questionId}_contextual_${triggers[0].toLowerCase().replace(/\s+/g, '_')}`,
-  type: HintType.CONTEXTUAL,
-  cost,
-  title: 'Spezialhinweis',
-  description: 'Wird bei bestimmten Antworten ausgelöst',
-  triggers,
-  content
-});
+): ContextualHint => {
+  console.log('🏭 [createContextualHint] Creating contextual hint:', { questionId, triggers, cost });
+  
+  return {
+    id: `${questionId}_contextual_${triggers[0].toLowerCase().replace(/\s+/g, '_')}`,
+    type: HintType.CONTEXTUAL,
+    cost,
+    title: 'Spezialhinweis',
+    description: 'Wird bei bestimmten Antworten ausgelöst',
+    triggers,
+    content
+  };
+};
 
 /**
  * Erstellt einen automatisch kostenlosen Hint nach X falschen Versuchen
@@ -93,15 +123,19 @@ export const createAutoFreeHint = (
   questionId: number,
   content: string,
   triggerAfterAttempts: number = 5
-): AutoFreeHint => ({
-  id: `${questionId}_auto_free`,
-  type: HintType.AUTO_FREE,
-  cost: 0,
-  title: 'Kostenloses Hilfswort',
-  description: `Wird nach ${triggerAfterAttempts} falschen Versuchen freigeschaltet`,
-  triggerAfterAttempts,
-  content
-});
+): AutoFreeHint => {
+  console.log('🏭 [createAutoFreeHint] Creating auto-free hint:', { questionId, triggerAfterAttempts });
+  
+  return {
+    id: `${questionId}_auto_free`,
+    type: HintType.AUTO_FREE,
+    cost: 0,
+    title: 'Kostenloses Hilfswort',
+    description: `Wird nach ${triggerAfterAttempts} falschen Versuchen freigeschaltet`,
+    triggerAfterAttempts,
+    content
+  };
+};
 
 /**
  * Erstellt Escalating Auto-Free Hint mit mehreren Stufen
@@ -113,13 +147,17 @@ export const createEscalatingAutoFreeHint = (
   questionId: number,
   contents: string[],
   triggerAfterAttempts: number = 5
-): AutoFreeHint => ({
-  id: `${questionId}_escalating_free`,
-  type: HintType.AUTO_FREE,
-  cost: 0,
-  title: 'Erweiterte Hilfe',
-  description: 'Zusätzliche Hinweise nach vielen Versuchen',
-  triggerAfterAttempts,
-  content: contents[0],
-  escalatingContent: contents
-});
+): AutoFreeHint => {
+  console.log('🏭 [createEscalatingAutoFreeHint] Creating escalating hint:', { questionId, triggerAfterAttempts });
+  
+  return {
+    id: `${questionId}_escalating_free`,
+    type: HintType.AUTO_FREE,
+    cost: 0,
+    title: 'Erweiterte Hilfe',
+    description: 'Zusätzliche Hinweise nach vielen Versuchen',
+    triggerAfterAttempts,
+    content: contents[0],
+    escalatingContent: contents
+  };
+};

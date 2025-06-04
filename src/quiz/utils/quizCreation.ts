@@ -56,15 +56,25 @@ export const createQuizState = (
   config: Pick<QuizConfig, 'initialUnlockedQuestions'> = {}
 ): QuizState => {
   const initialUnlockedQuestions = config.initialUnlockedQuestions || 2;
- console.log('🏗️ [createQuizState]');
+  console.log('🏗️ [createQuizState] Creating state for quiz:', quiz.id);
+  console.log('🏗️ [createQuizState] Quiz questions count:', quiz.questions.length);
 
   const questionStatus = calculateInitialQuestionStatus(
     quiz.questions.length,
     initialUnlockedQuestions
   );
+  
   const hintStates: Record<number, HintState> = {};
 
-  quiz.questions.forEach(question => {
+  // Debug: Prüfe jede Frage und ihre Hints
+  quiz.questions.forEach((question, index) => {
+    console.log(`🏗️ [createQuizState] Processing question ${question.id}:`, {
+      hasHints: !!question.hints,
+      hintsCount: question.hints?.length || 0,
+      firstHintType: question.hints?.[0]?.type,
+      firstHintHasGenerator: question.hints?.[0] ? 'generator' in question.hints[0] : false
+    });
+
     hintStates[question.id] = {
       questionId: question.id,
       usedHints: [],
@@ -73,7 +83,7 @@ export const createQuizState = (
     };
   });
 
-  const result =  {
+  const result: QuizState = {
     id: quiz.id,
     title: quiz.title,
     questions: quiz.questions.map((q, i) => ({
@@ -83,7 +93,20 @@ export const createQuizState = (
     completedQuestions: 0,
     hintStates,
   };
-  console.log('🏗️ [createQuizState] Result hints:', result.questions[0]?.hints?.[0]);
+
+  // Debug: Prüfe die finale Question-Struktur
+  console.log('🏗️ [createQuizState] Final questions analysis:');
+  result.questions.forEach((question, index) => {
+    console.log(`🏗️ Question ${question.id}:`, {
+      hasHints: !!question.hints,
+      hintsCount: question.hints?.length || 0,
+      hintDetails: question.hints?.map(hint => ({
+        id: hint.id,
+        type: hint.type,
+        hasGenerator: 'generator' in hint && typeof (hint as any).generator === 'function'
+      }))
+    });
+  });
+
   return result;
 };
-

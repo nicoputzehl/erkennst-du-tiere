@@ -13,7 +13,7 @@ export const namibia: QuestionBase[] = [
       unsolvedImageUrl: require("./img/leopard_unsolved.jpg"),
       unsolvedThumbnailUrl: require("./img/thumbnails/leopard_unsolved.jpg"),
     },
-        hints: [
+    hints: [
       // Basic Hints (immer verfügbar)
       createLetterCountHint(1),     // 5 Punkte
       createFirstLetterHint(1),     // 10 Punkte
@@ -22,10 +22,11 @@ export const namibia: QuestionBase[] = [
       createCustomHint(1, "Lebensraum", "Dieses Tier ist ein hervorragender Kletterer.", 15),
       createCustomHint(1, "Aussehen", "Hat ein goldgelbes Fell mit schwarzen Rosetten.", 12),
       
-      // Contextual Hints (kostenlos bei Verwechslungen)
+      // Contextual Hints (kostenlos bei Verwechslungen) - FIXED
       createContextualHint(1, ["jaguar"], "Richtige Richtung! Aber lebt in Afrika, nicht Südamerika."),
-      createContextualHint(1, ["gepard"], "Auch gefleckt, aber diese Katze kann sehr gut klettern!"),
-      createContextualHint(1, ["löwe"], "Falsche Großkatze - das gesuchte Tier hat Flecken!"),
+      createContextualHint(1, ["gepard", "cheetah"], "Auch gefleckt, aber diese Katze kann sehr gut klettern!"),
+      createContextualHint(1, ["löwe", "loewe", "lion"], "Falsche Großkatze - das gesuchte Tier hat Flecken!"), // FIXED: löwe hinzugefügt
+      createContextualHint(1, ["tiger"], "Falsche Großkatze - das gesuchte Tier lebt in Afrika!"),
       
       // Auto-Free Hint (nach 5 falschen Versuchen)
       createAutoFreeHint(1, "Diese gefleckte Großkatze ist für ihre Kletterfähigkeiten bekannt.")
