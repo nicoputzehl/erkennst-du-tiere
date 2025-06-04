@@ -1,18 +1,13 @@
+// answerComparison.test.ts
+
+// Direkte Imports der Funktionen, die getestet werden
 import { arePhoneticallySimilar, isAnswerCorrect } from '../answerComparison';
-import { colognePhonetic } from '../colognePhonetic';
-import { normalizeString } from '../normalizeString';
-
-// Mock dependencies
-jest.mock('../colognePhonetic');
-jest.mock('../normalizeString');
-
-const mockColognePhonetic = colognePhonetic as jest.MockedFunction<typeof colognePhonetic>;
-const mockNormalizeString = normalizeString as jest.MockedFunction<typeof normalizeString>;
-
+// KEINE jest.mock() Aufrufe mehr!
 
 describe('arePhoneticallySimilar', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    // Wenn es globale Mocks gäbe, würde man sie hier zurücksetzen.
+    // Aber da wir keine Mocks verwenden, ist dieser Block optional für diese Tests.
   });
 
   describe('input validation', () => {
@@ -30,39 +25,31 @@ describe('arePhoneticallySimilar', () => {
   });
 
   describe('phonetic comparison', () => {
-    it('should return true for identical phonetic codes', () => {
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('123');
-
+    // Hier nutzen wir die tatsächliche Implementierung der Kölner Phonetik.
+    // Die erwarteten Werte müssen genau den tatsächlichen Codes entsprechen.
+    it('should return true for identical phonetic codes (real logic)', () => {
+      // "Müller" und "Mueller" sollten phonetisch gleich sein: 657
       expect(arePhoneticallySimilar('Müller', 'Mueller')).toBe(true);
-      expect(mockColognePhonetic).toHaveBeenCalledWith('Müller');
-      expect(mockColognePhonetic).toHaveBeenCalledWith('Mueller');
     });
 
-    it('should return false for different phonetic codes', () => {
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('456');
-
+    it('should return false for different phonetic codes (real logic)', () => {
+      // "Schmidt" (868) und "Meyer" (67) sollten phonetisch unterschiedlich sein
       expect(arePhoneticallySimilar('Schmidt', 'Meyer')).toBe(false);
     });
 
-    it('should return false for empty phonetic codes', () => {
-      mockColognePhonetic.mockReturnValueOnce('').mockReturnValueOnce('');
-
-      expect(arePhoneticallySimilar('test1', 'test2')).toBe(false);
-    });
-
-    it('should return false when one phonetic code is empty', () => {
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('');
-
-      expect(arePhoneticallySimilar('test1', 'test2')).toBe(false);
+    it('should return false for inputs that result in empty phonetic codes', () => {
+      // Nicht-alphabetische Zeichen führen zu leeren Codes nach Phonetik-Regeln
+      expect(arePhoneticallySimilar('???', '---')).toBe(false);
+      expect(arePhoneticallySimilar('test1', '???')).toBe(false);
     });
   });
 });
 
+
+
 describe('isAnswerCorrect', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    // Default mock für normalizeString
-    mockNormalizeString.mockImplementation((str: string) => str.toLowerCase().trim());
+    // Keine Mocks zum zurücksetzen hier
   });
 
   describe('input validation', () => {
@@ -81,154 +68,83 @@ describe('isAnswerCorrect', () => {
   });
 
   describe('exact matching after normalization', () => {
+    // Hier basiert die Erwartung auf der echten normalizeString-Funktion (toLowerCase().trim())
     it('should return true for identical normalized answers', () => {
-      mockNormalizeString.mockReturnValueOnce('test').mockReturnValueOnce('test');
-
-      expect(isAnswerCorrect('Test', 'TEST')).toBe(true);
-      expect(mockNormalizeString).toHaveBeenCalledWith('Test');
-      expect(mockNormalizeString).toHaveBeenCalledWith('TEST');
+      expect(isAnswerCorrect('Test', 'TEST')).toBe(true); // "test" === "test"
     });
 
     it('should handle case differences through normalization', () => {
-      mockNormalizeString.mockReturnValueOnce('berlin').mockReturnValueOnce('berlin');
+      expect(isAnswerCorrect('Berlin', 'BERLIN')).toBe(true); // "berlin" === "berlin"
+    });
 
-      expect(isAnswerCorrect('Berlin', 'BERLIN')).toBe(true);
+    it('should handle leading/trailing whitespace through normalization', () => {
+        expect(isAnswerCorrect(' Test ', 'test')).toBe(true); // "test" === "test"
     });
   });
 
   describe('phonetic matching', () => {
-    beforeEach(() => {
-      // Mock für unterschiedliche normalisierte Strings
-      mockNormalizeString.mockReturnValueOnce('mueller').mockReturnValueOnce('müller');
-    });
-
     it('should return true for phonetically similar answers', () => {
-      mockColognePhonetic.mockReturnValueOnce('65537').mockReturnValueOnce('65537');
-
+      // "Mueller" (657) und "Müller" (657) sind phonetisch gleich
       expect(isAnswerCorrect('Mueller', 'Müller')).toBe(true);
     });
 
     it('should return false for phonetically different answers', () => {
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('456');
-
+      // "Schmidt" (868) und "Meyer" (67) sind phonetisch unterschiedlich
       expect(isAnswerCorrect('Schmidt', 'Meyer')).toBe(false);
     });
   });
 
   describe('alternative answers', () => {
-    beforeEach(() => {
-      // Mock für unterschiedliche normalisierte Strings
-      mockNormalizeString.mockImplementation((str: string) => {
-        const normalized = str.toLowerCase().trim();
-        return normalized;
-      });
-    });
-
     it('should return false when no alternatives provided', () => {
-      mockNormalizeString.mockReturnValueOnce('user').mockReturnValueOnce('correct');
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('456');
-
-      expect(isAnswerCorrect('user', 'correct')).toBe(false);
+      expect(isAnswerCorrect('user', 'correct')).toBe(false); // Annahme: user und correct sind weder exakt noch phonetisch gleich
     });
 
     it('should return false for empty alternatives array', () => {
-      mockNormalizeString.mockReturnValueOnce('user').mockReturnValueOnce('correct');
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('456');
-
       expect(isAnswerCorrect('user', 'correct', [])).toBe(false);
     });
 
     it('should match against normalized alternative answers', () => {
-      mockNormalizeString
-        .mockReturnValueOnce('berlin') // userAnswer
-        .mockReturnValueOnce('münchen') // correctAnswer
-        .mockReturnValueOnce('berlin'); // alternative
-
-      // Mock phonetic calls that won't be reached due to exact match
-      mockColognePhonetic.mockReturnValue('123');
-
+      // "Berlin" (user) vs "München" (correct) -> kein Match.
+      // Aber "Berlin" (user) vs "BERLIN" (alternative) -> exakter Match nach Normalisierung
       expect(isAnswerCorrect('Berlin', 'München', ['BERLIN', 'Hamburg'])).toBe(true);
     });
 
     it('should match against phonetically similar alternatives', () => {
-      mockNormalizeString
-        .mockReturnValueOnce('mueller') // userAnswer
-        .mockReturnValueOnce('schmidt') // correctAnswer
-        .mockReturnValueOnce('müller'); // alternative
-
-      mockColognePhonetic
-        .mockReturnValueOnce('123') // userAnswer vs correctAnswer
-        .mockReturnValueOnce('456') // correctAnswer
-        .mockReturnValueOnce('65537') // alternative vs userAnswer
-        .mockReturnValueOnce('65537'); // userAnswer
-
+      // "Mueller" (user) vs "Schmidt" (correct) -> kein Match.
+      // Aber "Mueller" (user, 657) vs "Müller" (alternative, 657) -> phonetischer Match
       expect(isAnswerCorrect('Mueller', 'Schmidt', ['Müller'])).toBe(true);
     });
 
     it('should return false when no alternative matches', () => {
-      mockNormalizeString
-        .mockReturnValueOnce('user') // userAnswer
-        .mockReturnValueOnce('correct') // correctAnswer
-        .mockReturnValueOnce('alt1') // alternative 1
-        .mockReturnValueOnce('alt2'); // alternative 2
-
-      mockColognePhonetic
-        .mockReturnValueOnce('123') // userAnswer vs correctAnswer
-        .mockReturnValueOnce('456') // correctAnswer
-        .mockReturnValueOnce('789') // alt1 vs userAnswer
-        .mockReturnValueOnce('123') // userAnswer
-        .mockReturnValueOnce('999') // alt2 vs userAnswer
-        .mockReturnValueOnce('123'); // userAnswer
-
-      expect(isAnswerCorrect('user', 'correct', ['alt1', 'alt2'])).toBe(false);
+      // "User" vs "Correct" -> kein Match.
+      // "User" vs "Alt1" -> kein Match.
+      // "User" vs "Alt2" -> kein Match.
+      expect(isAnswerCorrect('User', 'Correct', ['Alt1', 'Alt2'])).toBe(false);
     });
 
     it('should check multiple alternatives and return true for first match', () => {
-      mockNormalizeString
-        .mockReturnValueOnce('target') // userAnswer
-        .mockReturnValueOnce('correct') // correctAnswer  
-        .mockReturnValueOnce('wrong') // alternative 1
-        .mockReturnValueOnce('target'); // alternative 2
-
-      // Mock phonetic calls that won't be reached due to exact match on alt 2
-      mockColognePhonetic.mockReturnValue('123');
-
+      // "target" vs "correct" -> kein Match.
+      // "target" vs "wrong" -> kein Match.
+      // "target" vs "TARGET" -> exakter Match (nach Normalisierung)
       expect(isAnswerCorrect('target', 'correct', ['wrong', 'TARGET', 'other'])).toBe(true);
     });
   });
 
   describe('integration scenarios', () => {
-    beforeEach(() => {
-      mockNormalizeString.mockImplementation((str: string) => str.toLowerCase().trim());
-    });
-
     it('should handle complex real-world scenario', () => {
       // User answers "Berlin", correct is "München", alternatives include "Berlin"
-      mockNormalizeString
-        .mockReturnValueOnce('berlin') // userAnswer
-        .mockReturnValueOnce('münchen') // correctAnswer
-        .mockReturnValueOnce('hamburg') // alternative 1 - no match
-        .mockReturnValueOnce('berlin'); // alternative 2 - match
-
-      // Mock phonetic calls that won't be reached due to exact match
-      mockColognePhonetic.mockReturnValue('123');
-
-      const result = isAnswerCorrect(
-        'Berlin   ',
-        'München',
-        ['Hamburg', ' Berlin ', 'Dresden']
-      );
-
-      expect(result).toBe(true);
+      expect(
+        isAnswerCorrect(
+          'Berlin   ',
+          'München',
+          ['Hamburg', ' Berlin ', 'Dresden']
+        )
+      ).toBe(true); // Should match ' Berlin ' with 'Berlin   ' after normalization
     });
-    it('should prioritize exact match over phonetic match', () => {
-      mockNormalizeString.mockReturnValueOnce('test').mockReturnValueOnce('test');
-      mockColognePhonetic.mockReturnValueOnce('123').mockReturnValueOnce('123');
 
-      // Even though phonetic function is called, exact match determines the result
+    it('should prioritize exact match over phonetic match', () => {
+      // "test" und "TEST" sind exakt gleich nach Normalisierung, daher sollte der phonetische Vergleich nicht nötig sein
       expect(isAnswerCorrect('test', 'TEST')).toBe(true);
-      expect(mockColognePhonetic).toHaveBeenCalledWith('test');
-      expect(mockColognePhonetic).toHaveBeenCalledWith('TEST');
     });
   });
 });

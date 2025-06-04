@@ -1,38 +1,30 @@
-// app/index.tsx - Korrigierte Version
-import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-import QuizzesScreen from '@/src/quiz/screens/Quizzes/Quizzes';
-import { LoadingComponent } from '@/src/common/components/LoadingComponent';
+// app/index.tsx - Corrected
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
-import { useMemo } from 'react';
+import { LoadingComponent } from '@/src/common/components/LoadingComponent';
+import QuizzesScreen from '@/src/quiz/screens/Quizzes/Quizzes';
+import { useLoading } from '@/src/quiz/store'; // Assuming this provides app-wide loading status
+import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
 
 export default function QuizzesRoute() {
-	const { getAllQuizzes, isLoading, isInitializing, initialized } = useQuiz();
+  // These properties are now available directly from the store,
+  // as QuizProvider ensures they are loaded before QuizzesRoute renders.
+  const { quizzes } = useQuiz();
+  const { isLoading } = useLoading('initialization'); // Still relevant for specific async ops
 
-	const quizzes = useMemo(() => {
-		if (!initialized) {
-			console.log('[QuizzesRoute] Not yet initialized, returning empty array');
-			return [];
-		}
-		
-		const allQuizzes = getAllQuizzes();
-		console.log(`[QuizzesRoute] Got ${allQuizzes.length} quizzes`);
-		return allQuizzes;
-	}, [getAllQuizzes, initialized]);
+  // Logging for debugging the final state
+  console.log(`[QuizzesRoute] Rendering. Quizzes count: ${quizzes.length}, IsLoading (from useLoading): ${isLoading}`);
 
-	// Zeige Loading während der Initialisierung
-	if (isInitializing) {
-		return <LoadingComponent message="App wird initialisiert..." />;
-	}
+  // The main loading check now happens in QuizProvider.
+  // This 'isLoading' here would be for *additional* loading states
+  // that occur *after* initial app startup, e.g., fetching new quizzes from a server.
+  if (isLoading) {
+    return <LoadingComponent message="Zusätzliche Daten werden geladen..." />;
+  }
 
-	// Wenn initialisiert aber keine Quizzes gefunden
-	if (initialized && quizzes.length === 0) {
-		return <ErrorComponent message="Keine Quizzes gefunden. Bitte App neu starten." />;
-	}
+  // Show error if no quizzes are found (this should ideally not happen if initial load is successful)
+  if (quizzes.length === 0) {
+    return <ErrorComponent message="Keine Quizzes gefunden. Bitte App neu starten oder prüfen Sie Ihre Konfiguration." />;
+  }
 
-	// Zeige Loading für andere Ladevorgänge
-	if (isLoading) {
-		return <LoadingComponent message="Quizzes werden geladen..." />;
-	}
-
-	return <QuizzesScreen quizzes={quizzes} />;
+  return <QuizzesScreen quizzes={quizzes} />;
 }

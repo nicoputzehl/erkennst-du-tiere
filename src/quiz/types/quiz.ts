@@ -9,7 +9,7 @@ export interface Quiz {
   id: string;
   title: string;
   questions: QuestionBase[];
-  titleImage?: string;
+  titleImage?: number;
 }
 
 /**

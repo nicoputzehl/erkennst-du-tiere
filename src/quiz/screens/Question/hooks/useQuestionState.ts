@@ -1,4 +1,5 @@
-import { useQuiz } from "@/src/quiz/contexts/QuizProvider";
+import { Question } from "@/src/quiz";
+import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { useMemo } from "react";
 import { QuestionScreenProps } from "../QuestionScreen";
 
@@ -16,7 +17,7 @@ export const useQuestionState = ({quizId, questionId}:QuestionScreenProps) => {
       return { quizState: state, question: null, isLoading: false };
     }
 
-    const foundQuestion = state?.questions.find((q) => q.id === questionNumber);
+    const foundQuestion = state?.questions.find((q:Question) => q.id === questionNumber);
 
     return {
       quizState: state,

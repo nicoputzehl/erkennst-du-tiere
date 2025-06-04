@@ -1,34 +1,35 @@
-import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-
+import { useLoading } from '@/src/quiz/store';
+import {  useQuiz } from '@/src/quiz/store/hooks/useQuiz';
 import { QuizState } from '@/src/quiz/types';
-import { useFocusEffect } from '@react-navigation/native';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export const useQuizScreen = (quizId: string | null) => {
-  const { loadQuiz, getQuizState, getQuizProgress } = useQuiz();
-
-
+export function useQuizScreen(quizId: string | null) {
+  const { getQuizState, initializeQuizState, getQuizProgress } = useQuiz();
+  const { isLoading, startLoading, stopLoading } = useLoading('quizScreen');
+  
   const [quizState, setQuizState] = useState<QuizState | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Initialize quiz when component mounts
   useEffect(() => {
-    const initializeQuiz = async () => {
+    const loadQuiz = async () => {
       if (!quizId) {
         setError('Keine Quiz-ID angegeben');
-        setIsLoading(false);
         return;
       }
 
-      setIsLoading(true);
+      startLoading();
+      setError(null);
+      
       try {
-        console.log(`[useQuizScreen] Loading quiz: ${quizId}`);
-        const state = await loadQuiz(quizId);
+        let state: QuizState | undefined  | null= getQuizState(quizId);
+        
+        if (!state) {
+          state = initializeQuizState(quizId);
+        }
+        
         if (state) {
           setQuizState(state);
-          setError(null);
         } else {
           setError(`Quiz mit ID ${quizId} nicht gefunden`);
         }
@@ -36,47 +37,39 @@ export const useQuizScreen = (quizId: string | null) => {
         console.error(`[useQuizScreen] Error loading quiz ${quizId}:`, err);
         setError(`Fehler beim Laden des Quiz: ${err}`);
       } finally {
-        setIsLoading(false);
+        stopLoading();
       }
     };
 
-    initializeQuiz();
-  }, [quizId, loadQuiz]);
+    loadQuiz();
+  }, [getQuizState, initializeQuizState, quizId, startLoading, stopLoading]);
 
-  // Refresh quiz state when screen comes into focus
-  useFocusEffect(
-    useCallback(() => {
-      if (quizId) {
-        const state = getQuizState(quizId);
-        if (state) {
-          setQuizState(state);
-        }
+  // Refresh state when coming back to screen
+  useEffect(() => {
+    if (quizId) {
+      const currentState = getQuizState(quizId);
+      if (currentState) {
+        setQuizState(currentState);
       }
-    }, [quizId, getQuizState])
-  );
+    }
+  }, [quizId, getQuizState]);
 
+  const handleQuestionClick = (questionId: string) => {
+    if (quizId) {
+      router.navigate(`/quiz/${quizId}/${questionId}`);
+    }
+  };
 
-  // Handle question selection
-  const handleQuestionClick = useCallback(
-    (questionId: string) => {
-      if (quizId) {
-        router.navigate(`/quiz/${quizId}/${questionId}`);
-      }
-    },
-    [quizId]
-  );
-
-  const navigateToQuizzes = useCallback(() => {
+  const navigateBack = () => {
     router.back();
-  }, []);
-
+  };
 
   return {
     quizState,
     isLoading,
     error,
     handleQuestionClick,
-    getQuizProgress,
-    navigateToQuizzes,
+    navigateBack,
+    getQuizProgress
   };
-};
+}

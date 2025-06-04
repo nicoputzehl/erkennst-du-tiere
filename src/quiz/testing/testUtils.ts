@@ -1,5 +1,5 @@
-import { Question, QuizQuestion, QuizState, Quiz, QuizConfig, QuestionStatus } from '../types';
-import { createQuizConfig } from '../utils';
+import { Question, QuestionStatus, Quiz, QuizConfig, QuizQuestion, QuizState } from '../types';
+import { createQuizConfig } from '../utils/quizCreation';
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
@@ -7,8 +7,8 @@ import { createQuizConfig } from '../utils';
 export const createTestQuestion = (overrides: Partial<Question> = {}): Question => ({
   id: 1,
   images: {
-    imageUrl: 'test-image.jpg',
-    thumbnailUrl: 'test-thumb.jpg',
+    imageUrl: 4,
+    thumbnailUrl: 5,
   },
   answer: 'Test Answer',
   alternativeAnswers: ['Alt Answer'],
@@ -25,8 +25,8 @@ export const createTestQuizQuestion = (
 ): QuizQuestion => ({
   id: 1,
   images: {
-    imageUrl: 'test-image.jpg',
-    thumbnailUrl: 'test-thumb.jpg',
+    imageUrl: 4,
+    thumbnailUrl: 5,
   },
   answer: 'Test Answer',
   alternativeAnswers: ['Alt Answer'],

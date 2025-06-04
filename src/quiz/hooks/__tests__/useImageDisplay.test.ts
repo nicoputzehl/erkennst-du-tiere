@@ -2,6 +2,10 @@ import { QuestionStatus } from '@/src/quiz/types';
 import { createTestQuizQuestion } from '../../testing/testUtils';
 import { ImageType, useImageDisplay } from '../useImageDisplay';
 
+const IMAGE_URL = 1;
+const THUMBNAIL_URL = 2;
+const UNSOLVED_IMAGE_URL = 3;
+const UNSOLVED_THUMBNAIL_URL = 4;
 
 // Mock für React hooks
 const mockUseMemo = jest.fn();
@@ -24,40 +28,40 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/unsolved.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(UNSOLVED_IMAGE_URL);
     });
 
     it('should return regular image when question is solved', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.SOLVED,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/image.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(IMAGE_URL);
     });
 
     it('should return regular image when unsolved image does not exist', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
           unsolvedImageUrl: undefined,
           unsolvedThumbnailUrl: undefined,
         },
@@ -65,46 +69,46 @@ describe('useImageDisplay Hook', () => {
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/image.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(IMAGE_URL);
     });
 
     it('should return unsolved thumbnail when question is unsolved and unsolved thumbnail exists', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/unsolved-thumb.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(UNSOLVED_THUMBNAIL_URL);
     });
 
     it('should return regular thumbnail when question is solved', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.SOLVED,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/thumb.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(THUMBNAIL_URL);
     });
 
     it('should fallback to regular image when thumbnail does not exist', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.SOLVED,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
+          imageUrl: IMAGE_URL,
           thumbnailUrl: undefined,
           unsolvedImageUrl: undefined,
           unsolvedThumbnailUrl: undefined,
@@ -113,15 +117,15 @@ describe('useImageDisplay Hook', () => {
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/image.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(IMAGE_URL);
     });
 
     it('should fallback to regular thumbnail when unsolved thumbnail does not exist', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
           unsolvedImageUrl: undefined,
           unsolvedThumbnailUrl: undefined,
         },
@@ -129,7 +133,7 @@ describe('useImageDisplay Hook', () => {
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/thumb.jpg');
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(THUMBNAIL_URL);
     });
 
     it('should handle default test question from testUtils', () => {
@@ -138,8 +142,8 @@ describe('useImageDisplay Hook', () => {
       const { getImageUrl } = useImageDisplay(question);
 
       // Default status ist ACTIVE, keine unsolved images
-      expect(getImageUrl(ImageType.IMG)).toBe('test-image.jpg');
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('test-thumb.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(4);
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(5);
     });
   });
 
@@ -148,9 +152,9 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
           unsolvedThumbnailUrl: undefined,
         },
       });
@@ -164,10 +168,10 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
           unsolvedImageUrl: undefined,
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
@@ -180,10 +184,10 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.SOLVED,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
@@ -196,8 +200,8 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
           unsolvedImageUrl: undefined,
           unsolvedThumbnailUrl: undefined,
         },
@@ -216,21 +220,6 @@ describe('useImageDisplay Hook', () => {
       expect(shouldShowUnsolvedImage).toBe(false);
     });
 
-    it('should handle empty string as falsy for unsolved images', () => {
-      const question = createTestQuizQuestion({
-        status: QuestionStatus.ACTIVE,
-        images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: '',
-          unsolvedThumbnailUrl: '',
-        },
-      });
-
-      const { shouldShowUnsolvedImage } = useImageDisplay(question);
-
-      expect(shouldShowUnsolvedImage).toBe(false);
-    });
   });
 
   describe('useMemo dependencies', () => {
@@ -270,7 +259,7 @@ describe('useImageDisplay Hook', () => {
     it('should handle null/undefined image URLs gracefully', () => {
       const question = createTestQuizQuestion({
         images: {
-          imageUrl: 'https://example.com/image.jpg',
+          imageUrl: IMAGE_URL,
           thumbnailUrl: null as any,
           unsolvedImageUrl: null as any,
           unsolvedThumbnailUrl: null as any,
@@ -300,16 +289,17 @@ describe('useImageDisplay Hook', () => {
     });
 
     it('should handle minimal question data', () => {
+      const MINMAL = 5;
       const question = createTestQuizQuestion({
         images: {
-          imageUrl: 'minimal.jpg',
+          imageUrl: MINMAL,
         },
       });
 
       const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.IMG)).toBe('minimal.jpg');
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('minimal.jpg'); // Fallback
+      expect(getImageUrl(ImageType.IMG)).toBe(MINMAL);
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(MINMAL); // Fallback
       expect(shouldShowUnsolvedImage).toBe(false);
     });
   });
@@ -319,10 +309,10 @@ describe('useImageDisplay Hook', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
@@ -333,24 +323,24 @@ describe('useImageDisplay Hook', () => {
       const secondCall = getImageUrl(ImageType.IMG);
 
       expect(firstCall).toBe(secondCall);
-      expect(firstCall).toBe('https://example.com/unsolved.jpg');
+      expect(firstCall).toBe(UNSOLVED_IMAGE_URL);
     });
 
     it('should handle both ImageType values correctly', () => {
       const question = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'https://example.com/image.jpg',
-          thumbnailUrl: 'https://example.com/thumb.jpg',
-          unsolvedImageUrl: 'https://example.com/unsolved.jpg',
-          unsolvedThumbnailUrl: 'https://example.com/unsolved-thumb.jpg',
+          imageUrl: IMAGE_URL,
+          thumbnailUrl: THUMBNAIL_URL,
+          unsolvedImageUrl: UNSOLVED_IMAGE_URL,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL_URL,
         },
       });
 
       const { getImageUrl } = useImageDisplay(question);
 
-      expect(getImageUrl(ImageType.IMG)).toBe('https://example.com/unsolved.jpg');
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('https://example.com/unsolved-thumb.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(UNSOLVED_IMAGE_URL);
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(UNSOLVED_THUMBNAIL_URL);
     });
 
     it('should work with default test question setup', () => {
@@ -360,8 +350,8 @@ describe('useImageDisplay Hook', () => {
 
       // Test default behavior
       expect(shouldShowUnsolvedImage).toBe(false);
-      expect(getImageUrl(ImageType.IMG)).toBe('test-image.jpg');
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('test-thumb.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(4);
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(5);
     });
   });
 
@@ -378,21 +368,25 @@ describe('useImageDisplay Hook', () => {
     });
 
     it('should handle complex image configurations', () => {
+      const SOLVED_IMG = 6;
+      const SOLVED_THUMBNAIL = 7;
+      const UNSOLVED_IMG = 8;
+      const UNSOLVED_THUMBNAIL = 9;
       const questionWithUnsolvedImages = createTestQuizQuestion({
         status: QuestionStatus.ACTIVE,
         images: {
-          imageUrl: 'solved.jpg',
-          thumbnailUrl: 'solved-thumb.jpg',
-          unsolvedImageUrl: 'unsolved.jpg',
-          unsolvedThumbnailUrl: 'unsolved-thumb.jpg',
+          imageUrl: SOLVED_IMG,
+          thumbnailUrl: SOLVED_THUMBNAIL,
+          unsolvedImageUrl: UNSOLVED_IMG,
+          unsolvedThumbnailUrl: UNSOLVED_THUMBNAIL,
         },
       });
 
       const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(questionWithUnsolvedImages);
 
       expect(shouldShowUnsolvedImage).toBe(true);
-      expect(getImageUrl(ImageType.IMG)).toBe('unsolved.jpg');
-      expect(getImageUrl(ImageType.THUMBNAIL)).toBe('unsolved-thumb.jpg');
+      expect(getImageUrl(ImageType.IMG)).toBe(UNSOLVED_IMG);
+      expect(getImageUrl(ImageType.THUMBNAIL)).toBe(UNSOLVED_THUMBNAIL);
     });
   });
 });

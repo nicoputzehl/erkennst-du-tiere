@@ -1,7 +1,8 @@
-// src/settings/screens/SettingsScreen.tsx - Korrigierte Version
 import Header from '@/src/common/components/Header';
 import { ThemedView } from '@/src/common/components/ThemedView';
-import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
+import { useQuizStatistics, useUI } from '@/src/quiz/store';
+import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
 	ActivityIndicator,
@@ -12,41 +13,30 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { router } from 'expo-router';
 
 export function SettingsScreen() {
-	const {
-		resetQuiz,
-		getAllQuizzes,
-		clearAllData,
-		showSuccessToast,
-		showErrorToast,
-	} = useQuiz();
+	const { quizzes, resetQuizState, resetAllQuizStates } = useQuiz();
+	const { showSuccess, showError } = useUI();
+	const statistics = useQuizStatistics();
 
-	const [isResetting, setIsResetting] = useState<Record<string, boolean>>({});
-	const [isResettingAll, setIsResettingAll] = useState(false);
+	const [resettingQuiz, setResettingQuiz] = useState<string | null>(null);
+	const [resettingAll, setResettingAll] = useState(false);
 
-	const quizzes = getAllQuizzes();
-
-	const handleResetQuiz = async (quizId: string) => {
-		setIsResetting(prev => ({ ...prev, [quizId]: true }));
+	const handleResetQuiz = async (quizId: string, quizTitle: string) => {
+		setResettingQuiz(quizId);
 
 		try {
-			await resetQuiz(quizId);
-			showSuccessToast(
-				`Quiz "${
-					quizzes.find(q => q.id === quizId)?.title || quizId
-				}" zurückgesetzt!`
-			);
+			resetQuizState(quizId);
+			showSuccess(`Quiz "${quizTitle}" zurückgesetzt!`);
 		} catch (error) {
-			console.error(`[SettingsScreen] Error resetting quiz ${quizId}:`, error);
-			showErrorToast(`Fehler beim Zurücksetzen: ${error}`);
+			console.error(`Error resetting quiz ${quizId}:`, error);
+			showError(`Fehler beim Zurücksetzen: ${error}`);
 		} finally {
-			setIsResetting(prev => ({ ...prev, [quizId]: false }));
+			setResettingQuiz(null);
 		}
 	};
 
-	const handleResetAllQuizzes = async () => {
+	const handleResetAll = () => {
 		Alert.alert(
 			'Alle Quizzes zurücksetzen?',
 			'Möchtest du wirklich alle Quiz-Fortschritte zurücksetzen?',
@@ -56,14 +46,14 @@ export function SettingsScreen() {
 					text: 'Zurücksetzen',
 					style: 'destructive',
 					onPress: async () => {
-						setIsResettingAll(true);
+						setResettingAll(true);
 						try {
-							await clearAllData();
-							showSuccessToast('Alle Quizzes wurden zurückgesetzt!');
+							await resetAllQuizStates();
+							showSuccess('Alle Quizzes wurden zurückgesetzt!');
 						} catch (error) {
-							showErrorToast(`Fehler: ${error}`);
+							showError(`Fehler: ${error}`);
 						} finally {
-							setIsResettingAll(false);
+							setResettingAll(false);
 						}
 					},
 				},
@@ -78,7 +68,32 @@ export function SettingsScreen() {
 				showBackButton
 				onBackPress={() => router.back()}
 			/>
+
 			<ScrollView style={styles.scrollView}>
+				{/* Statistics Section */}
+				<View style={styles.section}>
+					<Text style={styles.sectionTitle}>Statistiken</Text>
+					<View style={styles.statRow}>
+						<Text style={styles.statLabel}>Abgeschlossene Quizzes:</Text>
+						<Text style={styles.statValue}>
+							{statistics.completedQuizzes} / {statistics.totalQuizzes}
+						</Text>
+					</View>
+					<View style={styles.statRow}>
+						<Text style={styles.statLabel}>Beantwortete Fragen:</Text>
+						<Text style={styles.statValue}>
+							{statistics.completedQuestions} / {statistics.totalQuestions}
+						</Text>
+					</View>
+					<View style={styles.statRow}>
+						<Text style={styles.statLabel}>Gesamtfortschritt:</Text>
+						<Text style={styles.statValue}>
+							{statistics.completionPercentage}%
+						</Text>
+					</View>
+				</View>
+
+				{/* Reset Section */}
 				<View style={styles.section}>
 					<Text style={styles.sectionTitle}>
 						Quiz-Fortschritte zurücksetzen
@@ -87,12 +102,12 @@ export function SettingsScreen() {
 					<TouchableOpacity
 						style={[
 							styles.resetAllButton,
-							isResettingAll && styles.disabledButton,
+							resettingAll && styles.disabledButton,
 						]}
-						onPress={handleResetAllQuizzes}
-						disabled={isResettingAll}
+						onPress={handleResetAll}
+						disabled={resettingAll}
 					>
-						{isResettingAll ? (
+						{resettingAll ? (
 							<ActivityIndicator
 								size='small'
 								color='#fff'
@@ -109,12 +124,12 @@ export function SettingsScreen() {
 							key={quiz.id}
 							style={[
 								styles.quizResetButton,
-								isResetting[quiz.id] && styles.disabledButton,
+								resettingQuiz === quiz.id && styles.disabledButton,
 							]}
-							onPress={() => handleResetQuiz(quiz.id)}
-							disabled={isResetting[quiz.id]}
+							onPress={() => handleResetQuiz(quiz.id, quiz.title)}
+							disabled={resettingQuiz === quiz.id}
 						>
-							{isResetting[quiz.id] ? (
+							{resettingQuiz === quiz.id ? (
 								<ActivityIndicator
 									size='small'
 									color='#fff'
@@ -128,6 +143,7 @@ export function SettingsScreen() {
 					))}
 				</View>
 
+				{/* App Info Section */}
 				<View style={styles.section}>
 					<Text style={styles.sectionTitle}>App-Informationen</Text>
 					<Text style={styles.infoText}>Version: 1.0.0</Text>
@@ -158,6 +174,22 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: '600',
 		marginBottom: 16,
+		color: '#343a40',
+	},
+	statRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 8,
+	},
+	statLabel: {
+		fontSize: 14,
+		color: '#6c757d',
+	},
+	statValue: {
+		fontSize: 14,
+		fontWeight: '600',
+		color: '#495057',
 	},
 	resetAllButton: {
 		backgroundColor: '#dc3545',
@@ -189,9 +221,5 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#6c757d',
 		marginBottom: 8,
-	},
-	backButton: {
-		fontSize: 16,
-		color: '#0a7ea4',
 	},
 });

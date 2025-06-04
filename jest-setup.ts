@@ -1,4 +1,26 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+
+const originalConsole = { ...console }; // Eine Kopie des originalen Konsolenobjekts
+
+beforeAll(() => {
+  // Direkte Zuweisung der Mock-Funktionen
+  console.log = jest.fn();
+  console.warn = jest.fn();
+  console.error = jest.fn();
+  console.info = jest.fn();
+  console.debug = jest.fn();
+});
+
+afterAll(() => {
+  // Stellen Sie die ursprünglichen Konsolen-Methoden wieder her
+  console.log = originalConsole.log;
+  console.warn = originalConsole.warn;
+  console.error = originalConsole.error;
+  console.info = originalConsole.info;
+  console.debug = originalConsole.debug;
+});
+
+
 // Mock für AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')

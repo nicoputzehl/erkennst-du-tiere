@@ -7,7 +7,7 @@ export enum ImageType {
 }
 
 interface UseImageDisplayReturn {
-  getImageUrl: (type: ImageType) => string;
+  getImageUrl: (type: ImageType) => number;
   shouldShowUnsolvedImage: boolean;
 }
 
@@ -16,7 +16,7 @@ export const useImageDisplay = (question: QuizQuestion): UseImageDisplayReturn =
   const createImageSelector = useMemo(() => {
     return (type: ImageType) => {
       // Innere Closure: Prüft Status und gibt entsprechende URL zurück
-      return (showUnsolved: boolean): string => {
+      return (showUnsolved: boolean): number => {
         if (type === ImageType.IMG) {
           return showUnsolved && question.images.unsolvedImageUrl
             ? question.images.unsolvedImageUrl
@@ -38,7 +38,7 @@ export const useImageDisplay = (question: QuizQuestion): UseImageDisplayReturn =
 
   // Public API: Einfache Funktion die Type entgegennimmt
   const getImageUrl = useMemo(() => {
-    return (type: ImageType): string => {
+    return (type: ImageType): number => {
       const imageSelector = createImageSelector(type);
       return imageSelector(shouldShowUnsolvedImage);
     };

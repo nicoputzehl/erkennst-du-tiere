@@ -1,5 +1,6 @@
-import { useQuiz } from '@/src/quiz/contexts/QuizProvider';
-import { QuestionStatus, QuizQuestion, QuizState } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
+import { useUI } from '@/src/quiz/store';
+import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
+import { QuestionStatus, QuizConfig, QuizQuestion, QuizState } from '@/src/quiz/types'; // Vereinfachte Types ohne Generics
 import { router } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -8,7 +9,8 @@ export const useQuestion = (
   question: QuizQuestion
 ) => {
   const isSolved = question.status === QuestionStatus.SOLVED;
-  const { getQuizState, updateQuizState, answerQuizQuestion, showSuccessToast } = useQuiz();
+  const { getQuizState, updateQuizState, answerQuestion } = useQuiz();
+  const { showSuccess} = useUI();
 
   const [showResult, setShowResult] = useState(isSolved);
   const [isCorrect, setIsCorrect] = useState(isSolved);
@@ -64,7 +66,7 @@ export const useQuestion = (
     try {
       console.log(`[useQuestion] Submitting answer for quiz ${quizId}, question ${question.id}`);
 
-      const result = await answerQuizQuestion(
+      const result = await answerQuestion(
         quizId,
         question.id,
         answer.trim()
@@ -83,13 +85,13 @@ export const useQuestion = (
           console.log(`[useQuestion] Showing toasts for ${result.unlockedQuizzes.length} unlocked quiz(zes)`);
 
           // Zeige Toast für jedes freigeschaltete Quiz
-          result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
+          result.unlockedQuizzes.forEach((unlockedQuiz: QuizConfig, index: number) => {
             console.log(`[useQuestion] Scheduling toast for "${unlockedQuiz.title}" with delay ${index * 500}ms`);
 
             // Delay für mehrere Toasts, damit sie nacheinander erscheinen
             setTimeout(() => {
               console.log(`[useQuestion] Showing toast for "${unlockedQuiz.title}"`);
-              showSuccessToast(
+              showSuccess(
                 `🎉 Neues Quiz "${unlockedQuiz.title}" wurde freigeschaltet!`,
                 4000
               );
@@ -107,7 +109,7 @@ export const useQuestion = (
     } finally {
       setIsSubmitting(false);
     }
-  }, [quizId, question.id, answer, answerQuizQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer, showSuccessToast]);
+  }, [quizId, question.id, answer, answerQuestion, isSubmitting, processCorrectAnswer, processIncorrectAnswer, showSuccess]);
 
   return {
     quizState,

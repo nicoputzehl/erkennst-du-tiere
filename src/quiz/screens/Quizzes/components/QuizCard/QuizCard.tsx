@@ -1,8 +1,7 @@
-// src/quiz/screens/Quizzes/components/QuizCard/QuizCard.tsx - FINAL FIXED VERSION
+import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
 import { Quiz } from '@/src/quiz/types';
 import { useQuizzes } from '../../hooks/useQuizzes';
 import { QuizCardView } from './QuizCardView';
-import { useUnlockSystem } from '@/src/quiz/hooks/useUnlockSystem';
 
 export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
   const {
@@ -12,11 +11,9 @@ export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
     getQuizProgressString,
   } = useQuizzes();
 
-  const { getUnlockProgress, isQuizUnlocked } = useUnlockSystem();
-  
+  const { getUnlockProgress, isQuizUnlocked } = useQuiz();
   
   const isLocked = !isQuizUnlocked(quiz.id);
-  
   const unlockInfo = isLocked ? getUnlockProgress(quiz.id) : undefined;
 
   return (

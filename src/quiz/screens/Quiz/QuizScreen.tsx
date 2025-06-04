@@ -21,7 +21,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 		error,
 		handleQuestionClick,
 		getQuizProgress,
-		navigateToQuizzes,
+		navigateBack,
 	} = useQuizScreen(quizId);
 	const itemWidth = calculateItemWidth();
 
@@ -40,7 +40,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 		>
 			<Header
 				showBackButton
-				onBackPress={navigateToQuizzes}
+				onBackPress={navigateBack}
 				title={quizState!.title}
 			/>
 			<View style={styles.scrollContent}>

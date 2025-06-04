@@ -1,15 +1,22 @@
-import { colognePhonetic } from "./colognePhonetic";
-import { normalizeString } from "./normalizeString";
+import { colognePhonetic, normalizeString } from './stringManipulation'; // Importiere von der neuen Datei
 
 export function arePhoneticallySimilar(answer1: string, answer2: string): boolean {
-  if (!answer1.trim() || !answer2.trim()) {
+  if (!answer1 || !answer2) { // Prüfe auf leere Strings VOR dem Trimmen
+    return false;
+  }
+
+  const trimmedAnswer1 = answer1.trim();
+  const trimmedAnswer2 = answer2.trim();
+
+  if (!trimmedAnswer1 || !trimmedAnswer2) { // Nach dem Trimmen prüfen
     return false;
   }
   
-  const phonetic1 = colognePhonetic(answer1);
-  const phonetic2 = colognePhonetic(answer2);
+  const phonetic1 = colognePhonetic(trimmedAnswer1);
+  const phonetic2 = colognePhonetic(trimmedAnswer2);
   
-  return phonetic1.length > 0 && phonetic1 === phonetic2;
+  // Beide müssen einen Code haben und gleich sein
+  return phonetic1.length > 0 && phonetic2.length > 0 && phonetic1 === phonetic2;
 }
 
 export const isAnswerCorrect = (
@@ -17,33 +24,35 @@ export const isAnswerCorrect = (
   correctAnswer: string,
   alternativeAnswers?: string[]
 ): boolean => {
-  if(!userAnswer || !correctAnswer) {
-    return false
+  if (!userAnswer || !correctAnswer) { // Basic null/undefined/empty check
+    return false;
   }
 
   const normalizedUserAnswer = normalizeString(userAnswer);
   const normalizedCorrectAnswer = normalizeString(correctAnswer);
 
+  // 1. Exakter, normalisierter Vergleich
   if (normalizedUserAnswer === normalizedCorrectAnswer) {
     return true;
   }
 
-  else if (arePhoneticallySimilar(userAnswer, correctAnswer)) {
+  // 2. Phonetischer Vergleich mit der korrekten Antwort
+  if (arePhoneticallySimilar(userAnswer, correctAnswer)) {
     return true;
   }
 
-  else  if (!alternativeAnswers?.length) {
-    return false;
-  }
-
-  for (const alt of alternativeAnswers) {
-    const normalizedAlt = normalizeString(alt);
-    if (normalizedAlt === normalizedUserAnswer || 
-        arePhoneticallySimilar(alt, userAnswer)) {
-      return true;
+  // 3. Alternative Antworten prüfen (falls vorhanden)
+  if (alternativeAnswers?.length) {
+    for (const alt of alternativeAnswers) {
+      if (!alt) continue; // Leere alternative Antworten überspringen
+      const normalizedAlt = normalizeString(alt);
+      
+      if (normalizedAlt === normalizedUserAnswer ||
+          arePhoneticallySimilar(alt, userAnswer)) {
+        return true;
+      }
     }
   }
 
   return false;
 };
-

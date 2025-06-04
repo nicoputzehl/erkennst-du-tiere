@@ -1,11 +1,10 @@
-import { useQuiz } from "@/src/quiz/contexts/QuizProvider";
+import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 export const useQuizzes = () => {
-  const { setCurrentQuizId, getUnlockProgress, getQuizProgress, getQuizProgressString, initializeQuizState, getQuizState } = useQuiz();
+  const { setCurrentQuiz, getUnlockProgress, getQuizProgress, getQuizProgressString, initializeQuizState, getQuizState } = useQuiz();
   const [isLoading, setIsLoading] = useState(false);
-
 
     useEffect(() => {
       console.log('[useQuizzes] hook rendering');
@@ -50,7 +49,7 @@ export const useQuizzes = () => {
           }
   
           // Zum Quiz navigieren
-          setCurrentQuizId(quizId);
+          setCurrentQuiz(quizId);
           router.navigate(`/quiz/${quizId}`);
         } catch (error) {
           console.error(
@@ -61,9 +60,8 @@ export const useQuizzes = () => {
           setIsLoading(false);
         }
       },
-      [initializeQuizState, setCurrentQuizId]
+      [initializeQuizState, setCurrentQuiz]
     );
-  
   
   return {
     isLoading,

@@ -1,0 +1,138 @@
+
+import { subscribeWithSelector, persist, StorageValue } from 'zustand/middleware';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { QuizState } from '../types';
+import { create } from 'zustand';
+import { createQuizState } from '../utils/quizCreation';
+
+import { createQuizDataSlice, QuizDataSlice } from './QuizData.slice';
+import { createQuizStateSlice, QuizStateSlice } from './QuizState.slice';
+import { createUISlice, UISlice } from './UI.slice';
+import { createUnlockSlice, UnlockSlice } from './Unlock.slice';
+
+export interface QuizStore extends QuizDataSlice, QuizStateSlice, UISlice, UnlockSlice {
+  // Persistence-Aktion auf der obersten Ebene
+  clearPersistedData: () => Promise<void>;
+}
+
+const STORAGE_KEY = 'quiz_store_v1';
+
+// Definieren des Typs für die persistierten Eigenschaften
+type PersistedQuizStore = Pick<QuizStore, 'quizStates' | 'navigationHistory' | 'pendingUnlocks'>;
+
+export const useQuizStore = create<QuizStore>()(
+  persist(
+    subscribeWithSelector((set, get, store) => ({ // Added 'store' argument here
+      // Kombiniere die Slices
+      ...createQuizDataSlice(set, get, store), // Pass 'store' to slice creators
+      ...createQuizStateSlice(set, get, store), // Pass 'store' to slice creators
+      ...createUISlice(set, get, store), // Pass 'store' to slice creators
+      ...createUnlockSlice(set, get, store), // Pass 'store' to slice creators
+
+      // Aktionen, die den gesamten Store betreffen oder Slices koordinieren
+      resetAllQuizStates: () => {
+        console.log('[QuizStore] Resetting all quiz states (global action)...');
+
+        const { quizzes, quizConfigs } = get();
+        const newQuizStates: Record<string, QuizState> = {};
+        Object.values(quizzes).forEach(quiz => {
+          const newQuizState = createQuizState(quiz, {
+            initialUnlockedQuestions: quizConfigs[quiz.id]?.initialUnlockedQuestions || 2
+          });
+          if (newQuizState) {
+            newQuizStates[quiz.id] = newQuizState;
+          }
+        });
+
+        set((state) => ({
+          quizStates: newQuizStates, // Setze den Zustand der QuizStatesSlice
+          pendingUnlocks: [],        // Setze den Zustand der UnlockSlice
+          navigationHistory: [],     // Setze den Zustand der UISlice
+          currentQuizId: null,       // Setze den Zustand der UISlice
+          isLoading: false,          // Setze den Zustand der UISlice
+          loadingOperations: new Set(), // Setze den Zustand der UISlice
+          toast: null,               // Setze den Zustand der UISlice
+          isQuizDataLoaded: false,
+        }));
+
+        console.log('[QuizStore] All quiz states reset complete.');
+      },
+
+      clearPersistedData: async () => {
+        try {
+          await AsyncStorage.removeItem(STORAGE_KEY);
+          // Setze den gesamten Store auf den Initialzustand zurück, indem die Zustandseigenschaften direkt zurückgesetzt werden.
+          // Dies vermeidet den Fehler "Expected 3 arguments, but got 2" bei der erneuten Initialisierung der Slices.
+          set({
+            // Reset QuizDataSlice state
+            quizzes: {},
+            quizConfigs: {},
+            isQuizDataLoaded: false,
+            // Reset QuizStateSlice state
+            quizStates: {},
+            // Reset UISlice state
+            currentQuizId: null,
+            isLoading: false,
+            loadingOperations: new Set(),
+            toast: null,
+            navigationHistory: [],
+            // Reset UnlockSlice state
+            pendingUnlocks: [],
+          });
+          console.log('[QuizStore] All persisted data cleared and store reset.');
+        } catch (error) {
+          console.error('[QuizStore] Failed to clear persisted data:', error);
+          throw error;
+        }
+      }
+    })),
+    {
+      name: STORAGE_KEY,
+      storage: {
+        getItem: async (name: string) => {
+          try {
+            const value = await AsyncStorage.getItem(name);
+            return value ? JSON.parse(value) : null;
+          } catch (error) {
+            console.error(`[QuizStore] Failed to get item from storage (${name}):`, error);
+            throw error;
+          }
+        },
+        setItem: async (name: string, value: StorageValue<PersistedQuizStore>) => {
+          try {
+            await AsyncStorage.setItem(name, JSON.stringify(value));
+          } catch (error) {
+            console.error(`[QuizStore] Failed to set item to storage (${name}):`, error);
+            throw error;
+          }
+        },
+        removeItem: async (name: string) => {
+          try {
+            await AsyncStorage.removeItem(name);
+          } catch (error) {
+            console.error(`[QuizStore] Failed to remove item from storage (${name}):`, error);
+            throw error;
+          }
+        },
+      },
+      partialize: (state): PersistedQuizStore => ({
+        quizStates: state.quizStates,
+        navigationHistory: state.navigationHistory,
+        pendingUnlocks: state.pendingUnlocks,
+      }),
+      onRehydrateStorage: (state) => {
+        console.log('[QuizStore] Rehydrating store - START onRehydrateStorage callback');
+        return (persistedState, error) => {
+          if (error) {
+            console.error('[QuizStore] Hydration failed', error);
+            useQuizStore.getState().showToast('Fehler beim Laden der Daten!', 'error', 5000);
+          } else {
+            console.log('[QuizStore] Hydration successful. Now performing post-hydration tasks.');
+            useQuizStore.getState().detectMissedUnlocks(); // Aufruf einer Aktion aus UnlockSlice
+          }
+          console.log('[QuizStore] Rehydrating store - END onRehydrateStorage callback');
+        };
+      },
+    }
+  )
+);
