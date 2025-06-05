@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useThemeColor } from '@/src/common/hooks/useThemeColor';
 import { useHints } from '../store/hooks/useHints';
@@ -24,100 +24,140 @@ export const HintPanel: React.FC<HintPanelProps> = ({
   const textColor = useThemeColor({}, 'text') as string;
   const backgroundColor = useThemeColor({}, 'background') as string;
   
-  const handleUseHint = async (hintId: string) => {
+  const handleUseHint = useCallback(async (hintId: string) => {
     const result = await applyHint(hintId);
     if (result.success && result.hintContent) {
       setUsedHintContent(result.hintContent);
     }
-  };
+  }, [applyHint]);
 
-  if (!isVisible) return null;
+  const handleClose = useCallback(() => {
+    console.log('[HintPanel] Close button pressed');
+    setUsedHintContent(null);
+    onClose();
+  }, [onClose]);
+
+  const handleBackdropPress = useCallback(() => {
+    console.log('[HintPanel] Backdrop pressed');
+    handleClose();
+  }, [handleClose]);
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
-    <View style={[styles.overlay, { backgroundColor: 'rgba(0,0,0,0.7)' }]}>
-      <View style={[styles.panel, { backgroundColor }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: textColor }]}>Hinweise</Text>
-          <View style={styles.pointsContainer}>
-            <FontAwesome6 name="coins" size={16} color="#FFD700" />
-            <Text style={[styles.pointsText, { color: textColor }]}>
-              {pointsBalance} Punkte
-            </Text>
-          </View>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <FontAwesome6 name="times" size={20} color={textColor} />
-          </TouchableOpacity>
-        </View>
-
-        {/* Used Hint Display */}
-        {usedHintContent && (
-          <View style={styles.usedHintContainer}>
-            <Text style={styles.usedHintTitle}>💡 Dein Hinweis:</Text>
-            <Text style={styles.usedHintContent}>{usedHintContent}</Text>
-          </View>
-        )}
-
-        {/* Available Hints */}
-        <ScrollView style={styles.hintsList}>
-          {availableHints.map(({ hint, canUse, reason, content }) => (
-            <TouchableOpacity
-              key={hint.id}
-              style={[
-                styles.hintButton,
-                !canUse && styles.disabledHint,
-                hint.cost === 0 && styles.freeHint
-              ]}
-              onPress={() => canUse && handleUseHint(hint.id)}
-              disabled={!canUse}
-            >
-              <View style={styles.hintHeader}>
-                <Text style={[styles.hintTitle, !canUse && styles.disabledText]}>
-                  {hint.title}
-                </Text>
-                <View style={styles.hintCost}>
-                  {hint.cost === 0 ? (
-                    <Text style={styles.freeText}>Kostenlos</Text>
-                  ) : (
-                    <>
-                      <FontAwesome6 name="coins" size={12} color="#FFD700" />
-                      <Text style={styles.costText}>{hint.cost}</Text>
-                    </>
-                  )}
+    <Modal
+      visible={isVisible}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={handleClose}
+    >
+      {/* FIXED: Single container as Modal child */}
+      <TouchableWithoutFeedback onPress={handleBackdropPress}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <View style={[styles.panel, { backgroundColor }]}>
+              {/* Header */}
+              <View style={styles.header}>
+                <Text style={[styles.title, { color: textColor }]}>Hinweise</Text>
+                <View style={styles.pointsContainer}>
+                  <FontAwesome6 name="coins" size={16} color="#FFD700" />
+                  <Text style={[styles.pointsText, { color: textColor }]}>
+                    {pointsBalance} Punkte
+                  </Text>
                 </View>
+                <TouchableOpacity 
+                  onPress={handleClose} 
+                  style={styles.closeButton}
+                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                  <FontAwesome6 name="times" size={20} color={textColor} />
+                </TouchableOpacity>
               </View>
-              
-              <Text style={[styles.hintDescription, !canUse && styles.disabledText]}>
-                {hint.description}
-              </Text>
-              
-              {!canUse && reason && (
-                <Text style={styles.hintReason}>{reason}</Text>
-              )}
-              
-              {content && (
-                <View style={styles.previewContainer}>
-                  <Text style={styles.previewText}>{content}</Text>
+
+              {/* Used Hint Display */}
+              {usedHintContent && (
+                <View style={styles.usedHintContainer}>
+                  <Text style={styles.usedHintTitle}>💡 Dein Hinweis:</Text>
+                  <Text style={styles.usedHintContent}>{usedHintContent}</Text>
                 </View>
               )}
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
 
-        {availableHints.length === 0 && (
-          <Text style={[styles.noHintsText, { color: textColor }]}>
-            Keine Hinweise verfügbar
-          </Text>
-        )}
-      </View>
-    </View>
+              {/* Available Hints */}
+              <ScrollView style={styles.hintsList} showsVerticalScrollIndicator={false}>
+                {availableHints.map(({ hint, canUse, reason, content }) => (
+                  <TouchableOpacity
+                    key={hint.id}
+                    style={[
+                      styles.hintButton,
+                      !canUse && styles.disabledHint,
+                      hint.cost === 0 && styles.freeHint
+                    ]}
+                    onPress={() => canUse && handleUseHint(hint.id)}
+                    disabled={!canUse}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.hintHeader}>
+                      <Text style={[styles.hintTitle, !canUse && styles.disabledText]}>
+                        {hint.title}
+                      </Text>
+                      <View style={styles.hintCost}>
+                        {hint.cost === 0 ? (
+                          <Text style={styles.freeText}>Kostenlos</Text>
+                        ) : (
+                          <>
+                            <FontAwesome6 name="coins" size={12} color="#FFD700" />
+                            <Text style={styles.costText}>{hint.cost}</Text>
+                          </>
+                        )}
+                      </View>
+                    </View>
+                    
+                    <Text style={[styles.hintDescription, !canUse && styles.disabledText]}>
+                      {hint.description}
+                    </Text>
+                    
+                    {!canUse && reason && (
+                      <Text style={styles.hintReason}>{reason}</Text>
+                    )}
+                    
+                    {content && (
+                      <View style={styles.previewContainer}>
+                        <Text style={styles.previewText}>{content}</Text>
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+
+              {availableHints.length === 0 && (
+                <View style={styles.noHintsContainer}>
+                  <Text style={[styles.noHintsText, { color: textColor }]}>
+                    Keine Hinweise verfügbar
+                  </Text>
+                </View>
+              )}
+
+              {/* Close Button at Bottom */}
+              <TouchableOpacity 
+                style={[styles.bottomCloseButton, { borderColor: textColor }]}
+                onPress={handleClose}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.bottomCloseButtonText, { color: textColor }]}>
+                  Schließen
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 
-// ==========================================
-// POINTS DISPLAY COMPONENT
-// ==========================================
-
+// Points Display (unchanged)
 interface PointsDisplayProps {
   quizId: string;
   compact?: boolean;
@@ -143,10 +183,7 @@ export const PointsDisplay: React.FC<PointsDisplayProps> = ({
   );
 };
 
-// ==========================================
-// HINT BUTTON (für Question Screen)
-// ==========================================
-
+// Hint Button (unchanged)
 interface HintButtonProps {
   quizId: string;
   questionId: number;
@@ -162,10 +199,16 @@ export const HintButton: React.FC<HintButtonProps> = ({
   const availableCount = availableHints.filter(h => h.canUse).length;
   const tintColor = useThemeColor({}, 'tint') as string;
   
+  const handlePress = useCallback(() => {
+    console.log('[HintButton] Opening hints modal');
+    onOpenHints();
+  }, [onOpenHints]);
+  
   return (
     <TouchableOpacity 
       style={[styles.hintFloatingButton, { backgroundColor: tintColor }]}
-      onPress={onOpenHints}
+      onPress={handlePress}
+      activeOpacity={0.8}
     >
       <FontAwesome6 name="lightbulb" size={20} color="white" />
       {availableCount > 0 && (
@@ -179,14 +222,10 @@ export const HintButton: React.FC<HintButtonProps> = ({
 
 const styles = StyleSheet.create({
   overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
   },
   panel: {
     width: '90%',
@@ -223,6 +262,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     padding: 8,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   usedHintContainer: {
     backgroundColor: '#E8F5E8',
@@ -322,11 +363,25 @@ const styles = StyleSheet.create({
   disabledText: {
     color: '#adb5bd',
   },
+  noHintsContainer: {
+    padding: 32,
+    alignItems: 'center',
+  },
   noHintsText: {
     textAlign: 'center',
     fontSize: 16,
-    marginTop: 32,
     fontStyle: 'italic',
+  },
+  bottomCloseButton: {
+    marginTop: 16,
+    padding: 12,
+    borderWidth: 1,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  bottomCloseButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
   pointsDisplay: {
     flexDirection: 'row',

@@ -62,7 +62,7 @@ export const useQuizStore = create<QuizStore>()(
             isLoading: false,
             loadingOperations: new Set(),
             toast: null,
-            isQuizDataLoaded: false, // WICHTIG: Reset auch das data loaded flag
+            isQuizDataLoaded: false,
             userPoints: HintUtils.getInitialUserPoints(),
           }));
 
@@ -98,7 +98,7 @@ export const useQuizStore = create<QuizStore>()(
             loadingOperations: new Set(),
             toast: null,
             // WICHTIG: isQuizDataLoaded NICHT zurücksetzen, da die Quizzes noch geladen sind
-            // isQuizDataLoaded: false, // <- Das war das Problem!
+            isQuizDataLoaded: false,
             userPoints: HintUtils.getInitialUserPoints(),
           }));
 
