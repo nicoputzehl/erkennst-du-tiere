@@ -1,22 +1,22 @@
-import { Question } from "@/src/quiz/types";
+import { QuestionBase } from "@/src/quiz/types";
 import { HintUtils } from "..";
 import { createCustomHint, createFirstLetterHint, createLetterCountHint } from "../factories";
 
 describe('HintUtils.calculatePointsForCorrectAnswer', () => {
   it('should calculate base points for question without hints', () => {
-    const question: Question = {
+    const question: QuestionBase = {
       id: 1,
       answer: 'Leopard',
       images: { imageUrl: 1 },
     };
-    
+
     const points = HintUtils.calculatePointsForCorrectAnswer(question);
-    
+
     expect(points).toBe(10); // Base points
   });
 
   it('should add bonus points for questions with hints', () => {
-    const question: Question = {
+    const question: QuestionBase = {
       id: 1,
       answer: 'Leopard',
       images: { imageUrl: 1 },
@@ -26,9 +26,9 @@ describe('HintUtils.calculatePointsForCorrectAnswer', () => {
         createCustomHint(1, 'Test', 'Test', 10)
       ]
     };
-    
+
     const points = HintUtils.calculatePointsForCorrectAnswer(question);
-    
+
     expect(points).toBe(16); // 10 base + (3 hints * 2) bonus
   });
 });
@@ -42,7 +42,7 @@ describe('HintUtils.createPointTransaction', () => {
       'quiz1',
       1
     );
-    
+
     expect(transaction.type).toBe('earned');
     expect(transaction.amount).toBe(15);
     expect(transaction.reason).toBe('Frage korrekt beantwortet');
@@ -61,7 +61,7 @@ describe('HintUtils.createPointTransaction', () => {
       1,
       'hint_123'
     );
-    
+
     expect(transaction.type).toBe('spent');
     expect(transaction.amount).toBe(10);
     expect(transaction.hintId).toBe('hint_123');

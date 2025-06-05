@@ -1,10 +1,10 @@
 import { HintState } from '@/src/quiz/types/hint';
 import { HintUtils } from '..';
-import type { Question } from '../../../types';
+import type {  QuestionBase } from '../../../types';
 import { createContextualHint, createLetterCountHint } from '../factories';
 
 describe('HintUtils.checkForContextualHints', () => {
-  const mockQuestion: Question = {
+  const mockQuestion: QuestionBase = {
     id: 1,
     answer: 'Leopard',
     images: { imageUrl: 1 },
@@ -31,7 +31,7 @@ describe('HintUtils.checkForContextualHints', () => {
   });
 
   it('should trigger multiple contextual hints if multiple match', () => {
-    const questionWithMultiple: Question = {
+    const questionWithMultiple: QuestionBase = {
       ...mockQuestion,
       hints: [
         createContextualHint(1, ['big', 'groß'], 'Größe stimmt!'),
