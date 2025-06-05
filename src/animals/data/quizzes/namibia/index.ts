@@ -1,4 +1,4 @@
-import {  QuestionBase } from "@/src/quiz";
+import { QuestionBase } from "@/src/quiz";
 import { createAutoFreeHint, createContextualHint, createCustomHint, createFirstLetterHint, createLetterCountHint } from "@/src/quiz/domain/hints/factories";
 
 
@@ -6,7 +6,7 @@ export const namibia: QuestionBase[] = [
   {
     id: 1,
     answer: "Leopard",
-    funFact: "Leoparden öönnen Beute hochziehen, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
+    funFact: "Leoparden können Beute hochziehen, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
     images: {
       imageUrl: require("./img/leopard.jpg"),
       thumbnailUrl: require("./img/thumbnails/leopard.jpg"),
@@ -17,17 +17,17 @@ export const namibia: QuestionBase[] = [
       // Basic Hints (immer verfügbar)
       createLetterCountHint(1),     // 5 Punkte
       createFirstLetterHint(1),     // 10 Punkte
-      
+
       // Custom Hints (verschiedene Schwierigkeiten)
       createCustomHint(1, "Lebensraum", "Dieses Tier ist ein hervorragender Kletterer.", 15),
       createCustomHint(1, "Aussehen", "Hat ein goldgelbes Fell mit schwarzen Rosetten.", 12),
-      
+
       // Contextual Hints (kostenlos bei Verwechslungen) - FIXED
       createContextualHint(1, ["jaguar"], "Richtige Richtung! Aber lebt in Afrika, nicht Südamerika."),
       createContextualHint(1, ["gepard", "cheetah"], "Auch gefleckt, aber diese Katze kann sehr gut klettern!"),
-      createContextualHint(1, ["löwe", "loewe", "lion"], "Falsche Großkatze - das gesuchte Tier hat Flecken!"), // FIXED: löwe hinzugefügt
+      createContextualHint(1, ["löwe", "loewe", "lion"], "Falsche Großkatze - das gesuchte Tier hat Flecken!"),
       createContextualHint(1, ["tiger"], "Falsche Großkatze - das gesuchte Tier lebt in Afrika!"),
-      
+
       // Auto-Free Hint (nach 5 falschen Versuchen)
       createAutoFreeHint(1, "Diese gefleckte Großkatze ist für ihre Kletterfähigkeiten bekannt.")
     ]
@@ -43,6 +43,9 @@ export const namibia: QuestionBase[] = [
       unsolvedImageUrl: require("./img/nilpferd_unsolved.jpg"),
       unsolvedThumbnailUrl: require("./img/thumbnails/nilpferd_unsolved.jpg"),
     },
+    hints: [
+      createAutoFreeHint(2, "Manchmal wird ein Flusspferd auch Nilpferd genannt.")
+    ]
   },
 
   {

@@ -1,10 +1,10 @@
 import { HintState, UserPointsState } from "@/src/quiz/types/hint";
 import { HintUtils } from "..";
 import { createAutoFreeHint, createContextualHint, createFirstLetterHint, createLetterCountHint } from "../factories";
-import { Question } from "@/src/quiz/types";
+import { QuestionBase } from "@/src/quiz/types";
 
 describe('Hint System Integration', () => {
-  const mockQuestion: Question = {
+  const mockQuestion: QuestionBase = {
     id: 1,
     answer: 'Leopard',
     images: { imageUrl: 1 },

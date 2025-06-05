@@ -9,7 +9,7 @@ import { createQuizDataSlice, QuizDataSlice } from './QuizData.slice';
 import { createQuizStateSlice, QuizStateSlice } from './QuizState.slice';
 import { createUISlice, UISlice } from './UI.slice';
 import { createUnlockSlice, UnlockSlice } from './Unlock.slice';
-import { UserPointsState } from '../types/hint';
+import { HintState, UserPointsState } from '../types/hint';
 import { createHintSlice, HintSlice } from './Hint.slice';
 import { HintUtils } from '../domain/hints';
 
@@ -63,7 +63,7 @@ export const useQuizStore = create<QuizStore>()(
             loadingOperations: new Set(),
             toast: null,
             isQuizDataLoaded: false,
-            userPoints: HintUtils.getInitialUserPoints(),
+            userPoints: HintUtils.getInitialUserPoints(), // FIXED: Reset user points too
           }));
 
           console.log('[QuizStore] Reset completed despite missing quizzes.');
@@ -80,6 +80,18 @@ export const useQuizStore = create<QuizStore>()(
                 initialUnlockedQuestions: config.initialUnlockedQuestions || 2
               });
               if (newQuizState) {
+                // FIXED: Ensure hint states are properly initialized for each question
+                const hintStates: Record<number, HintState> = {};
+                quiz.questions.forEach(question => {
+                  hintStates[question.id] = {
+                    questionId: question.id,
+                    usedHints: [],
+                    wrongAttempts: 0,
+                    contextualHintsTriggered: [] // FIXED: This was missing in reset
+                  };
+                });
+
+                newQuizState.hintStates = hintStates;
                 newQuizStates[quiz.id] = newQuizState;
               }
             } else {
@@ -87,7 +99,7 @@ export const useQuizStore = create<QuizStore>()(
             }
           });
 
-          console.log(`[QuizStore] Created ${Object.keys(newQuizStates).length} new quiz states`);
+          console.log(`[QuizStore] Created ${Object.keys(newQuizStates).length} new quiz states with reset hint states`);
 
           set((state) => ({
             quizStates: newQuizStates,
@@ -98,11 +110,11 @@ export const useQuizStore = create<QuizStore>()(
             loadingOperations: new Set(),
             toast: null,
             // WICHTIG: isQuizDataLoaded NICHT zurücksetzen, da die Quizzes noch geladen sind
-            isQuizDataLoaded: false,
-            userPoints: HintUtils.getInitialUserPoints(),
+            isQuizDataLoaded: state.isQuizDataLoaded, // Keep current value
+            userPoints: HintUtils.getInitialUserPoints(), // FIXED: Reset points completely
           }));
 
-          console.log('[QuizStore] All quiz states reset complete.');
+          console.log('[QuizStore] All quiz states reset complete with hint states.');
 
         } catch (error) {
           console.error('[QuizStore] Error during reset:', error);

@@ -1,5 +1,3 @@
-// src/quiz/store/hooks/useHints.ts
-
 import { useCallback, useMemo } from 'react';
 import { useQuizStore } from '../Quiz.store';
 import { ContextualHint } from '../../types/hint';
@@ -22,7 +20,7 @@ export const useHints = (quizId: string, questionId: number) => {
   const availableHints = useMemo(() => {
     if (!question || !hintState) return [];
     return getAvailableHints(quizId, questionId);
-  }, [quizId, questionId, hintState, globalPointsBalance, getAvailableHints, question]);
+  }, [quizId, questionId, hintState, getAvailableHints, question]);
   
   const handleUseHint = useCallback(async (hintId: string) => {
     return await applyHint(quizId, questionId, hintId);

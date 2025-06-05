@@ -1,7 +1,7 @@
-import { Question } from "../../types";
+import { QuestionBase } from "../../types";
 import { PointTransaction, UserPointsState } from "../../types/hint";
 
-export const calculatePointsForCorrectAnswer = (question: Question): number => {
+export const calculatePointsForCorrectAnswer = (question: QuestionBase): number => {
   const basePoints = 10;
   const hintBonus = question.hints?.length ? question.hints.length * 2 : 0;
   return basePoints + hintBonus;

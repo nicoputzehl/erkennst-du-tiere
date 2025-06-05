@@ -1,12 +1,9 @@
-// src/quiz/screens/Question/QuestionScreen.tsx - FIXED VERSION mit korrekter Hint Integration
-
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { LoadingComponent } from '@/src/common/components/LoadingComponent';
 import { ThemedView } from '@/src/common/components/ThemedView';
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { HintButton, HintPanel, PointsDisplay } from '../../components/HintUi';
-import { useHints } from '../../store/hooks/useHints';
+import { ContextualHint, HintButton, HintPanel, PointsDisplay } from '../../components/HintUi';
 import { QuestionComponent } from './components/Question';
 import { useQuestionScreen } from './hooks/useQuestionScreen';
 
@@ -33,38 +30,15 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     isSolved,
     handleSubmit,
     handleTryAgain,
-    handleBack
+    handleBack,
+    isContextualHintVisible,
+    handleContextualHintClose,
+    contextualHintContent,
   } = useQuestionScreen(quizId || '', questionId || '');
 
-  const { recordWrongAnswer } = useHints(quizId || '', parseInt(questionId || '0'));
 
-  console.log('🔍 [QuestionScreen] Question source analysis:', {
-    quizId,
-    questionId,
-    questionObject: question,
-    hintsPresent: !!question?.hints,
-    hintsCount: question?.hints?.length,
-    firstHintType: question?.hints?.[0]?.type,
-    firstHintHasGenerator: question?.hints?.[0] ? 'generator' in question.hints[0] : 'no hints',
-    generatorType: question?.hints?.[0] ? typeof (question.hints[0] as any).generator : 'N/A'
-  });
 
-  // FIXED: Erweitere handleSubmit um Hint-Logic
-  const handleSubmitWithHints = useCallback(async () => {
-    if (!answer.trim()) return;
-    
-    console.log('[QuestionScreen] Submitting answer with hint integration:', answer);
-    
-    // WICHTIG: Record wrong answer BEFORE submitting for contextual hints
-    if (quizId && questionId) {
-      console.log('[QuestionScreen] Recording potential wrong answer for hints');
-      const triggeredHints = recordWrongAnswer(answer);
-      console.log('[QuestionScreen] Triggered hints:', triggeredHints.length);
-    }
-    
-    // Original submit logic
-    await handleSubmit();
-  }, [answer, handleSubmit, recordWrongAnswer, quizId, questionId]);
+  // REMOVED: handleSubmitWithHints - we use the unified handleSubmit from useQuestionScreen now
 
   const handleCloseHints = useCallback(() => {
     console.log('[QuestionScreen] Closing hints modal');
@@ -103,7 +77,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         isCorrect={isCorrect}
         statusChanged={statusChanged}
         isSolved={isSolved}
-        onSubmit={handleSubmitWithHints} // FIXED: Use the hint-integrated submit function
+        onSubmit={handleSubmit} // FIXED: Use the unified submit function
         onTryAgain={handleTryAgain}
         onBack={handleBack}
         quizTitle={quizState.title}
@@ -122,7 +96,11 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
           onOpenHints={handleOpenHints}
         />
       )}
-      
+      <ContextualHint
+        isVisible={isContextualHintVisible}
+        onClose={handleContextualHintClose}
+        content={contextualHintContent}
+      />
       {/* Hint Panel */}
       <HintPanel
         quizId={quizId}

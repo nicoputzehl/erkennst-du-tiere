@@ -91,9 +91,13 @@ export const createQuizStateSlice: StateCreator<QuizStore, [], [], QuizStateSlic
     console.log(`[QuizStateSlice] Resetting quiz: ${quizId}`);
     return get().resetQuizState(quizId);
   },
+
+
+// src/quiz/store/QuizState.slice.ts - FIXED answerQuestion without hint logic
+
   answerQuestion: async (quizId: string, questionId: number, answer: string): Promise<AnswerResult> => {
     console.log(`[QuizStateSlice] Processing answer for quiz ${quizId}, question ${questionId}: "${answer}"`);
-    const { quizStates, updateQuizState, showToast, checkForUnlocks, addPendingUnlock, recordWrongAnswer, addPoints } = get(); // Zugriff auf andere Slices
+    const { quizStates, updateQuizState, showToast, checkForUnlocks, addPendingUnlock, addPoints } = get(); // Removed recordWrongAnswer
     const currentState = quizStates[quizId];
     if (!currentState) {
       console.warn(`[QuizStateSlice] Quiz state not found for ${quizId}`);
@@ -107,13 +111,14 @@ export const createQuizStateSlice: StateCreator<QuizStore, [], [], QuizStateSlic
     if (!result.isCorrect) {
       console.log(`[QuizStateSlice] Incorrect answer for quiz ${quizId}, question ${questionId}`);
 
-      const triggeredHints = recordWrongAnswer(quizId, questionId, answer);
+      // REMOVED: No longer handling hints here - this is done in the UI layer
+      // const triggeredHints = recordWrongAnswer(quizId, questionId, answer);
 
       return {
         isCorrect: false,
         unlockedQuizzes: [],
         completedQuiz: false,
-        triggeredHints
+        // triggeredHints // Removed this too
       };
     }
     // Update state

@@ -1,13 +1,13 @@
 // src/quiz/domain/hints/triggering.ts - DEBUG VERSION
 
-import { Question } from "../../types";
+import {  QuestionBase } from "../../types";
 import { ContextualHint, HintState } from "../../types/hint";
 import { normalizeString } from "../../utils/stringManipulation";
-import { isContextualHint } from "./validation";
+import { isAutoFreeHint, isContextualHint } from "./validation";
 
 export const checkForContextualHints = (
   userAnswer: string,
-  question: Question,
+  question: QuestionBase,
   hintState: HintState
 ): ContextualHint[] => {
   console.log('🎯 [checkForContextualHints] Input:', {
@@ -22,7 +22,7 @@ export const checkForContextualHints = (
     return [];
   }
   
-  const contextualHints = question.hints.filter(isContextualHint);
+  const contextualHints = question.hints.filter(isContextualHint || isAutoFreeHint);
   console.log('🎯 [checkForContextualHints] Found contextual hints:', contextualHints.length);
   
   const normalizedUserAnswer = normalizeString(userAnswer);

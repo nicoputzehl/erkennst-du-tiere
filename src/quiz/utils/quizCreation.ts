@@ -51,6 +51,8 @@ export const calculateInitialQuestionStatus = (
 /**
  * Erstellt Quiz-State aus Quiz-Inhalt und Konfiguration
  */
+// src/quiz/utils/quizCreation.ts - FIXED createQuizState function
+
 export const createQuizState = (
   quiz: Quiz,
   config: Pick<QuizConfig, 'initialUnlockedQuestions'> = {}
@@ -64,6 +66,7 @@ export const createQuizState = (
     initialUnlockedQuestions
   );
   
+  // FIXED: Initialize hint states more thoroughly
   const hintStates: Record<number, HintState> = {};
 
   // Debug: Prüfe jede Frage und ihre Hints
@@ -75,11 +78,12 @@ export const createQuizState = (
       firstHintHasGenerator: question.hints?.[0] ? 'generator' in question.hints[0] : false
     });
 
+    // FIXED: Ensure proper initialization of hint state
     hintStates[question.id] = {
       questionId: question.id,
       usedHints: [],
       wrongAttempts: 0,
-      contextualHintsTriggered: []
+      contextualHintsTriggered: [] // Always initialize as empty array
     };
   });
 
@@ -91,7 +95,7 @@ export const createQuizState = (
       status: questionStatus[i],
     })) as Question[],
     completedQuestions: 0,
-    hintStates,
+    hintStates, // FIXED: Use the properly initialized hint states
   };
 
   // Debug: Prüfe die finale Question-Struktur
@@ -100,6 +104,7 @@ export const createQuizState = (
     console.log(`🏗️ Question ${question.id}:`, {
       hasHints: !!question.hints,
       hintsCount: question.hints?.length || 0,
+      hintStateInitialized: !!result.hintStates[question.id],
       hintDetails: question.hints?.map(hint => ({
         id: hint.id,
         type: hint.type,
@@ -107,6 +112,8 @@ export const createQuizState = (
       }))
     });
   });
+
+  console.log('🏗️ [createQuizState] Hint states initialized:', Object.keys(hintStates).length);
 
   return result;
 };
