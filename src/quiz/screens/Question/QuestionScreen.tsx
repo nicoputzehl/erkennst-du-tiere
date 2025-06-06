@@ -1,9 +1,17 @@
+// src/quiz/screens/Question/QuestionScreen.tsx - ENHANCED VERSION
 import { ErrorComponent } from '@/src/common/components/ErrorComponent';
 import { LoadingComponent } from '@/src/common/components/LoadingComponent';
 import { ThemedView } from '@/src/common/components/ThemedView';
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { ContextualHint, HintButton, HintPanel, PointsDisplay } from '../../components/HintUi';
+import { 
+  ContextualHint, 
+  HintButton, 
+  PurchaseHintPanel, 
+  PointsDisplay,
+  AutoFreeHint,
+  PurchasedHint
+} from '../../components/HintUi';
 import { QuestionComponent } from './components/Question';
 import { useQuestionScreen } from './hooks/useQuestionScreen';
 
@@ -16,7 +24,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   quizId,
   questionId,
 }) => {
-  const [showHints, setShowHints] = useState(false);
+  const [showPurchaseHints, setShowPurchaseHints] = useState(false);
   
   const {
     quizState,
@@ -31,23 +39,32 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     handleSubmit,
     handleTryAgain,
     handleBack,
+    
+    // EXISTING Contextual Hints
     isContextualHintVisible,
     handleContextualHintClose,
     contextualHintContent,
+    
+    // NEUE Auto-Free Hints
+    isAutoFreeHintVisible,
+    handleAutoFreeHintClose,
+    autoFreeHintContent,
+    
+    // NEUE Purchased Hints
+    isPurchasedHintVisible,
+    handlePurchasedHintClose,
+    purchasedHintContent,
+    showPurchasedHint
   } = useQuestionScreen(quizId || '', questionId || '');
 
-
-
-  // REMOVED: handleSubmitWithHints - we use the unified handleSubmit from useQuestionScreen now
-
-  const handleCloseHints = useCallback(() => {
-    console.log('[QuestionScreen] Closing hints modal');
-    setShowHints(false);
+  const handleClosePurchaseHints = useCallback(() => {
+    console.log('[QuestionScreen] Closing purchase hints modal');
+    setShowPurchaseHints(false);
   }, []);
 
-  const handleOpenHints = useCallback(() => {
-    console.log('[QuestionScreen] Opening hints modal');
-    setShowHints(true);
+  const handleOpenPurchaseHints = useCallback(() => {
+    console.log('[QuestionScreen] Opening purchase hints modal');
+    setShowPurchaseHints(true);
   }, []);
 
   // Early returns for error states
@@ -63,7 +80,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     return <ErrorComponent message='Frage nicht gefunden' />;
   }
 
-  // Main render - much cleaner props passing
+  // Main render
   return (
     <ThemedView gradientType='primary' style={{ flex: 1 }}>
       <QuestionComponent
@@ -77,10 +94,13 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         isCorrect={isCorrect}
         statusChanged={statusChanged}
         isSolved={isSolved}
-        onSubmit={handleSubmit} // FIXED: Use the unified submit function
+        onSubmit={handleSubmit}
         onTryAgain={handleTryAgain}
         onBack={handleBack}
         quizTitle={quizState.title}
+        // NEUE PROPS für purchased hints
+        purchasedHintContent={purchasedHintContent}
+        onShowPurchasedHint={isPurchasedHintVisible}
       />
       
       {/* Points Display */}
@@ -93,20 +113,38 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         <HintButton
           quizId={quizId}
           questionId={parseInt(questionId)}
-          onOpenHints={handleOpenHints}
+          onOpenHints={handleOpenPurchaseHints}
         />
       )}
+
+      {/* EXISTING: Contextual Hint Modal */}
       <ContextualHint
         isVisible={isContextualHintVisible}
         onClose={handleContextualHintClose}
         content={contextualHintContent}
       />
-      {/* Hint Panel */}
-      <HintPanel
+
+      {/* NEUE: Auto-Free Hint Modal */}
+      <AutoFreeHint
+        isVisible={isAutoFreeHintVisible}
+        onClose={handleAutoFreeHintClose}
+        content={autoFreeHintContent}
+      />
+
+      {/* NEUE: Purchased Hint Modal */}
+      <PurchasedHint
+        isVisible={isPurchasedHintVisible}
+        onClose={handlePurchasedHintClose}
+        content={purchasedHintContent}
+      />
+
+      {/* NEUE: Purchase Hint Panel */}
+      <PurchaseHintPanel
         quizId={quizId}
         questionId={parseInt(questionId)}
-        isVisible={showHints}
-        onClose={handleCloseHints}
+        isVisible={showPurchaseHints}
+        onClose={handleClosePurchaseHints}
+        onHintPurchased={showPurchasedHint}
       />
     </ThemedView>
   );

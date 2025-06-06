@@ -1,40 +1,56 @@
-// src/quiz/screens/Question/hooks/useQuestionScreen.ts - FIXED with proper hint integration
-
+// src/quiz/screens/Question/hooks/useQuestionScreen.ts - ENHANCED VERSION
 import { useUI } from '@/src/quiz/store';
 import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
 import { QuestionStatus } from '@/src/quiz/types';
 import { router } from 'expo-router';
-import {  useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useHints } from '../../../store/hooks/useHints';
 
 export function useQuestionScreen(quizId: string, questionId: string) {
   const { getQuizState, answerQuestion } = useQuiz();
   const { showSuccess } = useUI();
-  const { recordWrongAnswer, availableHints } = useHints(quizId, parseInt(questionId));
+  const { recordWrongAnswer, getAutoFreeHints, markAutoFreeHintAsUsed } = useHints(quizId, parseInt(questionId));
 
   const [answer, setAnswer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [statusChanged, setStatusChanged] = useState(false);
+
+  // ERWEITERTE Hint-States
   const [isContextualHintVisible, setIsContextualHintVisible] = useState(false);
   const [contextualHintContent, setContextualHintContent] = useState<string>('');
+  const [isAutoFreeHintVisible, setIsAutoFreeHintVisible] = useState(false);
+  const [autoFreeHintContent, setAutoFreeHintContent] = useState<string>('');
+
+  // NEUE: Purchased Hint States
+  const [isPurchasedHintVisible, setIsPurchasedHintVisible] = useState(false);
+  const [purchasedHintContent, setPurchasedHintContent] = useState<string>('');
 
   const handleContextualHintClose = useCallback(() => {
     setIsContextualHintVisible(false);
   }, []);
 
+  // NEUE: Auto-Free Hint Handler
+  const handleAutoFreeHintClose = useCallback(() => {
+    setIsAutoFreeHintVisible(false);
+  }, []);
+
+  // NEUE: Purchased Hint Handler
+  const handlePurchasedHintClose = useCallback(() => {
+    setIsPurchasedHintVisible(false);
+  }, []);
 
   const resetContextualHints = useCallback(() => {
     setContextualHintContent('');
+    setAutoFreeHintContent('');
+    setPurchasedHintContent('');
   }, []);
-
 
   const quizState = getQuizState(quizId);
   const question = quizState?.questions.find(q => q.id === parseInt(questionId));
 
   const isSolved = question?.status === QuestionStatus.SOLVED;
-
 
   useState(() => {
     if (isSolved) {
@@ -42,6 +58,12 @@ export function useQuestionScreen(quizId: string, questionId: string) {
       setIsCorrect(true);
     }
   });
+
+  // NEUE: Funktion um purchased hints anzuzeigen
+  const showPurchasedHint = useCallback((content: string) => {
+    setPurchasedHintContent(content);
+    setIsPurchasedHintVisible(true);
+  }, []);
 
   const handleSubmit = useCallback(async () => {
     if (isSubmitting || !answer.trim() || !question) return;
@@ -68,24 +90,47 @@ export function useQuestionScreen(quizId: string, questionId: string) {
           });
         }
       } else {
-        console.log('[useQuestionScreen] Wrong answer - checking for contextual hints');
-        const triggeredHints = recordWrongAnswer(answer.trim());
-        console.log('[useQuestionScreen] Triggered contextual hints:', triggeredHints.length);
+        console.log('[useQuestionScreen] Wrong answer - checking for all hint types');
+        
+        // ERWEITERTE LOGIK: Handle both contextual and auto-free hints
+        const { contextualHints, autoFreeHints } = recordWrongAnswer(answer.trim());
+        
+        console.log('[useQuestionScreen] Triggered hints:', {
+          contextual: contextualHints.length,
+          autoFree: autoFreeHints.length
+        });
 
-        if (triggeredHints.length > 0) {
-          console.log('[useQuestionScreen] Hints triggered - not showing wrong answer screen');
-
-          setContextualHintContent(triggeredHints[0].content);
+        // Handle contextual hints (existing logic)
+        if (contextualHints.length > 0) {
+          console.log('[useQuestionScreen] Showing contextual hint');
+          setContextualHintContent(contextualHints[0].content);
           setIsContextualHintVisible(true);
-          // Show hint notification and clear the input
+          
           setTimeout(() => {
-            showSuccess(`💡 ${triggeredHints.length} neuer Tipp verfügbar!`, 2000);
+            showSuccess(`💡 ${contextualHints.length} neuer Tipp verfügbar!`, 2000);
           }, 500);
 
-          // Clear the answer so user can try again
           setAnswer('');
-        } else {
-          // No hints triggered - show wrong answer screen
+        }
+        // NEUE LOGIK: Handle auto-free hints
+        else if (autoFreeHints.length > 0) {
+          console.log('[useQuestionScreen] Showing auto-free hint');
+          const autoFreeHint = autoFreeHints[0];
+          
+          // WICHTIG: Hint als verwendet markieren
+          markAutoFreeHintAsUsed(quizId, parseInt(questionId), autoFreeHint.id);
+          
+          setAutoFreeHintContent(autoFreeHint.content);
+          setIsAutoFreeHintVisible(true);
+          
+          setTimeout(() => {
+            showSuccess(`🎁 Kostenloser Hinweis freigeschaltet!`, 2000);
+          }, 500);
+
+          setAnswer('');
+        }
+        // No hints triggered - show wrong answer screen
+        else {
           console.log('[useQuestionScreen] No hints triggered - showing wrong answer screen');
           setIsCorrect(false);
           setShowResult(true);
@@ -98,7 +143,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
     } finally {
       setIsSubmitting(false);
     }
-  }, [quizId, question, answer, answerQuestion, isSubmitting, showSuccess, recordWrongAnswer, setContextualHintContent, setIsContextualHintVisible, resetContextualHints]);
+  }, [quizId, question, answer, answerQuestion, isSubmitting, showSuccess, recordWrongAnswer, markAutoFreeHintAsUsed, resetContextualHints]);
 
   const handleTryAgain = useCallback(() => {
     console.log('[useQuestionScreen] Try again pressed');
@@ -127,9 +172,20 @@ export function useQuestionScreen(quizId: string, questionId: string) {
     handleTryAgain,
     handleBack,
 
-    // HINTS
+    // EXISTING Contextual Hints
     contextualHintContent,
     isContextualHintVisible,
-    handleContextualHintClose
+    handleContextualHintClose,
+
+    // NEUE Auto-Free Hints
+    autoFreeHintContent,
+    isAutoFreeHintVisible,
+    handleAutoFreeHintClose,
+
+    // NEUE Purchased Hints
+    purchasedHintContent,
+    isPurchasedHintVisible,
+    handlePurchasedHintClose,
+    showPurchasedHint
   };
 }

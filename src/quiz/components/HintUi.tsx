@@ -1,3 +1,4 @@
+// src/quiz/components/HintUi.tsx - ENHANCED VERSION
 import React, { useState, useCallback } from 'react';
 import {
 	View,
@@ -12,49 +13,52 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { useThemeColor } from '@/src/common/hooks/useThemeColor';
 import { useHints } from '../store/hooks/useHints';
 import { useQuizStore } from '../store/Quiz.store';
-import { Hint } from '../types';
 
-interface HintPanelProps {
+// ==========================================
+// PURCHASE HINT PANEL (kostenpflichtige Hints)
+// ==========================================
+interface PurchaseHintPanelProps {
 	quizId: string;
 	questionId: number;
 	isVisible: boolean;
 	onClose: () => void;
+	onHintPurchased: (content: string) => void;
 }
 
-export const HintPanel: React.FC<HintPanelProps> = ({
+export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 	quizId,
 	questionId,
 	isVisible,
 	onClose,
+	onHintPurchased,
 }) => {
 	const {
-		availableHints,
+		purchasableHints,
 		pointsBalance,
 		handleUseHint: applyHint,
 	} = useHints(quizId, questionId);
-	const [usedHintContent, setUsedHintContent] = useState<string | null>(null);
 
 	const textColor = useThemeColor({}, 'text') as string;
 	const backgroundColor = useThemeColor({}, 'background') as string;
 
-	const handleUseHint = useCallback(
+	const handlePurchaseHint = useCallback(
 		async (hintId: string) => {
 			const result = await applyHint(hintId);
 			if (result.success && result.hintContent) {
-				setUsedHintContent(result.hintContent);
+				onHintPurchased(result.hintContent);
+				onClose();
 			}
 		},
-		[applyHint]
+		[applyHint, onHintPurchased, onClose]
 	);
 
 	const handleClose = useCallback(() => {
-		console.log('[HintPanel] Close button pressed');
-		setUsedHintContent(null);
+		console.log('[PurchaseHintPanel] Close button pressed');
 		onClose();
 	}, [onClose]);
 
 	const handleBackdropPress = useCallback(() => {
-		console.log('[HintPanel] Backdrop pressed');
+		console.log('[PurchaseHintPanel] Backdrop pressed');
 		handleClose();
 	}, [handleClose]);
 
@@ -69,7 +73,6 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 			animationType='fade'
 			onRequestClose={handleClose}
 		>
-			{/* FIXED: Single container as Modal child */}
 			<TouchableWithoutFeedback onPress={handleBackdropPress}>
 				<View style={styles.overlay}>
 					<TouchableWithoutFeedback onPress={() => {}}>
@@ -77,7 +80,7 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 							{/* Header */}
 							<View style={styles.header}>
 								<Text style={[styles.title, { color: textColor }]}>
-									Hinweise
+									Hinweise kaufen
 								</Text>
 								<View style={styles.pointsContainer}>
 									<FontAwesome6
@@ -102,28 +105,19 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 								</TouchableOpacity>
 							</View>
 
-							{/* Used Hint Display */}
-							{usedHintContent && (
-								<View style={styles.usedHintContainer}>
-									<Text style={styles.usedHintTitle}>💡 Dein Hinweis:</Text>
-									<Text style={styles.usedHintContent}>{usedHintContent}</Text>
-								</View>
-							)}
-
-							{/* Available Hints */}
+							{/* Available Purchasable Hints */}
 							<ScrollView
 								style={styles.hintsList}
 								showsVerticalScrollIndicator={false}
 							>
-								{availableHints.map(({ hint, canUse, reason, content }) => (
+								{purchasableHints.map(({ hint, canUse, reason }) => (
 									<TouchableOpacity
 										key={hint.id}
 										style={[
 											styles.hintButton,
 											!canUse && styles.disabledHint,
-											hint.cost === 0 && styles.freeHint,
 										]}
-										onPress={() => canUse && handleUseHint(hint.id)}
+										onPress={() => canUse && handlePurchaseHint(hint.id)}
 										disabled={!canUse}
 										activeOpacity={0.7}
 									>
@@ -137,18 +131,12 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 												{hint.title}
 											</Text>
 											<View style={styles.hintCost}>
-												{hint.cost === 0 ? (
-													<Text style={styles.freeText}>Kostenlos</Text>
-												) : (
-													<>
-														<FontAwesome6
-															name='coins'
-															size={12}
-															color='#FFD700'
-														/>
-														<Text style={styles.costText}>{hint.cost}</Text>
-													</>
-												)}
+												<FontAwesome6
+													name='coins'
+													size={12}
+													color='#FFD700'
+												/>
+												<Text style={styles.costText}>{hint.cost}</Text>
 											</View>
 										</View>
 
@@ -164,20 +152,14 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 										{!canUse && reason && (
 											<Text style={styles.hintReason}>{reason}</Text>
 										)}
-
-										{content && (
-											<View style={styles.previewContainer}>
-												<Text style={styles.previewText}>{content}</Text>
-											</View>
-										)}
 									</TouchableOpacity>
 								))}
 							</ScrollView>
 
-							{availableHints.length === 0 && (
+							{purchasableHints.length === 0 && (
 								<View style={styles.noHintsContainer}>
 									<Text style={[styles.noHintsText, { color: textColor }]}>
-										Keine Hinweise verfügbar
+										Keine kaufbaren Hinweise verfügbar
 									</Text>
 								</View>
 							)}
@@ -202,6 +184,101 @@ export const HintPanel: React.FC<HintPanelProps> = ({
 	);
 };
 
+// ==========================================
+// AUTO-FREE HINT MODAL (wie Contextual Hint)
+// ==========================================
+export interface AutoFreeHintProps {
+	isVisible: boolean;
+	onClose: () => void;
+	content: string;
+}
+
+export const AutoFreeHint = ({
+	isVisible,
+	onClose,
+	content,
+}: AutoFreeHintProps) => {
+	const handleClose = useCallback(() => {
+		console.log('[AutoFreeHint] Close button pressed');
+		onClose();
+	}, [onClose]);
+
+	const handleBackdropPress = useCallback(() => {
+		console.log('[AutoFreeHint] Backdrop pressed');
+		handleClose();
+	}, [handleClose]);
+
+	if (!isVisible) {
+		return null;
+	}
+
+	return (
+		<Modal
+			visible={isVisible}
+			transparent={true}
+			animationType='fade'
+		>
+			<TouchableWithoutFeedback onPress={handleBackdropPress}>
+				<View style={styles.overlay2}>
+					<View style={styles.autoFreeHintContainer}>
+						<Text style={styles.autoFreeHintTitle}>🎁 Kostenloser Hinweis:</Text>
+						<Text style={styles.autoFreeHintContent}>{content}</Text>
+					</View>
+				</View>
+			</TouchableWithoutFeedback>
+		</Modal>
+	);
+};
+
+// ==========================================
+// PURCHASED HINT MODAL (gekaufte Hints anzeigen)
+// ==========================================
+export interface PurchasedHintProps {
+	isVisible: boolean;
+	onClose: () => void;
+	content: string;
+}
+
+export const PurchasedHint = ({
+	isVisible,
+	onClose,
+	content,
+}: PurchasedHintProps) => {
+	const handleClose = useCallback(() => {
+		console.log('[PurchasedHint] Close button pressed');
+		onClose();
+	}, [onClose]);
+
+	const handleBackdropPress = useCallback(() => {
+		console.log('[PurchasedHint] Backdrop pressed');
+		handleClose();
+	}, [handleClose]);
+
+	if (!isVisible) {
+		return null;
+	}
+
+	return (
+		<Modal
+			visible={isVisible}
+			transparent={true}
+			animationType='fade'
+		>
+			<TouchableWithoutFeedback onPress={handleBackdropPress}>
+				<View style={styles.overlay2}>
+					<View style={styles.purchasedHintContainer}>
+						<Text style={styles.purchasedHintTitle}>💰 Dein gekaufter Hinweis:</Text>
+						<Text style={styles.purchasedHintContent}>{content}</Text>
+					</View>
+				</View>
+			</TouchableWithoutFeedback>
+		</Modal>
+	);
+};
+
+// ==========================================
+// EXISTING CONTEXTUAL HINT (unverändert)
+// ==========================================
 export interface ContextualHintProps {
 	isVisible: boolean;
 	onClose: () => void;
@@ -215,7 +292,6 @@ export const ContextualHint = ({
 }: ContextualHintProps) => {
 	const handleClose = useCallback(() => {
 		console.log('[ContextualHint] Close button pressed');
-
 		onClose();
 	}, [onClose]);
 
@@ -227,6 +303,7 @@ export const ContextualHint = ({
 	if (!isVisible) {
 		return null;
 	}
+
 	return (
 		<Modal
 			visible={isVisible}
@@ -245,7 +322,9 @@ export const ContextualHint = ({
 	);
 };
 
-// Points Display (unchanged)
+// ==========================================
+// EXISTING COMPONENTS (unverändert)
+// ==========================================
 interface PointsDisplayProps {
 	quizId: string;
 	compact?: boolean;
@@ -279,7 +358,6 @@ export const PointsDisplay: React.FC<PointsDisplayProps> = ({
 	);
 };
 
-// Hint Button (unchanged)
 interface HintButtonProps {
 	quizId: string;
 	questionId: number;
@@ -291,14 +369,19 @@ export const HintButton: React.FC<HintButtonProps> = ({
 	questionId,
 	onOpenHints,
 }) => {
-	const { availableHints } = useHints(quizId, questionId);
-	const availableCount = availableHints.filter(h => h.canUse).length;
+	const { purchasableHints } = useHints(quizId, questionId);
+	const availableCount = purchasableHints.filter(h => h.canUse).length;
 	const tintColor = useThemeColor({}, 'tint') as string;
 
 	const handlePress = useCallback(() => {
-		console.log('[HintButton] Opening hints modal');
+		console.log('[HintButton] Opening purchase hints modal');
 		onOpenHints();
 	}, [onOpenHints]);
+
+	// Nur anzeigen wenn kaufbare Hints verfügbar sind
+	if (availableCount === 0) {
+		return null;
+	}
 
 	return (
 		<TouchableOpacity
@@ -320,6 +403,9 @@ export const HintButton: React.FC<HintButtonProps> = ({
 	);
 };
 
+// ==========================================
+// STYLES (erweitert)
+// ==========================================
 const styles = StyleSheet.create({
 	overlay: {
 		flex: 1,
@@ -372,6 +458,8 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: 'rgba(0,0,0,0.1)',
 	},
+	
+	// EXISTING Contextual Hint Styles
 	usedHintContainer: {
 		backgroundColor: '#E8F5E8',
 		padding: 12,
@@ -389,6 +477,45 @@ const styles = StyleSheet.create({
 		color: '#1B5E20',
 		lineHeight: 22,
 	},
+
+	// NEUE Auto-Free Hint Styles
+	autoFreeHintContainer: {
+		backgroundColor: '#FFF3E0',
+		padding: 12,
+		borderRadius: 8,
+		marginBottom: 16,
+	},
+	autoFreeHintTitle: {
+		fontSize: 14,
+		fontWeight: '600',
+		color: '#F57C00',
+		marginBottom: 4,
+	},
+	autoFreeHintContent: {
+		fontSize: 16,
+		color: '#E65100',
+		lineHeight: 22,
+	},
+
+	// NEUE Purchased Hint Styles
+	purchasedHintContainer: {
+		backgroundColor: '#E3F2FD',
+		padding: 12,
+		borderRadius: 8,
+		marginBottom: 16,
+	},
+	purchasedHintTitle: {
+		fontSize: 14,
+		fontWeight: '600',
+		color: '#1976D2',
+		marginBottom: 4,
+	},
+	purchasedHintContent: {
+		fontSize: 16,
+		color: '#0D47A1',
+		lineHeight: 22,
+	},
+
 	hintsList: {
 		maxHeight: 300,
 	},
@@ -408,10 +535,6 @@ const styles = StyleSheet.create({
 	disabledHint: {
 		opacity: 0.6,
 		backgroundColor: '#f1f3f4',
-	},
-	freeHint: {
-		borderColor: '#4CAF50',
-		borderWidth: 2,
 	},
 	hintHeader: {
 		flexDirection: 'row',
@@ -434,11 +557,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 4,
 		borderRadius: 12,
 	},
-	freeText: {
-		fontSize: 12,
-		fontWeight: '600',
-		color: '#4CAF50',
-	},
 	costText: {
 		fontSize: 12,
 		fontWeight: '600',
@@ -455,17 +573,6 @@ const styles = StyleSheet.create({
 		color: '#dc3545',
 		fontStyle: 'italic',
 		marginTop: 4,
-	},
-	previewContainer: {
-		backgroundColor: '#e7f3ff',
-		padding: 10,
-		borderRadius: 8,
-		marginTop: 8,
-	},
-	previewText: {
-		fontSize: 14,
-		color: '#0066cc',
-		fontWeight: '500',
 	},
 	disabledText: {
 		color: '#adb5bd',

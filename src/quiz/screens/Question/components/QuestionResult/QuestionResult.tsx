@@ -1,4 +1,4 @@
-// src/quiz/screens/Question/components/QuestionResult.tsx
+// src/quiz/screens/Question/components/QuestionResult/QuestionResult.tsx - ENHANCED VERSION
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import WrongAnswer, { WrongAnswerProps } from './WrongAnswer';
@@ -9,6 +9,9 @@ export interface QuestionResultProps
 		RightAnswerProps {
 	isCorrect: boolean;
 	
+	// NEUE PROPS für purchased hints
+	purchasedHintContent?: string;
+	onShowPurchasedHint?: boolean;
 }
 
 export const QuestionResult: React.FC<QuestionResultProps> = ({
@@ -18,7 +21,16 @@ export const QuestionResult: React.FC<QuestionResultProps> = ({
 
 	return (
 		<View style={styles.container}>
-			{isCorrect ? <RightAnswer {...props} /> : <WrongAnswer {...props} />}
+			{isCorrect ? (
+				<RightAnswer {...props} />
+			) : (
+				<WrongAnswer 
+					{...props}
+					// NEUE PROPS explizit für WrongAnswer
+					purchasedHintContent={props.purchasedHintContent}
+					onShowPurchasedHint={props.onShowPurchasedHint}
+				/>
+			)}
 		</View>
 	);
 };

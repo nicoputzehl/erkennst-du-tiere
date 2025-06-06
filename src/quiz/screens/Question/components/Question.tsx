@@ -1,3 +1,4 @@
+// src/quiz/screens/Question/components/Question.tsx - ENHANCED VERSION
 import Header from '@/src/common/components/Header';
 import { Question } from '@/src/quiz/types';
 import React, { memo } from 'react';
@@ -23,6 +24,10 @@ interface QuestionProps {
   onTryAgain: () => void;
   onBack: () => void;
   quizTitle: string;
+  
+  // NEUE PROPS für purchased hints
+  purchasedHintContent?: string;
+  onShowPurchasedHint?: boolean;
 }
 
 export const QuestionComponent: React.FC<QuestionProps> = memo(({
@@ -38,6 +43,10 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(({
   onTryAgain,
   onBack,
   quizTitle,
+  
+  // NEUE PROPS
+  purchasedHintContent,
+  onShowPurchasedHint,
 }) => {
   const { imageHeight } = useKeyboardHandling({ initialImageHeight: 400 });
   const { getImageUrl } = useImageDisplay(question);
@@ -83,6 +92,10 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(({
               onTryAgain={onTryAgain}
               statusChanged={statusChanged}
               answer={question.answer}
+              
+              // NEUE PROPS weiterleiten
+              purchasedHintContent={purchasedHintContent}
+              onShowPurchasedHint={onShowPurchasedHint}
             />
           </View>
         )}

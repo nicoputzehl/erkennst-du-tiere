@@ -1,5 +1,6 @@
+// src/quiz/store/Hint.slice.ts - ENHANCED VERSION
 import { StateCreator } from "zustand";
-import { AvailableHint, ContextualHint, PointTransaction, UseHintResult } from "../types/hint";
+import { AvailableHint, AutoFreeHint, ContextualHint, PointTransaction, UseHintResult } from "../types/hint";
 import { QuizStore } from "./Quiz.store";
 import { HintUtils } from "../domain/hints";
 
@@ -7,6 +8,12 @@ export interface HintSlice {
   applyHint: (quizId: string, questionId: number, hintId: string) => Promise<UseHintResult>;
   recordWrongAnswer: (quizId: string, questionId: number, userAnswer: string) => ContextualHint[];
   getAvailableHints: (quizId: string, questionId: number) => AvailableHint[];
+  
+  // NEUE FUNKTION: Separate Auto-Free Hint Logic
+  checkAutoFreeHints: (quizId: string, questionId: number) => AutoFreeHint[];
+  
+  // NEUE FUNKTION: Mark Auto-Free Hint als verwendet
+  markAutoFreeHintAsUsed: (quizId: string, questionId: number, hintId: string) => void;
   
   // GLOBALE Points-Methoden (ohne quizId Parameter)
   addPoints: (transaction: PointTransaction) => void;
@@ -16,13 +23,10 @@ export interface HintSlice {
   initializeHintState: (quizId: string, questionId: number) => void;
 }
 
-
-
-
 export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (set, get) => ({
   applyHint: async (quizId: string, questionId: number, hintId: string): Promise<UseHintResult> => {
     const quizState = get().quizStates[quizId];
-    const globalUserPoints = get().userPoints;  // ← Globale Points
+    const globalUserPoints = get().userPoints;
     
     if (!quizState) {
       return { success: false, error: 'Quiz nicht gefunden' };
@@ -50,7 +54,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (set,
       'spent',
       hint.cost,
       `Hint verwendet: ${hint.title}`,
-      quizId,      // ← Quiz-Kontext
+      quizId,
       questionId,
       hintId
     );
@@ -119,9 +123,45 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (set,
     return triggeredHints;
   },
 
+  // NEUE FUNKTION: Check Auto-Free Hints
+  checkAutoFreeHints: (quizId: string, questionId: number): AutoFreeHint[] => {
+    const quizState = get().quizStates[quizId];
+    const question = quizState?.questions.find(q => q.id === questionId);
+    const hintState = quizState?.hintStates[questionId];
+
+    if (!question?.hints || !hintState) return [];
+
+    // Filter für Auto-Free Hints die verfügbar sind
+    return question.hints
+      .filter((hint): hint is AutoFreeHint => 
+        hint.type === 'auto_free' && 
+        !hintState.usedHints.includes(hint.id) &&
+        hintState.wrongAttempts >= hint.triggerAfterAttempts
+      );
+  },
+
+  // NEUE FUNKTION: Mark Auto-Free Hint als verwendet
+  markAutoFreeHintAsUsed: (quizId: string, questionId: number, hintId: string) => {
+    set((state) => ({
+      quizStates: {
+        ...state.quizStates,
+        [quizId]: {
+          ...state.quizStates[quizId],
+          hintStates: {
+            ...state.quizStates[quizId].hintStates,
+            [questionId]: {
+              ...state.quizStates[quizId].hintStates[questionId],
+              usedHints: [...state.quizStates[quizId].hintStates[questionId].usedHints, hintId]
+            }
+          }
+        }
+      }
+    }));
+  },
+
   getAvailableHints: (quizId: string, questionId: number): AvailableHint[] => {
     const quizState = get().quizStates[quizId];
-    const globalUserPoints = get().userPoints;  // ← Globale Points
+    const globalUserPoints = get().userPoints;
     const question = quizState?.questions.find(q => q.id === questionId);
     const hintState = quizState?.hintStates[questionId];
 
