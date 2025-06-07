@@ -1,7 +1,7 @@
-import { StyleSheet, View, ViewStyle } from 'react-native';
-import { ThemedText } from './ThemedText';
-import { useThemeColor } from '../hooks/useThemeColor';
-import NavigateBack from './NavigateBack';
+import { StyleSheet, View, type ViewStyle } from "react-native";
+import { ThemedText } from "./ThemedText";
+import { useThemeColor } from "../hooks/useThemeColor";
+import NavigateBack from "./NavigateBack";
 
 type HeaderProps = {
 	title?: string;
@@ -12,16 +12,16 @@ type HeaderProps = {
 	backButtonText?: string;
 };
 
-const Header = ({ 
-	title, 
-	leftSlot, 
-	rightSlot, 
+const Header = ({
+	title,
+	leftSlot,
+	rightSlot,
 	showBackButton = false,
 	onBackPress,
-	backButtonText = 'Zurück'
+	backButtonText = "Zurück",
 }: HeaderProps) => {
-	const textColor = useThemeColor({}, 'tintOnGradient') as string;
-	const iconColor = useThemeColor({}, 'tintOnGradient') as string;
+	const textColor = useThemeColor({}, "tintOnGradient") as string;
+	const iconColor = useThemeColor({}, "tintOnGradient") as string;
 
 	// Bestimme das Layout basierend auf den vorhandenen Props
 	const getLayoutConfig = () => {
@@ -32,67 +32,67 @@ const Header = ({
 		if (hasTitle && hasLeftSlot && hasRightSlot) {
 			// title, rightSlot und leftSlot vorhanden: 20%, 60%, 20% - justify center
 			return {
-				justifyContent: 'center' as const,
-				leftWidth: '20%' as const,
-				titleWidth: '60%' as const,
-				rightWidth: '20%' as const
+				justifyContent: "center" as const,
+				leftWidth: "20%" as const,
+				titleWidth: "60%" as const,
+				rightWidth: "20%" as const,
 			};
 		} else if (!hasTitle && hasLeftSlot && hasRightSlot) {
 			// kein title, beide slots: 40%, 40% - space-between
 			return {
-				justifyContent: 'space-between' as const,
-				leftWidth: '40%' as const,
+				justifyContent: "space-between" as const,
+				leftWidth: "40%" as const,
 				titleWidth: undefined,
-				rightWidth: '40%' as const
+				rightWidth: "40%" as const,
 			};
 		} else if (hasLeftSlot && hasTitle && !hasRightSlot) {
 			// nur leftSlot und title: 20%, 60% - flex-start
 			return {
-				justifyContent: 'flex-start' as const,
-				leftWidth: '20%' as const,
-				titleWidth: '60%' as const,
-				rightWidth: undefined
+				justifyContent: "flex-start" as const,
+				leftWidth: "20%" as const,
+				titleWidth: "60%" as const,
+				rightWidth: undefined,
 			};
 		} else if (!hasLeftSlot && hasTitle && hasRightSlot) {
 			// nur rightSlot und title: 60%, 20% - flex-end
 			return {
-				justifyContent: 'flex-end' as const,
+				justifyContent: "flex-end" as const,
 				leftWidth: undefined,
-				titleWidth: '60%' as const,
-				rightWidth: '20%' as const
+				titleWidth: "60%" as const,
+				rightWidth: "20%" as const,
 			};
 		} else if (hasLeftSlot && !hasTitle && !hasRightSlot) {
 			// nur leftSlot: 40% - flex-start
 			return {
-				justifyContent: 'flex-start' as const,
-				leftWidth: '40%' as const,
+				justifyContent: "flex-start" as const,
+				leftWidth: "40%" as const,
 				titleWidth: undefined,
-				rightWidth: undefined
+				rightWidth: undefined,
 			};
 		} else if (!hasLeftSlot && !hasTitle && hasRightSlot) {
 			// nur rightSlot: 40% - flex-end
 			return {
-				justifyContent: 'flex-end' as const,
+				justifyContent: "flex-end" as const,
 				leftWidth: undefined,
 				titleWidth: undefined,
-				rightWidth: '40%' as const
+				rightWidth: "40%" as const,
 			};
 		} else if (!hasLeftSlot && hasTitle && !hasRightSlot) {
 			// nur title: center
 			return {
-				justifyContent: 'center' as const,
+				justifyContent: "center" as const,
 				leftWidth: undefined,
-				titleWidth: '100%' as const,
-				rightWidth: undefined
+				titleWidth: "100%" as const,
+				rightWidth: undefined,
 			};
 		}
 
 		// Fallback
 		return {
-			justifyContent: 'center' as const,
+			justifyContent: "center" as const,
 			leftWidth: undefined,
-			titleWidth: '100%' as const,
-			rightWidth: undefined
+			titleWidth: "100%" as const,
+			rightWidth: undefined,
 		};
 	};
 
@@ -110,17 +110,17 @@ const Header = ({
 		...(layoutConfig.leftWidth && {
 			leftSlot: {
 				width: layoutConfig.leftWidth,
-			}
+			},
 		}),
 		...(layoutConfig.titleWidth && {
 			titleContainer: {
 				width: layoutConfig.titleWidth,
-			}
+			},
 		}),
 		...(layoutConfig.rightWidth && {
 			rightSlot: {
 				width: layoutConfig.rightWidth,
-			}
+			},
 		}),
 	});
 
@@ -130,8 +130,8 @@ const Header = ({
 	const getLeftSlotContent = () => {
 		if (showBackButton && onBackPress) {
 			return (
-				<NavigateBack 
-					onPress={onBackPress} 
+				<NavigateBack
+					onPress={onBackPress}
 					text={backButtonText}
 					iconColor={iconColor}
 					textColor={textColor}
@@ -154,20 +154,15 @@ const Header = ({
 			{title && (
 				<View style={[styles.titleContainer, dynamicStyles.titleContainer]}>
 					<ThemedText
-						type='title'
-						style={[
-							styles.headerTitle,
-							{ color: textColor },
-						]}
+						type="title"
+						style={[styles.headerTitle, { color: textColor }]}
 					>
 						{title}
 					</ThemedText>
 				</View>
 			)}
 			{hasRightContent && (
-				<View style={[styles.slot, dynamicStyles.rightSlot]}>
-					{rightSlot}
-				</View>
+				<View style={[styles.slot, dynamicStyles.rightSlot]}>{rightSlot}</View>
 			)}
 		</View>
 	);
@@ -177,17 +172,17 @@ export default Header;
 
 const styles = StyleSheet.create({
 	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		paddingHorizontal: 8,
 	},
 	titleContainer: {
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	headerTitle: {
-		textAlign: 'center',
+		textAlign: "center",
 	},
 	slot: {
-		justifyContent: 'center',
+		justifyContent: "center",
 	},
 });

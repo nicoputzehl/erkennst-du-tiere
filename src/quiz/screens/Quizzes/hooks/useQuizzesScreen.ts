@@ -1,64 +1,74 @@
-import { useUI, useUnlockDetection } from '@/src/quiz/store';
-import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
-import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useUI, useUnlockDetection } from "@/src/quiz/store";
+import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
+import { router } from "expo-router";
+import { useEffect } from "react";
 
 export function useQuizzesScreen() {
-  const { quizzes, initializeQuizState, setCurrentQuiz } = useQuiz();
-  const { checkPendingUnlocks, setLoading } = useUI();
+	const { quizzes, initializeQuizState, setCurrentQuiz } = useQuiz();
+	const { checkPendingUnlocks, setLoading } = useUI();
 
-  const { detectMissedUnlocks } = useUnlockDetection();
-  useEffect(() => {
-    const initialize = async () => {
-      setLoading('quizzesInit', true);
+	const { detectMissedUnlocks } = useUnlockDetection();
+	useEffect(() => {
+		const initialize = async () => {
+			setLoading("quizzesInit", true);
 
-      try {
-        console.log('[useQuizzesScreen] Initializing quiz states...');
+			try {
+				console.log("[useQuizzesScreen] Initializing quiz states...");
 
-        for (const quiz of quizzes) {
-          initializeQuizState(quiz.id);
-        }
+				for (const quiz of quizzes) {
+					initializeQuizState(quiz.id);
+				}
 
-        console.log('[useQuizzesScreen] All quiz states initialized');
+				console.log("[useQuizzesScreen] All quiz states initialized");
 
-        setTimeout(() => {
-          console.log('[useQuizzesScreen] Running missed unlock detection');
-          detectMissedUnlocks();
-        }, 200);
+				setTimeout(() => {
+					console.log("[useQuizzesScreen] Running missed unlock detection");
+					detectMissedUnlocks();
+				}, 200);
 
-        // Check for pending unlocks after initialization
-        setTimeout(() => {
-          checkPendingUnlocks();
-        }, 400);
+				// Check for pending unlocks after initialization
+				setTimeout(() => {
+					checkPendingUnlocks();
+				}, 400);
+			} catch (error) {
+				console.error(
+					"[useQuizzesScreen] Error initializing quiz states:",
+					error,
+				);
+			} finally {
+				setLoading("quizzesInit", false);
+			}
+		};
 
+		if (quizzes.length > 0) {
+			initialize();
+		}
+	}, [
+		quizzes,
+		initializeQuizState,
+		checkPendingUnlocks,
+		setLoading,
+		detectMissedUnlocks,
+	]);
 
-      } catch (error) {
-        console.error('[useQuizzesScreen] Error initializing quiz states:', error);
-      } finally {
-        setLoading('quizzesInit', false);
-      }
-    };
+	const navigateToQuiz = async (quizId: string) => {
+		setLoading(`navigate_${quizId}`, true);
 
-    if (quizzes.length > 0) {
-      initialize();
-    }
-  }, [quizzes, initializeQuizState, checkPendingUnlocks, setLoading, detectMissedUnlocks]);
+		try {
+			await initializeQuizState(quizId);
+			setCurrentQuiz(quizId);
+			router.navigate(`/quiz/${quizId}`);
+		} catch (error) {
+			console.error(
+				`[useQuizzesScreen] Error navigating to quiz ${quizId}:`,
+				error,
+			);
+		} finally {
+			setLoading(`navigate_${quizId}`, false);
+		}
+	};
 
-  const navigateToQuiz = async (quizId: string) => {
-    setLoading(`navigate_${quizId}`, true);
-
-    try {
-      await initializeQuizState(quizId);
-      setCurrentQuiz(quizId);
-      router.navigate(`/quiz/${quizId}`);
-    } catch (error) {
-      console.error(`[useQuizzesScreen] Error navigating to quiz ${quizId}:`, error);
-    } finally {
-      setLoading(`navigate_${quizId}`, false);
-    }
-  };
-
-  return {
-    navigateToQuiz
-  };
+	return {
+		navigateToQuiz,
+	};
 }

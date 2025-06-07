@@ -1,75 +1,75 @@
-import { useLoading } from '@/src/quiz/store';
-import {  useQuiz } from '@/src/quiz/store/hooks/useQuiz';
-import { QuizState } from '@/src/quiz/types';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useLoading } from "@/src/quiz/store";
+import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
+import type { QuizState } from "@/src/quiz/types";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 
 export function useQuizScreen(quizId: string | null) {
-  const { getQuizState, initializeQuizState, getQuizProgress } = useQuiz();
-  const { isLoading, startLoading, stopLoading } = useLoading('quizScreen');
-  
-  const [quizState, setQuizState] = useState<QuizState | null>(null);
-  const [error, setError] = useState<string | null>(null);
+	const { getQuizState, initializeQuizState, getQuizProgress } = useQuiz();
+	const { isLoading, startLoading, stopLoading } = useLoading("quizScreen");
 
-  useEffect(() => {
-    const loadQuiz = async () => {
-      if (!quizId) {
-        setError('Keine Quiz-ID angegeben');
-        return;
-      }
+	const [quizState, setQuizState] = useState<QuizState | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
-      startLoading();
-      setError(null);
-      
-      try {
-        let state: QuizState | undefined  | null= getQuizState(quizId);
-        
-        if (!state) {
-          state = initializeQuizState(quizId);
-        }
-        
-        if (state) {
-          setQuizState(state);
-        } else {
-          setError(`Quiz mit ID ${quizId} nicht gefunden`);
-        }
-      } catch (err) {
-        console.error(`[useQuizScreen] Error loading quiz ${quizId}:`, err);
-        setError(`Fehler beim Laden des Quiz: ${err}`);
-      } finally {
-        stopLoading();
-      }
-    };
+	useEffect(() => {
+		const loadQuiz = async () => {
+			if (!quizId) {
+				setError("Keine Quiz-ID angegeben");
+				return;
+			}
 
-    loadQuiz();
-  }, [getQuizState, initializeQuizState, quizId, startLoading, stopLoading]);
+			startLoading();
+			setError(null);
 
-  // Refresh state when coming back to screen
-  useEffect(() => {
-    if (quizId) {
-      const currentState = getQuizState(quizId);
-      if (currentState) {
-        setQuizState(currentState);
-      }
-    }
-  }, [quizId, getQuizState]);
+			try {
+				let state: QuizState | undefined | null = getQuizState(quizId);
 
-  const handleQuestionClick = (questionId: string) => {
-    if (quizId) {
-      router.navigate(`/quiz/${quizId}/${questionId}`);
-    }
-  };
+				if (!state) {
+					state = initializeQuizState(quizId);
+				}
 
-  const navigateBack = () => {
-    router.back();
-  };
+				if (state) {
+					setQuizState(state);
+				} else {
+					setError(`Quiz mit ID ${quizId} nicht gefunden`);
+				}
+			} catch (err) {
+				console.error(`[useQuizScreen] Error loading quiz ${quizId}:`, err);
+				setError(`Fehler beim Laden des Quiz: ${err}`);
+			} finally {
+				stopLoading();
+			}
+		};
 
-  return {
-    quizState,
-    isLoading,
-    error,
-    handleQuestionClick,
-    navigateBack,
-    getQuizProgress
-  };
+		loadQuiz();
+	}, [getQuizState, initializeQuizState, quizId, startLoading, stopLoading]);
+
+	// Refresh state when coming back to screen
+	useEffect(() => {
+		if (quizId) {
+			const currentState = getQuizState(quizId);
+			if (currentState) {
+				setQuizState(currentState);
+			}
+		}
+	}, [quizId, getQuizState]);
+
+	const handleQuestionClick = (questionId: string) => {
+		if (quizId) {
+			router.navigate(`/quiz/${quizId}/${questionId}`);
+		}
+	};
+
+	const navigateBack = () => {
+		router.back();
+	};
+
+	return {
+		quizState,
+		isLoading,
+		error,
+		handleQuestionClick,
+		navigateBack,
+		getQuizProgress,
+	};
 }

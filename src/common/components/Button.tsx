@@ -1,12 +1,12 @@
 import {
-	StyleProp,
+	type StyleProp,
 	StyleSheet,
 	Text,
-	TextStyle,
+	type TextStyle,
 	TouchableOpacity,
-	TouchableOpacityProps,
-} from 'react-native';
-import React from 'react';
+	type TouchableOpacityProps,
+} from "react-native";
+import React from "react";
 
 interface ButtonProps extends TouchableOpacityProps {
 	text: string;
@@ -36,16 +36,16 @@ export default Button;
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: '#0a7ea4',
+		backgroundColor: "#0a7ea4",
 		paddingVertical: 14,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		width: '70%',
-		alignItems: 'center',
-		justifyContent: 'center',
+		width: "70%",
+		alignItems: "center",
+		justifyContent: "center",
 		minHeight: 50,
 		// Schatten
-		shadowColor: '#000',
+		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
 			height: 2,
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
 	},
 	disabledButton: {
 		opacity: 0.5,
-		backgroundColor: '#ccc',
+		backgroundColor: "#ccc",
 	},
 	buttonText: {
-		color: '#fff',
-		fontWeight: '700',
+		color: "#fff",
+		fontWeight: "700",
 		fontSize: 16,
 		letterSpacing: 0.5,
 	},

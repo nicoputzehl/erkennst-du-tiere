@@ -1,37 +1,37 @@
-import { QuestionBase } from "../../types";
-import { PointTransaction, UserPointsState } from "../../types/hint";
+import type { QuestionBase } from "../../types";
+import type { PointTransaction, UserPointsState } from "../../types/hint";
 
-export const calculatePointsForCorrectAnswer = (question: QuestionBase): number => {
-  const basePoints = 10;
-  const hintBonus = question.hints?.length ? question.hints.length * 2 : 0;
-  return basePoints + hintBonus;
+export const calculatePointsForCorrectAnswer = (
+	question: QuestionBase,
+): number => {
+	const basePoints = 10;
+	const hintBonus = question.hints?.length ? question.hints.length * 2 : 0;
+	return basePoints + hintBonus;
 };
 
 export const createPointTransaction = (
-  type: 'earned' | 'spent',
-  amount: number,
-  reason: string,
-  quizId?: string,  // ← NEU: Quiz-Kontext
-  questionId?: number,
-  hintId?: string
+	type: "earned" | "spent",
+	amount: number,
+	reason: string,
+	quizId?: string, // ← NEU: Quiz-Kontext
+	questionId?: number,
+	hintId?: string,
 ): PointTransaction => {
-  return {
-    id: `${Date.now()}_${Math.random()}`,
-    type,
-    amount,
-    reason,
-    timestamp: Date.now(),
-    quizId,      // ← NEU
-    questionId,
-    hintId
-  };
+	return {
+		id: `${Date.now()}_${Math.random()}`,
+		type,
+		amount,
+		reason,
+		timestamp: Date.now(),
+		quizId, // ← NEU
+		questionId,
+		hintId,
+	};
 };
 
 export const getInitialUserPoints = (): UserPointsState => ({
-  totalPoints: 50, // Startpunkte
-  earnedPoints: 50,
-  spentPoints: 0,
-  pointsHistory: [
-    createPointTransaction('earned', 50, 'Startguthaben')
-  ]
+	totalPoints: 50, // Startpunkte
+	earnedPoints: 50,
+	spentPoints: 0,
+	pointsHistory: [createPointTransaction("earned", 50, "Startguthaben")],
 });

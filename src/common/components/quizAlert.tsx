@@ -1,8 +1,4 @@
-import {
-
-	Alert,
-	AlertButton,
-} from 'react-native';
+import { Alert, type AlertButton } from "react-native";
 
 interface AlertProps {
 	title: string;
@@ -23,4 +19,3 @@ const quizAlert = ({ title, text, cancel, confirm }: AlertProps) => {
 };
 
 export default quizAlert;
-

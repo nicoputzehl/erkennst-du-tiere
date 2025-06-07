@@ -1,6 +1,6 @@
-import { StyleSheet, View } from 'react-native';
-import React from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View } from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ProgressIndicator = ({ progress }: { progress: number }) => {
 	return (
@@ -9,7 +9,7 @@ export const ProgressIndicator = ({ progress }: { progress: number }) => {
 				colors={[
 					getProgressColor(progress),
 					getProgressColor(progress),
-					'transparent',
+					"transparent",
 				]}
 				style={styles.progressGradient}
 				start={{ x: 0, y: 0 }}
@@ -21,24 +21,24 @@ export const ProgressIndicator = ({ progress }: { progress: number }) => {
 };
 
 const getProgressColor = (percentage: number): string => {
-	if (percentage <= 25) return '#5F8AE1';
-	else if (percentage <= 50) return '#4C6FB4';
-	else if (percentage <= 75) return '#395487';
-	else if (percentage < 100) return '#26395A';
-	else return '#131E2D';
+	if (percentage <= 25) return "#5F8AE1";
+	else if (percentage <= 50) return "#4C6FB4";
+	else if (percentage <= 75) return "#395487";
+	else if (percentage < 100) return "#26395A";
+	else return "#131E2D";
 };
 
 const styles = StyleSheet.create({
 	progressBarBackground: {
 		height: 8,
-		backgroundColor: '#e9ecef',
+		backgroundColor: "#e9ecef",
 		borderRadius: 4,
-		overflow: 'hidden',
-		width: '100%',
+		overflow: "hidden",
+		width: "100%",
 	},
 	progressGradient: {
-		width: '100%',
-		position: 'absolute',
+		width: "100%",
+		position: "absolute",
 		top: 0,
 		left: 0,
 		right: 0,

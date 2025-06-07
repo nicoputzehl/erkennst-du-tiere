@@ -1,50 +1,49 @@
-import { Question, QuestionBase } from "./question";
+import { Question, type QuestionBase } from "./question";
 
 export enum HintType {
-  LETTER_COUNT = 'letter_count',
-  FIRST_LETTER = 'first_letter',
-  CATEGORY = 'category',
-  REGION = 'region',
-  CUSTOM = 'custom',
-  CONTEXTUAL = 'contextual',
-  AUTO_FREE = 'auto_free'
+	LETTER_COUNT = "letter_count",
+	FIRST_LETTER = "first_letter",
+	CATEGORY = "category",
+	REGION = "region",
+	CUSTOM = "custom",
+	CONTEXTUAL = "contextual",
+	AUTO_FREE = "auto_free",
 }
-
 
 // ==========================================
 // BASE & DERIVED INTERFACES
 // ==========================================
 
 export interface HintBase {
-  id: string;
-  type: HintType;
-  cost: number;
-  title: string;
-  description: string;
+	id: string;
+	type: HintType;
+	cost: number;
+	title: string;
+	description: string;
 }
 
 export interface StaticHint extends HintBase {
-  type: HintType.CUSTOM | HintType.CATEGORY | HintType.REGION;
-  content: string;
+	type: HintType.CUSTOM | HintType.CATEGORY | HintType.REGION;
+	content: string;
 }
 
 export interface DynamicHint extends HintBase {
-  type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
-  generator: (question: QuestionBase) => string;
+	type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
+	generator: (question: QuestionBase) => string;
 }
 
 export interface ContextualHint extends HintBase {
-  type: HintType.CONTEXTUAL;
-  triggers: string[];
-  content: string;
-  triggerSpecificContent?: Record<string, string>;
+	type: HintType.CONTEXTUAL;
+	triggers: string[];
+	content: string;
+	triggerSpecificContent?: Record<string, string>;
 }
 
 export interface AutoFreeHint extends HintBase {
-  type: HintType.AUTO_FREE;
-  triggerAfterAttempts: number;
-  content: string;
-  escalatingContent?: string[];
+	type: HintType.AUTO_FREE;
+	triggerAfterAttempts: number;
+	content: string;
+	escalatingContent?: string[];
 }
 
 export type Hint = StaticHint | DynamicHint | ContextualHint | AutoFreeHint;
@@ -54,28 +53,28 @@ export type Hint = StaticHint | DynamicHint | ContextualHint | AutoFreeHint;
 // ==========================================
 
 export interface HintState {
-  questionId: number;
-  usedHints: string[];
-  wrongAttempts: number;
-  contextualHintsTriggered: string[];
+	questionId: number;
+	usedHints: string[];
+	wrongAttempts: number;
+	contextualHintsTriggered: string[];
 }
 
 export interface PointTransaction {
-  id: string;
-  type: 'earned' | 'spent';
-  amount: number;
-  reason: string;
-  timestamp: number;
-  questionId?: number;
-  hintId?: string;
-  quizId?: string;
+	id: string;
+	type: "earned" | "spent";
+	amount: number;
+	reason: string;
+	timestamp: number;
+	questionId?: number;
+	hintId?: string;
+	quizId?: string;
 }
 
 export interface UserPointsState {
-  totalPoints: number;
-  earnedPoints: number;
-  spentPoints: number;
-  pointsHistory: PointTransaction[];
+	totalPoints: number;
+	earnedPoints: number;
+	spentPoints: number;
+	pointsHistory: PointTransaction[];
 }
 
 // ==========================================
@@ -83,15 +82,15 @@ export interface UserPointsState {
 // ==========================================
 
 export interface UseHintResult {
-  success: boolean;
-  hintContent?: string;
-  pointsDeducted?: number;
-  error?: string;
+	success: boolean;
+	hintContent?: string;
+	pointsDeducted?: number;
+	error?: string;
 }
 
 export interface AvailableHint {
-  hint: Hint;
-  canUse: boolean;
-  reason?: string;
-  content?: string;
+	hint: Hint;
+	canUse: boolean;
+	reason?: string;
+	content?: string;
 }

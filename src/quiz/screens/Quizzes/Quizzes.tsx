@@ -1,20 +1,20 @@
-import { ThemedView } from '@/src/common/components/ThemedView';
-import { ThemedText } from '@/src/common/components/ThemedText';
-import { FontAwesome6 } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { ThemedView } from "@/src/common/components/ThemedView";
+import { ThemedText } from "@/src/common/components/ThemedText";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { router } from "expo-router";
 import {
 	ActivityIndicator,
 	ScrollView,
 	StyleSheet,
 	TouchableOpacity,
 	View,
-} from 'react-native';
-import { useThemeColor } from '@/src/common/hooks/useThemeColor';
-import { useColorScheme } from '@/src/common/hooks/useColorScheme';
-import { Quiz } from '../../types';
-import { QuizGrid } from './components/QuizGrid';
-import { useQuizzesScreen } from './hooks/useQuizzesScreen';
-import Header from '@/src/common/components/Header';
+} from "react-native";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { useColorScheme } from "@/src/common/hooks/useColorScheme";
+import type { Quiz } from "../../types";
+import { QuizGrid } from "./components/QuizGrid";
+import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
+import Header from "@/src/common/components/Header";
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -25,23 +25,23 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	const colorScheme = useColorScheme();
 
 	// Theme-basierte Farben
-	const textColor = useThemeColor({}, 'text');
-	const tintColor = useThemeColor({}, 'tint');
+	const textColor = useThemeColor({}, "text");
+	const tintColor = useThemeColor({}, "tint");
 
 	const handleNavigateToSettings = () => {
-		router.navigate('/settings');
+		router.navigate("/settings");
 	};
 
 	const renderLoadingState = () => (
 		<View style={styles.loadingContainer}>
 			<ActivityIndicator
-				size='large'
-				color={typeof tintColor === 'string' ? tintColor : '#0a7ea4'}
+				size="large"
+				color={typeof tintColor === "string" ? tintColor : "#0a7ea4"}
 			/>
 			<ThemedText
 				style={[
 					styles.loadingText,
-					{ color: typeof tintColor === 'string' ? tintColor : '#0a7ea4' },
+					{ color: typeof tintColor === "string" ? tintColor : "#0a7ea4" },
 				]}
 			>
 				Quizzes werden geladen...
@@ -64,31 +64,28 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 		settingsButton: {
 			...styles.settingsButton,
 			backgroundColor:
-				colorScheme === 'dark'
-					? 'rgba(255, 255, 255, 0.1)'
-					: 'rgba(0, 0, 0, 0.1)',
+				colorScheme === "dark"
+					? "rgba(255, 255, 255, 0.1)"
+					: "rgba(0, 0, 0, 0.1)",
 		},
 	});
 
 	return (
-		<ThemedView
-			style={styles.container}
-			gradientType='primary'
-		>
+		<ThemedView style={styles.container} gradientType="primary">
 			<Header
-				title='Erkennst du: Tiere'
+				title="Erkennst du: Tiere"
 				rightSlot={
 					<TouchableOpacity
 						onPress={handleNavigateToSettings}
 						style={dynamicStyles.settingsButton}
 						activeOpacity={0.7}
-						accessibilityLabel='Einstellungen öffnen'
-						accessibilityRole='button'
+						accessibilityLabel="Einstellungen öffnen"
+						accessibilityRole="button"
 					>
 						<FontAwesome6
-							name='gear'
+							name="gear"
 							size={24}
-							color={typeof textColor === 'string' ? textColor : '#FFFFFF'}
+							color={typeof textColor === "string" ? textColor : "#FFFFFF"}
 						/>
 					</TouchableOpacity>
 				}
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
 	settingsButton: {
 		padding: 10,
 		borderRadius: 12,
-		shadowColor: '#000',
+		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
 			height: 2,
@@ -114,7 +111,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.1,
 		shadowRadius: 3,
 		elevation: 3,
-		alignItems: 'center',
+		alignItems: "center",
 	},
 	scrollView: {
 		flex: 1,
@@ -125,14 +122,14 @@ const styles = StyleSheet.create({
 	},
 	loadingContainer: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 		padding: 24,
 	},
 	loadingText: {
 		marginTop: 16,
 		fontSize: 16,
-		textAlign: 'center',
+		textAlign: "center",
 		opacity: 0.8,
 	},
 });

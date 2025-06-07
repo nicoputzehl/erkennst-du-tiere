@@ -1,23 +1,22 @@
-import { Hint } from "./hint";
-import { QuizImages } from "./image";
+import type { Hint } from "./hint";
+import type { QuizImages } from "./image";
 
 export enum QuestionStatus {
-  INACTIVE = 'inactive',
-  ACTIVE = 'active', 
-  SOLVED = 'solved'
+	INACTIVE = "inactive",
+	ACTIVE = "active",
+	SOLVED = "solved",
 }
 
 export interface QuestionBase {
-  id: number;
-  images: QuizImages;
-  answer: string;
-  alternativeAnswers?: string[];
-  funFact?: string;
-  wikipediaName?: string;
-  hints?: Hint[]
+	id: number;
+	images: QuizImages;
+	answer: string;
+	alternativeAnswers?: string[];
+	funFact?: string;
+	wikipediaName?: string;
+	hints?: Hint[];
 }
 
-
 export interface Question extends QuestionBase {
-  status: QuestionStatus;
+	status: QuestionStatus;
 }

@@ -1,1 +1,1 @@
-export * from './useImageDisplay';
+export * from "./useImageDisplay";

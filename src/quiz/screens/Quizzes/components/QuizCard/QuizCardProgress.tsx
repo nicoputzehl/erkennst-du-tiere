@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import { ThemedText } from '@/src/common/components/ThemedText';
-import { ProgressIndicator } from '@/src/quiz/components/ProgressIndicator';
-import { QuizCardActiveProps } from './QuizCard.types';
+import { ThemedText } from "@/src/common/components/ThemedText";
+import { ProgressIndicator } from "@/src/quiz/components/ProgressIndicator";
+import type { QuizCardActiveProps } from "./QuizCard.types";
 
 type QuizCardProgressProps = Pick<
 	QuizCardActiveProps,
-	'quizCardProgress' | 'quizCardProgressString'
+	"quizCardProgress" | "quizCardProgressString"
 >;
 
 export const QuizCardProgress = ({
@@ -18,7 +18,7 @@ export const QuizCardProgress = ({
 		<View style={styles.progressContainer}>
 			{quizCardProgress ? (
 				<>
-					<View style={[ { flex: 0.7 }]}>
+					<View style={[{ flex: 0.7 }]}>
 						<ProgressIndicator progress={quizCardProgress} />
 					</View>
 					<ThemedText style={[styles.progressText, { flex: 0.3 }]}>
@@ -34,21 +34,21 @@ export const QuizCardProgress = ({
 
 const styles = StyleSheet.create({
 	progressContainer: {
-		flexDirection: 'row',
-		alignItems: 'flex-end',
+		flexDirection: "row",
+		alignItems: "flex-end",
 		gap: 8,
-		width: '100%',
-		justifyContent: 'flex-end',
+		width: "100%",
+		justifyContent: "flex-end",
 	},
 	progressText: {
 		fontSize: 14,
-		color: '#666',
+		color: "#666",
 		zIndex: 1,
-		textAlign: 'right',
+		textAlign: "right",
 	},
 	newText: {
 		fontSize: 14,
-		color: '#ff9800',
-		fontWeight: '500',
+		color: "#ff9800",
+		fontWeight: "500",
 	},
 });

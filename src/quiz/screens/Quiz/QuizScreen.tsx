@@ -1,14 +1,14 @@
-import { ErrorComponent } from '@/src/common/components/ErrorComponent';
-import { LoadingComponent } from '@/src/common/components/LoadingComponent';
-import { ThemedView } from '@/src/common/components/ThemedView';
-import { QuizProgress } from '@/src/quiz/screens/Quiz/components/QuizProgress';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { QuestionGrid } from './components/QuestionGrid';
-import { QUIZ_LAYOUT } from './constants/constants';
-import { useQuizScreen } from './hooks/useQuizScreen';
-import { calculateItemWidth } from './utils/utils';
-import Header from '@/src/common/components/Header';
+import { ErrorComponent } from "@/src/common/components/ErrorComponent";
+import { LoadingComponent } from "@/src/common/components/LoadingComponent";
+import { ThemedView } from "@/src/common/components/ThemedView";
+import { QuizProgress } from "@/src/quiz/screens/Quiz/components/QuizProgress";
+import type React from "react";
+import { StyleSheet, View } from "react-native";
+import { QuestionGrid } from "./components/QuestionGrid";
+import { QUIZ_LAYOUT } from "./constants/constants";
+import { useQuizScreen } from "./hooks/useQuizScreen";
+import { calculateItemWidth } from "./utils/utils";
+import Header from "@/src/common/components/Header";
 
 interface QuizScreenProps {
 	quizId: string | null;
@@ -26,18 +26,15 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 	const itemWidth = calculateItemWidth();
 
 	const renderLoadingState = () => (
-		<LoadingComponent message='Quiz wird geladen...' />
+		<LoadingComponent message="Quiz wird geladen..." />
 	);
 
 	const renderErrorState = () => (
-		<ErrorComponent message={error || 'Quiz nicht gefunden'} />
+		<ErrorComponent message={error || "Quiz nicht gefunden"} />
 	);
 
 	const renderQuizContent = () => (
-		<ThemedView
-			style={styles.container}
-			gradientType='primary'
-		>
+		<ThemedView style={styles.container} gradientType="primary">
 			<Header
 				showBackButton
 				onBackPress={navigateBack}
@@ -72,6 +69,6 @@ const styles = StyleSheet.create({
 	scrollContent: {
 		flex: 1,
 		padding: QUIZ_LAYOUT.padding,
-		justifyContent: 'center',
+		justifyContent: "center",
 	},
 });

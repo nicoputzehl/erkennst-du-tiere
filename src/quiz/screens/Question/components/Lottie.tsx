@@ -1,6 +1,6 @@
-import { useRef, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import LottieView from 'lottie-react-native';
+import { useRef, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import LottieView from "lottie-react-native";
 
 export const Lottie = () => {
 	const animation = useRef<LottieView>(null);
@@ -20,7 +20,7 @@ export const Lottie = () => {
 					height: "100%",
 				}}
 				// Find more Lottie files at https://lottiefiles.com/featured
-				source={require('@/assets/animations/celebration.json')}
+				source={require("@/assets/animations/celebration.json")}
 			/>
 		</View>
 	);
@@ -28,18 +28,17 @@ export const Lottie = () => {
 
 const styles = StyleSheet.create({
 	animationContainer: {
-		alignItems: 'center',
-		justifyContent: 'center',
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: '100%',
-		height: '100%',
-		zIndex: -1
-
+		alignItems: "center",
+		justifyContent: "center",
+		flex: 1,
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		width: "100%",
+		height: "100%",
+		zIndex: -1,
 	},
 	buttonContainer: {
 		paddingTop: 20,

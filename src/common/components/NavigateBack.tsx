@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 type NavigateBackProps = {
 	onPress: () => void;
@@ -9,26 +9,21 @@ type NavigateBackProps = {
 	textColor?: string;
 };
 
-const NavigateBack = ({ 
-	onPress, 
-	text = 'Zurück',
-	iconColor = '#007AFF', // iOS Standard Blau
-	textColor = '#007AFF'  // iOS Standard Blau
+const NavigateBack = ({
+	onPress,
+	text = "Zurück",
+	iconColor = "#007AFF", // iOS Standard Blau
+	textColor = "#007AFF", // iOS Standard Blau
 }: NavigateBackProps) => {
 	return (
-		<TouchableOpacity
-			onPress={onPress}
-			style={styles.container}
-		>
+		<TouchableOpacity onPress={onPress} style={styles.container}>
 			<FontAwesome6
-				name='chevron-left'
+				name="chevron-left"
 				size={18} // Kleiner wie bei iOS
 				color={iconColor}
 				style={styles.icon}
 			/>
-			<Text style={[styles.backButton, { color: textColor }]}>
-				{text}
-			</Text>
+			<Text style={[styles.backButton, { color: textColor }]}>{text}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -37,8 +32,8 @@ export default NavigateBack;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: 'row',
-		alignItems: 'center',
+		flexDirection: "row",
+		alignItems: "center",
 		paddingVertical: 8,
 	},
 	icon: {
@@ -46,6 +41,6 @@ const styles = StyleSheet.create({
 	},
 	backButton: {
 		fontSize: 17, // iOS Standard Schriftgröße
-		fontWeight: '400', // Normal weight wie iOS
+		fontWeight: "400", // Normal weight wie iOS
 	},
 });

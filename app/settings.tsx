@@ -1,14 +1,16 @@
-import { Stack } from 'expo-router';
-import { SettingsScreen } from '@/src/settings/screens/SettingsScreen';
+import { Stack } from "expo-router";
+import { SettingsScreen } from "@/src/settings/screens/SettingsScreen";
 
 export default function SettingsRoute() {
-  return (
-    <>
-      <Stack.Screen options={{ 
-        title: 'Einstellungen',
-        headerShown: false 
-      }} />
-      <SettingsScreen />
-    </>
-  );
+	return (
+		<>
+			<Stack.Screen
+				options={{
+					title: "Einstellungen",
+					headerShown: false,
+				}}
+			/>
+			<SettingsScreen />
+		</>
+	);
 }

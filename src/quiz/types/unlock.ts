@@ -1,4 +1,4 @@
 export interface UnlockCondition {
-  requiredQuizId: string;
-  description: string;
+	requiredQuizId: string;
+	description: string;
 }

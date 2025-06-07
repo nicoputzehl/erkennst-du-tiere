@@ -1,23 +1,23 @@
 import { useMemo } from "react";
 import { useQuizStore } from "../Quiz.store";
 
-
 /**
  * Hook for unlock detection - simplified
  */
 export function useUnlockDetection() {
-  const detectMissedUnlocks = useQuizStore((state) => state.detectMissedUnlocks);
+	const detectMissedUnlocks = useQuizStore(
+		(state) => state.detectMissedUnlocks,
+	);
 
-  useMemo(() => {
-    const timer = setTimeout(() => {
-      detectMissedUnlocks();
-    }, 100);
+	useMemo(() => {
+		const timer = setTimeout(() => {
+			detectMissedUnlocks();
+		}, 100);
 
-    return () => clearTimeout(timer);
+		return () => clearTimeout(timer);
+	}, [detectMissedUnlocks]);
 
-  }, [detectMissedUnlocks]);
-
-  return {
-    detectMissedUnlocks
-  };
+	return {
+		detectMissedUnlocks,
+	};
 }

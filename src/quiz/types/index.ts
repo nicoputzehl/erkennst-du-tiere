@@ -5,11 +5,11 @@ import { Quiz, QuizConfig, QuizState } from "./quiz";
 export * from "./hint";
 
 export {
-  QuestionBase,      
-  Question,          
-  QuestionStatus,
-  Quiz,
-  QuizConfig,
-  QuizState,
-  UnlockCondition
+	QuestionBase,
+	Question,
+	QuestionStatus,
+	Quiz,
+	QuizConfig,
+	QuizState,
+	UnlockCondition,
 };

@@ -1,8 +1,8 @@
-import { ThemedView } from '@/src/common/components/ThemedView';
-import { QuizScreen } from '@/src/quiz/screens/Quiz/QuizScreen';
-import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { ThemedView } from "@/src/common/components/ThemedView";
+import { QuizScreen } from "@/src/quiz/screens/Quiz/QuizScreen";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet } from "react-native";
 
 export default function QuizRoute() {
 	const { quizId } = useLocalSearchParams<{ quizId: string }>();
@@ -16,7 +16,7 @@ export default function QuizRoute() {
 	if (isParsingParams) {
 		return (
 			<ThemedView style={styles.loadingContainer}>
-				<ActivityIndicator size='large' color='#0a7ea4' />
+				<ActivityIndicator size="large" color="#0a7ea4" />
 			</ThemedView>
 		);
 	}
@@ -27,7 +27,7 @@ export default function QuizRoute() {
 const styles = StyleSheet.create({
 	loadingContainer: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });

@@ -1,9 +1,9 @@
-import Header from '@/src/common/components/Header';
-import { ThemedView } from '@/src/common/components/ThemedView';
-import { useQuizStatistics, useUI } from '@/src/quiz/store';
-import { useQuiz } from '@/src/quiz/store/hooks/useQuiz';
-import { router } from 'expo-router';
-import React, { useState } from 'react';
+import Header from "@/src/common/components/Header";
+import { ThemedView } from "@/src/common/components/ThemedView";
+import { useQuizStatistics, useUI } from "@/src/quiz/store";
+import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
+import { router } from "expo-router";
+import React, { useState } from "react";
 import {
 	ActivityIndicator,
 	Alert,
@@ -12,7 +12,7 @@ import {
 	Text,
 	TouchableOpacity,
 	View,
-} from 'react-native';
+} from "react-native";
 
 export function SettingsScreen() {
 	const { quizzes, resetQuizState, resetAllQuizStates } = useQuiz();
@@ -38,18 +38,18 @@ export function SettingsScreen() {
 
 	const handleResetAll = () => {
 		Alert.alert(
-			'Alle Quizzes zurücksetzen?',
-			'Möchtest du wirklich alle Quiz-Fortschritte zurücksetzen?',
+			"Alle Quizzes zurücksetzen?",
+			"Möchtest du wirklich alle Quiz-Fortschritte zurücksetzen?",
 			[
-				{ text: 'Abbrechen', style: 'cancel' },
+				{ text: "Abbrechen", style: "cancel" },
 				{
-					text: 'Zurücksetzen',
-					style: 'destructive',
+					text: "Zurücksetzen",
+					style: "destructive",
 					onPress: async () => {
 						setResettingAll(true);
 						try {
 							await resetAllQuizStates();
-							showSuccess('Alle Quizzes wurden zurückgesetzt!');
+							showSuccess("Alle Quizzes wurden zurückgesetzt!");
 						} catch (error) {
 							showError(`Fehler: ${error}`);
 						} finally {
@@ -57,14 +57,14 @@ export function SettingsScreen() {
 						}
 					},
 				},
-			]
+			],
 		);
 	};
 
 	return (
 		<ThemedView style={styles.container}>
 			<Header
-				title='Einstellungen'
+				title="Einstellungen"
 				showBackButton
 				onBackPress={() => router.back()}
 			/>
@@ -108,10 +108,7 @@ export function SettingsScreen() {
 						disabled={resettingAll}
 					>
 						{resettingAll ? (
-							<ActivityIndicator
-								size='small'
-								color='#fff'
-							/>
+							<ActivityIndicator size="small" color="#fff" />
 						) : (
 							<Text style={styles.resetAllButtonText}>
 								Alle Quizzes zurücksetzen
@@ -119,7 +116,7 @@ export function SettingsScreen() {
 						)}
 					</TouchableOpacity>
 
-					{quizzes.map(quiz => (
+					{quizzes.map((quiz) => (
 						<TouchableOpacity
 							key={quiz.id}
 							style={[
@@ -130,10 +127,7 @@ export function SettingsScreen() {
 							disabled={resettingQuiz === quiz.id}
 						>
 							{resettingQuiz === quiz.id ? (
-								<ActivityIndicator
-									size='small'
-									color='#fff'
-								/>
+								<ActivityIndicator size="small" color="#fff" />
 							) : (
 								<Text style={styles.quizResetButtonText}>
 									{quiz.title} zurücksetzen
@@ -165,61 +159,61 @@ const styles = StyleSheet.create({
 	section: {
 		marginBottom: 24,
 		padding: 16,
-		backgroundColor: '#f8f9fa',
+		backgroundColor: "#f8f9fa",
 		borderRadius: 8,
 		borderWidth: 1,
-		borderColor: '#e9ecef',
+		borderColor: "#e9ecef",
 	},
 	sectionTitle: {
 		fontSize: 18,
-		fontWeight: '600',
+		fontWeight: "600",
 		marginBottom: 16,
-		color: '#343a40',
+		color: "#343a40",
 	},
 	statRow: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginBottom: 8,
 	},
 	statLabel: {
 		fontSize: 14,
-		color: '#6c757d',
+		color: "#6c757d",
 	},
 	statValue: {
 		fontSize: 14,
-		fontWeight: '600',
-		color: '#495057',
+		fontWeight: "600",
+		color: "#495057",
 	},
 	resetAllButton: {
-		backgroundColor: '#dc3545',
+		backgroundColor: "#dc3545",
 		padding: 12,
 		borderRadius: 8,
-		alignItems: 'center',
+		alignItems: "center",
 		marginBottom: 16,
 	},
 	resetAllButtonText: {
-		color: 'white',
-		fontWeight: '600',
+		color: "white",
+		fontWeight: "600",
 		fontSize: 16,
 	},
 	quizResetButton: {
-		backgroundColor: '#6c757d',
+		backgroundColor: "#6c757d",
 		padding: 12,
 		borderRadius: 8,
-		alignItems: 'center',
+		alignItems: "center",
 		marginBottom: 8,
 	},
 	quizResetButtonText: {
-		color: 'white',
-		fontWeight: '500',
+		color: "white",
+		fontWeight: "500",
 	},
 	disabledButton: {
 		opacity: 0.6,
 	},
 	infoText: {
 		fontSize: 14,
-		color: '#6c757d',
+		color: "#6c757d",
 		marginBottom: 8,
 	},
 });

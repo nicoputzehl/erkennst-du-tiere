@@ -1,6 +1,7 @@
-import React, { useRef, useEffect, memo } from 'react';
-import { StyleSheet, TextInput, View, Keyboard } from 'react-native';
-import { useThemeColor } from '@/src/common/hooks/useThemeColor';
+import type React from "react";
+import { useRef, useEffect, memo } from "react";
+import { StyleSheet, TextInput, View, Keyboard } from "react-native";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 
 interface AnswerInputProps {
 	value: string;
@@ -13,11 +14,11 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 	({ value, onChangeText, onSubmitEditing, isSubmitting = false }) => {
 		const inputRef = useRef<TextInput>(null);
 
-		const textColor = useThemeColor({}, 'text') as string;
-		const tintColor = useThemeColor({}, 'tint') as string;
+		const textColor = useThemeColor({}, "text") as string;
+		const tintColor = useThemeColor({}, "tint") as string;
 		const placeholderColor = useThemeColor(
-			{ light: '#666', dark: '#666' },
-			'text'
+			{ light: "#666", dark: "#666" },
+			"text",
 		) as string;
 
 		useEffect(() => {
@@ -56,14 +57,14 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 						value={value}
 						onChangeText={onChangeText}
 						onSubmitEditing={handleSubmit}
-						autoCapitalize='none'
+						autoCapitalize="none"
 						autoCorrect={false}
-						placeholder='Antwort eingeben...'
+						placeholder="Antwort eingeben..."
 						placeholderTextColor={placeholderColor}
-						textAlignVertical='center'
+						textAlignVertical="center"
 						editable={!isSubmitting}
-						returnKeyType='done'
-						submitBehavior='blurAndSubmit'
+						returnKeyType="done"
+						submitBehavior="blurAndSubmit"
 						maxLength={50}
 					/>
 				</View>
@@ -77,19 +78,19 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 			prevProps.onChangeText === nextProps.onChangeText &&
 			prevProps.onSubmitEditing === nextProps.onSubmitEditing
 		);
-	}
+	},
 );
 
-AnswerInput.displayName = 'AnswerInput';
+AnswerInput.displayName = "AnswerInput";
 
 const styles = StyleSheet.create({
 	container: {
 		marginBottom: 20,
-		alignItems: 'center',
-		width: '100%',
+		alignItems: "center",
+		width: "100%",
 	},
 	inputContainer: {
-		width: '85%',
+		width: "85%",
 		marginBottom: 16,
 	},
 	input: {
@@ -99,9 +100,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 8,
 		fontSize: 18,
-		backgroundColor: 'transparent',
-		textAlign: 'center',
-		fontWeight: '500',
+		backgroundColor: "transparent",
+		textAlign: "center",
+		fontWeight: "500",
 	},
 	inputDisabled: {
 		opacity: 0.7,

@@ -1,167 +1,219 @@
 // src/quiz/contexts/QuizProvider.tsx - FIXED VERSION
 
-import React, { ReactNode, useEffect, useRef } from 'react';
-import { useQuizStore } from '../store/Quiz.store';
-import { animalQuizConfigs } from '@/src/animals/quizzes';
-import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
-import { initializeAllQuizzes, registerQuizzes } from '../initialization/registerQuizzes';
+import React, { type ReactNode, useEffect, useRef } from "react";
+import { useQuizStore } from "../store/Quiz.store";
+import { animalQuizConfigs } from "@/src/animals/quizzes";
+import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import {
+	initializeAllQuizzes,
+	registerQuizzes,
+} from "../initialization/registerQuizzes";
 
 interface QuizProviderProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 export function QuizProvider({ children }: QuizProviderProps) {
-  const hasStoreHydrated = useQuizStore.persist.hasHydrated();
-  const isQuizDataLoadedInStore = useQuizStore(state => state.isQuizDataLoaded);
-  const setQuizDataLoaded = useQuizStore(state => state.setQuizDataLoaded);
-  const quizStatesRecord = useQuizStore(state => state.quizStates);
-  const quizzesRecord = useQuizStore(state => state.quizzes); // NEU: Prüfe ob Quizzes geladen sind
+	const hasStoreHydrated = useQuizStore.persist.hasHydrated();
+	const isQuizDataLoadedInStore = useQuizStore(
+		(state) => state.isQuizDataLoaded,
+	);
+	const setQuizDataLoaded = useQuizStore((state) => state.setQuizDataLoaded);
+	const quizStatesRecord = useQuizStore((state) => state.quizStates);
+	const quizzesRecord = useQuizStore((state) => state.quizzes); // NEU: Prüfe ob Quizzes geladen sind
 
-  const hasRegisteredQuizzesRef = useRef(false);
-  const hasInitializedStatesRef = useRef(false);
+	const hasRegisteredQuizzesRef = useRef(false);
+	const hasInitializedStatesRef = useRef(false);
 
-  // ZUSÄTZLICH: Reset detection
-  const previousQuizStatesCountRef = useRef<number>(Object.keys(quizStatesRecord).length);
-  const currentQuizStatesCount = Object.keys(quizStatesRecord).length;
+	// ZUSÄTZLICH: Reset detection
+	const previousQuizStatesCountRef = useRef<number>(
+		Object.keys(quizStatesRecord).length,
+	);
+	const currentQuizStatesCount = Object.keys(quizStatesRecord).length;
 
-  // Detect if quizzes were reset (count went to 0 or significantly reduced)
-  useEffect(() => {
-    const previousCount = previousQuizStatesCountRef.current;
-    const currentCount = currentQuizStatesCount;
-    
-    if (previousCount > 0 && currentCount === 0) {
-      console.log('[QuizProvider] RESET DETECTED: Quiz states were cleared, resetting flags');
-      hasRegisteredQuizzesRef.current = false;
-      hasInitializedStatesRef.current = false;
-      setQuizDataLoaded(false); // WICHTIG: Reset das Data-Loaded Flag
-    }
-    
-    previousQuizStatesCountRef.current = currentCount;
-  }, [currentQuizStatesCount, setQuizDataLoaded]);
+	// Detect if quizzes were reset (count went to 0 or significantly reduced)
+	useEffect(() => {
+		const previousCount = previousQuizStatesCountRef.current;
+		const currentCount = currentQuizStatesCount;
 
-  // Effekt zur Registrierung statischer Quiz-Daten
-  useEffect(() => {
-    let isMounted = true;
+		if (previousCount > 0 && currentCount === 0) {
+			console.log(
+				"[QuizProvider] RESET DETECTED: Quiz states were cleared, resetting flags",
+			);
+			hasRegisteredQuizzesRef.current = false;
+			hasInitializedStatesRef.current = false;
+			setQuizDataLoaded(false); // WICHTIG: Reset das Data-Loaded Flag
+		}
 
-    console.log(`[QuizProvider-Effect1] Check conditions - Hydrated: ${hasStoreHydrated}, RegisteredRef: ${hasRegisteredQuizzesRef.current}, DataLoadedInStore: ${isQuizDataLoadedInStore}, QuizzesCount: ${Object.keys(quizzesRecord).length}`);
+		previousQuizStatesCountRef.current = currentCount;
+	}, [currentQuizStatesCount, setQuizDataLoaded]);
 
-    // VERBESSERTE BEDINGUNG: Prüfe auch ob Quizzes im Store vorhanden sind
-    if (!hasStoreHydrated || hasRegisteredQuizzesRef.current || (isQuizDataLoadedInStore && Object.keys(quizzesRecord).length > 0)) {
-      console.log(`[QuizProvider-Effect1] Skipping registration. Conditions not met.`);
-      return;
-    }
+	// Effekt zur Registrierung statischer Quiz-Daten
+	useEffect(() => {
+		let isMounted = true;
 
-    console.log('[QuizProvider-Effect1] Attempting to register quiz configs...');
-    
-    try {
-      registerQuizzes(animalQuizConfigs);
-      
-      const currentQuizzesInStore = useQuizStore.getState().quizzes;
-      console.log('[QuizProvider-Effect1] Quizzes in store AFTER registerQuizzes:', Object.keys(currentQuizzesInStore).length);
+		console.log(
+			`[QuizProvider-Effect1] Check conditions - Hydrated: ${hasStoreHydrated}, RegisteredRef: ${hasRegisteredQuizzesRef.current}, DataLoadedInStore: ${isQuizDataLoadedInStore}, QuizzesCount: ${Object.keys(quizzesRecord).length}`,
+		);
 
-      if (Object.keys(currentQuizzesInStore).length > 0) {
-        console.log('[QuizProvider-Effect1] Quiz configs successfully registered. Setting isQuizDataLoaded to true.');
-        if (isMounted) {
-          setQuizDataLoaded(true);
-          hasRegisteredQuizzesRef.current = true;
-        }
-      } else {
-        console.warn('[QuizProvider-Effect1] Quiz configs registered, but quizzes object in store is still empty.');
-      }
-    } catch (error) {
-      console.error('[QuizProvider-Effect1] Error during quiz registration:', error);
-      // Bei Fehler flags zurücksetzen
-      hasRegisteredQuizzesRef.current = false;
-      setQuizDataLoaded(false);
-    }
+		// VERBESSERTE BEDINGUNG: Prüfe auch ob Quizzes im Store vorhanden sind
+		if (
+			!hasStoreHydrated ||
+			hasRegisteredQuizzesRef.current ||
+			(isQuizDataLoadedInStore && Object.keys(quizzesRecord).length > 0)
+		) {
+			console.log(
+				`[QuizProvider-Effect1] Skipping registration. Conditions not met.`,
+			);
+			return;
+		}
 
-    return () => {
-      isMounted = false;
-    };
-  }, [hasStoreHydrated, isQuizDataLoadedInStore, setQuizDataLoaded, Object.keys(quizzesRecord).length]); // WICHTIG: quizzesRecord.length als Dependency
+		console.log(
+			"[QuizProvider-Effect1] Attempting to register quiz configs...",
+		);
 
-  // Effekt zur Initialisierung benutzerspezifischer Quiz-Zustände (asynchron)
-  useEffect(() => {
-    let isMounted = true;
+		try {
+			registerQuizzes(animalQuizConfigs);
 
-    const areQuizStatesInitializedInStore = Object.keys(quizStatesRecord).length > 0;
+			const currentQuizzesInStore = useQuizStore.getState().quizzes;
+			console.log(
+				"[QuizProvider-Effect1] Quizzes in store AFTER registerQuizzes:",
+				Object.keys(currentQuizzesInStore).length,
+			);
 
-    console.log(`[QuizProvider-Effect2] Check conditions - DataLoaded: ${isQuizDataLoadedInStore}, InitializedRef: ${hasInitializedStatesRef.current}, StatesInStore: ${areQuizStatesInitializedInStore}, QuizzesInStore: ${Object.keys(quizzesRecord).length}`);
+			if (Object.keys(currentQuizzesInStore).length > 0) {
+				console.log(
+					"[QuizProvider-Effect1] Quiz configs successfully registered. Setting isQuizDataLoaded to true.",
+				);
+				if (isMounted) {
+					setQuizDataLoaded(true);
+					hasRegisteredQuizzesRef.current = true;
+				}
+			} else {
+				console.warn(
+					"[QuizProvider-Effect1] Quiz configs registered, but quizzes object in store is still empty.",
+				);
+			}
+		} catch (error) {
+			console.error(
+				"[QuizProvider-Effect1] Error during quiz registration:",
+				error,
+			);
+			// Bei Fehler flags zurücksetzen
+			hasRegisteredQuizzesRef.current = false;
+			setQuizDataLoaded(false);
+		}
 
-    // VERBESSERTE BEDINGUNG: Nur initialisieren wenn Quizzes vorhanden sind UND States noch nicht initialisiert
-    if (!isQuizDataLoadedInStore || hasInitializedStatesRef.current || areQuizStatesInitializedInStore || Object.keys(quizzesRecord).length === 0) {
-      console.log(`[QuizProvider-Effect2] Skipping state initialization. Conditions not met.`);
-      return;
-    }
+		return () => {
+			isMounted = false;
+		};
+	}, [
+		hasStoreHydrated,
+		isQuizDataLoadedInStore,
+		setQuizDataLoaded,
+		Object.keys(quizzesRecord).length,
+	]); // WICHTIG: quizzesRecord.length als Dependency
 
-    const initializeStates = async () => {
-      console.log('[QuizProvider-Effect2] Initializing all quiz states...');
-      try {
-        await initializeAllQuizzes();
-        if (isMounted) {
-          hasInitializedStatesRef.current = true;
-          console.log('[QuizProvider-Effect2] All quiz states initialized.');
-        }
-      } catch (error) {
-        console.error('[QuizProvider-Effect2] Error during state initialization:', error);
-        // Bei Fehler flag zurücksetzen
-        hasInitializedStatesRef.current = false;
-      }
-    };
+	// Effekt zur Initialisierung benutzerspezifischer Quiz-Zustände (asynchron)
+	useEffect(() => {
+		let isMounted = true;
 
-    initializeStates();
+		const areQuizStatesInitializedInStore =
+			Object.keys(quizStatesRecord).length > 0;
 
-    return () => {
-      isMounted = false;
-    };
-  }, [isQuizDataLoadedInStore, Object.keys(quizStatesRecord).length, Object.keys(quizzesRecord).length]); // WICHTIG: beide als Dependencies
+		console.log(
+			`[QuizProvider-Effect2] Check conditions - DataLoaded: ${isQuizDataLoadedInStore}, InitializedRef: ${hasInitializedStatesRef.current}, StatesInStore: ${areQuizStatesInitializedInStore}, QuizzesInStore: ${Object.keys(quizzesRecord).length}`,
+		);
 
-  // VERBESSERTE App-Ready-Logik
-  const hasQuizzes = Object.keys(quizzesRecord).length > 0;
-  const hasQuizStates = Object.keys(quizStatesRecord).length > 0;
-  const isAppReady = hasStoreHydrated && isQuizDataLoadedInStore && hasQuizzes && hasQuizStates;
+		// VERBESSERTE BEDINGUNG: Nur initialisieren wenn Quizzes vorhanden sind UND States noch nicht initialisiert
+		if (
+			!isQuizDataLoadedInStore ||
+			hasInitializedStatesRef.current ||
+			areQuizStatesInitializedInStore ||
+			Object.keys(quizzesRecord).length === 0
+		) {
+			console.log(
+				`[QuizProvider-Effect2] Skipping state initialization. Conditions not met.`,
+			);
+			return;
+		}
 
-  console.log(`[QuizProvider] App readiness check:`, {
-    hasStoreHydrated,
-    isQuizDataLoadedInStore,
-    hasQuizzes,
-    hasQuizStates,
-    isAppReady
-  });
+		const initializeStates = async () => {
+			console.log("[QuizProvider-Effect2] Initializing all quiz states...");
+			try {
+				await initializeAllQuizzes();
+				if (isMounted) {
+					hasInitializedStatesRef.current = true;
+					console.log("[QuizProvider-Effect2] All quiz states initialized.");
+				}
+			} catch (error) {
+				console.error(
+					"[QuizProvider-Effect2] Error during state initialization:",
+					error,
+				);
+				// Bei Fehler flag zurücksetzen
+				hasInitializedStatesRef.current = false;
+			}
+		};
 
-  if (!isAppReady) {
-    const loadingMessage = !hasStoreHydrated 
-      ? 'Store wird geladen...'
-      : !isQuizDataLoadedInStore || !hasQuizzes
-      ? 'Quiz-Daten werden geladen...'
-      : !hasQuizStates
-      ? 'Quiz-Zustände werden initialisiert...'
-      : 'App wird geladen...';
+		initializeStates();
 
-    console.log(`[QuizProvider] App not ready: ${loadingMessage}`);
-    
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text style={styles.loadingText}>{loadingMessage}</Text>
-      </View>
-    );
-  }
+		return () => {
+			isMounted = false;
+		};
+	}, [
+		isQuizDataLoadedInStore,
+		Object.keys(quizStatesRecord).length,
+		Object.keys(quizzesRecord).length,
+	]); // WICHTIG: beide als Dependencies
 
-  console.log('[QuizProvider] App ready, rendering children');
-  return <>{children}</>;
+	// VERBESSERTE App-Ready-Logik
+	const hasQuizzes = Object.keys(quizzesRecord).length > 0;
+	const hasQuizStates = Object.keys(quizStatesRecord).length > 0;
+	const isAppReady =
+		hasStoreHydrated && isQuizDataLoadedInStore && hasQuizzes && hasQuizStates;
+
+	console.log(`[QuizProvider] App readiness check:`, {
+		hasStoreHydrated,
+		isQuizDataLoadedInStore,
+		hasQuizzes,
+		hasQuizStates,
+		isAppReady,
+	});
+
+	if (!isAppReady) {
+		const loadingMessage = !hasStoreHydrated
+			? "Store wird geladen..."
+			: !isQuizDataLoadedInStore || !hasQuizzes
+				? "Quiz-Daten werden geladen..."
+				: !hasQuizStates
+					? "Quiz-Zustände werden initialisiert..."
+					: "App wird geladen...";
+
+		console.log(`[QuizProvider] App not ready: ${loadingMessage}`);
+
+		return (
+			<View style={styles.loadingContainer}>
+				<ActivityIndicator size="large" color="#0000ff" />
+				<Text style={styles.loadingText}>{loadingMessage}</Text>
+			</View>
+		);
+	}
+
+	console.log("[QuizProvider] App ready, rendering children");
+	return <>{children}</>;
 }
 
 const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-  },
-  loadingText: {
-    marginTop: 20,
-    fontSize: 18,
-    color: '#333',
-  },
+	loadingContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#f0f0f0",
+	},
+	loadingText: {
+		marginTop: 20,
+		fontSize: 18,
+		color: "#333",
+	},
 });

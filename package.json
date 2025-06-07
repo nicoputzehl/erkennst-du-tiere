@@ -47,6 +47,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.25.2",
+		"@biomejs/biome": "1.9.4",
 		"@redux-devtools/extension": "^3.3.0",
 		"@testing-library/react-native": "^14.0.0-alpha.1",
 		"@types/jest": "^29.5.14",
@@ -65,15 +66,8 @@
 		"transformIgnorePatterns": [
 			"node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg)"
 		],
-		"setupFilesAfterEnv": [
-			"<rootDir>/jest-setup.ts"
-		],
-		"moduleFileExtensions": [
-			"ts",
-			"tsx",
-			"js",
-			"jsx"
-		],
+		"setupFilesAfterEnv": ["<rootDir>/jest-setup.ts"],
+		"moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
 		"testMatch": [
 			"**/__tests__/**/*.(ts|tsx|js)",
 			"**/*.(test|spec).(ts|tsx|js)"

@@ -1,60 +1,73 @@
 import { HintType } from "@/src/quiz/types/hint";
-import { createAutoFreeHint, createContextualHint, createLetterCountHint } from "../factories";
-import { QuestionBase } from "@/src/quiz/types/question";
+import {
+	createAutoFreeHint,
+	createContextualHint,
+	createLetterCountHint,
+} from "../factories";
+import type { QuestionBase } from "@/src/quiz/types/question";
 
-describe('Hint Factory Functions', () => {
-  describe('createLetterCountHint', () => {
-    it('should create letter count hint with correct properties', () => {
-      const hint = createLetterCountHint(42);
-      
-      expect(hint.id).toBe('42_letter_count');
-      expect(hint.type).toBe(HintType.LETTER_COUNT);
-      expect(hint.cost).toBe(5);
-      expect(hint.title).toBe('Buchstabenanzahl');
-      expect(hint.generator).toBeDefined();
-    });
+describe("Hint Factory Functions", () => {
+	describe("createLetterCountHint", () => {
+		it("should create letter count hint with correct properties", () => {
+			const hint = createLetterCountHint(42);
 
-    it('should generate correct content', () => {
-      const hint = createLetterCountHint(1);
-      const question: QuestionBase = { id: 1, answer: 'Test', images: { imageUrl: 1 } };
-      
-      const content = hint.generator(question);
-      
-      expect(content).toBe('Das gesuchte Tier hat 4 Buchstaben');
-    });
-  });
+			expect(hint.id).toBe("42_letter_count");
+			expect(hint.type).toBe(HintType.LETTER_COUNT);
+			expect(hint.cost).toBe(5);
+			expect(hint.title).toBe("Buchstabenanzahl");
+			expect(hint.generator).toBeDefined();
+		});
 
-  describe('createContextualHint', () => {
-    it('should create contextual hint with triggers', () => {
-      const hint = createContextualHint(1, ['jaguar', 'leopard'], 'Fast richtig!', 5);
-      
-      expect(hint.type).toBe(HintType.CONTEXTUAL);
-      expect(hint.triggers).toEqual(['jaguar', 'leopard']);
-      expect(hint.content).toBe('Fast richtig!');
-      expect(hint.cost).toBe(5);
-    });
+		it("should generate correct content", () => {
+			const hint = createLetterCountHint(1);
+			const question: QuestionBase = {
+				id: 1,
+				answer: "Test",
+				images: { imageUrl: 1 },
+			};
 
-    it('should default to free cost', () => {
-      const hint = createContextualHint(1, ['test'], 'content');
-      
-      expect(hint.cost).toBe(0);
-    });
-  });
+			const content = hint.generator(question);
 
-  describe('createAutoFreeHint', () => {
-    it('should create auto-free hint with trigger attempts', () => {
-      const hint = createAutoFreeHint(1, 'Free hint!', 3);
-      
-      expect(hint.type).toBe(HintType.AUTO_FREE);
-      expect(hint.triggerAfterAttempts).toBe(3);
-      expect(hint.content).toBe('Free hint!');
-      expect(hint.cost).toBe(0);
-    });
+			expect(content).toBe("Das gesuchte Tier hat 4 Buchstaben");
+		});
+	});
 
-    it('should default to 5 trigger attempts', () => {
-      const hint = createAutoFreeHint(1, 'content');
-      
-      expect(hint.triggerAfterAttempts).toBe(5);
-    });
-  });
+	describe("createContextualHint", () => {
+		it("should create contextual hint with triggers", () => {
+			const hint = createContextualHint(
+				1,
+				["jaguar", "leopard"],
+				"Fast richtig!",
+				5,
+			);
+
+			expect(hint.type).toBe(HintType.CONTEXTUAL);
+			expect(hint.triggers).toEqual(["jaguar", "leopard"]);
+			expect(hint.content).toBe("Fast richtig!");
+			expect(hint.cost).toBe(5);
+		});
+
+		it("should default to free cost", () => {
+			const hint = createContextualHint(1, ["test"], "content");
+
+			expect(hint.cost).toBe(0);
+		});
+	});
+
+	describe("createAutoFreeHint", () => {
+		it("should create auto-free hint with trigger attempts", () => {
+			const hint = createAutoFreeHint(1, "Free hint!", 3);
+
+			expect(hint.type).toBe(HintType.AUTO_FREE);
+			expect(hint.triggerAfterAttempts).toBe(3);
+			expect(hint.content).toBe("Free hint!");
+			expect(hint.cost).toBe(0);
+		});
+
+		it("should default to 5 trigger attempts", () => {
+			const hint = createAutoFreeHint(1, "content");
+
+			expect(hint.triggerAfterAttempts).toBe(5);
+		});
+	});
 });
