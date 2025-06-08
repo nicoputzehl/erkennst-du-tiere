@@ -1,4 +1,4 @@
-import { Question, type QuestionBase } from "./question";
+import type {  QuestionBase } from "./question";
 
 export enum HintType {
 	LETTER_COUNT = "letter_count",
@@ -48,13 +48,19 @@ export interface AutoFreeHint extends HintBase {
 
 export type Hint = StaticHint | DynamicHint | ContextualHint | AutoFreeHint;
 
+export type UsedHint = {
+	id: string;
+	title: string;
+	content: string;
+}
+
 // ==========================================
 // STATE TYPES
 // ==========================================
 
 export interface HintState {
 	questionId: number;
-	usedHints: string[];
+	usedHints: UsedHint[];
 	wrongAttempts: number;
 	contextualHintsTriggered: string[];
 }

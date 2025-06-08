@@ -36,24 +36,27 @@ export const generateHintContent = (
 		hintId: hint.id,
 		hintType: hint.type,
 		hasGenerator:
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			"generator" in hint && typeof (hint as any).generator === "function",
 		questionAnswer: question.answer,
 	});
 
 	if (isDynamicHint(hint)) {
 		// Prüfe ob Generator-Funktion vorhanden ist
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		if (typeof (hint as any).generator === "function") {
 			console.log("🔧 [generateHintContent] Using existing generator");
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			return (hint as any).generator(question);
-		} else {
-			// Generator-Funktion wurde durch Serialisierung verloren - rekonstruiere sie
-			console.log(
-				"🔧 [generateHintContent] Recreating generator for type:",
-				hint.type,
-			);
-			const recreatedGenerator = recreateGenerator(hint.type);
-			return recreatedGenerator(question);
 		}
+		// Generator-Funktion wurde durch Serialisierung verloren - rekonstruiere sie
+		console.log(
+			"🔧 [generateHintContent] Recreating generator for type:",
+			hint.type,
+		);
+		const recreatedGenerator = recreateGenerator(hint.type);
+		return recreatedGenerator(question);
+
 	}
 
 	if (isStaticHint(hint)) {

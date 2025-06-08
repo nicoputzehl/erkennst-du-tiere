@@ -23,8 +23,13 @@ const WrongAnswer = ({ onTryAgain, purchasedHints }: WrongAnswerProps) => {
 						💰 Deine gekauften Hinweise:
 					</ThemedText>
 					{purchasedHints.map((hint, index) => (
-						<View key={`${// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-index}-hint-wrong-answer`} style={styles.purchasedHintItem}>
+						<View
+							key={`${
+								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+								index
+							}-hint-wrong-answer`}
+							style={styles.purchasedHintItem}
+						>
 							<ThemedText style={styles.purchasedHintContent}>
 								{hint}
 							</ThemedText>

@@ -36,7 +36,7 @@ export const createLetterCountHint = (questionId: number): DynamicHint => {
 	console.log("🏭 [createLetterCountHint] Created hint:", {
 		id: hint.id,
 		hasGenerator: typeof hint.generator === "function",
-		generatorString: hint.generator.toString().substring(0, 50) + "...",
+		generatorString: `${hint.generator.toString().substring(0, 50)}...`,
 	});
 
 	return hint;

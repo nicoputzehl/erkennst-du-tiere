@@ -8,13 +8,16 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
+	TouchableOpacity,
 	View,
+	Text,
 } from "react-native";
 import { ImageType, useImageDisplay } from "../../../hooks/useImageDisplay";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import { AnswerInput } from "./AnswerInput";
 import { QuestionImage } from "./QuestionImage";
 import { QuestionResult } from "./QuestionResult/QuestionResult";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 interface QuestionProps {
 	quizId: string;
@@ -31,7 +34,7 @@ interface QuestionProps {
 	onTryAgain: () => void;
 	onBack: () => void;
 	quizTitle: string;
-
+	naavigateToHints: () => void;
 	// NEUE PROPS für purchased hints (dauerhaft)
 	purchasedHints?: string[];
 }
@@ -50,7 +53,7 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 		onTryAgain,
 		onBack,
 		quizTitle,
-
+		naavigateToHints,
 		// NEUE PROPS
 		purchasedHints,
 	}) => {
@@ -68,6 +71,15 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 							showBackButton={true}
 							backButtonText={quizTitle}
 							onBackPress={onBack}
+							rightSlot={
+								<TouchableOpacity
+									onPress={naavigateToHints}
+									style={styles.hintsButton}
+								>
+									<FontAwesome6 name="lightbulb" size={20} color="red" />
+									<Text style={styles.hintsButtonText}>Hints</Text>
+								</TouchableOpacity>
+							}
 						/>
 
 						<Animated.View
@@ -122,5 +134,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "space-between",
 		minHeight: 200,
+	},
+	hintsButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginRight: 16,
+	},
+	hintsButtonText: {
+		marginLeft: 8,
 	},
 });
