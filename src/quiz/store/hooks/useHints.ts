@@ -10,6 +10,7 @@ export const useHints = (quizId: string, questionId: number) => {
 	const applyHint = useQuizStore((state) => state.applyHint);
 	const recordWrongAnswer = useQuizStore((state) => state.recordWrongAnswer);
 	const getAvailableHints = useQuizStore((state) => state.getAvailableHints);
+  const getUsedHints = useQuizStore((state) => state.getUsedHints);
 	const checkAutoFreeHints = useQuizStore((state) => state.checkAutoFreeHints);
 	const markAutoFreeHintAsUsed = useQuizStore(
 		(state) => state.markAutoFreeHintAsUsed,
@@ -76,5 +77,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		autoTriggerHints,
 		getAutoFreeHints,
 		markAutoFreeHintAsUsed,
+    getUsedHints
 	};
 };

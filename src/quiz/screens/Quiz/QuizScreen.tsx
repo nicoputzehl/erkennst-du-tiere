@@ -25,40 +25,31 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 	} = useQuizScreen(quizId);
 	const itemWidth = calculateItemWidth();
 
-	const renderLoadingState = () => (
-		<LoadingComponent message="Quiz wird geladen..." />
-	);
+	if (isLoading) return <LoadingComponent message="Quiz wird geladen..." />;
+	if (error || !quizState)
+		return <ErrorComponent message={error || "Quiz nicht gefunden"} />;
 
-	const renderErrorState = () => (
-		<ErrorComponent message={error || "Quiz nicht gefunden"} />
-	);
-
-	const renderQuizContent = () => (
+	return (
 		<ThemedView style={styles.container} gradientType="primary">
 			<Header
 				showBackButton
 				onBackPress={navigateBack}
-				title={quizState!.title}
+				title={quizState.title}
 			/>
 			<View style={styles.scrollContent}>
 				<QuestionGrid
-					questions={quizState!.questions}
+					questions={quizState.questions}
 					itemWidth={itemWidth}
 					onQuestionClick={handleQuestionClick}
 				/>
 			</View>
 			<QuizProgress
-				completed={quizState!.completedQuestions}
-				total={quizState!.questions.length}
-				progress={getQuizProgress(quizState!.id)}
+				completed={quizState.completedQuestions}
+				total={quizState.questions.length}
+				progress={getQuizProgress(quizState.id)}
 			/>
 		</ThemedView>
 	);
-
-	if (isLoading) return renderLoadingState();
-	if (error || !quizState) return renderErrorState();
-
-	return renderQuizContent();
 };
 
 const styles = StyleSheet.create({

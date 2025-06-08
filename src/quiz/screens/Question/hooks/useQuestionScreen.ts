@@ -8,191 +8,198 @@ import { useHints } from "../../../store/hooks/useHints";
 import { useQuestionHints } from "./useQuestionHints";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
-	const { getQuizState, answerQuestion } = useQuiz();
-	const { showSuccess } = useUI();
-	const {
-		resetContextualHints,
-		setContextualHintContent,
-		setIsContextualHintVisible,
-		setAutoFreeHintContent,
-		setIsAutoFreeHintVisible,
-		contextualHintContent,
-		isContextualHintVisible,
-		handleContextualHintClose,
-		autoFreeHintContent,
-		isAutoFreeHintVisible,
-		handleAutoFreeHintClose,
-		purchasedHints,
-		handleHintPurchased,
-	} = useQuestionHints();
-	const { recordWrongAnswer, getAutoFreeHints, markAutoFreeHintAsUsed } =
-		useHints(quizId, Number.parseInt(questionId));
+  const { getQuizState, answerQuestion } = useQuiz();
+  const { showSuccess } = useUI();
+  const {
+    resetContextualHints,
+    setContextualHintContent,
+    setIsContextualHintVisible,
+    setAutoFreeHintContent,
+    setIsAutoFreeHintVisible,
+    contextualHintContent,
+    isContextualHintVisible,
+    handleContextualHintClose,
+    autoFreeHintContent,
+    isAutoFreeHintVisible,
+    handleAutoFreeHintClose,
+    purchasedHints,
+    handleHintPurchased,
+  } = useQuestionHints();
+  const { recordWrongAnswer, getAutoFreeHints, markAutoFreeHintAsUsed } =
+    useHints(quizId, Number.parseInt(questionId));
 
-	const [answer, setAnswer] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [showResult, setShowResult] = useState(false);
-	const [isCorrect, setIsCorrect] = useState(false);
-	const [statusChanged, setStatusChanged] = useState(false);
+  const [answer, setAnswer] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [statusChanged, setStatusChanged] = useState(false);
 
-	const quizState = getQuizState(quizId);
-	const question = quizState?.questions.find(
-		(q) => q.id === Number.parseInt(questionId),
-	);
+  const quizState = getQuizState(quizId);
+  const question = quizState?.questions.find(
+    (q) => q.id === Number.parseInt(questionId),
+  );
 
-	const isSolved = question?.status === QuestionStatus.SOLVED;
+  const isSolved = question?.status === QuestionStatus.SOLVED;
 
-	useState(() => {
-		if (isSolved) {
-			setShowResult(true);
-			setIsCorrect(true);
-		}
-	});
+  useState(() => {
+    if (isSolved) {
+      setShowResult(true);
+      setIsCorrect(true);
+    }
+  });
 
-	const handleSubmit = useCallback(async () => {
-		if (isSubmitting || !answer.trim() || !question) return;
-		resetContextualHints();
-		console.log("[useQuestionScreen] Submitting answer:", answer);
-		setIsSubmitting(true);
 
-		try {
-			const result = await answerQuestion(quizId, question.id, answer.trim());
 
-			console.log("[useQuestionScreen] Answer result:", {
-				isCorrect: result.isCorrect,
-			});
+  const navigateToHints = useCallback(() => {
+    router.push(`/quiz/${quizId}/${questionId}/hints`);
+  }, [quizId, questionId]);
 
-			if (result.isCorrect) {
-				setIsCorrect(true);
-				setShowResult(true);
-				setStatusChanged(true);
 
-				// Show toasts for unlocked quizzes
-				if (result.unlockedQuizzes.length > 0) {
-					result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
-						setTimeout(() => {
-							showSuccess(`🎉 "${unlockedQuiz.title}" freigeschaltet!`, 4000);
-						}, index * 500);
-					});
-				}
-			} else {
-				console.log(
-					"[useQuestionScreen] Wrong answer - checking for all hint types",
-				);
+  const handleSubmit = useCallback(async () => {
+    if (isSubmitting || !answer.trim() || !question) return;
+    resetContextualHints();
+    console.log("[useQuestionScreen] Submitting answer:", answer);
+    setIsSubmitting(true);
 
-				// ERWEITERTE LOGIK: Handle both contextual and auto-free hints
-				const { contextualHints, autoFreeHints } = recordWrongAnswer(
-					answer.trim(),
-				);
+    try {
+      const result = await answerQuestion(quizId, question.id, answer.trim());
 
-				console.log("[useQuestionScreen] Triggered hints:", {
-					contextual: contextualHints.length,
-					autoFree: autoFreeHints.length,
-				});
+      console.log("[useQuestionScreen] Answer result:", {
+        isCorrect: result.isCorrect,
+      });
 
-				// Handle contextual hints (existing logic)
-				if (contextualHints.length > 0) {
-					console.log("[useQuestionScreen] Showing contextual hint");
-					setContextualHintContent(contextualHints[0].content);
-					setIsContextualHintVisible(true);
+      if (result.isCorrect) {
+        setIsCorrect(true);
+        setShowResult(true);
+        setStatusChanged(true);
 
-					setTimeout(() => {
-						showSuccess(
-							`💡 ${contextualHints.length} neuer Tipp verfügbar!`,
-							2000,
-						);
-					}, 500);
+        // Show toasts for unlocked quizzes
+        if (result.unlockedQuizzes.length > 0) {
+          result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
+            setTimeout(() => {
+              showSuccess(`🎉 "${unlockedQuiz.title}" freigeschaltet!`, 4000);
+            }, index * 500);
+          });
+        }
+      } else {
+        console.log(
+          "[useQuestionScreen] Wrong answer - checking for all hint types",
+        );
 
-					setAnswer("");
-				}
-				// NEUE LOGIK: Handle auto-free hints
-				else if (autoFreeHints.length > 0) {
-					console.log("[useQuestionScreen] Showing auto-free hint");
-					const autoFreeHint = autoFreeHints[0];
+        // ERWEITERTE LOGIK: Handle both contextual and auto-free hints
+        const { contextualHints, autoFreeHints } = recordWrongAnswer(
+          answer.trim(),
+        );
 
-					// WICHTIG: Hint als verwendet markieren
-					markAutoFreeHintAsUsed(quizId, Number.parseInt(questionId), autoFreeHint.id);
+        console.log("[useQuestionScreen] Triggered hints:", {
+          contextual: contextualHints.length,
+          autoFree: autoFreeHints.length,
+        });
 
-					setAutoFreeHintContent(autoFreeHint.content);
-					setIsAutoFreeHintVisible(true);
+        // Handle contextual hints (existing logic)
+        if (contextualHints.length > 0) {
+          console.log("[useQuestionScreen] Showing contextual hint");
+          setContextualHintContent(contextualHints[0].content);
+          setIsContextualHintVisible(true);
 
-					setTimeout(() => {
-						showSuccess("🎁 Kostenloser Hinweis freigeschaltet!", 2000);
-					}, 500);
+          setTimeout(() => {
+            showSuccess(
+              `💡 ${contextualHints.length} neuer Tipp verfügbar!`,
+              2000,
+            );
+          }, 500);
 
-					setAnswer("");
-				}
-				// No hints triggered - show wrong answer screen
-				else {
-					console.log(
-						"[useQuestionScreen] No hints triggered - showing wrong answer screen",
-					);
-					setIsCorrect(false);
-					setShowResult(true);
-				}
-			}
-		} catch (error) {
-			console.error("[useQuestionScreen] Error submitting answer:", error);
-			setIsCorrect(false);
-			setShowResult(true);
-		} finally {
-			setIsSubmitting(false);
-		}
-	}, [
-		isSubmitting,
-		answer,
-		question,
-		resetContextualHints,
-		answerQuestion,
-		quizId,
-		showSuccess,
-		recordWrongAnswer,
-		setContextualHintContent,
-		setIsContextualHintVisible,
-		markAutoFreeHintAsUsed,
-		questionId,
-		setAutoFreeHintContent,
-		setIsAutoFreeHintVisible,
-	]);
+          setAnswer("");
+        }
+        // NEUE LOGIK: Handle auto-free hints
+        else if (autoFreeHints.length > 0) {
+          console.log("[useQuestionScreen] Showing auto-free hint");
+          const autoFreeHint = autoFreeHints[0];
 
-	const handleTryAgain = useCallback(() => {
-		console.log("[useQuestionScreen] Try again pressed");
-		setShowResult(false);
-		setAnswer("");
-	}, []);
+          // WICHTIG: Hint als verwendet markieren
+          markAutoFreeHintAsUsed(quizId, Number.parseInt(questionId), autoFreeHint.id);
 
-	const handleBack = useCallback(() => {
-		router.back();
-	}, []);
+          setAutoFreeHintContent(autoFreeHint.content);
+          setIsAutoFreeHintVisible(true);
 
-	return {
-		// State
-		quizState,
-		question,
-		answer,
-		setAnswer,
-		isSubmitting,
-		showResult,
-		isCorrect,
-		statusChanged,
-		isSolved,
+          setTimeout(() => {
+            showSuccess("🎁 Kostenloser Hinweis freigeschaltet!", 2000);
+          }, 500);
 
-		// Actions
-		handleSubmit,
-		handleTryAgain,
-		handleBack,
+          setAnswer("");
+        }
+        // No hints triggered - show wrong answer screen
+        else {
+          console.log(
+            "[useQuestionScreen] No hints triggered - showing wrong answer screen",
+          );
+          setIsCorrect(false);
+          setShowResult(true);
+        }
+      }
+    } catch (error) {
+      console.error("[useQuestionScreen] Error submitting answer:", error);
+      setIsCorrect(false);
+      setShowResult(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [
+    isSubmitting,
+    answer,
+    question,
+    resetContextualHints,
+    answerQuestion,
+    quizId,
+    showSuccess,
+    recordWrongAnswer,
+    setContextualHintContent,
+    setIsContextualHintVisible,
+    markAutoFreeHintAsUsed,
+    questionId,
+    setAutoFreeHintContent,
+    setIsAutoFreeHintVisible,
+  ]);
 
-		// EXISTING Contextual Hints
-		contextualHintContent,
-		isContextualHintVisible,
-		handleContextualHintClose,
+  const handleTryAgain = useCallback(() => {
+    console.log("[useQuestionScreen] Try again pressed");
+    setShowResult(false);
+    setAnswer("");
+  }, []);
 
-		// NEUE Auto-Free Hints
-		autoFreeHintContent,
-		isAutoFreeHintVisible,
-		handleAutoFreeHintClose,
+  const handleBack = useCallback(() => {
+    router.back();
+  }, []);
 
-		// NEUE Purchased Hints (dauerhaft)
-		purchasedHints,
-		handleHintPurchased,
-	};
+  return {
+    // State
+    quizState,
+    question,
+    answer,
+    setAnswer,
+    isSubmitting,
+    showResult,
+    isCorrect,
+    statusChanged,
+    isSolved,
+    navigateToHints,
+    // Actions
+    handleSubmit,
+    handleTryAgain,
+    handleBack,
+
+    // EXISTING Contextual Hints
+    contextualHintContent,
+    isContextualHintVisible,
+    handleContextualHintClose,
+
+    // NEUE Auto-Free Hints
+    autoFreeHintContent,
+    isAutoFreeHintVisible,
+    handleAutoFreeHintClose,
+
+    // NEUE Purchased Hints (dauerhaft)
+    purchasedHints,
+    handleHintPurchased,
+  };
 }

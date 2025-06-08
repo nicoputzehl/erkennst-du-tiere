@@ -6,11 +6,11 @@ import { View } from 'react-native';
 
 import { QuestionComponent } from './components/Question';
 import { useQuestionScreen } from './hooks/useQuestionScreen';
-import { PurchaseHintPanel } from './components/Hint/PurchaseHintPanel';
-import { AutoFreeHint } from './components/Hint/AutoFreeHints';
-import { ContextualHint } from './components/Hint/ContextualHint';
-import { HintButton } from './components/Hint/HintButton';
-import { PointsDisplay } from './components/Hint/PointsDisplay';
+import { PurchaseHintPanel } from '../Hints/components/PurchaseHintPanel';
+import { AutoFreeHint } from '../Hints/components/AutoFreeHints';
+import { ContextualHint } from '../Hints/components/ContextualHint';
+import { HintButton } from '../Hints/components/HintButton';
+import { PointsDisplay } from '../Hints/components/PointsDisplay';
 
 export interface QuestionScreenProps {
   quizId: string | null;
@@ -36,7 +36,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     handleSubmit,
     handleTryAgain,
     handleBack,
-    
+    navigateToHints,
     // EXISTING Contextual Hints
     isContextualHintVisible,
     handleContextualHintClose,
@@ -95,6 +95,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         quizTitle={quizState.title}
         // NEUE PROPS für purchased hints (dauerhaft)
         purchasedHints={purchasedHints}
+        naavigateToHints={navigateToHints}
       />
       
       {/* Points Display */}

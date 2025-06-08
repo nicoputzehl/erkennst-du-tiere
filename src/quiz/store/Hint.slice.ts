@@ -6,9 +6,12 @@ import type {
 	ContextualHint,
 	PointTransaction,
 	UseHintResult,
+	UsedHint,
+	Hint,
 } from "../types/hint";
 import type { QuizStore } from "./Quiz.store";
 import { HintUtils } from "../domain/hints";
+import type { QuestionBase } from "../types";
 
 export interface HintSlice {
 	applyHint: (
@@ -22,6 +25,7 @@ export interface HintSlice {
 		userAnswer: string,
 	) => ContextualHint[];
 	getAvailableHints: (quizId: string, questionId: number) => AvailableHint[];
+	getUsedHints: (quizId: string, questionId: number) => UsedHint[];
 
 	// NEUE FUNKTION: Separate Auto-Free Hint Logic
 	checkAutoFreeHints: (quizId: string, questionId: number) => AutoFreeHint[];
@@ -84,6 +88,9 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 			hintId,
 		);
 
+		const usedHint = generateUsedHint(hint, question);
+		// State Update - Hint State
+
 		// State Update - Quiz State
 		set((state) => ({
 			quizStates: {
@@ -96,7 +103,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 							...state.quizStates[quizId].hintStates[questionId],
 							usedHints: [
 								...state.quizStates[quizId].hintStates[questionId].usedHints,
-								hintId,
+								usedHint,
 							],
 						},
 					},
@@ -174,7 +181,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		return question.hints.filter(
 			(hint): hint is AutoFreeHint =>
 				hint.type === "auto_free" &&
-				!hintState.usedHints.includes(hint.id) &&
+				!hintState.usedHints.some((uh) => uh.id === hint.id) && // && !hintState.contextualHintsTriggered.includes(hint.id) &&
 				hintState.wrongAttempts >= hint.triggerAfterAttempts,
 		);
 	},
@@ -184,6 +191,18 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		questionId: number,
 		hintId: string,
 	) => {
+				const quizState = get().quizStates[quizId];
+
+
+		if (!quizState) {
+			return { success: false, error: "Quiz nicht gefunden" };
+		}
+				const question = quizState.questions.find((q) => q.id === questionId);
+		const hint = question?.hints?.find((h) => h.id === hintId);
+		if(!question || !hint) {
+			return { success: false, error: "Hint nicht gefunden" };
+		}
+				const usedHint = generateUsedHint(hint, question);
 		set((state) => ({
 			quizStates: {
 				...state.quizStates,
@@ -195,7 +214,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 							...state.quizStates[quizId].hintStates[questionId],
 							usedHints: [
 								...state.quizStates[quizId].hintStates[questionId].usedHints,
-								hintId,
+								usedHint,
 							],
 						},
 					},
@@ -229,6 +248,11 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		});
 	},
 
+	getUsedHints: (quizId: string, questionId: number): UsedHint[] => {
+		const quizState = get().quizStates[quizId];
+		const hintState = quizState?.hintStates[questionId];
+		return hintState?.usedHints || [];
+	},
 
 	addPoints: (transaction: PointTransaction) => {
 		set((state) => ({
@@ -281,3 +305,15 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		});
 	},
 });
+
+
+const generateUsedHint = (hint: Hint, question: QuestionBase): UsedHint => {
+	const content = HintUtils.generateHintContent(hint, question);
+
+
+	return {
+		id: hint.id,
+		title: hint.title,
+		content: content,
+	};
+};

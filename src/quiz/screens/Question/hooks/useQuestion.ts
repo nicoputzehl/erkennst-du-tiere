@@ -8,7 +8,7 @@ import {
 } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { router } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
-
+// TODO checken ob noch genutzt wird
 export const useQuestion = (quizId: string, question: Question) => {
 	const isSolved = question.status === QuestionStatus.SOLVED;
 	const { getQuizState, updateQuizState, answerQuestion } = useQuiz();
@@ -64,6 +64,11 @@ export const useQuestion = (quizId: string, question: Question) => {
 	const handleTryAgain = useCallback(() => {
 		setShowResult(false);
 	}, []);
+
+
+	const navigateToHints = useCallback(() => {
+		router.push(`/quiz/${quizId}/question/${question.id}/hints`);
+	}, [quizId, question.id]);
 
 	const handleSubmit = useCallback(async () => {
 		if (isSubmitting || !answer.trim()) return;
@@ -149,5 +154,6 @@ export const useQuestion = (quizId: string, question: Question) => {
 		statusChanged,
 		showUnsolvedImages,
 		quizTitle,
+		navigateToHints
 	};
 };
