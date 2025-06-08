@@ -3,13 +3,13 @@ import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import {
 	QuestionStatus,
 	type QuizConfig,
-	type QuizQuestion,
+	type Question,
 	type QuizState,
 } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { router } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
 
-export const useQuestion = (quizId: string, question: QuizQuestion) => {
+export const useQuestion = (quizId: string, question: Question) => {
 	const isSolved = question.status === QuestionStatus.SOLVED;
 	const { getQuizState, updateQuizState, answerQuestion } = useQuiz();
 	const { showSuccess } = useUI();
@@ -44,7 +44,7 @@ export const useQuestion = (quizId: string, question: QuizQuestion) => {
 			try {
 				await updateQuizState(quizId, newState);
 			} catch (error) {
-				console.error(`[useQuestion] Error updating quiz state:`, error);
+				console.error('[useQuestion] Error updating quiz state:', error);
 			} finally {
 				setIsUpdating(false);
 			}
@@ -76,7 +76,7 @@ export const useQuestion = (quizId: string, question: QuizQuestion) => {
 
 			const result = await answerQuestion(quizId, question.id, answer.trim());
 
-			console.log(`[useQuestion] Answer result:`, {
+			console.log('[useQuestion] Answer result:', {
 				isCorrect: result.isCorrect,
 				hasUnlocks: result.unlockedQuizzes?.length || 0,
 			});
@@ -110,13 +110,13 @@ export const useQuestion = (quizId: string, question: QuizQuestion) => {
 						},
 					);
 				} else {
-					console.log(`[useQuestion] No quizzes were unlocked by this answer`);
+					console.log('[useQuestion] No quizzes were unlocked by this answer');
 				}
 			} else {
 				processIncorrectAnswer();
 			}
 		} catch (error) {
-			console.error(`[useQuestion] Error submitting answer:`, error);
+			console.error('[useQuestion] Error submitting answer:', error);
 			processIncorrectAnswer();
 		} finally {
 			setIsSubmitting(false);

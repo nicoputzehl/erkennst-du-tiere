@@ -4,11 +4,9 @@ import { useQuizStore } from "../Quiz.store";
 import type { AutoFreeHint, ContextualHint } from "../../types/hint";
 
 export const useHints = (quizId: string, questionId: number) => {
-	// Store-Zugriff über Selektoren
 	const quizState = useQuizStore((state) => state.quizStates[quizId]);
 	const globalPointsBalance = useQuizStore((state) => state.getPointsBalance());
 
-	// Store-Aktionen
 	const applyHint = useQuizStore((state) => state.applyHint);
 	const recordWrongAnswer = useQuizStore((state) => state.recordWrongAnswer);
 	const getAvailableHints = useQuizStore((state) => state.getAvailableHints);
@@ -17,7 +15,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		(state) => state.markAutoFreeHintAsUsed,
 	);
 
-	// Abgeleitete Werte
 	const question = quizState?.questions.find((q) => q.id === questionId);
 	const hintState = quizState?.hintStates[questionId];
 
@@ -26,7 +23,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		return getAvailableHints(quizId, questionId);
 	}, [quizId, questionId, hintState, getAvailableHints, question]);
 
-	// NEUE LOGIK: Separiere Hints nach Typ
 	const { purchasableHints, autoTriggerHints } = useMemo(() => {
 		const purchasable = availableHints.filter(
 			(h) =>
@@ -41,7 +37,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		return { purchasableHints: purchasable, autoTriggerHints: autoTrigger };
 	}, [availableHints]);
 
-	// FUNKTION: Check für Auto-Free Hints
 	const getAutoFreeHints = useCallback((): AutoFreeHint[] => {
 		return checkAutoFreeHints(quizId, questionId);
 	}, [checkAutoFreeHints, quizId, questionId]);
@@ -53,7 +48,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		[quizId, questionId, applyHint],
 	);
 
-	// ERWEITERTE FUNKTION: Behandelt sowohl Contextual als auch Auto-Free Hints
 	const handleWrongAnswer = useCallback(
 		(
 			userAnswer: string,
@@ -61,10 +55,9 @@ export const useHints = (quizId: string, questionId: number) => {
 			contextualHints: ContextualHint[];
 			autoFreeHints: AutoFreeHint[];
 		} => {
-			// Zuerst den falschen Versuch registrieren
+
 			const contextualHints = recordWrongAnswer(quizId, questionId, userAnswer);
 
-			// Dann prüfen ob Auto-Free Hints ausgelöst werden (VOR der Registrierung)
 			const autoFreeHints = getAutoFreeHints();
 
 			return { contextualHints, autoFreeHints };
@@ -73,14 +66,12 @@ export const useHints = (quizId: string, questionId: number) => {
 	);
 
 	return {
-		// Bestehende API
 		availableHints,
 		pointsBalance: globalPointsBalance,
 		wrongAttempts: hintState?.wrongAttempts || 0,
 		handleUseHint,
 		recordWrongAnswer: handleWrongAnswer,
 
-		// NEUE API für getrennte Hint-Typen
 		purchasableHints,
 		autoTriggerHints,
 		getAutoFreeHints,

@@ -179,7 +179,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		);
 	},
 
-	// NEUE FUNKTION: Mark Auto-Free Hint als verwendet
 	markAutoFreeHintAsUsed: (
 		quizId: string,
 		questionId: number,
@@ -230,7 +229,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		});
 	},
 
-	// GLOBALE Points-Methoden
+
 	addPoints: (transaction: PointTransaction) => {
 		set((state) => ({
 			userPoints: {

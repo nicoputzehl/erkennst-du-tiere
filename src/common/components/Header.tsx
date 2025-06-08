@@ -37,7 +37,8 @@ const Header = ({
 				titleWidth: "60%" as const,
 				rightWidth: "20%" as const,
 			};
-		} else if (!hasTitle && hasLeftSlot && hasRightSlot) {
+		}
+		if (!hasTitle && hasLeftSlot && hasRightSlot) {
 			// kein title, beide slots: 40%, 40% - space-between
 			return {
 				justifyContent: "space-between" as const,
@@ -45,7 +46,8 @@ const Header = ({
 				titleWidth: undefined,
 				rightWidth: "40%" as const,
 			};
-		} else if (hasLeftSlot && hasTitle && !hasRightSlot) {
+		}
+		if (hasLeftSlot && hasTitle && !hasRightSlot) {
 			// nur leftSlot und title: 20%, 60% - flex-start
 			return {
 				justifyContent: "flex-start" as const,
@@ -53,7 +55,8 @@ const Header = ({
 				titleWidth: "60%" as const,
 				rightWidth: undefined,
 			};
-		} else if (!hasLeftSlot && hasTitle && hasRightSlot) {
+		}
+		if (!hasLeftSlot && hasTitle && hasRightSlot) {
 			// nur rightSlot und title: 60%, 20% - flex-end
 			return {
 				justifyContent: "flex-end" as const,
@@ -61,7 +64,8 @@ const Header = ({
 				titleWidth: "60%" as const,
 				rightWidth: "20%" as const,
 			};
-		} else if (hasLeftSlot && !hasTitle && !hasRightSlot) {
+		}
+		if (hasLeftSlot && !hasTitle && !hasRightSlot) {
 			// nur leftSlot: 40% - flex-start
 			return {
 				justifyContent: "flex-start" as const,
@@ -69,7 +73,8 @@ const Header = ({
 				titleWidth: undefined,
 				rightWidth: undefined,
 			};
-		} else if (!hasLeftSlot && !hasTitle && hasRightSlot) {
+		}
+		if (!hasLeftSlot && !hasTitle && hasRightSlot) {
 			// nur rightSlot: 40% - flex-end
 			return {
 				justifyContent: "flex-end" as const,
@@ -77,7 +82,8 @@ const Header = ({
 				titleWidth: undefined,
 				rightWidth: "40%" as const,
 			};
-		} else if (!hasLeftSlot && hasTitle && !hasRightSlot) {
+		}
+		if (!hasLeftSlot && hasTitle && !hasRightSlot) {
 			// nur title: center
 			return {
 				justifyContent: "center" as const,

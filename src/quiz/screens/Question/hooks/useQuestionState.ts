@@ -16,7 +16,7 @@ export const useQuestionState = ({
 		const state = getQuizState(quizId);
 		const questionNumber = Number.parseInt(questionId);
 
-		if (isNaN(questionNumber)) {
+		if (Number.isNaN(questionNumber)) {
 			return { quizState: state, question: null, isLoading: false };
 		}
 
