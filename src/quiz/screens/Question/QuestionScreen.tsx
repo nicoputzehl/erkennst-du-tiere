@@ -34,7 +34,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		handleBack,
 		navigateToHints,
 		hint,
-		isHintsLinkVisible,
+		hasVisibleHints,
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	// Early returns for error states
@@ -52,7 +52,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	const renderHintsLink = () => {
 		//BUG Muss Updaten, sobald ein Tipp verfügbar ist
-		if (isHintsLinkVisible) {
+		if (hasVisibleHints) {
 			return (
 				<TouchableOpacity
 					onPress={navigateToHints}

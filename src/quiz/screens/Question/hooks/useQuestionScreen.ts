@@ -21,8 +21,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [statusChanged, setStatusChanged] = useState(false);
 	const [hint, setHint] = useState<WrongAnswerHint | undefined>(undefined);
-	const [isHintsLinkVisible, setIsHintLinkVisible] =
-		useState<boolean>(hasVisibleHints);
+
 
 	const quizState = getQuizState(quizId);
 	const question = quizState?.questions.find(
@@ -126,8 +125,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		console.log("[useQuestionScreen] Try again pressed");
 		setShowResult(false);
 		setAnswer("");
-		setIsHintLinkVisible(hasVisibleHints);
-	}, [hasVisibleHints]);
+	}, []);
 
 	const handleBack = useCallback(() => {
 		router.back();
@@ -144,7 +142,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		isCorrect,
 		statusChanged,
 		isSolved,
-		isHintsLinkVisible,
+		hasVisibleHints,
 		// Actions
 		handleSubmit,
 		handleTryAgain,
