@@ -1,10 +1,9 @@
 import { useUI, useUnlockDetection } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
-import { router } from "expo-router";
 import { useEffect } from "react";
 
 export function useQuizzesScreen() {
-	const { quizzes, initializeQuizState, setCurrentQuiz } = useQuiz();
+	const { quizzes, initializeQuizState } = useQuiz();
 	const { checkPendingUnlocks, setLoading } = useUI();
 
 	const { detectMissedUnlocks } = useUnlockDetection();
