@@ -1,5 +1,4 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
-import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { ProgressIndicator } from "@/src/quiz/components/ProgressIndicator";
 import { StyleSheet, View } from "react-native";
@@ -15,7 +14,6 @@ export const QuizProgress = ({
 	total,
 	completed,
 }: QuizProgressProps) => {
-	const colorScheme = useColorScheme();
 	const textColor = useThemeColor({}, "text");
 
 	const dynamicStyles = StyleSheet.create({

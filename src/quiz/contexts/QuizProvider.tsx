@@ -25,6 +25,12 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	const hasRegisteredQuizzesRef = useRef(false);
 	const hasInitializedStatesRef = useRef(false);
 
+	const quizzesCount = Object.keys(quizzesRecord).length;
+	const quizStatesRecordCount = Object.keys(quizStatesRecord).length;
+
+	const hasQuizzes = quizzesCount > 0;
+	const hasQuizStates = quizStatesRecordCount > 0;
+
 	// ZUSÄTZLICH: Reset detection
 	const previousQuizStatesCountRef = useRef<number>(
 		Object.keys(quizStatesRecord).length,
@@ -111,7 +117,8 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		hasStoreHydrated,
 		isQuizDataLoadedInStore,
 		setQuizDataLoaded,
-		Object.keys(quizzesRecord).length,
+		hasQuizzes,
+		quizzesRecord,
 	]); // WICHTIG: quizzesRecord.length als Dependency
 
 	// Effekt zur Initialisierung benutzerspezifischer Quiz-Zustände (asynchron)
@@ -162,13 +169,13 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		};
 	}, [
 		isQuizDataLoadedInStore,
-		Object.keys(quizStatesRecord).length,
-		Object.keys(quizzesRecord).length,
+		hasQuizStates,
+		hasQuizzes,
+		quizzesRecord,
+		quizStatesRecord,
 	]); // WICHTIG: beide als Dependencies
 
 	// VERBESSERTE App-Ready-Logik
-	const hasQuizzes = Object.keys(quizzesRecord).length > 0;
-	const hasQuizStates = Object.keys(quizStatesRecord).length > 0;
 	const isAppReady =
 		hasStoreHydrated && isQuizDataLoadedInStore && hasQuizzes && hasQuizStates;
 

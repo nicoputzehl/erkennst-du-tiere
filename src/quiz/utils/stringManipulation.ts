@@ -306,3 +306,15 @@ export const testHelpers = {
 	PHONETIC_RULES,
 	isInSet,
 };
+
+// TODO checken, ob man so ein gutes Modul handling nur für Tests machen kann
+// if (process.env.NODE_ENV === 'test') {
+//     (module.exports as any).testHelpers = {
+//         preprocessWord,
+//         parseWord,
+//         postProcessPhoneticCode,
+//         LETTER_SETS,
+//         PHONETIC_RULES,
+//         isInSet,
+//     };
+// }

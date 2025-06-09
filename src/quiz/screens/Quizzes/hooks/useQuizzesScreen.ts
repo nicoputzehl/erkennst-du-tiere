@@ -51,24 +51,4 @@ export function useQuizzesScreen() {
 		detectMissedUnlocks,
 	]);
 
-	const navigateToQuiz = async (quizId: string) => {
-		setLoading(`navigate_${quizId}`, true);
-
-		try {
-			await initializeQuizState(quizId);
-			setCurrentQuiz(quizId);
-			router.navigate(`/quiz/${quizId}`);
-		} catch (error) {
-			console.error(
-				`[useQuizzesScreen] Error navigating to quiz ${quizId}:`,
-				error,
-			);
-		} finally {
-			setLoading(`navigate_${quizId}`, false);
-		}
-	};
-
-	return {
-		navigateToQuiz,
-	};
 }

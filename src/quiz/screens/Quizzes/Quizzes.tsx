@@ -1,17 +1,10 @@
 import Header from "@/src/common/components/Header";
-import { ThemedText } from "@/src/common/components/ThemedText";
 import { ThemedView } from "@/src/common/components/ThemedView";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import {
-	ActivityIndicator,
-	ScrollView,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import type { Quiz } from "../../types";
 import { QuizGrid } from "./components/QuizGrid";
 import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
@@ -21,33 +14,15 @@ type QuizzesProps = {
 };
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
-	const { isLoading } = useQuizzesScreen(quizzes);
+	useQuizzesScreen();
 	const colorScheme = useColorScheme();
 
 	// Theme-basierte Farben
 	const textColor = useThemeColor({}, "text");
-	const tintColor = useThemeColor({}, "tint");
 
 	const handleNavigateToSettings = () => {
 		router.navigate("/settings");
 	};
-
-	const renderLoadingState = () => (
-		<View style={styles.loadingContainer}>
-			<ActivityIndicator
-				size="large"
-				color={typeof tintColor === "string" ? tintColor : "#0a7ea4"}
-			/>
-			<ThemedText
-				style={[
-					styles.loadingText,
-					{ color: typeof tintColor === "string" ? tintColor : "#0a7ea4" },
-				]}
-			>
-				Quizzes werden geladen...
-			</ThemedText>
-		</View>
-	);
 
 	const renderContent = () => (
 		<ScrollView
@@ -91,7 +66,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 				}
 			/>
 
-			{isLoading ? renderLoadingState() : renderContent()}
+			{renderContent()}
 		</ThemedView>
 	);
 }

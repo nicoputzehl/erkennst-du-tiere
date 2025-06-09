@@ -5,7 +5,6 @@ import type { AutoFreeHint, ContextualHint } from "../../types/hint";
 import { useQuizStore } from "../Quiz.store";
 
 export const useHints = (quizId: string, questionId: number) => {
-	
 	const quizState = useQuizStore((state) => state.quizStates[quizId]);
 	const globalPointsBalance = useQuizStore((state) => state.getPointsBalance());
 
@@ -27,16 +26,20 @@ export const useHints = (quizId: string, questionId: number) => {
 				return {
 					hint,
 					canUse,
-					reason: canUse ? undefined : `Erst nach ${hint.triggerAfterAttempts} falschen Versuchen`
+					reason: canUse
+						? undefined
+						: `Erst nach ${hint.triggerAfterAttempts} falschen Versuchen`,
 				};
 			}
 
 			if (hint.type === "contextual") {
-				const isTriggered = hintState.contextualHintsTriggered.includes(hint.id);
+				const isTriggered = hintState.contextualHintsTriggered.includes(
+					hint.id,
+				);
 				return {
 					hint,
 					canUse: isTriggered,
-					reason: isTriggered ? undefined : "Noch nicht ausgelöst"
+					reason: isTriggered ? undefined : "Noch nicht ausgelöst",
 				};
 			}
 
@@ -44,16 +47,11 @@ export const useHints = (quizId: string, questionId: number) => {
 			return {
 				hint,
 				canUse: hasEnoughPoints,
-				reason: hasEnoughPoints ? undefined : "Nicht genug Punkte"
+				reason: hasEnoughPoints ? undefined : "Nicht genug Punkte",
 			};
 		});
-	}, [
-		question?.hints, 
-		hintState,
-		globalPointsBalance,
-	]);
+	}, [question?.hints, hintState, globalPointsBalance]);
 
-	
 	const { purchasableHints, autoTriggerHints } = useMemo(() => {
 		const purchasable = availableHints.filter(
 			(h) =>
@@ -75,7 +73,7 @@ export const useHints = (quizId: string, questionId: number) => {
 
 	const hasVisibleHints = useMemo(
 		() => usedHints.length > 0 || purchasableHints.length > 0,
-		[usedHints.length, purchasableHints.length]
+		[usedHints.length, purchasableHints.length],
 	);
 
 	const applyHint = useQuizStore((state) => state.applyHint);
@@ -101,7 +99,9 @@ export const useHints = (quizId: string, questionId: number) => {
 	);
 
 	const handleWrongAnswer = useCallback(
-		(userAnswer: string): {
+		(
+			userAnswer: string,
+		): {
 			contextualHints: ContextualHint[];
 			autoFreeHints: AutoFreeHint[];
 		} => {

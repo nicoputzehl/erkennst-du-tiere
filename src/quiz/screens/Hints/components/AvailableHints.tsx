@@ -1,9 +1,8 @@
-import quizAlert from "@/src/common/components/quizAlert";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
 
 interface AvailableHintsProps {
@@ -26,28 +25,31 @@ export const AvailableHints: React.FC<AvailableHintsProps> = ({
 
 	const textColor = useThemeColor({}, "text") as string;
 
-	const handlePurchaseHint = useCallback(
-		async (hintId: string, cost = 0) => {
-			return quizAlert({
-				title: "Möchtest du den Hinweis",
-				text: `Der Hinweis kostet ${cost} Punkte. Du hast aktuell ${pointsBalance} Punkte.`,
-				confirm: {
-					text: "Ja",
-					onPress: async () => {
-						const result = await applyHint(hintId);
-						if (result.success && result.hintContent) {
-							onHintPurchased(result.hintContent);
-						}
-					},
-				},
-				cancel: {
-					text: "Nein",
-					style: "cancel",
-				},
-			});
-		},
-		[applyHint, onHintPurchased, pointsBalance],
-	);
+const handlePurchaseHint = useCallback(
+    async (hintId: string, cost = 0) => {
+        return Alert.alert(
+            "Möchtest du den Hinweis",
+            `Der Hinweis kostet ${cost} Punkte. Du hast aktuell ${pointsBalance} Punkte.`,
+            [
+                {
+                    text: "Nein",
+                    style: "cancel",
+                },
+                {
+                    text: "Ja",
+                    onPress: async () => {
+                        const result = await applyHint(hintId);
+                        if (result.success && result.hintContent) {
+                            onHintPurchased(result.hintContent);
+                        }
+                    },
+                },
+            ],
+            { cancelable: true }
+        );
+    },
+    [applyHint, onHintPurchased, pointsBalance],
+);
 
 	return (
 		<View>

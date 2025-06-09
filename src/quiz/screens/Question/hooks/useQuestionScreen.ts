@@ -22,7 +22,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const [statusChanged, setStatusChanged] = useState(false);
 	const [hint, setHint] = useState<WrongAnswerHint | undefined>(undefined);
 
-
 	const quizState = getQuizState(quizId);
 	const question = quizState?.questions.find(
 		(q) => q.id === Number.parseInt(questionId),
