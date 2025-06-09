@@ -1,4 +1,4 @@
-import { QuestionStatus, type Question } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
+import { type Question, QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { useMemo } from "react";
 
 export enum ImageType {
@@ -22,11 +22,10 @@ export const useImageDisplay = (question: Question): UseImageDisplayReturn => {
 					return showUnsolved && question.images.unsolvedImageUrl
 						? question.images.unsolvedImageUrl
 						: question.images.imageUrl;
-				} else {
-					return showUnsolved && question.images.unsolvedThumbnailUrl
-						? question.images.unsolvedThumbnailUrl
-						: question.images.thumbnailUrl || question.images.imageUrl;
 				}
+				return showUnsolved && question.images.unsolvedThumbnailUrl
+					? question.images.unsolvedThumbnailUrl
+					: question.images.thumbnailUrl || question.images.imageUrl;
 			};
 		};
 	}, [question.images]);

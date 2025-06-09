@@ -1,8 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
-import { WikipediaLink } from "@/src/quiz/screens/Question/components/WikipediaLink";
 import Button from "@/src/common/components/Button";
 import { ThemedText } from "@/src/common/components/ThemedText";
+import { WikipediaLink } from "@/src/quiz/screens/Question/components/WikipediaLink";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { Lottie } from "../Lottie";
 
 export type RightAnswerProps = {

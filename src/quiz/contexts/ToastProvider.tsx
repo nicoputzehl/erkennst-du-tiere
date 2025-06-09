@@ -1,5 +1,5 @@
 import type React from "react";
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { type ReactNode, createContext, useContext, useState } from "react";
 import { Toast, type ToastProps } from "../components/Toast";
 
 type ToastData = Omit<ToastProps, "visible" | "onHide">;

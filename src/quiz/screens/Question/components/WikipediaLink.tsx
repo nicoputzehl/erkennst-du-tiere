@@ -1,8 +1,8 @@
-import { Platform } from "react-native";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { type ExternalPathString, Link } from "expo-router";
 import { openBrowserAsync } from "expo-web-browser";
-import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { Platform } from "react-native";
 
 const WIKIPEDIA_URL = "https://de.wikipedia.org/wiki/";
 

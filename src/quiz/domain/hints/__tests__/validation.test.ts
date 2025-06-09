@@ -1,6 +1,6 @@
-import { QuestionStatus, type QuizQuestion } from "@/src/quiz/types";
-import { HintUtils } from "..";
+import { type Question, QuestionStatus } from "@/src/quiz/types";
 import type { HintState, UserPointsState } from "@/src/quiz/types/hint";
+import { HintUtils } from "..";
 import {
 	createContextualHint,
 	createFirstLetterHint,
@@ -52,7 +52,7 @@ describe("HintUtils", () => {
 	describe("generateHintContent", () => {
 		it("should generate letter count hint", () => {
 			const hint = createLetterCountHint(1);
-			const question: QuizQuestion = {
+			const question: Question = {
 				id: 1,
 				answer: "Leopard",
 				images: { imageUrl: 1 },
@@ -66,7 +66,7 @@ describe("HintUtils", () => {
 
 	describe("checkForContextualHints", () => {
 		it("should trigger contextual hint on matching answer", () => {
-			const question: QuizQuestion = {
+			const question: Question = {
 				id: 1,
 				answer: "Leopard",
 				images: { imageUrl: 1 },

@@ -1,7 +1,7 @@
 // src/quiz/store/hooks/useHints.ts - ENHANCED VERSION
 import { useCallback, useMemo } from "react";
-import { useQuizStore } from "../Quiz.store";
 import type { AutoFreeHint, ContextualHint } from "../../types/hint";
+import { useQuizStore } from "../Quiz.store";
 
 export const useHints = (quizId: string, questionId: number) => {
 	const quizState = useQuizStore((state) => state.quizStates[quizId]);
@@ -10,11 +10,9 @@ export const useHints = (quizId: string, questionId: number) => {
 	const applyHint = useQuizStore((state) => state.applyHint);
 	const recordWrongAnswer = useQuizStore((state) => state.recordWrongAnswer);
 	const getAvailableHints = useQuizStore((state) => state.getAvailableHints);
-  const getUsedHints = useQuizStore((state) => state.getUsedHints);
+	const getUsedHints = useQuizStore((state) => state.getUsedHints);
 	const checkAutoFreeHints = useQuizStore((state) => state.checkAutoFreeHints);
-	const markAutoFreeHintAsUsed = useQuizStore(
-		(state) => state.markAutoFreeHintAsUsed,
-	);
+	const markHintAsUsed = useQuizStore((state) => state.markHintAsUsed);
 
 	const question = quizState?.questions.find((q) => q.id === questionId);
 	const hintState = quizState?.hintStates[questionId];
@@ -29,7 +27,8 @@ export const useHints = (quizId: string, questionId: number) => {
 			(h) =>
 				h.hint.cost > 0 &&
 				h.hint.type !== "contextual" &&
-				h.hint.type !== "auto_free",
+				h.hint.type !== "auto_free" &&
+				h.canUse,
 		);
 		const autoTrigger = availableHints.filter(
 			(h) => h.hint.type === "contextual" || h.hint.type === "auto_free",
@@ -49,6 +48,16 @@ export const useHints = (quizId: string, questionId: number) => {
 		[quizId, questionId, applyHint],
 	);
 
+	const usedHints = useMemo(
+		() => getUsedHints(quizId, questionId),
+		[quizId, getUsedHints, questionId],
+	);
+
+	const hasVisibleHints = useMemo(
+		() => usedHints.length > 0 || purchasableHints.length > 0,
+		[usedHints, purchasableHints],
+	);
+
 	const handleWrongAnswer = useCallback(
 		(
 			userAnswer: string,
@@ -56,11 +65,8 @@ export const useHints = (quizId: string, questionId: number) => {
 			contextualHints: ContextualHint[];
 			autoFreeHints: AutoFreeHint[];
 		} => {
-
 			const contextualHints = recordWrongAnswer(quizId, questionId, userAnswer);
-
 			const autoFreeHints = getAutoFreeHints();
-
 			return { contextualHints, autoFreeHints };
 		},
 		[quizId, questionId, recordWrongAnswer, getAutoFreeHints],
@@ -72,11 +78,12 @@ export const useHints = (quizId: string, questionId: number) => {
 		wrongAttempts: hintState?.wrongAttempts || 0,
 		handleUseHint,
 		recordWrongAnswer: handleWrongAnswer,
-
 		purchasableHints,
 		autoTriggerHints,
 		getAutoFreeHints,
-		markAutoFreeHintAsUsed,
-    getUsedHints
+		markHintAsUsed,
+		getUsedHints,
+		usedHints,
+		hasVisibleHints,
 	};
 };

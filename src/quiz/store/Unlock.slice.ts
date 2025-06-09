@@ -32,7 +32,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		const { quizConfigs, quizStates, quizzes, showToast, addPendingUnlock } =
 			get(); // Zugriff auf andere Slices
 		const unlockedQuizzes: Quiz[] = [];
-		Object.values(quizConfigs).forEach((config) => {
+		for (const config of Object.values(quizConfigs)) {
 			if (config.initiallyLocked && config.unlockCondition) {
 				const requiredState = quizStates[config.unlockCondition.requiredQuizId];
 				if (requiredState && isCompleted(requiredState)) {
@@ -55,7 +55,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 					}
 				}
 			}
-		});
+		}
 		return unlockedQuizzes;
 	},
 	isQuizUnlocked: (quizId: string) => {
@@ -91,7 +91,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		);
 		const { quizzes, quizStates, addPendingUnlock } = get();
 		let unlocksFound = 0;
-		Object.entries(quizStates).forEach(([quizId, quizState]) => {
+		for (const [quizId, quizState] of Object.entries(quizStates)) {
 			if (isCompleted(quizState)) {
 				const unlockedQuizzes = Object.values(quizzes).filter((quiz) => {
 					const config = get().quizConfigs[quiz.id];
@@ -101,7 +101,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 						config.unlockCondition.requiredQuizId === quizId
 					);
 				});
-				unlockedQuizzes.forEach((unlockedQuiz) => {
+				for (const unlockedQuiz of unlockedQuizzes) {
 					if (
 						!get().pendingUnlocks.some((pu) => pu.quizId === unlockedQuiz.id)
 					) {
@@ -111,9 +111,9 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 						addPendingUnlock(unlockedQuiz.id, unlockedQuiz.title);
 						unlocksFound++;
 					}
-				});
+				}
 			}
-		});
+		}
 		console.log(
 			`[UnlockSlice] Detection complete - found ${unlocksFound} missed unlocks`,
 		);

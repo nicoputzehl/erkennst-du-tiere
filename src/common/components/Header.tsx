@@ -1,7 +1,7 @@
 import { StyleSheet, View, type ViewStyle } from "react-native";
-import { ThemedText } from "./ThemedText";
 import { useThemeColor } from "../hooks/useThemeColor";
 import NavigateBack from "./NavigateBack";
+import { ThemedText } from "./ThemedText";
 
 type HeaderProps = {
 	title?: string;

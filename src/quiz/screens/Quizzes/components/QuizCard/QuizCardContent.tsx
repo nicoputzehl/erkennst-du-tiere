@@ -1,16 +1,16 @@
 import { memo, useCallback } from "react";
 import { Text, TouchableOpacity, View, type ViewStyle } from "react-native";
+import { styles } from "./QuizCard.styles";
+import type { QuizCardViewProps } from "./QuizCard.types";
+import { QuizCardProgress } from "./QuizCardProgress";
 import {
 	LoadingOverlay,
 	LockIcon,
 	QuizCardImage,
 	UnlockProgress,
 } from "./components";
-import { styles } from "./QuizCard.styles";
-import type { QuizCardViewProps } from "./QuizCard.types";
-import { QuizCardProgress } from "./QuizCardProgress";
 
-export const QuizCardView = memo(
+export const QuizCardContent = memo(
 	({
 		quiz,
 		variant,
@@ -99,4 +99,4 @@ export const QuizCardView = memo(
 	},
 );
 
-QuizCardView.displayName = "QuizCardView";
+QuizCardContent.displayName = "QuizCardView";

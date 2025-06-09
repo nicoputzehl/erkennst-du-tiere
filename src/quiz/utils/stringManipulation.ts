@@ -9,14 +9,17 @@ export function normalizeString(input: string): string {
 		.replace(/ü/g, "ue")
 		.replace(/ß/g, "ss");
 
-	return result
-		.normalize("NFD") // Akzente aufteilen (für Zeichen wie é, à)
-		.replace(/[\u0300-\u036f]/g, "") // Akzente entfernen (von é, à -> e, a)
-		.replace(/[^a-z0-9\s-]/g, "") // Nur erlaubte Zeichen (nachdem Umlaute/ß ersetzt wurden)
-		.trim() // Leerzeichen trimmen
-		.replace(/\s+/g, "-") // Leerzeichen zu Bindestrichen
-		.replace(/-+/g, "-") // Mehrfache Bindestriche entfernen
-		.replace(/^-|-$/g, ""); // Bindestriche an Rändern entfernen
+	return (
+		result
+			.normalize("NFD") // Akzente aufteilen (für Zeichen wie é, à)
+			// biome-ignore lint/suspicious/noMisleadingCharacterClass: <explanation>
+			.replace(/[\u0300-\u036f]/g, "") // Akzente entfernen (von é, à -> e, a)
+			.replace(/[^a-z0-9\s-]/g, "") // Nur erlaubte Zeichen (nachdem Umlaute/ß ersetzt wurden)
+			.trim() // Leerzeichen trimmen
+			.replace(/\s+/g, "-") // Leerzeichen zu Bindestrichen
+			.replace(/-+/g, "-") // Mehrfache Bindestriche entfernen
+			.replace(/^-|-$/g, "")
+	); // Bindestriche an Rändern entfernen
 }
 
 // src/quiz/utils/stringManipulation.ts

@@ -1,17 +1,17 @@
 // src/quiz/store/Hint.slice.ts - ENHANCED VERSION
 import type { StateCreator } from "zustand";
+import { HintUtils } from "../domain/hints";
+import type { QuestionBase } from "../types";
 import type {
-	AvailableHint,
 	AutoFreeHint,
+	AvailableHint,
 	ContextualHint,
+	Hint,
 	PointTransaction,
 	UseHintResult,
 	UsedHint,
-	Hint,
 } from "../types/hint";
 import type { QuizStore } from "./Quiz.store";
-import { HintUtils } from "../domain/hints";
-import type { QuestionBase } from "../types";
 
 export interface HintSlice {
 	applyHint: (
@@ -27,17 +27,10 @@ export interface HintSlice {
 	getAvailableHints: (quizId: string, questionId: number) => AvailableHint[];
 	getUsedHints: (quizId: string, questionId: number) => UsedHint[];
 
-	// NEUE FUNKTION: Separate Auto-Free Hint Logic
 	checkAutoFreeHints: (quizId: string, questionId: number) => AutoFreeHint[];
 
-	// NEUE FUNKTION: Mark Auto-Free Hint als verwendet
-	markAutoFreeHintAsUsed: (
-		quizId: string,
-		questionId: number,
-		hintId: string,
-	) => void;
+	markHintAsUsed: (quizId: string, questionId: number, hintId: string) => void;
 
-	// GLOBALE Points-Methoden (ohne quizId Parameter)
 	addPoints: (transaction: PointTransaction) => void;
 	deductPoints: (transaction: PointTransaction) => void;
 	getPointsBalance: () => number;
@@ -169,7 +162,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		return triggeredHints;
 	},
 
-	// NEUE FUNKTION: Check Auto-Free Hints
 	checkAutoFreeHints: (quizId: string, questionId: number): AutoFreeHint[] => {
 		const quizState = get().quizStates[quizId];
 		const question = quizState?.questions.find((q) => q.id === questionId);
@@ -177,7 +169,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 
 		if (!question?.hints || !hintState) return [];
 
-		// Filter für Auto-Free Hints die verfügbar sind
 		return question.hints.filter(
 			(hint): hint is AutoFreeHint =>
 				hint.type === "auto_free" &&
@@ -186,23 +177,19 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		);
 	},
 
-	markAutoFreeHintAsUsed: (
-		quizId: string,
-		questionId: number,
-		hintId: string,
-	) => {
-				const quizState = get().quizStates[quizId];
-
+	markHintAsUsed: (quizId: string, questionId: number, hintId: string) => {
+		const quizState = get().quizStates[quizId];
 
 		if (!quizState) {
 			return { success: false, error: "Quiz nicht gefunden" };
 		}
-				const question = quizState.questions.find((q) => q.id === questionId);
+		const question = quizState.questions.find((q) => q.id === questionId);
 		const hint = question?.hints?.find((h) => h.id === hintId);
-		if(!question || !hint) {
+		if (!question || !hint) {
 			return { success: false, error: "Hint nicht gefunden" };
 		}
-				const usedHint = generateUsedHint(hint, question);
+		const usedHint = generateUsedHint(hint, question);
+
 		set((state) => ({
 			quizStates: {
 				...state.quizStates,
@@ -306,10 +293,8 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 	},
 });
 
-
 const generateUsedHint = (hint: Hint, question: QuestionBase): UsedHint => {
 	const content = HintUtils.generateHintContent(hint, question);
-
 
 	return {
 		id: hint.id,

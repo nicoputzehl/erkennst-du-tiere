@@ -53,7 +53,6 @@ describe("HintUtils.checkForContextualHints", () => {
 	});
 
 	it("should not trigger already triggered hints", () => {
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		const hint = mockQuestion.hints?.[0] as any;
 		const triggeredHintState = {
 			...mockHintState,

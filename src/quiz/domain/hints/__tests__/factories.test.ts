@@ -1,10 +1,10 @@
 import { HintType } from "@/src/quiz/types/hint";
+import type { QuestionBase } from "@/src/quiz/types/question";
 import {
 	createAutoFreeHint,
 	createContextualHint,
 	createLetterCountHint,
 } from "../factories";
-import type { QuestionBase } from "@/src/quiz/types/question";
 
 describe("Hint Factory Functions", () => {
 	describe("createLetterCountHint", () => {

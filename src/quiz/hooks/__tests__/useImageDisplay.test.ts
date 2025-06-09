@@ -282,7 +282,7 @@ describe("useImageDisplay Hook", () => {
 		it("should work with different QuestionStatus values", () => {
 			const statuses = [QuestionStatus.SOLVED, QuestionStatus.ACTIVE];
 
-			statuses.forEach((status) => {
+			for (const status of statuses) {
 				const question = createTestQuizQuestion({ status });
 
 				expect(() => {
@@ -290,7 +290,7 @@ describe("useImageDisplay Hook", () => {
 					getImageUrl(ImageType.IMG);
 					getImageUrl(ImageType.THUMBNAIL);
 				}).not.toThrow();
-			});
+			}
 		});
 
 		it("should handle minimal question data", () => {

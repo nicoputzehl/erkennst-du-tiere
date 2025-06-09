@@ -1,5 +1,5 @@
-import { useLocalSearchParams } from "expo-router";
 import { QuestionScreen } from "@/src/quiz/screens/Question/QuestionScreen";
+import { useLocalSearchParams } from "expo-router";
 
 export default function QuestionRoute() {
 	const { quizId, questionId } = useLocalSearchParams<{

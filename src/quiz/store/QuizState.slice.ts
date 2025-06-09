@@ -1,5 +1,7 @@
 import type { StateCreator } from "zustand";
+import { HintUtils } from "../domain/hints";
 import type { Quiz, QuizState } from "../types";
+import type { ContextualHint } from "../types/hint";
 import { createQuizState } from "../utils/quizCreation";
 import {
 	calculateAnswerResult,
@@ -7,8 +9,6 @@ import {
 } from "../utils/quizProgression";
 import { isCompleted } from "../utils/quizStatistics";
 import type { QuizStore } from "./Quiz.store";
-import { HintUtils } from "../domain/hints";
-import type { ContextualHint } from "../types/hint";
 
 interface AnswerResult {
 	isCorrect: boolean;

@@ -6,8 +6,11 @@
  * You can remove the `reset-project` script from package.json and safely delete this file after running it.
  */
 
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 const fs = require("fs");
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 const path = require("path");
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
 const readline = require("readline");
 
 const root = process.cwd();

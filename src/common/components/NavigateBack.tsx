@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import React from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type NavigateBackProps = {
 	onPress: () => void;

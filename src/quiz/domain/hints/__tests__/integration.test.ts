@@ -1,3 +1,4 @@
+import type { QuestionBase } from "@/src/quiz/types";
 import type { HintState, UserPointsState } from "@/src/quiz/types/hint";
 import { HintUtils } from "..";
 import {
@@ -6,7 +7,6 @@ import {
 	createFirstLetterHint,
 	createLetterCountHint,
 } from "../factories";
-import type { QuestionBase } from "@/src/quiz/types";
 
 describe("Hint System Integration", () => {
 	const mockQuestion: QuestionBase = {
@@ -45,7 +45,7 @@ describe("Hint System Integration", () => {
 	it("should handle complete hint workflow", () => {
 		// 1. Check available hints initially
 		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-				let availableHints = mockQuestion.hints!.map((hint) => {
+		let availableHints = mockQuestion.hints!.map((hint) => {
 			const validation = HintUtils.canUseHint(
 				hint,
 				mockHintState,
@@ -74,7 +74,7 @@ describe("Hint System Integration", () => {
 
 		// 4. Check available hints after trigger
 		// biome-ignore lint/style/noNonNullAssertion: <explanation>
-				availableHints = mockQuestion.hints!.map((hint) => {
+		availableHints = mockQuestion.hints!.map((hint) => {
 			const validation = HintUtils.canUseHint(
 				hint,
 				currentHintState,

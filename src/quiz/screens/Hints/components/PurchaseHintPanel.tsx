@@ -4,12 +4,12 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback } from "react";
 import {
 	Modal,
+	ScrollView,
+	StyleSheet,
+	Text,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
-	Text,
-	ScrollView,
-	StyleSheet,
 } from "react-native";
 
 interface PurchaseHintPanelProps {

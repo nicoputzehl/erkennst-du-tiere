@@ -48,7 +48,7 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
 			updateCellsBatchingPeriod: 50,
 			initialNumToRender: 21, // 3x7 für optimale Performance
 			windowSize: 7,
-			getItemLayout: (data: any, index: number) => ({
+			getItemLayout: (_data: any, index: number) => ({
 				length: itemWidth + QUIZ_LAYOUT.gap,
 				offset: (itemWidth + QUIZ_LAYOUT.gap) * Math.floor(index / 3),
 				index,

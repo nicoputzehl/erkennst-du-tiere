@@ -1,30 +1,21 @@
-import { View, StyleSheet } from 'react-native';
-import WrongAnswer, { type WrongAnswerProps } from './WrongAnswer';
-import RightAnswer, { type RightAnswerProps } from './RightAnswer';
+import { StyleSheet, View } from "react-native";
+import RightAnswer, { type RightAnswerProps } from "./RightAnswer";
+import WrongAnswer, { type WrongAnswerProps } from "./WrongAnswer";
 
 export interface QuestionResultProps
 	extends WrongAnswerProps,
 		RightAnswerProps {
 	isCorrect: boolean;
-	
-	purchasedHints?: string[];
+	// TODO wenn falsch, aber AutoFreeHint gewonnen, dann den AutofreeHint nicht als Modal, sondern auf der Wrong Answer Seite anzeigen
 }
 
 export const QuestionResult: React.FC<QuestionResultProps> = ({
 	isCorrect,
 	...props
 }) => {
-
 	return (
 		<View style={styles.container}>
-			{isCorrect ? (
-				<RightAnswer {...props} />
-			) : (
-				<WrongAnswer 
-					{...props}
-					purchasedHints={props.purchasedHints}
-				/>
-			)}
+			{isCorrect ? <RightAnswer {...props} /> : <WrongAnswer {...props} />}
 		</View>
 	);
 };

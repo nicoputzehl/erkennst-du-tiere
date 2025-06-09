@@ -1,6 +1,6 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 export const ProgressIndicator = ({ progress }: { progress: number }) => {
 	return (
@@ -22,10 +22,10 @@ export const ProgressIndicator = ({ progress }: { progress: number }) => {
 
 const getProgressColor = (percentage: number): string => {
 	if (percentage <= 25) return "#5F8AE1";
-	else if (percentage <= 50) return "#4C6FB4";
-	else if (percentage <= 75) return "#395487";
-	else if (percentage < 100) return "#26395A";
-	else return "#131E2D";
+	if (percentage <= 50) return "#4C6FB4";
+	if (percentage <= 75) return "#395487";
+	if (percentage < 100) return "#26395A";
+	return "#131E2D";
 };
 
 const styles = StyleSheet.create({

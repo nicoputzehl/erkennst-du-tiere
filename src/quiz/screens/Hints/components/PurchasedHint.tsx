@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import {
-	View,
-	Text,
 	Modal,
-	TouchableWithoutFeedback,
 	StyleSheet,
+	Text,
+	TouchableWithoutFeedback,
+	View,
 } from "react-native";
 
 export interface PurchasedHintProps {

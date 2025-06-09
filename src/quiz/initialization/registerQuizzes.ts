@@ -9,10 +9,10 @@ export function registerQuizzes(configs: QuizConfig[]) {
 
 	console.log(`[QuizInit] Registering ${configs.length} quiz configs`);
 
-	configs.forEach((config) => {
+	for (const config of configs) {
 		console.log(`[QuizInit] Registering quiz: ${config.id}`);
 		store.registerQuiz(config);
-	});
+	}
 
 	console.log(
 		`[QuizInit] All ${configs.length} quizzes registered successfully`,

@@ -1,7 +1,7 @@
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import type { Quiz } from "@/src/quiz/types";
 import { useQuizzes } from "../../hooks/useQuizzes";
-import { QuizCardView } from "./QuizCardView";
+import { QuizCardContent } from "./QuizCardContent";
 
 export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
 	const { isLoading, navigateToQuiz, getQuizProgress, getQuizProgressString } =
@@ -13,7 +13,7 @@ export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
 	const unlockInfo = isLocked ? getUnlockProgress(quiz.id) : undefined;
 
 	return (
-		<QuizCardView
+		<QuizCardContent
 			quiz={quiz}
 			variant={isLocked ? "locked" : "active"}
 			onPress={!isLocked ? navigateToQuiz : undefined}

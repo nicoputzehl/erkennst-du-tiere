@@ -2,7 +2,7 @@ import {
 	createTestQuizQuestion,
 	quizStateBuilder,
 } from "../../testing/testUtils";
-import { QuestionStatus, type Question } from "../../types";
+import { type Question, QuestionStatus } from "../../types";
 import { isAnswerCorrect } from "../answerComparison";
 import {
 	calculateAnswerResult,

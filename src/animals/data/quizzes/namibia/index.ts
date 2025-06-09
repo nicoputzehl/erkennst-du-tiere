@@ -84,6 +84,7 @@ export const namibia: QuestionBase[] = [
 				2,
 				"Manchmal wird ein Flusspferd auch Nilpferd genannt.",
 			),
+			createContextualHint(2, ["nico"], "😳"),
 		],
 	},
 

@@ -1,5 +1,4 @@
-import type { UnlockProgress } from "@/src/quiz/hooks";
-import type { Quiz } from "@/src/quiz/types";
+import type { Quiz, UnlockCondition } from "@/src/quiz/types";
 
 export type QuizCardActiveProps = {
 	quiz: Quiz;
@@ -34,4 +33,9 @@ export interface QuizImageProps {
 
 export interface UnlockProgressProps {
 	unlockProgress?: UnlockProgress;
+}
+
+export interface UnlockProgress {
+	condition: UnlockCondition | null;
+	progress: number;
 }

@@ -15,7 +15,7 @@ export const canUseHint = (
 	globalUserPoints: UserPointsState, // ← Jetzt global
 ): { canUse: boolean; reason?: string } => {
 	// Bereits verwendet?
-	if (hintState.usedHints.includes(hint.id)) {
+	if (hintState.usedHints.some((h) => h.id === hint.id)) {
 		return { canUse: false, reason: "Hint bereits verwendet" };
 	}
 

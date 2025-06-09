@@ -1,6 +1,6 @@
 import type React from "react";
-import { useEffect, useRef, useCallback } from "react";
-import { Text, StyleSheet, Animated, TouchableOpacity } from "react-native";
+import { useCallback, useEffect, useRef } from "react";
+import { Animated, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export interface ToastProps {
 	visible: boolean;

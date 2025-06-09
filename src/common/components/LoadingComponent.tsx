@@ -1,6 +1,6 @@
 import { memo } from "react";
+import { ActivityIndicator, StyleSheet, Text } from "react-native";
 import { ThemedView } from "./ThemedView";
-import { Text, StyleSheet, ActivityIndicator } from "react-native";
 
 export const LoadingComponent = memo(
 	({ message }: { message: string }) => {

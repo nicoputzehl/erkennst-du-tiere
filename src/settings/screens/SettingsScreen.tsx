@@ -22,6 +22,10 @@ export function SettingsScreen() {
 	const [resettingQuiz, setResettingQuiz] = useState<string | null>(null);
 	const [resettingAll, setResettingAll] = useState(false);
 
+	const navigateBack = () => {
+		router.back();
+	};
+
 	const handleResetQuiz = async (quizId: string, quizTitle: string) => {
 		setResettingQuiz(quizId);
 
@@ -54,6 +58,7 @@ export function SettingsScreen() {
 							showError(`Fehler: ${error}`);
 						} finally {
 							setResettingAll(false);
+							navigateBack();
 						}
 					},
 				},
@@ -63,11 +68,7 @@ export function SettingsScreen() {
 
 	return (
 		<ThemedView style={styles.container}>
-			<Header
-				title="Einstellungen"
-				showBackButton
-				onBackPress={() => router.back()}
-			/>
+			<Header title="Einstellungen" showBackButton onBackPress={navigateBack} />
 
 			<ScrollView style={styles.scrollView}>
 				{/* Statistics Section */}

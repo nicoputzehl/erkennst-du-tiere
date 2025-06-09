@@ -1,4 +1,5 @@
 import { ErrorComponent } from "@/src/common/components/ErrorComponent";
+import Header from "@/src/common/components/Header";
 import { LoadingComponent } from "@/src/common/components/LoadingComponent";
 import { ThemedView } from "@/src/common/components/ThemedView";
 import { QuizProgress } from "@/src/quiz/screens/Quiz/components/QuizProgress";
@@ -8,7 +9,6 @@ import { QuestionGrid } from "./components/QuestionGrid";
 import { QUIZ_LAYOUT } from "./constants/constants";
 import { useQuizScreen } from "./hooks/useQuizScreen";
 import { calculateItemWidth } from "./utils/utils";
-import Header from "@/src/common/components/Header";
 
 interface QuizScreenProps {
 	quizId: string | null;

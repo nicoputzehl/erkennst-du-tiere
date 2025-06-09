@@ -1,8 +1,8 @@
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { Image } from "expo-image";
 import type React from "react";
 import { memo, useState } from "react";
-import { StyleSheet, Animated, View, ActivityIndicator } from "react-native";
-import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { ActivityIndicator, Animated, StyleSheet, View } from "react-native";
 
 interface QuestionImageProps {
 	imageUrl: number;

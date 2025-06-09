@@ -1,7 +1,7 @@
-import type React from "react";
-import { useRef, useEffect, memo } from "react";
-import { StyleSheet, TextInput, View, Keyboard } from "react-native";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import type React from "react";
+import { memo, useEffect, useRef } from "react";
+import { Keyboard, StyleSheet, TextInput, View } from "react-native";
 
 interface AnswerInputProps {
 	value: string;

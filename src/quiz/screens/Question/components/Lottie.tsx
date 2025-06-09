@@ -1,6 +1,6 @@
-import { useRef, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
+import { useEffect, useRef } from "react";
+import { StyleSheet, View } from "react-native";
 
 export const Lottie = () => {
 	const animation = useRef<LottieView>(null);

@@ -1,3 +1,4 @@
+import React from "react";
 import {
 	type StyleProp,
 	StyleSheet,
@@ -6,7 +7,6 @@ import {
 	TouchableOpacity,
 	type TouchableOpacityProps,
 } from "react-native";
-import React from "react";
 
 interface ButtonProps extends TouchableOpacityProps {
 	text: string;

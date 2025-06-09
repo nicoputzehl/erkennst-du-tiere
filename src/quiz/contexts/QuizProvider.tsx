@@ -1,13 +1,13 @@
 // src/quiz/contexts/QuizProvider.tsx - FIXED VERSION
 
-import React, { type ReactNode, useEffect, useRef } from "react";
-import { useQuizStore } from "../store/Quiz.store";
 import { animalQuizConfigs } from "@/src/animals/quizzes";
-import { ActivityIndicator, View, Text, StyleSheet } from "react-native";
+import React, { type ReactNode, useEffect, useRef } from "react";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import {
 	initializeAllQuizzes,
 	registerQuizzes,
 } from "../initialization/registerQuizzes";
+import { useQuizStore } from "../store/Quiz.store";
 
 interface QuizProviderProps {
 	children: ReactNode;
@@ -125,7 +125,6 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			`[QuizProvider-Effect2] Check conditions - DataLoaded: ${isQuizDataLoadedInStore}, InitializedRef: ${hasInitializedStatesRef.current}, StatesInStore: ${areQuizStatesInitializedInStore}, QuizzesInStore: ${Object.keys(quizzesRecord).length}`,
 		);
 
-		// VERBESSERTE BEDINGUNG: Nur initialisieren wenn Quizzes vorhanden sind UND States noch nicht initialisiert
 		if (
 			!isQuizDataLoadedInStore ||
 			hasInitializedStatesRef.current ||

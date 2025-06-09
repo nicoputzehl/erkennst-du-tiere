@@ -1,20 +1,20 @@
-import {
-	subscribeWithSelector,
-	persist,
-	type StorageValue,
-} from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import type { QuizState } from "../types";
 import { create } from "zustand";
+import {
+	type StorageValue,
+	persist,
+	subscribeWithSelector,
+} from "zustand/middleware";
+import type { QuizState } from "../types";
 import { createQuizState } from "../utils/quizCreation";
 
-import { createQuizDataSlice, type QuizDataSlice } from "./QuizData.slice";
-import { createQuizStateSlice, type QuizStateSlice } from "./QuizState.slice";
-import { createUISlice, type UISlice } from "./UI.slice";
-import { createUnlockSlice, type UnlockSlice } from "./Unlock.slice";
-import type { HintState, UserPointsState } from "../types/hint";
-import { createHintSlice, type HintSlice } from "./Hint.slice";
 import { HintUtils } from "../domain/hints";
+import type { HintState, UserPointsState } from "../types/hint";
+import { type HintSlice, createHintSlice } from "./Hint.slice";
+import { type QuizDataSlice, createQuizDataSlice } from "./QuizData.slice";
+import { type QuizStateSlice, createQuizStateSlice } from "./QuizState.slice";
+import { type UISlice, createUISlice } from "./UI.slice";
+import { type UnlockSlice, createUnlockSlice } from "./Unlock.slice";
 
 export interface QuizStore
 	extends QuizDataSlice,

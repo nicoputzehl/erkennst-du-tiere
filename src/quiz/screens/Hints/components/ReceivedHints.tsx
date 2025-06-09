@@ -1,20 +1,39 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import type { AvailableHint, Hint } from '@/src/quiz/types'
+import { ThemedText } from "@/src/common/components/ThemedText";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import type { UsedHint } from "@/src/quiz/types";
+import { View } from "react-native";
+import sharedHintstyles from "./Hints.styles";
 
 type ReceivedHintsProps = {
-  hints: AvailableHint[]
-}
+	hints: UsedHint[];
+};
 
 const ReceivedHints = ({ hints }: ReceivedHintsProps) => {
-  // console.log(hints)
-  return (
-    <View>
-      <Text>ReceivedHints</Text>
-    </View>
-  )
-}
+	const borderColor = useThemeColor({}, "success") as string;
+	if (hints.length === 0) {
+		return null;
+	}
+	return (
+		<View>
+			{hints.map((hint) => (
+				<View
+					key={hint.id}
+					style={[
+						sharedHintstyles.card,
+						sharedHintstyles.receivedHint,
+						{ borderColor },
+					]}
+				>
+					<ThemedText type="subtitle" style={sharedHintstyles.hintTitle}>
+						{hint.title}
+					</ThemedText>
+					<ThemedText style={sharedHintstyles.hintDescription}>
+						{hint.content}
+					</ThemedText>
+				</View>
+			))}
+		</View>
+	);
+};
 
-export default ReceivedHints
-
-const styles = StyleSheet.create({})
+export default ReceivedHints;

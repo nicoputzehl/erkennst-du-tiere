@@ -1,10 +1,10 @@
 import {
+	type Question,
 	QuestionStatus,
 	type Quiz,
 	type QuizConfig,
-	type UnlockCondition,
 	type QuizState,
-	type Question,
+	type UnlockCondition,
 } from "../types";
 import type { HintState } from "../types/hint";
 
@@ -114,7 +114,6 @@ export const createQuizState = (
 				id: hint.id,
 				type: hint.type,
 				hasGenerator:
-					// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 					"generator" in hint && typeof (hint as any).generator === "function",
 			})),
 		});

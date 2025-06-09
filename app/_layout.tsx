@@ -8,8 +8,8 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
-import { QuizProvider } from "@/src/quiz/contexts/QuizProvider";
 import { ToastContainer } from "@/src/quiz/components/ToastContainer";
+import { QuizProvider } from "@/src/quiz/contexts/QuizProvider";
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();

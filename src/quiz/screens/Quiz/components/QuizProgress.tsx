@@ -1,7 +1,7 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
-import { ProgressIndicator } from "@/src/quiz/components/ProgressIndicator";
-import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { ProgressIndicator } from "@/src/quiz/components/ProgressIndicator";
 import { StyleSheet, View } from "react-native";
 
 interface QuizProgressProps {

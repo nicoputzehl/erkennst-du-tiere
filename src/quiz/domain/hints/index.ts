@@ -15,8 +15,8 @@ import {
 
 import {
 	createAutoFreeHint,
-	createCustomHint,
 	createContextualHint,
+	createCustomHint,
 	createEscalatingAutoFreeHint,
 	createFirstLetterHint,
 	createLetterCountHint,

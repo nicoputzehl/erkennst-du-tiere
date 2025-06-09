@@ -1,6 +1,6 @@
 import { memo } from "react";
+import { StyleSheet, Text } from "react-native";
 import { ThemedView } from "./ThemedView";
-import { Text, StyleSheet } from "react-native";
 
 export const ErrorComponent = memo(
 	({ message }: { message: string }) => {

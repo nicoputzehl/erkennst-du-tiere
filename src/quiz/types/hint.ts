@@ -1,4 +1,4 @@
-import type {  QuestionBase } from "./question";
+import type { QuestionBase } from "./question";
 
 export enum HintType {
 	LETTER_COUNT = "letter_count",
@@ -52,7 +52,7 @@ export type UsedHint = {
 	id: string;
 	title: string;
 	content: string;
-}
+};
 
 // ==========================================
 // STATE TYPES

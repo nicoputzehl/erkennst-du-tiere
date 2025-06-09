@@ -15,7 +15,7 @@ const quizAlert = ({ title, text, cancel, confirm }: AlertProps) => {
 	if (confirm) {
 		buttons.push(confirm);
 	}
-	return Alert.alert(title, text, buttons, { cancelable: false });
+	return Alert.alert(title, text, buttons, { cancelable: true });
 };
 
 export default quizAlert;

@@ -1,43 +1,31 @@
-// src/quiz/screens/Question/components/QuestionResult/WrongAnswer.tsx - ENHANCED VERSION
-import { StyleSheet, View } from "react-native";
-import React from "react";
 import Button from "@/src/common/components/Button";
 import { ThemedText } from "@/src/common/components/ThemedText";
+import React from "react";
+// src/quiz/screens/Question/components/QuestionResult/WrongAnswer.tsx - ENHANCED VERSION
+import { StyleSheet, View } from "react-native";
+
+export type WrongAnswerHint = {
+	title: string;
+	content: string;
+};
 
 export type WrongAnswerProps = {
 	onTryAgain: () => void;
-	// NEUE PROPS für gekaufte Hints (dauerhaft)
-	purchasedHints?: string[];
+	hint?: WrongAnswerHint;
 };
 
-const WrongAnswer = ({ onTryAgain, purchasedHints }: WrongAnswerProps) => {
+const WrongAnswer = ({ onTryAgain, hint }: WrongAnswerProps) => {
+	console.log({ hint });
 	return (
 		<View style={styles.container}>
-			<ThemedText style={[styles.resultText, styles.wrongText]} type="title">
-				Leider falsch
-			</ThemedText>
-
-			{purchasedHints && purchasedHints.length > 0 && (
-				<View style={styles.purchasedHintsContainer}>
-					<ThemedText style={styles.purchasedHintsTitle}>
-						💰 Deine gekauften Hinweise:
-					</ThemedText>
-					{purchasedHints.map((hint, index) => (
-						<View
-							key={`${
-								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-								index
-							}-hint-wrong-answer`}
-							style={styles.purchasedHintItem}
-						>
-							<ThemedText style={styles.purchasedHintContent}>
-								{hint}
-							</ThemedText>
-						</View>
-					))}
-				</View>
-			)}
-
+			<View>
+				<ThemedText style={[styles.resultText, styles.wrongText]} type="title">
+					{hint?.title ?? "Leider falsch!"}
+				</ThemedText>
+				{hint?.content && (
+					<ThemedText style={styles.hintText}>{hint.content}</ThemedText>
+				)}
+			</View>
 			<View style={styles.buttonRow}>
 				<Button
 					text="Nochmal versuchen"
@@ -62,7 +50,12 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 	},
 	wrongText: {
-		color: "#F44336", // Konsistente rote Farbe
+		color: "#FFC107",
+	},
+	hintText: {
+		fontSize: 16,
+		marginBottom: 20,
+		lineHeight: 24,
 	},
 
 	// NEUE Styles für purchased hints (dauerhaft)

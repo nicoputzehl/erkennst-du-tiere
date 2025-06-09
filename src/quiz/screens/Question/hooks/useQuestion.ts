@@ -1,9 +1,9 @@
 import { useUI } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import {
+	type Question,
 	QuestionStatus,
 	type QuizConfig,
-	type Question,
 	type QuizState,
 } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { router } from "expo-router";
@@ -44,7 +44,7 @@ export const useQuestion = (quizId: string, question: Question) => {
 			try {
 				await updateQuizState(quizId, newState);
 			} catch (error) {
-				console.error('[useQuestion] Error updating quiz state:', error);
+				console.error("[useQuestion] Error updating quiz state:", error);
 			} finally {
 				setIsUpdating(false);
 			}
@@ -65,7 +65,6 @@ export const useQuestion = (quizId: string, question: Question) => {
 		setShowResult(false);
 	}, []);
 
-
 	const navigateToHints = useCallback(() => {
 		router.push(`/quiz/${quizId}/question/${question.id}/hints`);
 	}, [quizId, question.id]);
@@ -81,7 +80,7 @@ export const useQuestion = (quizId: string, question: Question) => {
 
 			const result = await answerQuestion(quizId, question.id, answer.trim());
 
-			console.log('[useQuestion] Answer result:', {
+			console.log("[useQuestion] Answer result:", {
 				isCorrect: result.isCorrect,
 				hasUnlocks: result.unlockedQuizzes?.length || 0,
 			});
@@ -115,13 +114,13 @@ export const useQuestion = (quizId: string, question: Question) => {
 						},
 					);
 				} else {
-					console.log('[useQuestion] No quizzes were unlocked by this answer');
+					console.log("[useQuestion] No quizzes were unlocked by this answer");
 				}
 			} else {
 				processIncorrectAnswer();
 			}
 		} catch (error) {
-			console.error('[useQuestion] Error submitting answer:', error);
+			console.error("[useQuestion] Error submitting answer:", error);
 			processIncorrectAnswer();
 		} finally {
 			setIsSubmitting(false);
@@ -154,6 +153,6 @@ export const useQuestion = (quizId: string, question: Question) => {
 		statusChanged,
 		showUnsolvedImages,
 		quizTitle,
-		navigateToHints
+		navigateToHints,
 	};
 };

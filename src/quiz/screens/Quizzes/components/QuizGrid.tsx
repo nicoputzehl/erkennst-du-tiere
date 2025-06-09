@@ -11,9 +11,9 @@ export const QuizGrid = ({ quizzes }: QuizGridProps) => {
 	// Debug-Logging
 	useEffect(() => {
 		console.log(`[QuizGrid] Rendering ${quizzes.length} quizzes`);
-		quizzes.forEach((quiz) => {
+		for (const quiz of quizzes) {
 			console.log(`[QuizGrid] Quiz: ${quiz.id} - ${quiz.title}`);
-		});
+		}
 	}, [quizzes]);
 
 	return (

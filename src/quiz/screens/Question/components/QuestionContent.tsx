@@ -1,5 +1,3 @@
-// src/quiz/screens/Question/components/Question.tsx - ENHANCED VERSION
-import Header from "@/src/common/components/Header";
 import type { Question } from "@/src/quiz/types";
 import type React from "react";
 import { memo } from "react";
@@ -8,16 +6,13 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
-	TouchableOpacity,
 	View,
-	Text,
 } from "react-native";
 import { ImageType, useImageDisplay } from "../../../hooks/useImageDisplay";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import { AnswerInput } from "./AnswerInput";
 import { QuestionImage } from "./QuestionImage";
 import { QuestionResult } from "./QuestionResult/QuestionResult";
-import { FontAwesome6 } from "@expo/vector-icons";
 
 interface QuestionProps {
 	quizId: string;
@@ -33,13 +28,11 @@ interface QuestionProps {
 	onSubmit: () => void;
 	onTryAgain: () => void;
 	onBack: () => void;
-	quizTitle: string;
-	naavigateToHints: () => void;
 	// NEUE PROPS für purchased hints (dauerhaft)
 	purchasedHints?: string[];
 }
 
-export const QuestionComponent: React.FC<QuestionProps> = memo(
+export const QuestionContent: React.FC<QuestionProps> = memo(
 	({
 		question,
 		answer,
@@ -52,9 +45,6 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 		onSubmit,
 		onTryAgain,
 		onBack,
-		quizTitle,
-		naavigateToHints,
-		// NEUE PROPS
 		purchasedHints,
 	}) => {
 		const { imageHeight } = useKeyboardHandling({ initialImageHeight: 400 });
@@ -67,21 +57,6 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 			>
 				<View style={{ flex: 1, justifyContent: "space-between" }}>
 					<View>
-						<Header
-							showBackButton={true}
-							backButtonText={quizTitle}
-							onBackPress={onBack}
-							rightSlot={
-								<TouchableOpacity
-									onPress={naavigateToHints}
-									style={styles.hintsButton}
-								>
-									<FontAwesome6 name="lightbulb" size={20} color="red" />
-									<Text style={styles.hintsButtonText}>Hints</Text>
-								</TouchableOpacity>
-							}
-						/>
-
 						<Animated.View
 							style={[styles.imageContainer, { height: imageHeight }]}
 						>
@@ -112,8 +87,6 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 								onTryAgain={onTryAgain}
 								statusChanged={statusChanged}
 								answer={question.answer}
-								// NEUE PROPS weiterleiten (dauerhaft)
-								purchasedHints={purchasedHints}
 							/>
 						</View>
 					)}
@@ -123,7 +96,7 @@ export const QuestionComponent: React.FC<QuestionProps> = memo(
 	},
 );
 
-QuestionComponent.displayName = "Question";
+QuestionContent.displayName = "Question";
 
 const styles = StyleSheet.create({
 	imageContainer: {
@@ -139,6 +112,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginRight: 16,
+		backgroundColor: "yellow",
 	},
 	hintsButtonText: {
 		marginLeft: 8,
