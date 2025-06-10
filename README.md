@@ -11,6 +11,8 @@ Es wird ein Bild von einem Tier gezeigt, und man muss den Namen es Tieres eingeb
 * komplexere Unlock Bedingungen
 * Hint System
 * Algoryhtmen um Rechtschreibung auszugleichen
+* Storybook
+* QuizScreen: mit Swipe zurück zu QuizzesScreen
 
 ## Attributing
 

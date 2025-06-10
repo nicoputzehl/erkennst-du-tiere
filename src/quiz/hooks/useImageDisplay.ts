@@ -1,5 +1,6 @@
-import { type Question, QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
+import {  QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { useMemo } from "react";
+import type { QuizImages } from "../types/image";
 
 export enum ImageType {
 	IMG = "img",
@@ -11,7 +12,7 @@ interface UseImageDisplayReturn {
 	shouldShowUnsolvedImage: boolean;
 }
 
-export const useImageDisplay = (question: Question): UseImageDisplayReturn => {
+export const useImageDisplay = (images: QuizImages, status: QuestionStatus): UseImageDisplayReturn => {
 	// Kein Generic!
 	// Closure Factory: Erstellt Funktionen basierend auf Image-Type
 	const createImageSelector = useMemo(() => {
@@ -19,28 +20,28 @@ export const useImageDisplay = (question: Question): UseImageDisplayReturn => {
 			// Innere Closure: Prüft Status und gibt entsprechende URL zurück
 			return (showUnsolved: boolean): number => {
 				if (type === ImageType.IMG) {
-					return showUnsolved && question.images.unsolvedImageUrl
-						? question.images.unsolvedImageUrl
-						: question.images.imageUrl;
+					return showUnsolved && images.unsolvedImageUrl
+						? images.unsolvedImageUrl
+						: images.imageUrl;
 				}
-				return showUnsolved && question.images.unsolvedThumbnailUrl
-					? question.images.unsolvedThumbnailUrl
-					: question.images.thumbnailUrl || question.images.imageUrl;
+				return showUnsolved && images.unsolvedThumbnailUrl
+					? images.unsolvedThumbnailUrl
+					: images.thumbnailUrl || images.imageUrl;
 			};
 		};
-	}, [question.images]);
+	}, [images]);
 
 	// Bestimme ob unsolved Images gezeigt werden sollen
 	const shouldShowUnsolvedImage = useMemo(() => {
 		return (
-			question.status !== QuestionStatus.SOLVED &&
-			(!!question.images.unsolvedImageUrl ||
-				!!question.images.unsolvedThumbnailUrl)
+			status !== QuestionStatus.SOLVED &&
+			(!!images.unsolvedImageUrl ||
+				!!images.unsolvedThumbnailUrl)
 		);
 	}, [
-		question.status,
-		question.images.unsolvedImageUrl,
-		question.images.unsolvedThumbnailUrl,
+		status,
+		images.unsolvedImageUrl,
+		images.unsolvedThumbnailUrl,
 	]);
 
 	// Public API: Einfache Funktion die Type entgegennimmt

@@ -1,7 +1,9 @@
+import { ColorsValues } from "@/src/common/constants/Colors.values";
+import { BorderRadius, Shadows } from "@/src/common/constants/Styles";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { ImageType, useImageDisplay } from "@/src/quiz/hooks/useImageDisplay";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -16,7 +18,8 @@ interface QuestionListTileProps {
 export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 	({ item, itemWidth, onClick }) => {
 		const colorScheme = useColorScheme();
-		const { getImageUrl } = useImageDisplay(item);
+		// const borderColor = useThemeColor({}, "accent");
+		const { getImageUrl } = useImageDisplay(item.images, item.status);
 		const isSolved = item.status === QuestionStatus.SOLVED;
 		const isInactive = item.status === "inactive";
 
@@ -34,16 +37,16 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 					: isInactive
 						? colorScheme === "dark"
 							? "rgba(158, 158, 158, 0.2)"
-							: "rgba(158, 158, 158, 0.1)"
+							: "hsla(0, 3.80%, 20.40%, 0.16)"
 						: colorScheme === "dark"
 							? "rgba(255, 255, 255, 0.1)"
 							: "rgba(0, 0, 0, 0.05)",
-				borderWidth: isSolved ? 2 : 1,
-				borderColor: isSolved
-					? "#4CAF50"
-					: colorScheme === "dark"
-						? "rgba(255, 255, 255, 0.2)"
-						: "rgba(0, 0, 0, 0.1)",
+				// borderWidth: isSolved ? 2 : 0,
+				// borderColor: isSolved
+				// 	? borderColor
+				// 	: colorScheme === "dark"
+				// 		? "rgba(255, 255, 255, 0.2)"
+				// 		: "rgba(0, 0, 0, 0.1)",
 				shadowColor: colorScheme === "dark" ? "#000" : "#000",
 				shadowOffset: {
 					width: 0,
@@ -101,7 +104,12 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				{isSolved && (
 					<View style={styles.iconOverlay}>
 						<View style={styles.checkmarkBackground}>
-							<FontAwesome6 name="check" size={24} color="#fff" />
+							<MaterialCommunityIcons
+								name="trophy-award"
+								size={24}
+								color="gold"
+							/>
+							{/* <FontAwesome6 name="award" size={20} color="gold" /> */}
 						</View>
 					</View>
 				)}
@@ -131,10 +139,11 @@ QuestionListTile.displayName = "QuestionListTile";
 
 const styles = StyleSheet.create({
 	questionCard: {
-		borderRadius: 12,
+		borderRadius: BorderRadius.md,
 		justifyContent: "center",
 		alignItems: "center",
 		overflow: "hidden",
+		boxShadow: Shadows.boxShadow,
 	},
 	container: {
 		flexDirection: "row",
@@ -149,19 +158,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	checkmarkBackground: {
-		backgroundColor: "#4CAF50",
+		backgroundColor: ColorsValues.strawberry,
 		borderRadius: 16,
 		width: 32,
 		height: 32,
 		justifyContent: "center",
 		alignItems: "center",
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.3,
-		shadowRadius: 4,
-		elevation: 5,
+		boxShadow: Shadows.boxShadow,
 	},
 });

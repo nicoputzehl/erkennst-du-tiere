@@ -2,6 +2,7 @@ import type { Question } from "@/src/quiz/types";
 import { type PropsWithChildren, memo } from "react";
 import {
 	Animated,
+	Dimensions, // Importiere Dimensions
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
@@ -17,8 +18,14 @@ interface QuestionContentContainerProps extends PropsWithChildren {
 
 export const QuestionContentContainer: React.FC<QuestionContentContainerProps> =
 	memo(({ question, children }) => {
-		const { imageHeight } = useKeyboardHandling({ initialImageHeight: 400 });
-		const { getImageUrl } = useImageDisplay(question);
+		// Ermittle die initiale Breite des Bildschirms für das Bild
+		const initialImageWidth =
+			Dimensions.get("window").width -
+			(styles.imageWrapper.paddingHorizontal || 0) * 2; // Berücksichtige das horizontale Padding
+		const { imageSize } = useKeyboardHandling({
+			initialImageSize: initialImageWidth,
+		});
+		const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 		return (
 			<KeyboardAvoidingView
@@ -26,14 +33,17 @@ export const QuestionContentContainer: React.FC<QuestionContentContainerProps> =
 				style={{ flex: 1 }}
 			>
 				<View style={{ flex: 1, justifyContent: "space-between" }}>
-					<View>
+					<View style={styles.imageWrapper}>
 						<Animated.View
-							style={[styles.imageContainer, { height: imageHeight }]}
+							style={[
+								styles.imageContainer,
+								{ height: imageSize, width: imageSize }, // Breite und Höhe auf imageSize setzen für 1:1 Ratio
+							]}
 						>
 							<QuestionImage
 								imageUrl={getImageUrl(ImageType.IMG)}
 								thumbnailUrl={getImageUrl(ImageType.THUMBNAIL)}
-								animatedHeight={imageHeight}
+								animatedHeight={imageSize} // animatedHeight anpassen
 							/>
 						</Animated.View>
 					</View>
@@ -46,8 +56,14 @@ export const QuestionContentContainer: React.FC<QuestionContentContainerProps> =
 QuestionContentContainer.displayName = "QuestionContentContainer";
 
 const styles = StyleSheet.create({
-	imageContainer: {
+	imageWrapper: {
+		alignItems: "center",
+		paddingHorizontal: 16,
+		paddingVertical: 16,
 		width: "100%",
+	},
+	imageContainer: {
 		overflow: "hidden",
+		borderRadius: 16,
 	},
 });

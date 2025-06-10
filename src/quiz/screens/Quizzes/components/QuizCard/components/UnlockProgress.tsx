@@ -5,15 +5,13 @@ import type { UnlockProgressProps } from "../QuizCard.types";
 
 export const UnlockProgress = memo(
 	({ unlockProgress }: UnlockProgressProps) => {
+		// TODO unlockProgress.progress kann evtl weg
 		if (!unlockProgress?.condition) return null;
 
 		return (
 			<View style={styles.progressSection}>
 				<Text style={styles.unlockDescription} numberOfLines={2}>
 					{unlockProgress.condition.description}
-				</Text>
-				<Text style={styles.unlockProgress}>
-					Fortschritt: {Math.round(unlockProgress.progress)}%
 				</Text>
 			</View>
 		);

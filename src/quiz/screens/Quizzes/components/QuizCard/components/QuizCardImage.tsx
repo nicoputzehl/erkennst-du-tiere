@@ -3,20 +3,26 @@ import { memo } from "react";
 import { styles } from "../QuizCard.styles";
 import type { QuizImageProps } from "../QuizCard.types";
 
-export const QuizCardImage = memo(({ quiz }: QuizImageProps) => (
-	<Image
-		source={quiz.titleImage || require("@/assets/images/test-title.jpg")}
-		contentFit="cover"
-		cachePolicy="memory-disk"
-		priority="high"
-		placeholder={require("@/assets/images/placeholder.jpg")}
-		placeholderContentFit="cover"
-		onError={(error) => {
-			console.warn(`Failed to load quiz image for ${quiz.id}:`, error);
-		}}
-		allowDownscaling
-		style={styles.image}
-	/>
-));
+const DEFAULT_TITLE_IMAGE = require("@/assets/images/test-title.jpg");
+const PLACEHOLDER_IMAGE = require("@/assets/images/placeholder.jpg");
+
+export const QuizCardImage = memo(({ quiz }: QuizImageProps) => {
+	const imageSource = quiz.titleImage ? quiz.titleImage : DEFAULT_TITLE_IMAGE;
+	return (
+		<Image
+			source={imageSource}
+			contentFit="cover"
+			cachePolicy="memory-disk"
+			priority="high"
+			placeholder={PLACEHOLDER_IMAGE}
+			placeholderContentFit="cover"
+			onError={(error) => {
+				console.warn(`Failed to load quiz image for ${quiz.id}:`, error);
+			}}
+			allowDownscaling
+			style={styles.image}
+		/>
+	);
+});
 
 QuizCardImage.displayName = "QuizImage";

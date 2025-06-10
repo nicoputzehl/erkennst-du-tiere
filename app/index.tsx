@@ -1,7 +1,7 @@
 // app/index.tsx - Corrected
 import { ErrorComponent } from "@/src/common/components/ErrorComponent";
 import { LoadingComponent } from "@/src/common/components/LoadingComponent";
-import QuizzesScreen from "@/src/quiz/screens/Quizzes/Quizzes";
+import QuizzesScreen from "@/src/quiz/screens/Quizzes/QuizzesScreen";
 import { useLoading } from "@/src/quiz/store"; // Assuming this provides app-wide loading status
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 

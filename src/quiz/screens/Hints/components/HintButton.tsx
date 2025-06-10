@@ -18,7 +18,7 @@ export const HintButton: React.FC<HintButtonProps> = ({
 }) => {
 	const { purchasableHints } = useHints(quizId, questionId);
 	const availableCount = purchasableHints.filter((h) => h.canUse).length;
-	const tintColor = useThemeColor({}, "tint") as string;
+	const tintColor = useThemeColor({}, "tint");
 
 	const handlePress = useCallback(() => {
 		console.log("[HintButton] Opening purchase hints modal");

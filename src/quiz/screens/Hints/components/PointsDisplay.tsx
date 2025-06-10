@@ -14,7 +14,7 @@ export const PointsDisplay: React.FC<PointsDisplayProps> = ({
 }) => {
 	// TODO von außen reingeben
 	const pointsBalance = useQuizStore((state) => state.getPointsBalance());
-	const textColor = useThemeColor({}, "text") as string;
+	const textColor = useThemeColor({}, "text");
 
 	return (
 		<View

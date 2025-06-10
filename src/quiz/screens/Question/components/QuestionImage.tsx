@@ -1,3 +1,4 @@
+import { BorderRadius, Shadows } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { Image } from "expo-image";
 import type React from "react";
@@ -18,9 +19,9 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 		const backgroundColor = useThemeColor(
 			{ light: "rgba(0, 0, 0, 0.05)", dark: "rgba(255, 255, 255, 0.1)" },
 			"background",
-		) as string;
+		);
 
-		const tintColor = useThemeColor({}, "tint") as string;
+		const tintColor = useThemeColor({}, "tint");
 
 		return (
 			<Animated.View
@@ -73,14 +74,14 @@ QuestionImage.displayName = "QuestionImage";
 const styles = StyleSheet.create({
 	container: {
 		width: "100%",
-		height: 400,
-		borderRadius: 0,
+		borderRadius: BorderRadius.md,
 		overflow: "hidden",
 		position: "relative",
 	},
 	image: {
-		width: "100%",
 		height: "100%",
+		width: "100%",
+		boxShadow: Shadows.boxShadow,
 	},
 	fullImageOverlay: {
 		position: "absolute",

@@ -33,8 +33,8 @@ export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 		handleUseHint: applyHint,
 	} = useHints(quizId, questionId);
 
-	const textColor = useThemeColor({}, "text") as string;
-	const backgroundColor = useThemeColor({}, "background") as string;
+	const textColor = useThemeColor({}, "text");
+	const backgroundColor = useThemeColor({}, "background");
 
 	const handlePurchaseHint = useCallback(
 		async (hintId: string) => {

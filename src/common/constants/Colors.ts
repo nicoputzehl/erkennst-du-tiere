@@ -1,18 +1,19 @@
+import { ColorsValues } from "./Colors.values";
+
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#64B5F6";
-
-const tintColorOnGradientLight = "#1A365D";
-const tintColorOnGradientDark = "#E2E8F0";
 
 export const Colors = {
 	light: {
 		text: "#FFFFFF",
 		background: "#fff",
 		tint: tintColorLight,
-		tintOnGradient: tintColorOnGradientLight,
+		tintOnGradient: ColorsValues.graphite,
 		icon: "#FFFFFF",
 		tabIconDefault: "#687076",
 		tabIconSelected: tintColorLight,
+		accent: ColorsValues.strawberry,
+		lightAccent: ColorsValues.citrus,
 
 		primary: "#0a7ea4",
 		success: "#4CAF50",
@@ -43,42 +44,23 @@ export const Colors = {
 		incorrect: "#F44336",
 		locked: "#6c757d",
 		new: "#ff9800",
-
-		gradientPrimary: ["#5F8AE1", "#7A9EE8", "#A8C5F0"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientSecondary: ["#FF6B6B", "#FFE66D", "#FF8E53"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientNeutral: ["#E8EAF6", "#C5CAE9", "#9FA8DA"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientSuccess: ["#66BB6A", "#81C784", "#A5D6A7"] as [
-			string,
-			string,
-			...string[],
-		],
 	},
 	dark: {
+		// TODO Dark Colors noch besser ausdiefinieren
 		text: "#ECEDEE",
 		background: "#151718",
 		tint: tintColorDark,
-		tintOnGradient: tintColorOnGradientDark,
+		tintOnGradient: ColorsValues.lightgrey,
 		icon: "#ECEDEE",
 		tabIconDefault: "#9BA1A6",
 		tabIconSelected: tintColorDark,
-
+		accent: ColorsValues.dawnorange,
 		primary: "#64B5F6",
 		success: "#81C784",
 		error: "#E57373",
 		warning: "#FFB74D",
 		info: "#64B5F6",
+		lightAccent: ColorsValues.citrus,
 
 		buttonPrimary: "#64B5F6",
 		buttonSuccess: "#81C784",
@@ -103,26 +85,5 @@ export const Colors = {
 		incorrect: "#E57373",
 		locked: "#9BA1A6",
 		new: "#FFB74D",
-
-		gradientPrimary: ["#1a1a2e", "#16213e", "#0f3460"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientSecondary: ["#2C1810", "#3D2817", "#4A3728"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientNeutral: ["#2E2E2E", "#3A3A3A", "#464646"] as [
-			string,
-			string,
-			...string[],
-		],
-		gradientSuccess: ["#1B5E20", "#2E7D32", "#388E3C"] as [
-			string,
-			string,
-			...string[],
-		],
 	},
 };

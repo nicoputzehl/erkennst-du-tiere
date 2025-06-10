@@ -1,6 +1,6 @@
 import Header from "@/src/common/components/Header";
 import { ThemedView } from "@/src/common/components/ThemedView";
-import { useColorScheme } from "@/src/common/hooks/useColorScheme";
+import { FontSizes } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -15,7 +15,6 @@ type QuizzesProps = {
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	useQuizzesScreen();
-	const colorScheme = useColorScheme();
 
 	// Theme-basierte Farben
 	const textColor = useThemeColor({}, "text");
@@ -34,32 +33,23 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 		</ScrollView>
 	);
 
-	// Dynamische Styles basierend auf Theme
-	const dynamicStyles = StyleSheet.create({
-		settingsButton: {
-			...styles.settingsButton,
-			backgroundColor:
-				colorScheme === "dark"
-					? "rgba(255, 255, 255, 0.1)"
-					: "rgba(0, 0, 0, 0.1)",
-		},
-	});
-
 	return (
 		<ThemedView style={styles.container} gradientType="primary">
 			<Header
 				title="Erkennst du: Tiere"
+				titleType="defaultSemiBold"
 				rightSlot={
 					<TouchableOpacity
 						onPress={handleNavigateToSettings}
-						style={dynamicStyles.settingsButton}
+						style={styles.settingsButton}
 						activeOpacity={0.7}
 						accessibilityLabel="Einstellungen öffnen"
 						accessibilityRole="button"
 					>
 						<FontAwesome6
 							name="gear"
-							size={24}
+							size={FontSizes.xxl}
+							// TODO Color aus Constanten
 							color={typeof textColor === "string" ? textColor : "#FFFFFF"}
 						/>
 					</TouchableOpacity>

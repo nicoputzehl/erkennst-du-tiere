@@ -1,4 +1,4 @@
-import { StyleSheet, View, type ViewStyle } from "react-native";
+import { StyleSheet, type TextStyle, View, type ViewStyle } from "react-native";
 import { useThemeColor } from "../hooks/useThemeColor";
 import NavigateBack from "./NavigateBack";
 import { ThemedText } from "./ThemedText";
@@ -10,6 +10,8 @@ type HeaderProps = {
 	showBackButton?: boolean;
 	onBackPress?: () => void;
 	backButtonText?: string;
+	titleType?: "title" | "link" | "defaultSemiBold" | "default" | "subtitle";
+	titleStyle?: TextStyle;
 };
 
 const Header = ({
@@ -19,9 +21,11 @@ const Header = ({
 	showBackButton = false,
 	onBackPress,
 	backButtonText = "Zurück",
+	titleType = "title",
+	titleStyle,
 }: HeaderProps) => {
-	const textColor = useThemeColor({}, "tintOnGradient") as string;
-	const iconColor = useThemeColor({}, "tintOnGradient") as string;
+	const textColor = useThemeColor({}, "tintOnGradient");
+	const iconColor = useThemeColor({}, "tintOnGradient");
 
 	// Bestimme das Layout basierend auf den vorhandenen Props
 	const getLayoutConfig = () => {
@@ -160,8 +164,8 @@ const Header = ({
 			{title && (
 				<View style={[styles.titleContainer, dynamicStyles.titleContainer]}>
 					<ThemedText
-						type="title"
-						style={[styles.headerTitle, { color: textColor }]}
+						type={titleType}
+						style={[styles.headerTitle, { color: textColor }, titleStyle]}
 					>
 						{title}
 					</ThemedText>

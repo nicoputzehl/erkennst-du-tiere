@@ -13,7 +13,7 @@ export const createPointTransaction = (
 	type: "earned" | "spent",
 	amount: number,
 	reason: string,
-	quizId?: string, // ← NEU: Quiz-Kontext
+	quizId?: string,
 	questionId?: number,
 	hintId?: string,
 ): PointTransaction => {
@@ -23,7 +23,7 @@ export const createPointTransaction = (
 		amount,
 		reason,
 		timestamp: Date.now(),
-		quizId, // ← NEU
+		quizId,
 		questionId,
 		hintId,
 	};

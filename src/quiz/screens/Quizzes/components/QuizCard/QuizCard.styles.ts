@@ -1,19 +1,29 @@
+import {
+	BorderRadius,
+	CommonStyles,
+	FontSizes,
+	FontWeights,
+	Shadows,
+	Spacing,
+} from "@/src/common/constants/Styles";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
 	quizTitle: {
-		fontSize: 18,
-		fontWeight: "600",
+		fontSize: FontSizes.lg,
+		fontWeight: FontWeights.semibold,
 		zIndex: 1,
 	},
 	quizCardOuter: {
-		backgroundColor: "#f5f5f5",
-		borderRadius: 16,
+		// TODO Color aus constanten
+		backgroundColor: "#f8f9fa",
+		borderRadius: BorderRadius.md,
 		flex: 1,
 		height: 100,
 		maxWidth: "100%",
 		minWidth: "100%",
 		overflow: "hidden",
+		boxShadow: Shadows.boxShadow,
 	},
 	quizCardInner: {
 		flex: 1,
@@ -21,64 +31,79 @@ export const styles = StyleSheet.create({
 	},
 	quizCardContent: {
 		flex: 1,
-		padding: 16,
+		padding: Spacing.md,
 		justifyContent: "space-between",
 	},
 	quizCardStartItem: {
 		width: 105,
 		height: 100,
-		justifyContent: "center",
-		alignItems: "center",
+		...CommonStyles.centered,
 	},
 	image: {
-		width: "100%",
-		height: "100%",
+		width: 105,
+		height: 100,
 	},
 	iconContainer: {
 		width: "100%",
 		height: "100%",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	activeProgressContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	progressSection: {
-		marginTop: 8,
-		gap: 4,
+		...CommonStyles.centered,
 	},
 	unlockDescription: {
-		fontSize: 12,
+		fontSize: FontSizes.xs,
+		// TODO Color aus constanten
 		color: "#6c757d",
-		lineHeight: 16,
-	},
-	unlockProgress: {
-		fontSize: 12,
-		fontWeight: "600",
-		textAlign: "right",
-		color: "#495057",
+		lineHeight: FontSizes.md,
 	},
 	locked: {
+		// TODO Color aus constanten
 		backgroundColor: "#f8f9fa",
-		borderWidth: 1,
-		borderColor: "#dee2e6",
-		opacity: 0.8,
+
+		// TODO Color aus constanten
+		// borderColor: "#dee2e6",
 	},
 	new: {
 		borderStyle: "dotted",
-		borderColor: "#ff4444",
-		borderWidth: 2,
+		// TODO Color und Type evtl anpassen
+		borderColor: "orange",
+		borderWidth: 4,
 	},
 	loadingCard: {
 		opacity: 0.7,
 	},
 	loadingOverlay: {
 		...StyleSheet.absoluteFillObject,
+		// TODO Color aus constanten
 		backgroundColor: "rgba(0, 0, 0, 0.15)",
 		justifyContent: "center",
 		alignItems: "center",
 		borderRadius: 8,
+	},
+
+	// Progress
+
+	activeProgressContainer: {
+		...CommonStyles.rowSpaceBetween,
+	},
+	progressContainer: {
+		flexDirection: "row",
+		width: "100%",
+		gap: Spacing.sm,
+		...CommonStyles.centered,
+	},
+	progressIndicatorContainer: {
+		flex: 1,
+	},
+	progressText: {
+		fontSize: FontSizes.sm,
+		// TODO Color aus constanten
+		color: "#666",
+		zIndex: 1,
+		textAlign: "right",
+	},
+	newText: {
+		fontSize: FontSizes.sm,
+		// TODO Color aus constanten
+		color: "#ff9800",
+		fontWeight: FontWeights.medium,
 	},
 });

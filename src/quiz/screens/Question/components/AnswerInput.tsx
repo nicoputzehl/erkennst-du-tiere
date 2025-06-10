@@ -14,12 +14,13 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 	({ value, onChangeText, onSubmitEditing, isSubmitting = false }) => {
 		const inputRef = useRef<TextInput>(null);
 
-		const textColor = useThemeColor({}, "text") as string;
-		const tintColor = useThemeColor({}, "tint") as string;
+		const borderColor = useThemeColor({}, "lightAccent");
+		const textColor = useThemeColor({}, "tintOnGradient");
+
 		const placeholderColor = useThemeColor(
 			{ light: "#666", dark: "#666" },
 			"text",
-		) as string;
+		);
 
 		useEffect(() => {
 			const timer = setTimeout(() => {
@@ -50,14 +51,14 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 							styles.input,
 							{
 								color: textColor,
-								borderBottomColor: tintColor,
+								borderBottomColor: borderColor,
 							},
 							isSubmitting && styles.inputDisabled,
 						]}
 						value={value}
 						onChangeText={onChangeText}
 						onSubmitEditing={handleSubmit}
-						autoCapitalize="none"
+						autoCapitalize="characters"
 						autoCorrect={false}
 						placeholder="Antwort eingeben..."
 						placeholderTextColor={placeholderColor}
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
-		fontSize: 18,
+		fontSize: 24,
 		backgroundColor: "transparent",
 		textAlign: "center",
 		fontWeight: "500",

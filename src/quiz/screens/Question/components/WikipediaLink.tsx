@@ -12,7 +12,7 @@ interface WikipediaLinkProps {
 
 export const WikipediaLink = ({ slug }: WikipediaLinkProps) => {
 	// Sicherstellen dass nur ein String zurückgegeben wird
-	const iconColor = useThemeColor({}, "icon") as string;
+	const iconColor = useThemeColor({}, "icon");
 	const link = (WIKIPEDIA_URL + slug) as ExternalPathString;
 
 	return (

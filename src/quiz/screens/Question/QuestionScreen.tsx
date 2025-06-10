@@ -4,7 +4,8 @@ import { ThemedView } from "@/src/common/components/ThemedView";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
 
 import Header from "@/src/common/components/Header";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { AnswerInput } from "./components/AnswerInput";
 import { QuestionContentContainer } from "./components/QuestionContentContainer";
@@ -36,6 +37,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		hint,
 		hasVisibleHints,
 	} = useQuestionScreen(quizId || "", questionId || "");
+	const iconColor = useThemeColor({}, "tintOnGradient");
 
 	// Early returns for error states
 	if (!quizId || !questionId) {
@@ -54,18 +56,39 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		//BUG Muss Updaten, sobald ein Tipp verfügbar ist
 		if (hasVisibleHints) {
 			return (
-				<TouchableOpacity
-					onPress={navigateToHints}
-					style={styles.hintsButton}
-					accessibilityHint="Öffnet die Seite mit den Hinweisen"
+				<View
+					style={{
+						flexDirection: "row",
+						justifyContent: "flex-end",
+						gap: 8,
+						alignItems: "center",
+					}}
 				>
-					<FontAwesome6
-						name="lightbulb"
-						size={24}
-						color="gold"
-						style={styles.icon}
-					/>
-				</TouchableOpacity>
+					<TouchableOpacity
+						onPress={navigateToHints}
+						style={styles.hintsButton}
+						accessibilityHint="Öffnet die Seite mit den Hinweisen"
+					>
+						<FontAwesome6
+							name="lightbulb"
+							size={24}
+							color="gold"
+							style={styles.icon}
+						/>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={handleBack}
+						style={styles.hintsButton}
+						accessibilityHint="Öffnet die Seite mit den Hinweisen"
+					>
+						<MaterialCommunityIcons
+							name="close"
+							size={32}
+							color={iconColor}
+							style={styles.icon}
+						/>
+					</TouchableOpacity>
+				</View>
 			);
 		}
 	};
@@ -74,10 +97,11 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
 			<Header
-				showBackButton
+				showBackButton={false}
 				backButtonText={quizState.title}
 				onBackPress={handleBack}
 				rightSlot={renderHintsLink()}
+				title={quizState.title}
 			/>
 			<QuestionContentContainer question={question}>
 				{!showResult && !isSolved && (

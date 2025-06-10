@@ -21,10 +21,10 @@ export const ProgressIndicator = ({ progress }: { progress: number }) => {
 };
 
 const getProgressColor = (percentage: number): string => {
-	if (percentage <= 25) return "#5F8AE1";
-	if (percentage <= 50) return "#4C6FB4";
-	if (percentage <= 75) return "#395487";
-	if (percentage < 100) return "#26395A";
+	if (percentage <= 25) return "#FFF2A1";
+	if (percentage <= 50) return "#FFD100";
+	if (percentage <= 75) return "#FFBF40";
+	if (percentage < 100) return "#FFA826";
 	return "#131E2D";
 };
 

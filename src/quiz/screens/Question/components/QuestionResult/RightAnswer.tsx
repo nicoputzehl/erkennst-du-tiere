@@ -23,7 +23,7 @@ const RightAnswer = ({
 	return (
 		<View style={styles.container}>
 			{statusChanged && <Lottie />}
-			<View>
+			<View style={{ flex: 1 }}>
 				<View style={styles.headlineWrapper}>
 					{statusChanged ? (
 						<ThemedText
@@ -37,16 +37,18 @@ const RightAnswer = ({
 							{answer}
 						</ThemedText>
 					)}
-					<WikipediaLink slug={wikipediaSlug} />
 				</View>
 				{funFact && (
-					<>
+					<View>
 						<ThemedText style={styles.funFactHeader} type="subtitle">
 							Wusstest du das ...
 						</ThemedText>
 						<ThemedText style={styles.funFact}>{funFact}</ThemedText>
-					</>
+					</View>
 				)}
+				<View style={styles.wikipediaLinkContainer}>
+					<WikipediaLink slug={wikipediaSlug} />
+				</View>
 			</View>
 			<View style={styles.buttonRow}>
 				<Button
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	correctText: {
-		color: "#4CAF50", // Konsistente grüne Farbe
+		color: "#4CAF50",
 	},
 	funFact: {
 		fontSize: 16,
@@ -98,5 +100,10 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		marginBottom: 20,
+	},
+	wikipediaLinkContainer: {
+		flex: 1,
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
 	},
 });

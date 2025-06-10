@@ -145,9 +145,6 @@ export const createQuizStateSlice: StateCreator<
 				`[QuizStateSlice] Incorrect answer for quiz ${quizId}, question ${questionId}`,
 			);
 
-			// REMOVED: No longer handling hints here - this is done in the UI layer
-			// const triggeredHints = recordWrongAnswer(quizId, questionId, answer);
-
 			return {
 				isCorrect: false,
 				unlockedQuizzes: [],
@@ -158,7 +155,6 @@ export const createQuizStateSlice: StateCreator<
 		// Update state
 		updateQuizState(quizId, result.newState);
 
-		// ← NEU: Bei korrekter Antwort Punkte vergeben
 		const question = result.newState.questions.find((q) => q.id === questionId);
 		if (question) {
 			const points = HintUtils.calculatePointsForCorrectAnswer(question);

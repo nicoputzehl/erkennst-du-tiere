@@ -22,9 +22,7 @@ export interface QuizStore
 		UISlice,
 		UnlockSlice,
 		HintSlice {
-	// GLOBALE User Points (NEU)
 	userPoints: UserPointsState;
-	// Persistence-Aktion auf der obersten Ebene
 	clearPersistedData: () => Promise<void>;
 }
 
@@ -39,7 +37,6 @@ type PersistedQuizStore = Pick<
 export const useQuizStore = create<QuizStore>()(
 	persist(
 		subscribeWithSelector((set, get, store) => ({
-			// Added 'store' argument here
 			// Kombiniere die Slices
 			...createQuizDataSlice(set, get, store), // Pass 'store' to slice creators
 			...createQuizStateSlice(set, get, store), // Pass 'store' to slice creators

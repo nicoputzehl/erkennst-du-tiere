@@ -9,7 +9,7 @@ type ReceivedHintsProps = {
 };
 
 const ReceivedHints = ({ hints }: ReceivedHintsProps) => {
-	const borderColor = useThemeColor({}, "success") as string;
+	const borderColor = useThemeColor({}, "success");
 	if (hints.length === 0) {
 		return null;
 	}

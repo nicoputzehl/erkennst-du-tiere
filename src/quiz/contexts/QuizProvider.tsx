@@ -20,7 +20,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	);
 	const setQuizDataLoaded = useQuizStore((state) => state.setQuizDataLoaded);
 	const quizStatesRecord = useQuizStore((state) => state.quizStates);
-	const quizzesRecord = useQuizStore((state) => state.quizzes); // NEU: Prüfe ob Quizzes geladen sind
+	const quizzesRecord = useQuizStore((state) => state.quizzes);
 
 	const hasRegisteredQuizzesRef = useRef(false);
 	const hasInitializedStatesRef = useRef(false);

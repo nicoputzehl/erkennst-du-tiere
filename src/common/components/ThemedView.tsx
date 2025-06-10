@@ -1,7 +1,7 @@
-import { Colors } from "@/src/common/constants/Colors";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView, StyleSheet, type ViewProps } from "react-native";
+import { Gradients } from "../constants/Gradients";
 
 export type ThemedViewProps = ViewProps & {
 	lightColor?: string;
@@ -23,7 +23,6 @@ export function ThemedView({
 }: ThemedViewProps) {
 	const colorScheme = useColorScheme();
 
-	// Gradient-Farben aus Colors-Konstante
 	const getGradientColors = (): [string, string, ...string[]] => {
 		if (gradientColors) {
 			return gradientColors[colorScheme ?? "light"];
@@ -31,17 +30,17 @@ export function ThemedView({
 
 		// Fallback auf Colors-Konstante basierend auf gradientType
 		const isDark = colorScheme === "dark";
-		const colors = isDark ? Colors.dark : Colors.light;
+		const gradients = isDark ? Gradients.dark : Gradients.light;
 
 		switch (gradientType) {
 			case "secondary":
-				return colors.gradientSecondary as [string, string, ...string[]];
+				return gradients.gradientSecondary as [string, string, ...string[]];
 			case "neutral":
-				return colors.gradientNeutral as [string, string, ...string[]];
+				return gradients.gradientNeutral as [string, string, ...string[]];
 			case "success":
-				return colors.gradientSuccess as [string, string, ...string[]];
+				return gradients.gradientSuccess as [string, string, ...string[]];
 			default:
-				return colors.gradientPrimary as [string, string, ...string[]];
+				return gradients.gradientNewPrimary as [string, string, ...string[]];
 		}
 	};
 
@@ -51,7 +50,7 @@ export function ThemedView({
 		<LinearGradient
 			colors={currentGradientColors}
 			style={{ flex: 1 }}
-			start={{ x: 0, y: 0 }}
+			start={{ x: 0, y: 0.2 }}
 			end={{ x: 0, y: 1 }}
 		>
 			<SafeAreaView

@@ -127,7 +127,7 @@ export function useQuiz() {
 		quizzes,
 		getQuizById,
 		getQuizState,
-		isQuizDataLoaded, // Exportiere den neuen Status
+		isQuizDataLoaded,
 
 		// Aktueller Zustand
 		currentQuizId,

@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { ProgressIndicator } from "@/src/quiz/components/ProgressIndicator";
+import { styles } from "./QuizCard.styles";
 import type { QuizCardActiveProps } from "./QuizCard.types";
 
 type QuizCardProgressProps = Pick<
@@ -18,10 +19,10 @@ export const QuizCardProgress = ({
 		<View style={styles.progressContainer}>
 			{quizCardProgress ? (
 				<>
-					<View style={[{ flex: 0.7 }]}>
+					<View style={styles.progressIndicatorContainer}>
 						<ProgressIndicator progress={quizCardProgress} />
 					</View>
-					<ThemedText style={[styles.progressText, { flex: 0.3 }]}>
+					<ThemedText style={[styles.progressText]}>
 						{quizCardProgressString}
 					</ThemedText>
 				</>
@@ -31,24 +32,3 @@ export const QuizCardProgress = ({
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({
-	progressContainer: {
-		flexDirection: "row",
-		alignItems: "flex-end",
-		gap: 8,
-		width: "100%",
-		justifyContent: "flex-end",
-	},
-	progressText: {
-		fontSize: 14,
-		color: "#666",
-		zIndex: 1,
-		textAlign: "right",
-	},
-	newText: {
-		fontSize: 14,
-		color: "#ff9800",
-		fontWeight: "500",
-	},
-});

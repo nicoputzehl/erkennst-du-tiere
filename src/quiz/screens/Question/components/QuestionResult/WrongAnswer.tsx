@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
 		lineHeight: 24,
 	},
 
-	// NEUE Styles für purchased hints (dauerhaft)
 	purchasedHintsContainer: {
 		backgroundColor: "#E3F2FD",
 		padding: 16,
@@ -97,8 +96,9 @@ const styles = StyleSheet.create({
 	tryAgainButton: {
 		flex: 1,
 		backgroundColor: "#FF9800",
-		padding: 12,
-		borderRadius: 8,
+		padding: 16,
+		borderRadius: 24,
 		alignItems: "center",
+		height: 48,
 	},
 });

@@ -49,5 +49,4 @@ export function useQuizzesScreen() {
 		setLoading,
 		detectMissedUnlocks,
 	]);
-
 }
