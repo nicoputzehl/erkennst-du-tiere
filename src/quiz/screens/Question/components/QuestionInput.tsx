@@ -1,22 +1,38 @@
+// src/quiz/screens/Question/components/QuestionInput/QuestionInput.tsx - NEW OPTIMIZED COMPONENT
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
-import type React from "react";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { memo, useEffect, useRef } from "react";
-import { Keyboard, StyleSheet, TextInput, View } from "react-native";
+import {
+	Keyboard,
+	StyleSheet,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
-interface AnswerInputProps {
+interface QuestionInputProps {
 	value: string;
 	onChangeText: (text: string) => void;
-	onSubmitEditing: () => void;
+	onSubmit: () => void;
+	onClear: () => void;
 	isSubmitting?: boolean;
+	hasError?: boolean;
 }
 
-export const AnswerInput: React.FC<AnswerInputProps> = memo(
-	({ value, onChangeText, onSubmitEditing, isSubmitting = false }) => {
+export const QuestionInput: React.FC<QuestionInputProps> = memo(
+	({
+		value,
+		onChangeText,
+		onSubmit,
+		onClear,
+		isSubmitting = false,
+		hasError = false,
+	}) => {
 		const inputRef = useRef<TextInput>(null);
 
-		const borderColor = useThemeColor({}, "lightAccent");
+		const borderColor = useThemeColor({}, hasError ? "error" : "lightAccent");
 		const textColor = useThemeColor({}, "tintOnGradient");
-
+		const clearIconColor = useThemeColor({}, "textSecondary");
 		const placeholderColor = useThemeColor(
 			{ light: "#666", dark: "#666" },
 			"text",
@@ -39,7 +55,12 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 		const handleSubmit = () => {
 			if (!value.trim() || isSubmitting) return;
 			Keyboard.dismiss();
-			onSubmitEditing();
+			onSubmit();
+		};
+
+		const handleClear = () => {
+			onClear();
+			inputRef.current?.focus();
 		};
 
 		return (
@@ -54,6 +75,7 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 								borderBottomColor: borderColor,
 							},
 							isSubmitting && styles.inputDisabled,
+							hasError && styles.inputError,
 						]}
 						value={value}
 						onChangeText={onChangeText}
@@ -68,6 +90,21 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 						submitBehavior="blurAndSubmit"
 						maxLength={50}
 					/>
+
+					{value.length > 0 && !isSubmitting && (
+						<TouchableOpacity
+							style={styles.clearButton}
+							onPress={handleClear}
+							accessibilityLabel="Eingabe löschen"
+							accessibilityRole="button"
+						>
+							<FontAwesome6
+								name="circle-xmark"
+								size={20}
+								color={clearIconColor}
+							/>
+						</TouchableOpacity>
+					)}
 				</View>
 			</View>
 		);
@@ -76,13 +113,15 @@ export const AnswerInput: React.FC<AnswerInputProps> = memo(
 		return (
 			prevProps.value === nextProps.value &&
 			prevProps.isSubmitting === nextProps.isSubmitting &&
+			prevProps.hasError === nextProps.hasError &&
 			prevProps.onChangeText === nextProps.onChangeText &&
-			prevProps.onSubmitEditing === nextProps.onSubmitEditing
+			prevProps.onSubmit === nextProps.onSubmit &&
+			prevProps.onClear === nextProps.onClear
 		);
 	},
 );
 
-AnswerInput.displayName = "AnswerInput";
+QuestionInput.displayName = "QuestionInput";
 
 const styles = StyleSheet.create({
 	container: {
@@ -93,13 +132,18 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		width: "85%",
 		marginBottom: 16,
+		position: "relative",
+		flexDirection: "row",
+		alignItems: "center",
 	},
 	input: {
+		flex: 1,
 		height: 50,
 		borderWidth: 0,
 		borderBottomWidth: 2,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
+		paddingRight: 40, // Space for clear button
 		fontSize: 24,
 		backgroundColor: "transparent",
 		textAlign: "center",
@@ -107,5 +151,15 @@ const styles = StyleSheet.create({
 	},
 	inputDisabled: {
 		opacity: 0.7,
+	},
+	inputError: {
+		borderBottomWidth: 3,
+	},
+	clearButton: {
+		position: "absolute",
+		right: 8,
+		top: "50%",
+		transform: [{ translateY: -10 }],
+		padding: 4,
 	},
 });

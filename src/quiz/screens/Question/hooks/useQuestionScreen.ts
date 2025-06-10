@@ -1,26 +1,20 @@
-// src/quiz/screens/Question/hooks/useQuestionScreen.ts - ENHANCED VERSION
-import { useUI } from "@/src/quiz/store";
+import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { QuestionStatus } from "@/src/quiz/types";
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
-import { useHints } from "../../../store/hooks/useHints";
-import type { WrongAnswerHint } from "../components/QuestionResult/WrongAnswer";
+import { useMemo, useState } from "react";
+import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
+import { useQuestionNavigation } from "./useQuestionNavigation";
+import { useResultState } from "./useQuestionResultState";
+import { useAnswerState } from "./useAnswerState";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
-	const { getQuizState, answerQuestion } = useQuiz();
-	const { showSuccess } = useUI();
-	const { recordWrongAnswer, markHintAsUsed, hasVisibleHints } = useHints(
-		quizId,
-		Number.parseInt(questionId),
-	);
+	const { getQuizState } = useQuiz();
+	const { hasVisibleHints } = useHints(quizId, Number.parseInt(questionId));
 
-	const [answer, setAnswer] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [showResult, setShowResult] = useState(false);
-	const [isCorrect, setIsCorrect] = useState(false);
-	const [statusChanged, setStatusChanged] = useState(false);
-	const [hint, setHint] = useState<WrongAnswerHint | undefined>(undefined);
+	// Composition of smaller hooks
+	const navigation = useQuestionNavigation(quizId, questionId);
+	const answerState = useAnswerState();
+	const resultState = useResultState();
 
 	const quizState = getQuizState(quizId);
 	const question = quizState?.questions.find(
@@ -28,125 +22,47 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	);
 
 	const isSolved = question?.status === QuestionStatus.SOLVED;
+	const showInput = useMemo(() => !isSolved, [isSolved]);
 
+	// Business logic delegation
+	const { handleSubmit } = useQuestionBusinessLogic({
+		quizId,
+		questionId,
+		question,
+		answerState,
+		resultState
+	});
+
+	// Initialize solved state
 	useState(() => {
 		if (isSolved) {
-			setShowResult(true);
-			setIsCorrect(true);
+			resultState.setShowResult(true);
+			resultState.setIsCorrect(true);
 		}
 	});
 
-	const navigateToHints = useCallback(() => {
-		router.push(`/quiz/${quizId}/${questionId}/hints`);
-	}, [quizId, questionId]);
-
-	const handleSubmit = useCallback(async () => {
-		if (isSubmitting || !answer.trim() || !question) return;
-		setHint(undefined);
-		console.log("[useQuestionScreen] Submitting answer:", answer);
-		setIsSubmitting(true);
-
-		try {
-			const result = await answerQuestion(quizId, question.id, answer.trim());
-
-			console.log("[useQuestionScreen] Answer result:", {
-				isCorrect: result.isCorrect,
-			});
-
-			if (result.isCorrect) {
-				setIsCorrect(true);
-				setShowResult(true);
-				setStatusChanged(true);
-
-				// Show toasts for unlocked quizzes
-				if (result.unlockedQuizzes.length > 0) {
-					result.unlockedQuizzes.forEach((unlockedQuiz, index) => {
-						setTimeout(() => {
-							showSuccess(`🎉 "${unlockedQuiz.title}" freigeschaltet!`, 4000);
-						}, index * 500);
-					});
-				}
-			} else {
-				console.log(
-					"[useQuestionScreen] Wrong answer - checking for all hint types",
-				);
-
-				const { contextualHints, autoFreeHints } = recordWrongAnswer(
-					answer.trim(),
-				);
-
-				console.log("[useQuestionScreen] Triggered hints:", {
-					contextual: contextualHints.length,
-					autoFree: autoFreeHints.length,
-				});
-
-				if (contextualHints.length > 0) {
-					console.log("[useQuestionScreen] adding contextual hint");
-					const contextualHint = contextualHints[0];
-					markHintAsUsed(
-						quizId,
-						Number.parseInt(questionId),
-						contextualHint.id,
-					);
-
-					setHint({ ...contextualHint });
-				} else if (autoFreeHints.length > 0) {
-					console.log("[useQuestionScreen] Showing auto-free hint");
-					const autoFreeHint = autoFreeHints[0];
-					markHintAsUsed(quizId, Number.parseInt(questionId), autoFreeHint.id);
-					setHint({ ...autoFreeHint });
-				}
-
-				console.log("[useQuestionScreen] showing wrong answer screen");
-				setIsCorrect(false);
-				setShowResult(true);
-			}
-		} catch (error) {
-			console.error("[useQuestionScreen] Error submitting answer:", error);
-			setIsCorrect(false);
-			setShowResult(true);
-		} finally {
-			setIsSubmitting(false);
+	const headerText = useMemo(() => {
+		if (isSolved && question?.answer) {
+			return question.answer;
 		}
-	}, [
-		isSubmitting,
-		answer,
-		question,
-		answerQuestion,
-		quizId,
-		showSuccess,
-		recordWrongAnswer,
-		markHintAsUsed,
-		questionId,
-	]);
-
-	const handleTryAgain = useCallback(() => {
-		console.log("[useQuestionScreen] Try again pressed");
-		setShowResult(false);
-		setAnswer("");
-	}, []);
-
-	const handleBack = useCallback(() => {
-		router.back();
-	}, []);
+		return "Wie heißt das Tier?";
+	}, [isSolved, question?.answer]);
 
 	return {
-		// State
+		// Data
 		quizState,
 		question,
-		answer,
-		setAnswer,
-		isSubmitting,
-		showResult,
-		isCorrect,
-		statusChanged,
 		isSolved,
 		hasVisibleHints,
+		showInput,
+		headerText,
+		
+		// Composed state
+		...answerState,
+		...resultState,
+		...navigation,
+
 		// Actions
 		handleSubmit,
-		handleTryAgain,
-		handleBack,
-		navigateToHints,
-		hint,
 	};
 }

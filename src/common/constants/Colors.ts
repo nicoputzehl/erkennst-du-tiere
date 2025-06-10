@@ -16,8 +16,8 @@ export const Colors = {
 		lightAccent: ColorsValues.citrus,
 
 		primary: "#0a7ea4",
-		success: "#4CAF50",
-		error: "#F44336",
+		success: "#4c699c",
+		error: "#d8a376",
 		warning: "#FF9800",
 		info: "#2196F3",
 
