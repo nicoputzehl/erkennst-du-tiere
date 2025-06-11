@@ -34,7 +34,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		isSolved,
 		handleSubmit,
 		handleBack,
-		navigateToHints,
 		// TODO Hints noch entfernen
 		hint,
 		hasVisibleHints,
@@ -44,6 +43,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		headerText,
 		resetResult,
 		showHint,
+		navigateToHintsModal,
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
@@ -58,7 +58,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 			actions.push({
 				key: "hints",
 				icon: <FontAwesome6 name="lightbulb" size={24} color="gold" />,
-				onPress: navigateToHints,
+				onPress: navigateToHintsModal,
 				accessibilityHint: "Öffnet die Seite mit den Hinweisen",
 			});
 		}
@@ -71,7 +71,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		});
 
 		return actions;
-	}, [hasVisibleHints, navigateToHints, handleBack, iconColor]);
+	}, [hasVisibleHints, handleBack, iconColor, navigateToHintsModal]);
 
 	// Early returns for error states
 	if (!quizId || !questionId) {
