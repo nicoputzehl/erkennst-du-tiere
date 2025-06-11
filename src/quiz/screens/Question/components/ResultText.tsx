@@ -7,7 +7,7 @@ import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 
 const ResultText = ({ answerCorrect }: { answerCorrect: boolean }) => {
 	const { currentPhrase } = useRandomFeedback(answerCorrect);
-	const accentColor = useThemeColor({}, "accent");
+
 	const successColor = useThemeColor({}, "success");
 	const errorColor = useThemeColor({}, "error");
 	const textColor = answerCorrect ? successColor : errorColor;
@@ -45,7 +45,7 @@ const ResultText = ({ answerCorrect }: { answerCorrect: boolean }) => {
 			<ThemedText
 				style={[
 					styles.resultText,
-					{ color: textColor, shadowColor: accentColor },
+					{ color: textColor },
 				]}
 			>
 				{currentPhrase}
@@ -62,14 +62,8 @@ const styles = StyleSheet.create({
 		bottom: "20%",
 		zIndex: 4,
 		alignSelf: "center",
-    maxWidth: "80%",
-		shadowOffset: {
-			width: 1,
-			height: 1,
-		},
-		shadowOpacity: 1,
-		shadowRadius: 1,
-		elevation: 20,
+    maxWidth: "80%"
+
 	},
 	resultText: {
 		textAlign: "center",

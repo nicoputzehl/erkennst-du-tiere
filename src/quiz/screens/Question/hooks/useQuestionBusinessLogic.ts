@@ -16,7 +16,7 @@ interface UseQuestionBusinessLogicProps {
     setSubmittedAnswer: (value: boolean) => void;
   };
   resultState: {
-    setHint: (hint: WrongAnswerHint | undefined) => void;
+    handleShowHint: (hint: WrongAnswerHint) => void;
     setIsCorrect: (value: boolean) => void;
     setShowResult: (value: boolean) => void;
     setStatusChanged: (value: boolean) => void;
@@ -55,27 +55,39 @@ export const useQuestionBusinessLogic = ({
     }
   }, [resultState, showSuccess]);
 
-  const handleIncorrectAnswer = useCallback(async (userAnswer: string) => {
-    const { contextualHints, autoFreeHints } = recordWrongAnswer(userAnswer);
+const handleIncorrectAnswer = useCallback(async (userAnswer: string) => {
+  const { contextualHints, autoFreeHints } = recordWrongAnswer(userAnswer);
 
-    if (contextualHints.length > 0) {
-      const contextualHint = contextualHints[0];
-      markHintAsUsed(quizId, Number.parseInt(questionId), contextualHint.id);
-      resultState.setHint({ ...contextualHint });
-    } else if (autoFreeHints.length > 0) {
-      const autoFreeHint = autoFreeHints[0];
-      markHintAsUsed(quizId, Number.parseInt(questionId), autoFreeHint.id);
-      resultState.setHint({ ...autoFreeHint });
-    }
+  console.log("[handleIncorrectAnswer] User answer:", userAnswer);
+  console.log("[handleIncorrectAnswer] Contextual hints:", contextualHints);
+  console.log("[handleIncorrectAnswer] Auto free hints:", autoFreeHints);
 
-    resultState.setIsCorrect(false);
+  let hintShown = false; // Flag to track if a hint was shown
+
+  if (contextualHints.length > 0) {
+    const contextualHint = contextualHints[0];
+    markHintAsUsed(quizId, Number.parseInt(questionId), contextualHint.id);
+    resultState.handleShowHint({ ...contextualHint });
+    hintShown = true;
+  } else if (autoFreeHints.length > 0) {
+    const autoFreeHint = autoFreeHints[0];
+    markHintAsUsed(quizId, Number.parseInt(questionId), autoFreeHint.id);
+    resultState.handleShowHint({ ...autoFreeHint });
+    hintShown = true;
+  }
+
+  resultState.setIsCorrect(false);
+
+  // Only set setShowResult to true if no hint was shown
+  if (!hintShown) {
     resultState.setShowResult(true);
-  }, [recordWrongAnswer, markHintAsUsed, quizId, questionId, resultState]);
+  }
+}, [recordWrongAnswer, markHintAsUsed, quizId, questionId, resultState]);
+
 
   const handleSubmit = useCallback(async () => {
     if (answerState.isSubmitting || !answerState.answer.trim() || !question) return;
 
-    resultState.setHint(undefined);
     answerState.setIsSubmitting(true);
 
     try {

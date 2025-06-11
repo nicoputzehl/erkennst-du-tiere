@@ -11,6 +11,7 @@ import { QuestionInput } from "./components/QuestionInput";
 import ResultText from "./components/ResultText";
 import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
+import Hint from "./components/Hint";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -40,11 +41,14 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		clearAnswer,
 		showInput,
 		submittedAnswer,
-		headerText
+		headerText,
+		resetResult,
+		showHint,
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
+	console.log({ hint });
 
 	// TODO auf anderen Komponente außerhalb des Views
 	const headerActions = useMemo(() => {
@@ -85,7 +89,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	// SRP: QuestionScreen ist nur für Layout zuständig
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
-			{submittedAnswer && <ResultText answerCorrect={isCorrect} />}
+			{submittedAnswer && showResult&& <ResultText answerCorrect={isCorrect} />}
 			<Header
 				showBackButton={false}
 				// TODO Platzhalter. Später aus Frage?
@@ -105,6 +109,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 					</View>
 				}
 			/>
+			<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 			<QuestionContentContainer question={question}>
 				{isSolved && (
 					<View style={styles.resultContainer}>

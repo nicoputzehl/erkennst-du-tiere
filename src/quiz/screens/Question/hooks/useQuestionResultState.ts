@@ -7,11 +7,18 @@ export const useResultState = () => {
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [statusChanged, setStatusChanged] = useState(false);
 	const [hint, setHint] = useState<WrongAnswerHint | undefined>(undefined);
+	const [showHint, setShowHint] = useState(false);
+
+	const handleShowHint = (hint: WrongAnswerHint) => {
+		setHint(hint);
+		setShowHint(true);
+	}
 
 	const resetResult = useCallback(() => {
 		setShowResult(false);
 		setStatusChanged(false);
 		setHint(undefined);
+		setShowHint(false);
 	}, []);
 
 	return {
@@ -23,6 +30,8 @@ export const useResultState = () => {
 		setStatusChanged,
 		hint,
 		setHint,
-		resetResult
+		resetResult,
+		showHint,
+		handleShowHint
 	};
 };

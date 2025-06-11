@@ -31,7 +31,7 @@ const FunFactSection = ({ funFact }: { funFact: string }) => {
 		const textColor = useThemeColor({}, "tintOnGradient");
 		return (
 			<View>
-				<ThemedText style={[styles.funFactHeader, {color: textColor}]} type="subtitle">
+				<ThemedText style={[styles.funFactHeader, {color: textColor}]} type="title">
 					Wusstest du das ...
 				</ThemedText>
 				<ThemedText style={[styles.funFact,{color: textColor}]}>{funFact}</ThemedText>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	funFact: {
-		fontSize: 16,
+		fontSize: 20,
 		marginBottom: 20,
 		lineHeight: 24,
 	},
