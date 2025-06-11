@@ -89,7 +89,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	// SRP: QuestionScreen ist nur für Layout zuständig
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
-			{submittedAnswer && showResult && (
+			{submittedAnswer && showResult && !showHint && (
 				<ResultText answerCorrect={isCorrect} />
 			)}
 			<Header

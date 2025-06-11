@@ -64,6 +64,7 @@ export const namibia: QuestionBase[] = [
 			createAutoFreeHint(
 				1,
 				"Diese gefleckte Großkatze ist für ihre Kletterfähigkeiten bekannt.",
+				2
 			),
 		],
 	},
