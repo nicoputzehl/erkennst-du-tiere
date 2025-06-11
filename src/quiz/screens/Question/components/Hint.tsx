@@ -8,16 +8,15 @@ import {
 import type { WrongAnswerHint } from "../Question.types";
 
 type HintProps = {
-  hint: WrongAnswerHint | undefined;
-  onClose: () => void
-  isVisible: boolean
-}
-
+	hint: WrongAnswerHint | undefined;
+	onClose: () => void;
+	isVisible: boolean;
+};
 
 const Hint = ({ hint, onClose, isVisible }: HintProps) => {
-  if(!hint) {
-    return null;
-  }
+	if (!hint) {
+		return null;
+	}
 
 	return (
 		<Modal visible={isVisible} transparent={true} animationType="fade">
@@ -47,8 +46,8 @@ const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 16,
 		marginBottom: 16,
-    width: "90%",
-    height: "50%"
+		width: "90%",
+		height: "50%",
 	},
 	usedHintTitle: {
 		fontSize: 20,

@@ -1,7 +1,12 @@
 // src/quiz/domain/hints/triggering.ts - DEBUG VERSION
 
 import type { QuestionBase } from "../../types";
-import type { ContextualHint, HintState } from "../../types/hint";
+import type {
+	AutoFreeHint,
+	ContextualHint,
+	HintState,
+	HintTriggerResult,
+} from "../../types/hint";
 import { normalizeString } from "../../utils/stringManipulation";
 import { isAutoFreeHint, isContextualHint } from "./validation";
 
@@ -22,9 +27,7 @@ export const checkForContextualHints = (
 		return [];
 	}
 
-	const contextualHints = question.hints.filter(
-		isContextualHint || isAutoFreeHint,
-	);
+	const contextualHints = question.hints.filter(isContextualHint);
 	console.log(
 		"🎯 [checkForContextualHints] Found contextual hints:",
 		contextualHints.length,
@@ -40,15 +43,7 @@ export const checkForContextualHints = (
 		console.log("🎯 [checkForContextualHints] Checking hint:", {
 			hintId: hint.id,
 			triggers: hint.triggers,
-			alreadyTriggered: hintState.contextualHintsTriggered.includes(hint.id),
 		});
-
-		if (hintState.contextualHintsTriggered.includes(hint.id)) {
-			console.log(
-				"🎯 [checkForContextualHints] Hint already triggered, skipping",
-			);
-			return false;
-		}
 
 		const triggerMatches = hint.triggers.some((trigger) => {
 			const normalizedTrigger = normalizeString(trigger);
@@ -72,6 +67,57 @@ export const checkForContextualHints = (
 	});
 
 	return triggeredHints;
+};
+
+export const checkForAutoFreeHints = (
+	question: QuestionBase,
+	hintState: HintState,
+): AutoFreeHint[] => {
+	console.log("🎯 [checkForAutoFreeHints] Checking auto-free hints");
+
+	if (!question.hints) return [];
+
+	const autoFreeHints = question.hints.filter(isAutoFreeHint);
+
+	return autoFreeHints.filter((hint) => {
+		// Prüfe ob bereits verwendet
+		const alreadyUsed =
+			hintState.autoFreeHintsUsed?.includes(hint.id) ||
+			hintState.usedHints.some((used) => used.id === hint.id);
+
+		if (alreadyUsed) {
+			console.log(`🎯 [checkForAutoFreeHints] Hint ${hint.id} already used`);
+			return false;
+		}
+
+		// Prüfe Trigger-Bedingung
+		const canTrigger = hintState.wrongAttempts >= hint.triggerAfterAttempts;
+		console.log(`🎯 [checkForAutoFreeHints] Hint ${hint.id} can trigger:`, {
+			wrongAttempts: hintState.wrongAttempts,
+			required: hint.triggerAfterAttempts,
+			canTrigger,
+		});
+
+		return canTrigger;
+	});
+};
+
+export const checkTriggeredHints = (
+	userAnswer: string,
+	question: QuestionBase,
+	hintState: HintState,
+): HintTriggerResult => {
+	const contextualHints = checkForContextualHints(
+		userAnswer,
+		question,
+		hintState,
+	);
+	const autoFreeHints = checkForAutoFreeHints(question, hintState);
+
+	return {
+		contextualHints,
+		autoFreeHints,
+	};
 };
 
 export const getTriggeredContent = (

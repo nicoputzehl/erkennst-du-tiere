@@ -2,10 +2,10 @@ import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { QuestionStatus } from "@/src/quiz/types";
 import { useMemo, useState } from "react";
+import { useAnswerState } from "./useAnswerState";
 import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
 import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
-import { useAnswerState } from "./useAnswerState";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();
@@ -30,7 +30,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		questionId,
 		question,
 		answerState,
-		resultState
+		resultState,
 	});
 
 	// Initialize solved state
@@ -56,7 +56,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		hasVisibleHints,
 		showInput,
 		headerText,
-		
+
 		// Composed state
 		...answerState,
 		...resultState,

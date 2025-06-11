@@ -19,8 +19,13 @@ export const canUseHint = (
 		return { canUse: false, reason: "Hint bereits verwendet" };
 	}
 
-	// Auto-free hints
 	if (isAutoFreeHint(hint)) {
+		// Auto-Free Hints: Prüfe ob bereits verwendet
+		if (hintState.autoFreeHintsUsed?.includes(hint.id)) {
+			return { canUse: false, reason: "Hint bereits verwendet" };
+		}
+
+		// Prüfe Trigger-Bedingung
 		if (hintState.wrongAttempts < hint.triggerAfterAttempts) {
 			return {
 				canUse: false,
@@ -30,12 +35,12 @@ export const canUseHint = (
 		return { canUse: true };
 	}
 
-	// Contextual hints
 	if (isContextualHint(hint)) {
-		if (!hintState.contextualHintsTriggered.includes(hint.id)) {
-			return { canUse: false, reason: "Noch nicht ausgelöst" };
-		}
-		return { canUse: true };
+		return { canUse: false, reason: "Wird durch Antworten ausgelöst" };
+	}
+
+	if (hintState.usedHints.some((h) => h.id === hint.id)) {
+		return { canUse: false, reason: "Hint bereits verwendet" };
 	}
 
 	// Standard Punkte-Check (global)
@@ -44,6 +49,18 @@ export const canUseHint = (
 	}
 
 	return { canUse: true };
+};
+
+export const canTriggerContextualHint = (
+	hint: ContextualHint,
+	userAnswer: string,
+): boolean => {
+	if (!isContextualHint(hint)) return false;
+
+	const normalizedAnswer = userAnswer.toLowerCase().trim();
+	return hint.triggers.some((trigger) =>
+		normalizedAnswer.includes(trigger.toLowerCase().trim()),
+	);
 };
 
 // ==========================================

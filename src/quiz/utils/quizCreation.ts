@@ -88,7 +88,7 @@ export const createQuizState = (
 			questionId: question.id,
 			usedHints: [],
 			wrongAttempts: 0,
-			contextualHintsTriggered: [], // Always initialize as empty array
+			autoFreeHintsUsed: [],
 		};
 	});
 

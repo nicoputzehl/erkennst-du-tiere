@@ -96,7 +96,7 @@ export const useQuizStore = create<QuizStore>()(
 										questionId: question.id,
 										usedHints: [],
 										wrongAttempts: 0,
-										contextualHintsTriggered: [], // FIXED: This was missing in reset
+										autoFreeHintsUsed: [],
 									};
 								}
 

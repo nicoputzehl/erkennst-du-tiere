@@ -1,9 +1,9 @@
-import { StyleSheet, Animated, Easing } from "react-native";
-import React, { useEffect, useRef } from "react";
-import { useRandomFeedback } from "./hooks/useRandomFeedback";
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { FontWeights } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import React, { useEffect, useRef } from "react";
+import { Animated, Easing, StyleSheet } from "react-native";
+import { useRandomFeedback } from "./hooks/useRandomFeedback";
 
 const ResultText = ({ answerCorrect }: { answerCorrect: boolean }) => {
 	const { currentPhrase } = useRandomFeedback(answerCorrect);
@@ -42,12 +42,7 @@ const ResultText = ({ answerCorrect }: { answerCorrect: boolean }) => {
 				},
 			]}
 		>
-			<ThemedText
-				style={[
-					styles.resultText,
-					{ color: textColor },
-				]}
-			>
+			<ThemedText style={[styles.resultText, { color: textColor }]}>
 				{currentPhrase}
 			</ThemedText>
 		</Animated.View>
@@ -62,8 +57,7 @@ const styles = StyleSheet.create({
 		bottom: "20%",
 		zIndex: 4,
 		alignSelf: "center",
-    maxWidth: "80%"
-
+		maxWidth: "80%",
 	},
 	resultText: {
 		textAlign: "center",

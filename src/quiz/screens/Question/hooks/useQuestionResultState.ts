@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import type { WrongAnswerHint } from "../Question.types";
 
-
 export const useResultState = () => {
 	const [showResult, setShowResult] = useState(false);
 	const [isCorrect, setIsCorrect] = useState(false);
@@ -12,7 +11,7 @@ export const useResultState = () => {
 	const handleShowHint = (hint: WrongAnswerHint) => {
 		setHint(hint);
 		setShowHint(true);
-	}
+	};
 
 	const resetResult = useCallback(() => {
 		setShowResult(false);
@@ -32,6 +31,6 @@ export const useResultState = () => {
 		setHint,
 		resetResult,
 		showHint,
-		handleShowHint
+		handleShowHint,
 	};
 };

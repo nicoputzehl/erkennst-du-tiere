@@ -62,7 +62,7 @@ export interface HintState {
 	questionId: number;
 	usedHints: UsedHint[];
 	wrongAttempts: number;
-	contextualHintsTriggered: string[];
+	autoFreeHintsUsed: string[];
 }
 
 export interface PointTransaction {
@@ -99,4 +99,15 @@ export interface AvailableHint {
 	canUse: boolean;
 	reason?: string;
 	content?: string;
+}
+
+export interface ContextualHintTrigger {
+	hintId: string;
+	triggeredAt: number;
+	userAnswer: string;
+}
+
+export interface HintTriggerResult {
+	contextualHints: ContextualHint[];
+	autoFreeHints: AutoFreeHint[];
 }

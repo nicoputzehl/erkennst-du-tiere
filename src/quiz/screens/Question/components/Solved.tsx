@@ -1,9 +1,9 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
+import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { WikipediaLink } from "@/src/quiz/screens/Question/components/WikipediaLink";
 import type { Question } from "@/src/quiz/types";
 import { StyleSheet, View } from "react-native";
 import { DelayedLottie } from "./DelayedLottie";
-import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 
 export interface SolvedProps {
 	question: Question;
@@ -13,14 +13,11 @@ export interface SolvedProps {
 const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 	const wikipediaSlug = question.wikipediaName || question.answer;
 
-	
 	return (
 		<View style={styles.container}>
-			<DelayedLottie shouldPlay={statusChanged} delay={500} />		
+			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
-				{question.funFact && (
-					<FunFactSection funFact={question.funFact} />
-				)}
+				{question.funFact && <FunFactSection funFact={question.funFact} />}
 				<WikipediaSection slug={wikipediaSlug} />
 			</View>
 		</View>
@@ -28,24 +25,27 @@ const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 };
 
 const FunFactSection = ({ funFact }: { funFact: string }) => {
-		const textColor = useThemeColor({}, "tintOnGradient");
-		return (
-			<View>
-				<ThemedText style={[styles.funFactHeader, {color: textColor}]} type="title">
-					Wusstest du das ...
-				</ThemedText>
-				<ThemedText style={[styles.funFact,{color: textColor}]}>{funFact}</ThemedText>
-			</View>
-		);
-	};
+	const textColor = useThemeColor({}, "tintOnGradient");
+	return (
+		<View>
+			<ThemedText
+				style={[styles.funFactHeader, { color: textColor }]}
+				type="title"
+			>
+				Wusstest du das ...
+			</ThemedText>
+			<ThemedText style={[styles.funFact, { color: textColor }]}>
+				{funFact}
+			</ThemedText>
+		</View>
+	);
+};
 
 const WikipediaSection = ({ slug }: { slug: string }) => (
 	<View style={styles.wikipediaLinkContainer}>
 		<WikipediaLink slug={slug} />
 	</View>
 );
-
-
 
 export default Solved;
 

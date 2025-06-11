@@ -1,4 +1,4 @@
-import {  QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
+import { QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { useMemo } from "react";
 import type { QuizImages } from "../types/image";
 
@@ -12,7 +12,10 @@ interface UseImageDisplayReturn {
 	shouldShowUnsolvedImage: boolean;
 }
 
-export const useImageDisplay = (images: QuizImages, status: QuestionStatus): UseImageDisplayReturn => {
+export const useImageDisplay = (
+	images: QuizImages,
+	status: QuestionStatus,
+): UseImageDisplayReturn => {
 	// Kein Generic!
 	// Closure Factory: Erstellt Funktionen basierend auf Image-Type
 	const createImageSelector = useMemo(() => {
@@ -35,14 +38,9 @@ export const useImageDisplay = (images: QuizImages, status: QuestionStatus): Use
 	const shouldShowUnsolvedImage = useMemo(() => {
 		return (
 			status !== QuestionStatus.SOLVED &&
-			(!!images.unsolvedImageUrl ||
-				!!images.unsolvedThumbnailUrl)
+			(!!images.unsolvedImageUrl || !!images.unsolvedThumbnailUrl)
 		);
-	}, [
-		status,
-		images.unsolvedImageUrl,
-		images.unsolvedThumbnailUrl,
-	]);
+	}, [status, images.unsolvedImageUrl, images.unsolvedThumbnailUrl]);
 
 	// Public API: Einfache Funktion die Type entgegennimmt
 	const getImageUrl = useMemo(() => {

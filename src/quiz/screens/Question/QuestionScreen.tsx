@@ -6,12 +6,12 @@ import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Hint from "./components/Hint";
 import { QuestionContentContainer } from "./components/QuestionContentContainer";
 import { QuestionInput } from "./components/QuestionInput";
 import ResultText from "./components/ResultText";
 import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
-import Hint from "./components/Hint";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -89,7 +89,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	// SRP: QuestionScreen ist nur für Layout zuständig
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
-			{submittedAnswer && showResult&& <ResultText answerCorrect={isCorrect} />}
+			{submittedAnswer && showResult && (
+				<ResultText answerCorrect={isCorrect} />
+			)}
 			<Header
 				showBackButton={false}
 				// TODO Platzhalter. Später aus Frage?
