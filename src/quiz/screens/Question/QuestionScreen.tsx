@@ -90,8 +90,8 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
 			{submittedAnswer && showResult && !showHint && (
-				<ResultText answerCorrect={isCorrect} />
-			)}
+				<ResultText correctAnswer={isCorrect} />
+			)} 
 			<Header
 				showBackButton={false}
 				// TODO Platzhalter. Später aus Frage?
