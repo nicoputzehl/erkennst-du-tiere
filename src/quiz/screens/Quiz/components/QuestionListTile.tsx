@@ -18,7 +18,6 @@ interface QuestionListTileProps {
 export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 	({ item, itemWidth, onClick }) => {
 		const colorScheme = useColorScheme();
-		// const borderColor = useThemeColor({}, "accent");
 		const { getImageUrl } = useImageDisplay(item.images, item.status);
 		const isSolved = item.status === QuestionStatus.SOLVED;
 		const isInactive = item.status === "inactive";
@@ -41,12 +40,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 						: colorScheme === "dark"
 							? "rgba(255, 255, 255, 0.1)"
 							: "rgba(0, 0, 0, 0.05)",
-				// borderWidth: isSolved ? 2 : 0,
-				// borderColor: isSolved
-				// 	? borderColor
-				// 	: colorScheme === "dark"
-				// 		? "rgba(255, 255, 255, 0.2)"
-				// 		: "rgba(0, 0, 0, 0.1)",
 				shadowColor: colorScheme === "dark" ? "#000" : "#000",
 				shadowOffset: {
 					width: 0,
@@ -103,13 +96,13 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				/>
 				{isSolved && (
 					<View style={styles.iconOverlay}>
+						<View style={styles.triangle}/>
 						<View style={styles.checkmarkBackground}>
 							<MaterialCommunityIcons
 								name="trophy-award"
 								size={24}
 								color="gold"
 							/>
-							{/* <FontAwesome6 name="award" size={20} color="gold" /> */}
 						</View>
 					</View>
 				)}
@@ -136,7 +129,7 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 );
 
 QuestionListTile.displayName = "QuestionListTile";
-
+const TRIANGLE_SIZE = 60;
 const styles = StyleSheet.create({
 	questionCard: {
 		borderRadius: BorderRadius.md,
@@ -152,18 +145,28 @@ const styles = StyleSheet.create({
 	},
 	iconOverlay: {
 		position: "absolute",
-		top: 8,
-		right: 8,
-		justifyContent: "center",
-		alignItems: "center",
+		bottom: 0,
+		right: 0,
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
 	},
 	checkmarkBackground: {
-		backgroundColor: ColorsValues.strawberry,
-		borderRadius: 16,
-		width: 32,
-		height: 32,
-		justifyContent: "center",
-		alignItems: "center",
-		boxShadow: Shadows.boxShadow,
+		backgroundColor:"transparent",
+		padding: 6,
+		justifyContent: "flex-end",
+		alignItems: "flex-end",
+
 	},
+	  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderRightWidth: TRIANGLE_SIZE,
+    borderTopWidth: TRIANGLE_SIZE,
+    borderRightColor: "transparent",
+    borderTopColor: ColorsValues.strawberry,
+		 transform: [{ rotate: "180deg" }],
+		 position: "absolute",
+  },
 });

@@ -48,6 +48,8 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		return question?.title || "Wie heißt das Tier?";
 	}, [isSolved, question?.answer, question?.title]);
 
+	const showResultReaction = answerState.submittedAnswer && resultState.showResult && !resultState.showHint;
+
 	return {
 		// Data
 		quizState,
@@ -64,5 +66,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 
 		// Actions
 		handleSubmit,
+		showResultReaction,
 	};
 }

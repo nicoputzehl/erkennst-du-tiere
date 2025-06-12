@@ -31,7 +31,7 @@ export const QuestionInput: React.FC<QuestionInputProps> = memo(
 	}) => {
 		const inputRef = useRef<TextInput>(null);
 
-		const borderColor = useThemeColor({}, hasError ? "error" : "lightAccent");
+		const borderColor = useThemeColor({}, "lightAccent");
 		const textColor = useThemeColor({}, "tintOnGradient");
 		const clearIconColor = useThemeColor({}, "textSecondary");
 		const placeholderColor = useThemeColor(

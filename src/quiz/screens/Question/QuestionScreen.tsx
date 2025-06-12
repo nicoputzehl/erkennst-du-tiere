@@ -9,9 +9,9 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Hint from "./components/Hint";
 import { QuestionContentContainer } from "./components/QuestionContentContainer";
 import { QuestionInput } from "./components/QuestionInput";
-import ResultText from "./components/ResultText";
 import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
+import ResultReaction from "./components/ResultReaction";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -39,11 +39,11 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		hasVisibleHints,
 		clearAnswer,
 		showInput,
-		submittedAnswer,
 		headerText,
 		resetResult,
 		showHint,
 		navigateToHintsModal,
+		showResultReaction
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
@@ -86,12 +86,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		return <ErrorComponent message="Frage nicht gefunden" />;
 	}
 
-	// SRP: QuestionScreen ist nur für Layout zuständig
 	return (
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
-			{submittedAnswer && showResult && !showHint && (
-				<ResultText correctAnswer={isCorrect} />
-			)} 
+
 			<Header
 				showBackButton={false}
 				// TODO Platzhalter. Später aus Frage?
@@ -112,6 +109,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 				}
 			/>
 			<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
+			{showResultReaction && (
+				<ResultReaction correctAnswer={isCorrect} />
+			)}
 			<QuestionContentContainer question={question}>
 				{isSolved && (
 					<View style={styles.resultContainer}>
