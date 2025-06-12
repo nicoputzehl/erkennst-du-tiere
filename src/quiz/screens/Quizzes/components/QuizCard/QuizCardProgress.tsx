@@ -15,20 +15,15 @@ export const QuizCardProgress = ({
 	quizCardProgress,
 	quizCardProgressString,
 }: QuizCardProgressProps) => {
+	if (!quizCardProgress) return null;
 	return (
 		<View style={styles.progressContainer}>
-			{quizCardProgress ? (
-				<>
-					<View style={styles.progressIndicatorContainer}>
-						<ProgressIndicator progress={quizCardProgress} />
-					</View>
-					<ThemedText style={[styles.progressText]}>
-						{quizCardProgressString}
-					</ThemedText>
-				</>
-			) : (
-				<ThemedText style={styles.newText}>Neu</ThemedText>
-			)}
+			<View style={styles.progressIndicatorContainer}>
+				<ProgressIndicator progress={quizCardProgress} />
+			</View>
+			<ThemedText style={[styles.progressText]}>
+				{quizCardProgressString}
+			</ThemedText>
 		</View>
 	);
 };

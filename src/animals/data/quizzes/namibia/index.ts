@@ -13,7 +13,7 @@ export const namibia: QuestionBase[] = [
 		answer: "Leopard",
 		title: "Wer könnte das sein?",
 		funFact:
-			"Leoparden können Beute hochziehen, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
+			"Leoparden Beute hochziehen können, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
 		images: {
 			imageUrl: require("./img/leopard.jpg"),
 			thumbnailUrl: require("./img/thumbnails/leopard.jpg"),
@@ -21,11 +21,8 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/leopard_unsolved.jpg"),
 		},
 		hints: [
-			// Basic Hints (immer verfügbar)
-			createLetterCountHint(1), // 5 Punkte
-			createFirstLetterHint(1), // 10 Punkte
-
-			// Custom Hints (verschiedene Schwierigkeiten)
+			createLetterCountHint(1),
+			createFirstLetterHint(1),
 			createCustomHint(
 				1,
 				"Lebensraum",
@@ -38,8 +35,6 @@ export const namibia: QuestionBase[] = [
 				"Hat ein goldgelbes Fell mit schwarzen Rosetten.",
 				12,
 			),
-
-			// Contextual Hints (kostenlos bei Verwechslungen) - FIXED
 			createContextualHint(
 				1,
 				["jaguar"],
