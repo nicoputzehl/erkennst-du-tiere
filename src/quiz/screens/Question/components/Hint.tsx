@@ -12,7 +12,7 @@ type HintProps = {
 	onClose: () => void;
 	isVisible: boolean;
 };
-
+// TODO wird nicht mehr gebraucht?
 const Hint = ({ hint, onClose, isVisible }: HintProps) => {
 	if (!hint) {
 		return null;

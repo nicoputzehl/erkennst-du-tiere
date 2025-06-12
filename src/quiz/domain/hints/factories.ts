@@ -114,11 +114,13 @@ export const createContextualHint = (
 	questionId: number,
 	triggers: string[],
 	content: string,
+	title = "Knapp daneben",
 	cost = 0,
 ): ContextualHint => {
 	console.log("🏭 [createContextualHint] Creating contextual hint:", {
 		questionId,
 		triggers,
+		title,
 		cost,
 	});
 
@@ -126,7 +128,7 @@ export const createContextualHint = (
 		id: `${questionId}_contextual_${triggers[0].toLowerCase().replace(/\s+/g, "_")}`,
 		type: HintType.CONTEXTUAL,
 		cost,
-		title: "Knapp daneben",
+		title,
 		description: "Wird bei bestimmten Antworten ausgelöst",
 		triggers,
 		content,
@@ -142,6 +144,7 @@ export const createContextualHint = (
 export const createAutoFreeHint = (
 	questionId: number,
 	content: string,
+	title = "Kleiner Tipp",
 	triggerAfterAttempts = 5,
 ): AutoFreeHint => {
 	console.log("🏭 [createAutoFreeHint] Creating auto-free hint:", {
@@ -153,7 +156,7 @@ export const createAutoFreeHint = (
 		id: `${questionId}_auto_free`,
 		type: HintType.AUTO_FREE,
 		cost: 0,
-		title: "Kleiner Tipp",
+		title,
 		description: `Wird nach ${triggerAfterAttempts} falschen Versuchen freigeschaltet`,
 		triggerAfterAttempts,
 		content,
