@@ -68,89 +68,99 @@ export function SettingsScreen() {
 
 	return (
 		<ThemedView style={styles.container}>
-			<Header title="Einstellungen" showBackButton onBackPress={navigateBack} />
+			<View style={styles.container}>
+				<Header
+					title="Einstellungen"
+					showBackButton
+					onBackPress={navigateBack}
+				/>
 
-			<ScrollView style={styles.scrollView}>
-				{/* Statistics Section */}
-				<View style={styles.section}>
-					<ThemedText style={styles.sectionTitle}>Statistiken</ThemedText>
-					<View style={styles.statRow}>
-						<ThemedText style={styles.statLabel}>
-							Abgeschlossene Quizzes:
-						</ThemedText>
-						<ThemedText style={styles.statValue}>
-							{statistics.completedQuizzes} / {statistics.totalQuizzes}
-						</ThemedText>
-					</View>
-					<View style={styles.statRow}>
-						<ThemedText style={styles.statLabel}>
-							Beantwortete Fragen:
-						</ThemedText>
-						<ThemedText style={styles.statValue}>
-							{statistics.completedQuestions} / {statistics.totalQuestions}
-						</ThemedText>
-					</View>
-					<View style={styles.statRow}>
-						<ThemedText style={styles.statLabel}>Gesamtfortschritt:</ThemedText>
-						<ThemedText style={styles.statValue}>
-							{statistics.completionPercentage}%
-						</ThemedText>
-					</View>
-				</View>
-
-				{/* Reset Section */}
-				<View style={styles.section}>
-					<ThemedText style={styles.sectionTitle}>
-						Quiz-Fortschritte zurücksetzen
-					</ThemedText>
-
-					<TouchableOpacity
-						style={[
-							styles.resetAllButton,
-							resettingAll && styles.disabledButton,
-						]}
-						onPress={handleResetAll}
-						disabled={resettingAll}
-					>
-						{resettingAll ? (
-							<ActivityIndicator size="small" color="#fff" />
-						) : (
-							<ThemedText style={styles.resetAllButtonText}>
-								Alle Quizzes zurücksetzen
+				<ScrollView style={styles.scrollView}>
+					{/* Statistics Section */}
+					<View style={styles.section}>
+						<ThemedText style={styles.sectionTitle}>Statistiken</ThemedText>
+						<View style={styles.statRow}>
+							<ThemedText style={styles.statLabel}>
+								Abgeschlossene Quizzes:
 							</ThemedText>
-						)}
-					</TouchableOpacity>
+							<ThemedText style={styles.statValue}>
+								{statistics.completedQuizzes} / {statistics.totalQuizzes}
+							</ThemedText>
+						</View>
+						<View style={styles.statRow}>
+							<ThemedText style={styles.statLabel}>
+								Beantwortete Fragen:
+							</ThemedText>
+							<ThemedText style={styles.statValue}>
+								{statistics.completedQuestions} / {statistics.totalQuestions}
+							</ThemedText>
+						</View>
+						<View style={styles.statRow}>
+							<ThemedText style={styles.statLabel}>
+								Gesamtfortschritt:
+							</ThemedText>
+							<ThemedText style={styles.statValue}>
+								{statistics.completionPercentage}%
+							</ThemedText>
+						</View>
+					</View>
 
-					{quizzes.map((quiz) => (
+					{/* Reset Section */}
+					<View style={styles.section}>
+						<ThemedText style={styles.sectionTitle}>
+							Quiz-Fortschritte zurücksetzen
+						</ThemedText>
+
 						<TouchableOpacity
-							key={quiz.id}
 							style={[
-								styles.quizResetButton,
-								resettingQuiz === quiz.id && styles.disabledButton,
+								styles.resetAllButton,
+								resettingAll && styles.disabledButton,
 							]}
-							onPress={() => handleResetQuiz(quiz.id, quiz.title)}
-							disabled={resettingQuiz === quiz.id}
+							onPress={handleResetAll}
+							disabled={resettingAll}
 						>
-							{resettingQuiz === quiz.id ? (
+							{resettingAll ? (
 								<ActivityIndicator size="small" color="#fff" />
 							) : (
-								<ThemedText style={styles.quizResetButtonText}>
-									{quiz.title} zurücksetzen
+								<ThemedText style={styles.resetAllButtonText}>
+									Alle Quizzes zurücksetzen
 								</ThemedText>
 							)}
 						</TouchableOpacity>
-					))}
-				</View>
 
-				{/* App Info Section */}
-				<View style={styles.section}>
-					<ThemedText style={styles.sectionTitle}>App-Informationen</ThemedText>
-					<ThemedText style={styles.infoText}>Version: 1.0.0</ThemedText>
-					<ThemedText style={styles.infoText}>
-						© 2025 Erkennst du: Tiere?
-					</ThemedText>
-				</View>
-			</ScrollView>
+						{quizzes.map((quiz) => (
+							<TouchableOpacity
+								key={quiz.id}
+								style={[
+									styles.quizResetButton,
+									resettingQuiz === quiz.id && styles.disabledButton,
+								]}
+								onPress={() => handleResetQuiz(quiz.id, quiz.title)}
+								disabled={resettingQuiz === quiz.id}
+							>
+								{resettingQuiz === quiz.id ? (
+									<ActivityIndicator size="small" color="#fff" />
+								) : (
+									<ThemedText style={styles.quizResetButtonText}>
+										{quiz.title} zurücksetzen
+									</ThemedText>
+								)}
+							</TouchableOpacity>
+						))}
+					</View>
+
+					{/* App Info Section */}
+					<View style={styles.section}>
+						<ThemedText style={styles.sectionTitle}>
+							App-Informationen
+						</ThemedText>
+						<ThemedText style={styles.infoText}>Version: 1.0.0</ThemedText>
+						<ThemedText style={styles.infoText}>
+							© 2025 Erkennst du: Tiere?
+						</ThemedText>
+					</View>
+				</ScrollView>
+			</View>
 		</ThemedView>
 	);
 }
