@@ -45,8 +45,8 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		if (isSolved && question?.answer) {
 			return question.answer;
 		}
-		return "Wie heißt das Tier?";
-	}, [isSolved, question?.answer]);
+		return question?.title || "Wie heißt das Tier?";
+	}, [isSolved, question?.answer, question?.title]);
 
 	return {
 		// Data

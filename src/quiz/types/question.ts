@@ -14,6 +14,7 @@ export interface QuestionBase {
 	alternativeAnswers?: string[];
 	funFact?: string;
 	wikipediaName?: string;
+	title?: string;
 	hints?: Hint[];
 }
 

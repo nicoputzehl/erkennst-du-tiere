@@ -11,6 +11,7 @@ export const namibia: QuestionBase[] = [
 	{
 		id: 1,
 		answer: "Leopard",
+		title: "Wer könnte das sein?",
 		funFact:
 			"Leoparden können Beute hochziehen, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
 		images: {
