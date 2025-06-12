@@ -1,3 +1,4 @@
+import { Ubuntu_400Regular } from "@expo-google-fonts/ubuntu/400Regular";
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -13,9 +14,7 @@ import { QuizProvider } from "@/src/quiz/contexts/QuizProvider";
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
-	const [loaded] = useFonts({
-		SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-	});
+	const [loaded] = useFonts({ Ubuntu_400Regular });
 
 	if (!loaded) {
 		return null;

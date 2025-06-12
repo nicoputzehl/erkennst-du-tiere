@@ -1,9 +1,10 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { FontAwesome6 } from "@expo/vector-icons";
 import type React from "react";
 import { useCallback } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 interface HintButtonProps {
 	quizId: string;
@@ -39,7 +40,7 @@ export const HintButton: React.FC<HintButtonProps> = ({
 			<FontAwesome6 name="lightbulb" size={20} color="white" />
 			{availableCount > 0 && (
 				<View style={styles.hintBadge}>
-					<Text style={styles.hintBadgeText}>{availableCount}</Text>
+					<ThemedText style={styles.hintBadgeText}>{availableCount}</ThemedText>
 				</View>
 			)}
 		</TouchableOpacity>

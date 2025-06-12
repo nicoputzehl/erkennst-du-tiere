@@ -1,3 +1,4 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -6,7 +7,6 @@ import {
 	Modal,
 	ScrollView,
 	StyleSheet,
-	Text,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	View,
@@ -74,14 +74,14 @@ export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 						<View style={[styles.panel, { backgroundColor }]}>
 							{/* Header */}
 							<View style={styles.header}>
-								<Text style={[styles.title, { color: textColor }]}>
+								<ThemedText style={[styles.title, { color: textColor }]}>
 									Hinweise kaufen
-								</Text>
+								</ThemedText>
 								<View style={styles.pointsContainer}>
 									<FontAwesome6 name="coins" size={16} color="#FFD700" />
-									<Text style={[styles.pointsText, { color: textColor }]}>
+									<ThemedText style={[styles.pointsText, { color: textColor }]}>
 										{pointsBalance} Punkte
-									</Text>
+									</ThemedText>
 								</View>
 								<TouchableOpacity
 									onPress={handleClose}
@@ -106,31 +106,35 @@ export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 										activeOpacity={0.7}
 									>
 										<View style={styles.hintHeader}>
-											<Text
+											<ThemedText
 												style={[
 													styles.hintTitle,
 													!canUse && styles.disabledText,
 												]}
 											>
 												{hint.title}
-											</Text>
+											</ThemedText>
 											<View style={styles.hintCost}>
 												<FontAwesome6 name="coins" size={12} color="#FFD700" />
-												<Text style={styles.costText}>{hint.cost}</Text>
+												<ThemedText style={styles.costText}>
+													{hint.cost}
+												</ThemedText>
 											</View>
 										</View>
 
-										<Text
+										<ThemedText
 											style={[
 												styles.hintDescription,
 												!canUse && styles.disabledText,
 											]}
 										>
 											{hint.description}
-										</Text>
+										</ThemedText>
 
 										{!canUse && reason && (
-											<Text style={styles.hintReason}>{reason}</Text>
+											<ThemedText style={styles.hintReason}>
+												{reason}
+											</ThemedText>
 										)}
 									</TouchableOpacity>
 								))}
@@ -138,9 +142,11 @@ export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 
 							{purchasableHints.length === 0 && (
 								<View style={styles.noHintsContainer}>
-									<Text style={[styles.noHintsText, { color: textColor }]}>
+									<ThemedText
+										style={[styles.noHintsText, { color: textColor }]}
+									>
 										Keine kaufbaren Hinweise verfügbar
-									</Text>
+									</ThemedText>
 								</View>
 							)}
 
@@ -150,11 +156,11 @@ export const PurchaseHintPanel: React.FC<PurchaseHintPanelProps> = ({
 								onPress={handleClose}
 								activeOpacity={0.7}
 							>
-								<Text
+								<ThemedText
 									style={[styles.bottomCloseButtonText, { color: textColor }]}
 								>
 									Schließen
-								</Text>
+								</ThemedText>
 							</TouchableOpacity>
 						</View>
 					</TouchableWithoutFeedback>

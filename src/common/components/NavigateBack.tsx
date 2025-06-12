@@ -1,6 +1,7 @@
 import { FontAwesome6 } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 type NavigateBackProps = {
 	onPress: () => void;
@@ -23,7 +24,9 @@ const NavigateBack = ({
 				color={iconColor}
 				style={styles.icon}
 			/>
-			<Text style={[styles.backButton, { color: textColor }]}>{text}</Text>
+			<ThemedText style={[styles.backButton, { color: textColor }]}>
+				{text}
+			</ThemedText>
 		</TouchableOpacity>
 	);
 };

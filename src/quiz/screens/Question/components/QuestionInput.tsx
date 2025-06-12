@@ -1,11 +1,12 @@
 // src/quiz/screens/Question/components/QuestionInput/QuestionInput.tsx - NEW OPTIMIZED COMPONENT
+import ThemedTextInput from "@/src/common/components/ThemedTextInput";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { memo, useEffect, useRef } from "react";
 import {
 	Keyboard,
 	StyleSheet,
-	TextInput,
+	type TextInput,
 	TouchableOpacity,
 	View,
 } from "react-native";
@@ -66,7 +67,7 @@ export const QuestionInput: React.FC<QuestionInputProps> = memo(
 		return (
 			<View style={styles.container}>
 				<View style={styles.inputContainer}>
-					<TextInput
+					<ThemedTextInput
 						ref={inputRef}
 						style={[
 							styles.input,

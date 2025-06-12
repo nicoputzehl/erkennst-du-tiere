@@ -1,5 +1,6 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { memo, useCallback } from "react";
-import { Text, TouchableOpacity, View, type ViewStyle } from "react-native";
+import { TouchableOpacity, View, type ViewStyle } from "react-native";
 import { styles } from "./QuizCard.styles";
 import type { QuizCardViewProps } from "./QuizCard.types";
 import { QuizCardProgress } from "./QuizCardProgress";
@@ -88,9 +89,9 @@ export const QuizCardContent = memo(
 			<View style={styles.quizCardInner}>
 				<QuizCardStartItem variant={variant} quiz={quiz} />
 				<View style={styles.quizCardContent}>
-					<Text style={styles.quizTitle} numberOfLines={2}>
+					<ThemedText style={styles.quizTitle} numberOfLines={2}>
 						{quiz.title}
-					</Text>
+					</ThemedText>
 					<QuizCardProgressSection
 						variant={variant}
 						unlockProgress={unlockProgress}

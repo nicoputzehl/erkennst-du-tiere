@@ -1,8 +1,9 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
 
 interface AvailableHintsProps {
@@ -62,10 +63,12 @@ export const AvailableHints: React.FC<AvailableHintsProps> = ({
 					activeOpacity={0.7}
 				>
 					<View style={styles.hintHeader}>
-						<Text style={[sharedHintstyles.hintTitle]}>{hint.title}</Text>
+						<ThemedText style={[sharedHintstyles.hintTitle]}>
+							{hint.title}
+						</ThemedText>
 						<View style={styles.hintCost}>
 							<FontAwesome6 name="coins" size={12} color="gold" />
-							<Text style={styles.costText}>{hint.cost}</Text>
+							<ThemedText style={styles.costText}>{hint.cost}</ThemedText>
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -73,9 +76,9 @@ export const AvailableHints: React.FC<AvailableHintsProps> = ({
 
 			{purchasableHints.length === 0 && (
 				<View style={styles.noHintsContainer}>
-					<Text style={[styles.noHintsText, { color: textColor }]}>
+					<ThemedText style={[styles.noHintsText, { color: textColor }]}>
 						Keine kaufbaren Hinweise verfügbar
-					</Text>
+					</ThemedText>
 				</View>
 			)}
 		</View>

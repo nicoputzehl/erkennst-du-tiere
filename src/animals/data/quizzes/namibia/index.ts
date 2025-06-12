@@ -49,7 +49,7 @@ export const namibia: QuestionBase[] = [
 				1,
 				["gepard", "cheetah"],
 				"Auch gefleckt, aber diese Katze kann sehr gut klettern!",
-				"Nicht ganz so schnell!"
+				"Nicht ganz so schnell!",
 			),
 			createContextualHint(
 				1,

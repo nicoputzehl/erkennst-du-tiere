@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { ActivityIndicator, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
 export const LoadingComponent = memo(
@@ -7,7 +8,7 @@ export const LoadingComponent = memo(
 		return (
 			<ThemedView style={styles.container}>
 				<ActivityIndicator size="large" color="#0a7ea4" />
-				<Text style={styles.loadingText}>{message}</Text>
+				<ThemedText style={styles.loadingText}>{message}</ThemedText>
 			</ThemedView>
 		);
 	},

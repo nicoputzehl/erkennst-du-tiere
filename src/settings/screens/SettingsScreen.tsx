@@ -1,4 +1,5 @@
 import Header from "@/src/common/components/Header";
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { ThemedView } from "@/src/common/components/ThemedView";
 import { useQuizStatistics, useUI } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
@@ -9,7 +10,6 @@ import {
 	Alert,
 	ScrollView,
 	StyleSheet,
-	Text,
 	TouchableOpacity,
 	View,
 } from "react-native";
@@ -73,32 +73,36 @@ export function SettingsScreen() {
 			<ScrollView style={styles.scrollView}>
 				{/* Statistics Section */}
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>Statistiken</Text>
+					<ThemedText style={styles.sectionTitle}>Statistiken</ThemedText>
 					<View style={styles.statRow}>
-						<Text style={styles.statLabel}>Abgeschlossene Quizzes:</Text>
-						<Text style={styles.statValue}>
+						<ThemedText style={styles.statLabel}>
+							Abgeschlossene Quizzes:
+						</ThemedText>
+						<ThemedText style={styles.statValue}>
 							{statistics.completedQuizzes} / {statistics.totalQuizzes}
-						</Text>
+						</ThemedText>
 					</View>
 					<View style={styles.statRow}>
-						<Text style={styles.statLabel}>Beantwortete Fragen:</Text>
-						<Text style={styles.statValue}>
+						<ThemedText style={styles.statLabel}>
+							Beantwortete Fragen:
+						</ThemedText>
+						<ThemedText style={styles.statValue}>
 							{statistics.completedQuestions} / {statistics.totalQuestions}
-						</Text>
+						</ThemedText>
 					</View>
 					<View style={styles.statRow}>
-						<Text style={styles.statLabel}>Gesamtfortschritt:</Text>
-						<Text style={styles.statValue}>
+						<ThemedText style={styles.statLabel}>Gesamtfortschritt:</ThemedText>
+						<ThemedText style={styles.statValue}>
 							{statistics.completionPercentage}%
-						</Text>
+						</ThemedText>
 					</View>
 				</View>
 
 				{/* Reset Section */}
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
+					<ThemedText style={styles.sectionTitle}>
 						Quiz-Fortschritte zurücksetzen
-					</Text>
+					</ThemedText>
 
 					<TouchableOpacity
 						style={[
@@ -111,9 +115,9 @@ export function SettingsScreen() {
 						{resettingAll ? (
 							<ActivityIndicator size="small" color="#fff" />
 						) : (
-							<Text style={styles.resetAllButtonText}>
+							<ThemedText style={styles.resetAllButtonText}>
 								Alle Quizzes zurücksetzen
-							</Text>
+							</ThemedText>
 						)}
 					</TouchableOpacity>
 
@@ -130,9 +134,9 @@ export function SettingsScreen() {
 							{resettingQuiz === quiz.id ? (
 								<ActivityIndicator size="small" color="#fff" />
 							) : (
-								<Text style={styles.quizResetButtonText}>
+								<ThemedText style={styles.quizResetButtonText}>
 									{quiz.title} zurücksetzen
-								</Text>
+								</ThemedText>
 							)}
 						</TouchableOpacity>
 					))}
@@ -140,9 +144,11 @@ export function SettingsScreen() {
 
 				{/* App Info Section */}
 				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>App-Informationen</Text>
-					<Text style={styles.infoText}>Version: 1.0.0</Text>
-					<Text style={styles.infoText}>© 2025 Erkennst du: Tiere?</Text>
+					<ThemedText style={styles.sectionTitle}>App-Informationen</ThemedText>
+					<ThemedText style={styles.infoText}>Version: 1.0.0</ThemedText>
+					<ThemedText style={styles.infoText}>
+						© 2025 Erkennst du: Tiere?
+					</ThemedText>
 				</View>
 			</ScrollView>
 		</ThemedView>

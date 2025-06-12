@@ -3,7 +3,7 @@ import { ThemedView } from "@/src/common/components/ThemedView";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { HintsContent } from "./components/HintsContent";
 import { PointsDisplay } from "./components/PointsDisplay";
 

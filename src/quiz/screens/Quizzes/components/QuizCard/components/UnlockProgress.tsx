@@ -1,5 +1,6 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { memo } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { styles } from "../QuizCard.styles";
 import type { UnlockProgressProps } from "../QuizCard.types";
 
@@ -10,9 +11,9 @@ export const UnlockProgress = memo(
 
 		return (
 			<View style={styles.progressSection}>
-				<Text style={styles.unlockDescription} numberOfLines={2}>
+				<ThemedText style={styles.unlockDescription} numberOfLines={2}>
 					{unlockProgress.condition.description}
-				</Text>
+				</ThemedText>
 			</View>
 		);
 	},

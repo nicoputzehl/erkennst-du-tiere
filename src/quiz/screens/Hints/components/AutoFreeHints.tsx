@@ -1,8 +1,8 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useCallback } from "react";
 import {
 	Modal,
 	StyleSheet,
-	Text,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
@@ -37,10 +37,12 @@ export const AutoFreeHint = ({
 			<TouchableWithoutFeedback onPress={handleBackdropPress}>
 				<View style={styles.overlay}>
 					<View style={styles.autoFreeHintContainer}>
-						<Text style={styles.autoFreeHintTitle}>
+						<ThemedText style={styles.autoFreeHintTitle}>
 							🎁 Kostenloser Hinweis:
-						</Text>
-						<Text style={styles.autoFreeHintContent}>{content}</Text>
+						</ThemedText>
+						<ThemedText style={styles.autoFreeHintContent}>
+							{content}
+						</ThemedText>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

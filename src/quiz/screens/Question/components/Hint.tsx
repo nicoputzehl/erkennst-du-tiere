@@ -1,7 +1,7 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import {
 	Modal,
 	StyleSheet,
-	Text,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
@@ -23,8 +23,12 @@ const Hint = ({ hint, onClose, isVisible }: HintProps) => {
 			<TouchableWithoutFeedback onPress={onClose}>
 				<View style={styles.overlay2}>
 					<View style={styles.usedHintContainer}>
-						<Text style={styles.usedHintTitle}>💡 {hint.title}</Text>
-						<Text style={styles.usedHintContent}>{hint.content}</Text>
+						<ThemedText style={styles.usedHintTitle}>
+							💡 {hint.title}
+						</ThemedText>
+						<ThemedText style={styles.usedHintContent}>
+							{hint.content}
+						</ThemedText>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

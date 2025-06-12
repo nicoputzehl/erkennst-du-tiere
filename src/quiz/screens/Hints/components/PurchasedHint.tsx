@@ -1,8 +1,8 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useCallback } from "react";
 import {
 	Modal,
 	StyleSheet,
-	Text,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
@@ -37,10 +37,12 @@ export const PurchasedHint = ({
 			<TouchableWithoutFeedback onPress={handleBackdropPress}>
 				<View style={styles.overlay2}>
 					<View style={styles.purchasedHintContainer}>
-						<Text style={styles.purchasedHintTitle}>
+						<ThemedText style={styles.purchasedHintTitle}>
 							💰 Dein gekaufter Hinweis:
-						</Text>
-						<Text style={styles.purchasedHintContent}>{content}</Text>
+						</ThemedText>
+						<ThemedText style={styles.purchasedHintContent}>
+							{content}
+						</ThemedText>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

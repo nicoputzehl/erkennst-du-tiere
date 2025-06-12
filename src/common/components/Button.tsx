@@ -2,11 +2,11 @@ import React from "react";
 import {
 	type StyleProp,
 	StyleSheet,
-	Text,
 	type TextStyle,
 	TouchableOpacity,
 	type TouchableOpacityProps,
 } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 interface ButtonProps extends TouchableOpacityProps {
 	text: string;
@@ -27,7 +27,7 @@ const Button = ({
 			disabled={disabled}
 			activeOpacity={0.8}
 		>
-			<Text style={[styles.buttonText, buttonStyle]}>{text}</Text>
+			<ThemedText style={[styles.buttonText, buttonStyle]}>{text}</ThemedText>
 		</TouchableOpacity>
 	);
 };

@@ -1,8 +1,8 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useCallback } from "react";
 import {
 	Modal,
 	StyleSheet,
-	Text,
 	TouchableWithoutFeedback,
 	View,
 } from "react-native";
@@ -37,8 +37,10 @@ export const ContextualHint = ({
 			<TouchableWithoutFeedback onPress={handleBackdropPress}>
 				<View style={styles.overlay2}>
 					<View style={styles.usedHintContainer}>
-						<Text style={styles.usedHintTitle}>💡 Dein Hinweis:</Text>
-						<Text style={styles.usedHintContent}>{content}</Text>
+						<ThemedText style={styles.usedHintTitle}>
+							💡 Dein Hinweis:
+						</ThemedText>
+						<ThemedText style={styles.usedHintContent}>{content}</ThemedText>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

@@ -1,12 +1,13 @@
 import { memo } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
 export const ErrorComponent = memo(
 	({ message }: { message: string }) => {
 		return (
 			<ThemedView style={styles.container}>
-				<Text style={styles.errorText}>{message}</Text>
+				<ThemedText style={styles.errorText}>{message}</ThemedText>
 			</ThemedView>
 		);
 	},

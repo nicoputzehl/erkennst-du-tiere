@@ -1,6 +1,7 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
-import { Animated, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Animated, StyleSheet, TouchableOpacity } from "react-native";
 
 export interface ToastProps {
 	visible: boolean;
@@ -108,7 +109,7 @@ export const Toast: React.FC<ToastProps> = ({
 			]}
 		>
 			<TouchableOpacity style={styles.toastContent} onPress={hideToast}>
-				<Text style={styles.toastText}>{message}</Text>
+				<ThemedText style={styles.toastText}>{message}</ThemedText>
 			</TouchableOpacity>
 		</Animated.View>
 	);

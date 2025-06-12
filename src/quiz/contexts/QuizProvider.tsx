@@ -1,8 +1,7 @@
-// src/quiz/contexts/QuizProvider.tsx - FIXED VERSION
-
 import { animalQuizConfigs } from "@/src/animals/quizzes";
+import { ThemedText } from "@/src/common/components/ThemedText";
 import React, { type ReactNode, useEffect, useRef } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
 	initializeAllQuizzes,
 	registerQuizzes,
@@ -201,7 +200,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		return (
 			<View style={styles.loadingContainer}>
 				<ActivityIndicator size="large" color="#0000ff" />
-				<Text style={styles.loadingText}>{loadingMessage}</Text>
+				<ThemedText style={styles.loadingText}>{loadingMessage}</ThemedText>
 			</View>
 		);
 	}

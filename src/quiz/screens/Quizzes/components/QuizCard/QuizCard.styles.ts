@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
 		fontSize: FontSizes.lg,
 		fontWeight: FontWeights.semibold,
 		zIndex: 1,
+		// TODO Color aus constanten
+		color: "#666",
 	},
 	quizCardOuter: {
 		// TODO Color aus constanten
@@ -84,6 +86,7 @@ export const styles = StyleSheet.create({
 	activeProgressContainer: {
 		...CommonStyles.rowSpaceBetween,
 	},
+	progressSection: {},
 	progressContainer: {
 		flexDirection: "row",
 		width: "100%",
