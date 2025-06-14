@@ -1,4 +1,7 @@
-import { createTestQuizState, quizStateBuilder } from "../../testing/testUtils";
+import {
+	createTestQuizState,
+	quizStateBuilder,
+} from "../../../../testing/testUtils";
 import {
 	calculateCompletionPercentage,
 	calculateQuizProgress,
@@ -8,7 +11,7 @@ import {
 	countTotalQuizzes,
 	createProgressString,
 	isCompleted,
-} from "../quizStatistics";
+} from "../../statistics";
 
 describe("Quiz Statistics and Progress Utilities", () => {
 	describe("countTotalQuizzes", () => {

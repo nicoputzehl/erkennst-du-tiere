@@ -5,8 +5,8 @@ import {
 	persist,
 	subscribeWithSelector,
 } from "zustand/middleware";
+import { QuizUtils } from "../domain/quiz";
 import type { QuizState } from "../types";
-import { createQuizState } from "../utils/quizCreation";
 
 import { HintUtils } from "../domain/hints";
 import type { HintState, UserPointsState } from "../types/hint";
@@ -85,7 +85,7 @@ export const useQuizStore = create<QuizStore>()(
 					for (const quiz of Object.values(quizzes)) {
 						const config = quizConfigs[quiz.id];
 						if (config) {
-							const newQuizState = createQuizState(quiz, {
+							const newQuizState = QuizUtils.createQuizState(quiz, {
 								initialUnlockedQuestions: config.initialUnlockedQuestions || 2,
 							});
 							if (newQuizState) {

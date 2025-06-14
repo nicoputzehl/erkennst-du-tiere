@@ -1,7 +1,4 @@
-import {
-	createQuizConfig,
-	createUnlockCondition,
-} from "../quiz/utils/quizCreation";
+import { QuizUtils } from "../quiz/domain/quiz/";
 import { emojiAnimals, namibia, weirdAnimals } from "./data/quizzes";
 
 const namibiaQuiz = {
@@ -26,23 +23,23 @@ const weirdAnimalsQuiz = {
 };
 
 export const animalQuizConfigs = [
-	createQuizConfig(namibiaQuiz, {
+	QuizUtils.createQuizConfig(namibiaQuiz, {
 		order: 1,
 		initiallyLocked: false,
 	}),
 
-	createQuizConfig(emojiAnimalsQuiz, {
+	QuizUtils.createQuizConfig(emojiAnimalsQuiz, {
 		order: 2,
 		initiallyLocked: true,
-		unlockCondition: createUnlockCondition(
+		unlockCondition: QuizUtils.createUnlockCondition(
 			"namibia",
 			'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.',
 		),
 	}),
-	createQuizConfig(weirdAnimalsQuiz, {
+	QuizUtils.createQuizConfig(weirdAnimalsQuiz, {
 		order: 3,
 		initiallyLocked: true,
-		unlockCondition: createUnlockCondition(
+		unlockCondition: QuizUtils.createUnlockCondition(
 			"emoji_animals",
 			'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.',
 		),

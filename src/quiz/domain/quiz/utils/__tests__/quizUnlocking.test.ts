@@ -1,9 +1,9 @@
 import {
 	createTestQuizConfig,
 	createTestQuizState,
-} from "../../testing/testUtils";
-import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
-import { canUnlockQuiz, checkUnlockCondition } from "../quizUnlocking";
+} from "../../../../testing/testUtils";
+import type { QuizConfig, QuizState, UnlockCondition } from "../../../../types";
+import { canUnlockQuiz, checkUnlockCondition } from "../../unlocking";
 
 describe("Quiz Unlocking Utilities", () => {
 	// Beispielhafte QuizStates für die Tests

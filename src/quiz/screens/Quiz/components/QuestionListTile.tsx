@@ -96,7 +96,7 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				/>
 				{isSolved && (
 					<View style={styles.iconOverlay}>
-						<View style={styles.triangle}/>
+						<View style={styles.triangle} />
 						<View style={styles.checkmarkBackground}>
 							<MaterialCommunityIcons
 								name="trophy-award"
@@ -151,22 +151,21 @@ const styles = StyleSheet.create({
 		alignItems: "flex-end",
 	},
 	checkmarkBackground: {
-		backgroundColor:"transparent",
+		backgroundColor: "transparent",
 		padding: 6,
 		justifyContent: "flex-end",
 		alignItems: "flex-end",
-
 	},
-	  triangle: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderRightWidth: TRIANGLE_SIZE,
-    borderTopWidth: TRIANGLE_SIZE,
-    borderRightColor: "transparent",
-    borderTopColor: ColorsValues.strawberry,
-		 transform: [{ rotate: "180deg" }],
-		 position: "absolute",
-  },
+	triangle: {
+		width: 0,
+		height: 0,
+		backgroundColor: "transparent",
+		borderStyle: "solid",
+		borderRightWidth: TRIANGLE_SIZE,
+		borderTopWidth: TRIANGLE_SIZE,
+		borderRightColor: "transparent",
+		borderTopColor: ColorsValues.strawberry,
+		transform: [{ rotate: "180deg" }],
+		position: "absolute",
+	},
 });

@@ -1,11 +1,14 @@
-import { createTestQuestion, createTestQuiz } from "../../testing/testUtils";
-import { QuestionStatus, type UnlockCondition } from "../../types";
+import {
+	createTestQuestion,
+	createTestQuiz,
+} from "../../../../testing/testUtils";
+import { QuestionStatus, type UnlockCondition } from "../../../../types";
 import {
 	calculateInitialQuestionStatus,
 	createQuizConfig,
 	createQuizState,
 	createUnlockCondition,
-} from "../quizCreation";
+} from "../../factories";
 
 describe("Quiz Creation Utilities", () => {
 	describe("createQuizConfig", () => {

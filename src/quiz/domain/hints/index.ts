@@ -4,7 +4,11 @@ import {
 	createPointTransaction,
 	getInitialUserPoints,
 } from "./points";
-import { checkForContextualHints, getTriggeredContent } from "./triggering";
+import {
+	checkForContextualHints,
+	checkTriggeredHints,
+	getTriggeredContent,
+} from "./triggering";
 import {
 	canUseHint,
 	isAutoFreeHint,
@@ -32,6 +36,7 @@ export const HintUtils = {
 
 	// Triggering
 	checkForContextualHints,
+	checkTriggeredHints,
 
 	// Points
 	calculatePointsForCorrectAnswer,

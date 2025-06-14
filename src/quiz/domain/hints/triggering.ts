@@ -7,7 +7,7 @@ import type {
 	HintState,
 	HintTriggerResult,
 } from "../../types/hint";
-import { normalizeString } from "../../utils/stringManipulation";
+import { normalizeString } from "../quiz/utils/stringManipulation";
 import { isAutoFreeHint, isContextualHint } from "./validation";
 
 export const checkForContextualHints = (

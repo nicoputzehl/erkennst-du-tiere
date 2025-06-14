@@ -1,7 +1,6 @@
 // src/quiz/store/Hint.slice.ts - ENHANCED VERSION
 import type { StateCreator } from "zustand";
 import { HintUtils } from "../domain/hints";
-import { checkTriggeredHints } from "../domain/hints/triggering";
 import type { QuestionBase } from "../types";
 import type {
 	AutoFreeHint,
@@ -164,7 +163,11 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		}
 
 		// Neue kombinierte Hint-Prüfung
-		const triggerResult = checkTriggeredHints(userAnswer, question, hintState);
+		const triggerResult = HintUtils.checkTriggeredHints(
+			userAnswer,
+			question,
+			hintState,
+		);
 
 		set((state) => ({
 			quizStates: {

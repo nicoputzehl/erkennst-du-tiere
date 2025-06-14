@@ -1,6 +1,7 @@
-import type { QuizConfig, QuizState, UnlockCondition } from "../types";
-import { isCompleted } from "./quizStatistics";
+import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
+import { isCompleted } from "./statistics";
 
+// TODO Prüfen ob aktuell noch benötigt
 export const checkUnlockCondition = (
 	condition: UnlockCondition,
 	quizStates: Record<string, QuizState>,

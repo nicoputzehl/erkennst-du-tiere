@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
@@ -7,12 +8,11 @@ import Animated, {
 	withSequence,
 	withTiming,
 } from "react-native-reanimated";
-import { useEffect } from "react";
 
 const ResultReaction = ({ correctAnswer }: { correctAnswer: boolean }) => {
 	const scale = useSharedValue(0);
 	const rotation = useSharedValue(0);
-  const color = correctAnswer ? "#ffa826" : "#E04F5F";
+	const color = correctAnswer ? "#ffa826" : "#E04F5F";
 
 	useEffect(() => {
 		// Bounce-in Animation beim Mount
@@ -39,7 +39,7 @@ const ResultReaction = ({ correctAnswer }: { correctAnswer: boolean }) => {
 		};
 	});
 
-  const name = correctAnswer ? "smileo" : "frowno";
+	const name = correctAnswer ? "smileo" : "frowno";
 	return (
 		<Animated.View style={[styles.container, animatedStyle]}>
 			<AntDesign name={name} size={40} color={color} />
@@ -51,12 +51,12 @@ export default ResultReaction;
 
 const styles = StyleSheet.create({
 	container: {
-    width: 40,
-    height: 40,
+		width: 40,
+		height: 40,
 		alignItems: "center",
 		justifyContent: "center",
-    position: "absolute",
-    alignSelf: "center",
-    bottom: "15%"
+		position: "absolute",
+		alignSelf: "center",
+		bottom: "15%",
 	},
 });

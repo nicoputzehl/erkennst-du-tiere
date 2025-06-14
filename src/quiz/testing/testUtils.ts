@@ -1,3 +1,4 @@
+import { createQuizConfig } from "../domain/quiz/factories";
 import {
 	type Question,
 	type QuestionBase,
@@ -6,7 +7,6 @@ import {
 	type QuizConfig,
 	type QuizState,
 } from "../types";
-import { createQuizConfig } from "../utils/quizCreation";
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion

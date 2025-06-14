@@ -5,8 +5,8 @@ import {
 	type QuizConfig,
 	type QuizState,
 	type UnlockCondition,
-} from "../types";
-import type { HintState } from "../types/hint";
+} from "../../types";
+import type { HintState } from "../../types/hint";
 
 /**
  * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen

@@ -46,7 +46,11 @@ export const QuizCardContent = memo(
 		);
 
 		if (variant === "locked") {
-			return <View style={getQuizCardStyles({ variant, isLoading })}>{innerContent}</View>;
+			return (
+				<View style={getQuizCardStyles({ variant, isLoading })}>
+					{innerContent}
+				</View>
+			);
 		}
 
 		return (

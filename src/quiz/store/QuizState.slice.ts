@@ -1,13 +1,10 @@
 import type { StateCreator } from "zustand";
 import { HintUtils } from "../domain/hints";
+import { QuizUtils } from "../domain/quiz/";
+import { createQuizState } from "../domain/quiz/factories";
+import { isCompleted } from "../domain/quiz/statistics";
 import type { Quiz, QuizState } from "../types";
 import type { ContextualHint } from "../types/hint";
-import { createQuizState } from "../utils/quizCreation";
-import {
-	calculateAnswerResult,
-	getNextActiveQuestionId,
-} from "../utils/quizProgression";
-import { isCompleted } from "../utils/quizStatistics";
 import type { QuizStore } from "./Quiz.store";
 
 interface AnswerResult {
@@ -139,7 +136,11 @@ export const createQuizStateSlice: StateCreator<
 				completedQuiz: false,
 			};
 		}
-		const result = calculateAnswerResult(currentState, questionId, answer);
+		const result = QuizUtils.calculateAnswerResult(
+			currentState,
+			questionId,
+			answer,
+		);
 		if (!result.isCorrect) {
 			console.log(
 				`[QuizStateSlice] Incorrect answer for quiz ${quizId}, question ${questionId}`,
@@ -173,7 +174,7 @@ export const createQuizStateSlice: StateCreator<
 
 		// Check completion
 		const completedQuiz = isCompleted(result.newState);
-		const nextQuestionId = getNextActiveQuestionId(result.newState);
+		const nextQuestionId = QuizUtils.getNextActiveQuestionId(result.newState);
 		// Show completion toast
 		if (completedQuiz) {
 			showToast(
@@ -210,6 +211,6 @@ export const createQuizStateSlice: StateCreator<
 		const { quizStates } = get();
 		const state = quizStates[quizId];
 		if (!state) return null;
-		return getNextActiveQuestionId(state, currentQuestionId);
+		return QuizUtils.getNextActiveQuestionId(state, currentQuestionId);
 	},
 });

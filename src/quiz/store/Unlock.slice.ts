@@ -1,11 +1,10 @@
 import type { StateCreator } from "zustand";
+import { QuizUtils } from "../domain/quiz";
 import type { Quiz, UnlockCondition } from "../types";
-import { isCompleted } from "../utils/quizStatistics";
 import type { QuizStore } from "./Quiz.store";
 
 export interface UnlockSlice {
 	pendingUnlocks: {
-		// PERSISTED
 		quizId: string;
 		quizTitle: string;
 		unlockedAt: number;
@@ -35,7 +34,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		for (const config of Object.values(quizConfigs)) {
 			if (config.initiallyLocked && config.unlockCondition) {
 				const requiredState = quizStates[config.unlockCondition.requiredQuizId];
-				if (requiredState && isCompleted(requiredState)) {
+				if (requiredState && QuizUtils.isCompleted(requiredState)) {
 					const quiz = quizzes[config.id];
 					if (quiz) {
 						if (!get().pendingUnlocks.some((pu) => pu.quizId === quiz.id)) {
@@ -64,7 +63,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		if (!config || !config.initiallyLocked) return true;
 		if (!config.unlockCondition) return true;
 		const requiredState = quizStates[config.unlockCondition.requiredQuizId];
-		return requiredState ? isCompleted(requiredState) : false;
+		return requiredState ? QuizUtils.isCompleted(requiredState) : false;
 	},
 	getUnlockProgress: (quizId: string) => {
 		const { quizConfigs, quizStates, getQuizProgress } = get(); // Zugriff auf getQuizProgress aus QuizStateSlice
@@ -74,7 +73,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		}
 		const requiredState = quizStates[config.unlockCondition.requiredQuizId];
 		const isRequiredCompleted = requiredState
-			? isCompleted(requiredState)
+			? QuizUtils.isCompleted(requiredState)
 			: false;
 		const progress = isRequiredCompleted
 			? 100
@@ -92,7 +91,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		const { quizzes, quizStates, addPendingUnlock } = get();
 		let unlocksFound = 0;
 		for (const [quizId, quizState] of Object.entries(quizStates)) {
-			if (isCompleted(quizState)) {
+			if (QuizUtils.isCompleted(quizState)) {
 				const unlockedQuizzes = Object.values(quizzes).filter((quiz) => {
 					const config = get().quizConfigs[quiz.id];
 					return (

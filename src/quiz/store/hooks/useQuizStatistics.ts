@@ -1,12 +1,6 @@
 import { useMemo } from "react";
 
-import {
-	calculateCompletionPercentage,
-	countCompletedQuestions,
-	countCompletedQuizzes,
-	countTotalQuestions,
-	countTotalQuizzes,
-} from "../../utils/quizStatistics";
+import { QuizUtils } from "../../domain/quiz";
 import { useQuizStore } from "../Quiz.store";
 
 /**
@@ -17,13 +11,13 @@ export function useQuizStatistics() {
 
 	return useMemo(() => {
 		return {
-			totalQuizzes: countTotalQuizzes(quizStates),
-			completedQuizzes: countCompletedQuizzes(quizStates),
-			totalQuestions: countTotalQuestions(quizStates),
-			completedQuestions: countCompletedQuestions(quizStates),
-			completionPercentage: calculateCompletionPercentage(
-				countTotalQuestions(quizStates),
-				countCompletedQuestions(quizStates),
+			totalQuizzes: QuizUtils.countTotalQuizzes(quizStates),
+			completedQuizzes: QuizUtils.countCompletedQuizzes(quizStates),
+			totalQuestions: QuizUtils.countTotalQuestions(quizStates),
+			completedQuestions: QuizUtils.countCompletedQuestions(quizStates),
+			completionPercentage: QuizUtils.calculateCompletionPercentage(
+				QuizUtils.countTotalQuestions(quizStates),
+				QuizUtils.countCompletedQuestions(quizStates),
 			),
 		};
 	}, [quizStates]);

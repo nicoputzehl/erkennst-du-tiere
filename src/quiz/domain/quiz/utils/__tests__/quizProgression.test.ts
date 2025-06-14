@@ -1,8 +1,8 @@
 import {
 	createTestQuizQuestion,
 	quizStateBuilder,
-} from "../../testing/testUtils";
-import { type Question, QuestionStatus } from "../../types";
+} from "../../../../testing/testUtils";
+import { type Question, QuestionStatus } from "../../../../types";
 import { isAnswerCorrect } from "../answerComparison";
 import {
 	calculateAnswerResult,

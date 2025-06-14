@@ -1,4 +1,4 @@
-import { colognePhonetic, normalizeString } from "./stringManipulation"; // Importiere von der neuen Datei
+import { colognePhonetic, normalizeString } from "./utils/stringManipulation";
 
 export function arePhoneticallySimilar(
 	answer1: string,
