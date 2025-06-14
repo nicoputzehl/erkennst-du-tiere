@@ -39,3 +39,5 @@ export interface UnlockProgress {
 	condition: UnlockCondition | null;
 	progress: number;
 }
+
+export type QuizCardVariant = "active" | "locked";

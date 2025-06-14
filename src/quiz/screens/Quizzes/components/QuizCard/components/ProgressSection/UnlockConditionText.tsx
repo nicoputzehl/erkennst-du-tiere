@@ -1,12 +1,11 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { memo } from "react";
 import { View } from "react-native";
-import { styles } from "../QuizCard.styles";
-import type { UnlockProgressProps } from "../QuizCard.types";
+import { styles } from "../../quizCard.styles";
+import type { UnlockProgressProps } from "../../quizCard.types";
 
-export const UnlockProgress = memo(
+export const UnlockConditionText = memo(
 	({ unlockProgress }: UnlockProgressProps) => {
-		// TODO unlockProgress.progress kann evtl weg
 		if (!unlockProgress?.condition) return null;
 
 		return (
@@ -19,4 +18,4 @@ export const UnlockProgress = memo(
 	},
 );
 
-UnlockProgress.displayName = "UnlockProgress";
+UnlockConditionText.displayName = "UnlockConditionText";

@@ -1,7 +1,7 @@
 import { FontAwesome6 } from "@expo/vector-icons";
 import { memo } from "react";
 import { View } from "react-native";
-import { styles } from "../QuizCard.styles";
+import { styles } from "../../quizCard.styles";
 
 export const LockIcon = memo(() => (
 	<View style={styles.iconContainer}>
@@ -9,4 +9,4 @@ export const LockIcon = memo(() => (
 	</View>
 ));
 
-LockIcon.displayName = "LockIcon";
+LockIcon.displayName = "QuizCardLockIcon";

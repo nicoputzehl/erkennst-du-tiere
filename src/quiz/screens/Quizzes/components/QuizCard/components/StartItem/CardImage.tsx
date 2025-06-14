@@ -1,12 +1,12 @@
 import { Image } from "expo-image";
 import { memo } from "react";
-import { styles } from "../QuizCard.styles";
-import type { QuizImageProps } from "../QuizCard.types";
+import { styles } from "../../quizCard.styles";
+import type { QuizImageProps } from "../../quizCard.types";
 
 const DEFAULT_TITLE_IMAGE = require("@/assets/images/test-title.jpg");
 const PLACEHOLDER_IMAGE = require("@/assets/images/placeholder.jpg");
 
-export const QuizCardImage = memo(({ quiz }: QuizImageProps) => {
+export const CardImage = memo(({ quiz }: QuizImageProps) => {
 	const imageSource = quiz.titleImage ? quiz.titleImage : DEFAULT_TITLE_IMAGE;
 	return (
 		<Image
@@ -25,4 +25,4 @@ export const QuizCardImage = memo(({ quiz }: QuizImageProps) => {
 	);
 });
 
-QuizCardImage.displayName = "QuizImage";
+CardImage.displayName = "QuizCardImage";
