@@ -1,5 +1,5 @@
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
-import { useQuizStore } from "@/src/quiz/store/Quiz.store";
+import { useQuizStore } from "@/src/quiz/store/Store";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 

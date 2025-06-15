@@ -1,14 +1,15 @@
 import {
 	createTestQuestion,
 	createTestQuiz,
-} from "../../../../testing/testUtils";
-import { QuestionStatus, type UnlockCondition } from "../../../../types";
+} from "../../../testing/testUtils";
+import { QuestionStatus, type UnlockCondition } from "../../../types";
 import {
 	calculateInitialQuestionStatus,
 	createQuizConfig,
 	createQuizState,
-	createUnlockCondition,
-} from "../../factories";
+	createPlaythroughUnlockCondition,
+	createProgressUnlockCondition
+} from "../factories";
 
 describe("Quiz Creation Utilities", () => {
 	describe("createQuizConfig", () => {
@@ -31,6 +32,7 @@ describe("Quiz Creation Utilities", () => {
 				title: "Override Test",
 			});
 			const unlockCond: UnlockCondition = {
+				type: "playthrough",
 				requiredQuizId: "prev-quiz",
 				description: "Test Unlock",
 			};
@@ -70,20 +72,40 @@ describe("Quiz Creation Utilities", () => {
 	});
 
 	describe("createUnlockCondition", () => {
-		it("creates an unlock condition with a default description", () => {
-			const condition = createUnlockCondition("required-1");
-			expect(condition.requiredQuizId).toBe("required-1");
-			expect(condition.description).toBe(
-				'Schließe das Quiz "required-1" ab, um dieses Quiz freizuschalten.',
-			);
-		});
 
-		it("creates an unlock condition with a custom description", () => {
-			const customDesc = "You need to finish the first challenge!";
-			const condition = createUnlockCondition("challenge-1", customDesc);
-			expect(condition.requiredQuizId).toBe("challenge-1");
-			expect(condition.description).toBe(customDesc);
-		});
+		describe("createPlaythroughUnlockCondition", () => {
+			it("creates an playthrough unlock condition with a default description", () => {
+				const condition = createPlaythroughUnlockCondition("required-1");
+				expect(condition.requiredQuizId).toBe("required-1");
+				expect(condition.description).toBe(
+					'Schließe das Quiz "required-1" ab, um dieses Quiz freizuschalten.',
+				);
+			});
+			it("creates an playthrough unlock condition with a custom description", () => {
+				const customDesc = "You need to finish the first challenge!";
+				const condition = createPlaythroughUnlockCondition("challenge-1", customDesc);
+				expect(condition.requiredQuizId).toBe("challenge-1");
+				expect(condition.description).toBe(customDesc);
+			});
+
+		})
+		describe("createProgressUnlockCondition", () => {
+			it("creates an progress unlock condition with a default description", () => {
+				const condition = createProgressUnlockCondition("required-1", 3);
+				expect(condition.requiredQuizId).toBe("required-1");
+				expect(condition.description).toBe(
+					'Löse 3 Fragen von Quiz "required-1", um dieses Quiz freizuschalten.',
+				);
+			});
+			it("creates an progress unlock condition with a custom description", () => {
+				const customDesc = "You need to finish the first challenge!";
+				const condition = createProgressUnlockCondition("challenge-1", 3, customDesc);
+				expect(condition.requiredQuizId).toBe("challenge-1");
+				expect(condition.description).toBe(customDesc);
+			});
+
+		})
+
 	});
 
 	describe("calculateInitialQuestionStatus", () => {

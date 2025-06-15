@@ -114,9 +114,13 @@ export const createContextualHint = (
 	questionId: number,
 	triggers: string[],
 	content: string,
-	title = "Knapp daneben",
-	cost = 0,
+	optional?: {
+		cost?: number;
+		title?: string;
+	}
 ): ContextualHint => {
+	const cost = optional?.cost ?? 0;
+	const title = optional?.title ?? "Knapp daneben";
 	console.log("🏭 [createContextualHint] Creating contextual hint:", {
 		questionId,
 		triggers,
@@ -144,8 +148,8 @@ export const createContextualHint = (
 export const createAutoFreeHint = (
 	questionId: number,
 	content: string,
-	title = "Kleiner Tipp",
 	triggerAfterAttempts = 5,
+	title = "Kleiner Tipp",
 ): AutoFreeHint => {
 	console.log("🏭 [createAutoFreeHint] Creating auto-free hint:", {
 		questionId,

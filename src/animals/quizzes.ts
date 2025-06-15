@@ -31,15 +31,16 @@ export const animalQuizConfigs = [
 	QuizUtils.createQuizConfig(emojiAnimalsQuiz, {
 		order: 2,
 		initiallyLocked: true,
-		unlockCondition: QuizUtils.createUnlockCondition(
+		unlockCondition: QuizUtils.createProgressUnlockCondition(
 			"namibia",
-			'Schließe das Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.',
+			7,
+			'Beantworte mindestens 7 Fragen aus dem Quiz "Tiere Namibias" ab, um dieses Quiz freizuschalten.',
 		),
 	}),
 	QuizUtils.createQuizConfig(weirdAnimalsQuiz, {
 		order: 3,
 		initiallyLocked: true,
-		unlockCondition: QuizUtils.createUnlockCondition(
+		unlockCondition: QuizUtils.createPlaythroughUnlockCondition(
 			"emoji_animals",
 			'Schließe das Quiz "Emojis" ab, um dieses Quiz freizuschalten.',
 		),

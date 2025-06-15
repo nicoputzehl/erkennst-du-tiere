@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { QuizUtils } from "../../domain/quiz";
-import { useQuizStore } from "../Quiz.store";
+import { useQuizStore } from "../Store";
 
 /**
  * Statistics hook

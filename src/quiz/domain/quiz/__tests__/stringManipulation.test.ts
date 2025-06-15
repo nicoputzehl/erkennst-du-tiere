@@ -4,7 +4,7 @@ import {
 	parseWord,
 	postProcessPhoneticCode,
 	preprocessWord,
-} from "../stringManipulation";
+} from "../utils/stringManipulation";
 
 describe("String and Phonetic Utilities", () => {
 	describe("normalizeString", () => {

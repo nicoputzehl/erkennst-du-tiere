@@ -1,11 +1,11 @@
 import type { StateCreator } from "zustand";
-import { HintUtils } from "../domain/hints";
-import { QuizUtils } from "../domain/quiz/";
-import { createQuizState } from "../domain/quiz/factories";
-import { isCompleted } from "../domain/quiz/statistics";
-import type { Quiz, QuizState } from "../types";
-import type { ContextualHint } from "../types/hint";
-import type { QuizStore } from "./Quiz.store";
+import { HintUtils } from "../../domain/hints";
+import { QuizUtils } from "../../domain/quiz";
+import { createQuizState } from "../../domain/quiz/factories";
+import { isCompleted } from "../../domain/quiz/statistics";
+import type { Quiz, QuizState } from "../../types";
+import type { ContextualHint } from "../../types/hint";
+import type { QuizStore } from "../Store";
 
 interface AnswerResult {
 	isCorrect: boolean;
@@ -124,8 +124,8 @@ export const createQuizStateSlice: StateCreator<
 			updateQuizState,
 			showToast,
 			checkForUnlocks,
-			addPendingUnlock,
 			addPoints,
+			quizConfigs
 		} = get(); // Removed recordWrongAnswer
 		const currentState = quizStates[quizId];
 		if (!currentState) {
@@ -154,6 +154,10 @@ export const createQuizStateSlice: StateCreator<
 			};
 		}
 		// Update state
+		console.log(
+			`[QuizStateSlice] Correct answer for quiz ${quizId}, question ${questionId}`,
+			result.newState.completedQuestions
+		);
 		updateQuizState(quizId, result.newState);
 
 		const question = result.newState.questions.find((q) => q.id === questionId);
@@ -171,12 +175,17 @@ export const createQuizStateSlice: StateCreator<
 				`[QuizStateSlice] Awarded ${points} points for correct answer`,
 			);
 		}
+		const config = quizConfigs[quizId];
 
 		// Check completion
-		const completedQuiz = isCompleted(result.newState);
+		// TODO nur den aktuellen Quiz State mit geben?
+		// TODO checken ob schon die manipulierten States mitgegeben werden müssen
+		const isQuizUnlocked = QuizUtils.isQuizUnlocked(config, quizStates);
+		const completed = isCompleted(result.newState);
+
 		const nextQuestionId = QuizUtils.getNextActiveQuestionId(result.newState);
 		// Show completion toast
-		if (completedQuiz) {
+		if (completed) {
 			showToast(
 				`🎉 Quiz "${result.newState.title}" abgeschlossen!`,
 				"success",
@@ -184,13 +193,16 @@ export const createQuizStateSlice: StateCreator<
 			);
 		}
 		// Check for unlocks
-		const unlockedQuizzes = completedQuiz ? checkForUnlocks() : []; // Aufruf von checkForUnlocks aus UnlockSlice
+		const unlockedQuizzes = isQuizUnlocked ? checkForUnlocks() : [];
+		console.log(
+			"[QuizStateSlice] ℹ️ Unlocked quizzes:", unlockedQuizzes
+		)
 		return {
 			isCorrect: true,
 			newState: result.newState,
 			nextQuestionId: nextQuestionId || undefined,
 			unlockedQuizzes,
-			completedQuiz,
+			completedQuiz: completed,
 		};
 	},
 	getQuizProgress: (quizId: string) => {

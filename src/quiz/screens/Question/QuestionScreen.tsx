@@ -48,8 +48,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
-	console.log({ hint });
-
 	// TODO auf anderen Komponente außerhalb des Views
 	const headerActions = useMemo(() => {
 		const actions = [];

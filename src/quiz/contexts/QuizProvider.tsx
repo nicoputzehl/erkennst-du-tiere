@@ -6,7 +6,7 @@ import {
 	initializeAllQuizzes,
 	registerQuizzes,
 } from "../initialization/registerQuizzes";
-import { useQuizStore } from "../store/Quiz.store";
+import { useQuizStore } from "../store/Store";
 
 interface QuizProviderProps {
 	children: ReactNode;

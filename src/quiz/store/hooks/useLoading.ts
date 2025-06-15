@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useQuizStore } from "../Quiz.store";
+import { useQuizStore } from "../Store";
 
 /**
  * Loading hook for specific operations

@@ -60,6 +60,8 @@ export const calculateAnswerResult = (
 		questionIndex,
 	);
 
+	console.log("state.completedQuestions", state.completedQuestions);
+
 	return {
 		newState: {
 			...state,

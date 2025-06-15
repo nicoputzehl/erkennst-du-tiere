@@ -4,9 +4,9 @@ import {
 	type Quiz,
 	type QuizConfig,
 	type QuizState,
-	type UnlockCondition,
 } from "../../types";
 import type { HintState } from "../../types/hint";
+import type { PlaythroughCondition, ProgressCondition } from "../../types/unlock";
 
 /**
  * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen
@@ -23,18 +23,37 @@ export const createQuizConfig = (
 	initialUnlockedQuestions: config.initialUnlockedQuestions ?? 2,
 });
 
+
 /**
- * Erstellt Unlock-Bedingung
+ * Erstellt Unlock Condition bei der ein Quiz komplett durchgespielt werden muss
  */
-export const createUnlockCondition = (
+export const createPlaythroughUnlockCondition = (
 	requiredQuizId: string,
 	description?: string,
-): UnlockCondition => ({
+): PlaythroughCondition => ({
+	type: "playthrough",
 	requiredQuizId,
 	description:
 		description ||
 		`Schließe das Quiz "${requiredQuizId}" ab, um dieses Quiz freizuschalten.`,
-});
+})
+
+/**
+ * Erstellt Unlock Condition bei der von einem Quiz eine bestimmte Anzahl an Fragen gelöst werden muss
+ */
+export const createProgressUnlockCondition = (
+	requiredQuizId: string,
+	requiredQuestionsSolved: number,
+	description?: string,
+): ProgressCondition => ({
+	type: "progress",
+	requiredQuizId,
+	requiredQuestionsSolved,
+	description:
+		description ||
+		`Löse ${requiredQuestionsSolved} Fragen von Quiz "${requiredQuizId}", um dieses Quiz freizuschalten.`,
+})
+
 
 /**
  * Berechnet initiale Fragen-Status basierend auf Quiz-Konfiguration
@@ -83,7 +102,6 @@ export const createQuizState = (
 				: false,
 		});
 
-		// FIXED: Ensure proper initialization of hint state
 		hintStates[question.id] = {
 			questionId: question.id,
 			usedHints: [],
@@ -100,7 +118,7 @@ export const createQuizState = (
 			status: questionStatus[i],
 		})) as Question[],
 		completedQuestions: 0,
-		hintStates, // FIXED: Use the properly initialized hint states
+		hintStates,
 	};
 
 	// Debug: Prüfe die finale Question-Struktur

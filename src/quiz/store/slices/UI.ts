@@ -1,5 +1,5 @@
 import type { StateCreator } from "zustand";
-import type { QuizStore } from "./Quiz.store";
+import type { QuizStore } from "../Store";
 
 interface ToastState {
 	visible: boolean;

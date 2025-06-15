@@ -38,7 +38,7 @@ describe("Hint Factory Functions", () => {
 				1,
 				["jaguar", "leopard"],
 				"Fast richtig!",
-				5,
+				{ cost: 5 }
 			);
 
 			expect(hint.type).toBe(HintType.CONTEXTUAL);

@@ -2,7 +2,9 @@ import { isAnswerCorrect } from "./answerComparison";
 import {
 	createQuizConfig,
 	createQuizState,
-	createUnlockCondition,
+	// createUnlockCondition,
+	createPlaythroughUnlockCondition,
+	createProgressUnlockCondition
 } from "./factories";
 import { calculateAnswerResult, getNextActiveQuestionId } from "./progression";
 import {
@@ -13,11 +15,13 @@ import {
 	countTotalQuizzes,
 	isCompleted,
 } from "./statistics";
-import {} from "./unlocking";
+import { isQuizUnlocked, getUnlockProgress } from "./unlocking";
 
 export const QuizUtils = {
 	// Quiz Creation
-	createUnlockCondition,
+	// createUnlockCondition,
+	createPlaythroughUnlockCondition,
+	createProgressUnlockCondition,
 	createQuizConfig,
 	createQuizState,
 
@@ -25,6 +29,8 @@ export const QuizUtils = {
 	isAnswerCorrect,
 	calculateAnswerResult,
 	getNextActiveQuestionId,
+	isQuizUnlocked,
+	getUnlockProgress,
 
 	// Statistics
 	countTotalQuizzes,

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useQuizStore } from "../Quiz.store";
+import { useQuizStore } from "../Store";
 
 /**
  * Hook for unlock detection - simplified

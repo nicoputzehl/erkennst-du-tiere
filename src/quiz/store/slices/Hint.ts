@@ -1,7 +1,7 @@
 // src/quiz/store/Hint.slice.ts - ENHANCED VERSION
 import type { StateCreator } from "zustand";
-import { HintUtils } from "../domain/hints";
-import type { QuestionBase } from "../types";
+import { HintUtils } from "../../domain/hints";
+import type { QuestionBase } from "../../types";
 import type {
 	AutoFreeHint,
 	AvailableHint,
@@ -10,8 +10,8 @@ import type {
 	PointTransaction,
 	UseHintResult,
 	UsedHint,
-} from "../types/hint";
-import type { QuizStore } from "./Quiz.store";
+} from "../../types/hint";
+import type { QuizStore } from "../Store";
 
 export interface HintSlice {
 	applyHint: (

@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
-import { QuizUtils } from "../domain/quiz";
-import type { Quiz, UnlockCondition } from "../types";
-import type { QuizStore } from "./Quiz.store";
+import { QuizUtils } from "../../domain/quiz";
+import type { Quiz, UnlockCondition } from "../../types";
+import type { QuizStore } from "../Store";
 
 export interface UnlockSlice {
 	pendingUnlocks: {
@@ -34,7 +34,13 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		for (const config of Object.values(quizConfigs)) {
 			if (config.initiallyLocked && config.unlockCondition) {
 				const requiredState = quizStates[config.unlockCondition.requiredQuizId];
-				if (requiredState && QuizUtils.isCompleted(requiredState)) {
+				const isUnlocked = requiredState && QuizUtils.isQuizUnlocked(config, quizStates);
+				console.log(
+					"[UnlockSlice] 🐝 checkForUnlocks:",
+					config.id,
+					isUnlocked,
+				)
+				if (isUnlocked) {
 					const quiz = quizzes[config.id];
 					if (quiz) {
 						if (!get().pendingUnlocks.some((pu) => pu.quizId === quiz.id)) {
@@ -57,33 +63,7 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 		}
 		return unlockedQuizzes;
 	},
-	isQuizUnlocked: (quizId: string) => {
-		const { quizConfigs, quizStates } = get();
-		const config = quizConfigs[quizId];
-		if (!config || !config.initiallyLocked) return true;
-		if (!config.unlockCondition) return true;
-		const requiredState = quizStates[config.unlockCondition.requiredQuizId];
-		return requiredState ? QuizUtils.isCompleted(requiredState) : false;
-	},
-	getUnlockProgress: (quizId: string) => {
-		const { quizConfigs, quizStates, getQuizProgress } = get(); // Zugriff auf getQuizProgress aus QuizStateSlice
-		const config = quizConfigs[quizId];
-		if (!config?.initiallyLocked || !config.unlockCondition) {
-			return { condition: null, progress: 100, isMet: true };
-		}
-		const requiredState = quizStates[config.unlockCondition.requiredQuizId];
-		const isRequiredCompleted = requiredState
-			? QuizUtils.isCompleted(requiredState)
-			: false;
-		const progress = isRequiredCompleted
-			? 100
-			: getQuizProgress(config.unlockCondition.requiredQuizId);
-		return {
-			condition: config.unlockCondition,
-			progress,
-			isMet: isRequiredCompleted,
-		};
-	},
+
 	detectMissedUnlocks: () => {
 		console.log(
 			"[UnlockSlice] Checking for missed unlocks from completed quizzes",
@@ -136,5 +116,15 @@ export const createUnlockSlice: StateCreator<QuizStore, [], [], UnlockSlice> = (
 				pendingUnlocks: [...state.pendingUnlocks, newUnlock],
 			};
 		});
+	},
+	isQuizUnlocked: (quizId: string) => {
+		const { quizConfigs, quizStates } = get();
+		const config = quizConfigs[quizId];
+		return QuizUtils.isQuizUnlocked(config, quizStates); // Call the domain function
+	},
+	getUnlockProgress: (quizId: string) => {
+		const { quizConfigs, quizStates } = get();
+		const config = quizConfigs[quizId];
+		return QuizUtils.getUnlockProgress(config, quizStates); // Pass getQuizProgress
 	},
 });

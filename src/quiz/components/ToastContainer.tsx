@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Toast as ToastComponent } from "@/src/quiz/components/Toast";
-import { useQuizStore } from "../store/Quiz.store";
+import { useQuizStore } from "../store/Store";
 
 export function ToastContainer() {
 	const toast = useQuizStore((state) => state.toast);

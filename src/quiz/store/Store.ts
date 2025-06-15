@@ -10,11 +10,11 @@ import type { QuizState } from "../types";
 
 import { HintUtils } from "../domain/hints";
 import type { HintState, UserPointsState } from "../types/hint";
-import { type HintSlice, createHintSlice } from "./Hint.slice";
-import { type QuizDataSlice, createQuizDataSlice } from "./QuizData.slice";
-import { type QuizStateSlice, createQuizStateSlice } from "./QuizState.slice";
-import { type UISlice, createUISlice } from "./UI.slice";
-import { type UnlockSlice, createUnlockSlice } from "./Unlock.slice";
+import { type HintSlice, createHintSlice } from "./slices/Hint";
+import { type QuizDataSlice, createQuizDataSlice } from "./slices/Data";
+import { type QuizStateSlice, createQuizStateSlice } from "./slices/State";
+import { type UISlice, createUISlice } from "./slices/UI";
+import { type UnlockSlice, createUnlockSlice } from "./slices/Unlock";
 
 export interface QuizStore
 	extends QuizDataSlice,

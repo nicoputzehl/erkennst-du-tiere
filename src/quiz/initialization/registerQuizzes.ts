@@ -1,5 +1,5 @@
 import type { QuizConfig } from "@/src/quiz/types";
-import { useQuizStore } from "../store/Quiz.store";
+import { useQuizStore } from "../store/Store";
 
 /**
  * Simplified quiz registration - replaces the complex utils/index.ts approach

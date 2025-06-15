@@ -32,7 +32,7 @@ describe("Hint System Integration", () => {
 		questionId: 1,
 		usedHints: [],
 		wrongAttempts: 0,
-		contextualHintsTriggered: [],
+		autoFreeHintsUsed: [],
 	};
 
 	const mockUserPoints: UserPointsState = {
@@ -66,11 +66,6 @@ describe("Hint System Integration", () => {
 
 		expect(triggeredHints).toHaveLength(1);
 
-		// 3. Update hint state with triggered contextual hint
-		currentHintState = {
-			...currentHintState,
-			contextualHintsTriggered: [triggeredHints[0].id],
-		};
 
 		// 4. Check available hints after trigger
 		// biome-ignore lint/style/noNonNullAssertion: <explanation>
@@ -83,7 +78,7 @@ describe("Hint System Integration", () => {
 			return { hint, canUse: validation.canUse, reason: validation.reason };
 		});
 
-		expect(availableHints.filter((h) => h.canUse)).toHaveLength(3); // +contextual hint
+		expect(availableHints.filter((h) => h.canUse)).toHaveLength(2);
 
 		// 5. User makes more wrong answers -> auto-free hint becomes available
 		currentHintState = { ...currentHintState, wrongAttempts: 5 };
@@ -98,7 +93,7 @@ describe("Hint System Integration", () => {
 			return { hint, canUse: validation.canUse, reason: validation.reason };
 		});
 
-		expect(availableHints.filter((h) => h.canUse)).toHaveLength(4); // All hints available
+		expect(availableHints.filter((h) => h.canUse)).toHaveLength(3);
 	});
 
 	it("should calculate points correctly for complex questions", () => {

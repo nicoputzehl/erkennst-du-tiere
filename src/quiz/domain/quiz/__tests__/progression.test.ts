@@ -1,19 +1,11 @@
 import {
 	createTestQuizQuestion,
 	quizStateBuilder,
-} from "../../../../testing/testUtils";
-import { type Question, QuestionStatus } from "../../../../types";
+} from "../../../testing/testUtils";
+import { type Question, QuestionStatus } from "../../../types";
 import { isAnswerCorrect } from "../answerComparison";
-import {
-	calculateAnswerResult,
-	calculateNewQuestionsAfterCorrectAnswer,
-	findFirstUnsolvedQuestion,
-	findNextInactiveQuestionIndex,
-	findNextUnsolvedQuestionBackward,
-	findNextUnsolvedQuestionForward,
-	getNextActiveQuestionId,
-	sortQuestionsByIds,
-} from "../quizProgression";
+import { findNextInactiveQuestionIndex, calculateNewQuestionsAfterCorrectAnswer, calculateAnswerResult, sortQuestionsByIds, findNextUnsolvedQuestionForward, findNextUnsolvedQuestionBackward, findFirstUnsolvedQuestion, getNextActiveQuestionId } from "../progression";
+
 
 jest.mock("../answerComparison", () => ({
 	isAnswerCorrect: jest.fn(), // Exportiere eine Mock-Funktion für isAnswerCorrect

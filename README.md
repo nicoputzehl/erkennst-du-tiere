@@ -14,6 +14,12 @@ Es wird ein Bild von einem Tier gezeigt, und man muss den Namen es Tieres eingeb
 * Storybook
 * QuizScreen: mit Swipe zurück zu QuizzesScreen
 
+## TODOS
+
+### Hints
+
+Punkte ausbalancieren
+
 ## Attributing
 
  [OpenMoji](https://openmoji.org/faq/)

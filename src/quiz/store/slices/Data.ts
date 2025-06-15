@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
-import type { Quiz, QuizConfig } from "../types";
-import type { QuizStore } from "./Quiz.store";
+import type { Quiz, QuizConfig } from "../../types";
+import type { QuizStore } from "../Store";
 
 export interface QuizDataSlice {
 	quizzes: Record<string, Quiz>;

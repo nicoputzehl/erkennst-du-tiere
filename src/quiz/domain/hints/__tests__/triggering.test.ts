@@ -19,7 +19,7 @@ describe("HintUtils.checkForContextualHints", () => {
 		questionId: 1,
 		usedHints: [],
 		wrongAttempts: 1,
-		contextualHintsTriggered: [],
+		autoFreeHintsUsed: [],
 	};
 
 	it("should trigger contextual hint on matching answer", () => {
@@ -50,22 +50,6 @@ describe("HintUtils.checkForContextualHints", () => {
 		);
 
 		expect(triggered).toHaveLength(2);
-	});
-
-	it("should not trigger already triggered hints", () => {
-		const hint = mockQuestion.hints?.[0] as any;
-		const triggeredHintState = {
-			...mockHintState,
-			contextualHintsTriggered: [hint.id],
-		};
-
-		const triggered = HintUtils.checkForContextualHints(
-			"jaguar",
-			mockQuestion,
-			triggeredHintState,
-		);
-
-		expect(triggered).toHaveLength(0);
 	});
 
 	it("should handle case-insensitive matching", () => {
