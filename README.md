@@ -14,6 +14,14 @@ Es wird ein Bild von einem Tier gezeigt, und man muss den Namen es Tieres eingeb
 * Storybook
 * QuizScreen: mit Swipe zurück zu QuizzesScreen
 
+### Quiz-Erstellung
+
+* Einige Hints automatisch erstellen lassen. Id von der Frage nehmen.
+
+### Question
+
+* AutoHint als Sprechblase
+
 ## TODOS
 
 ### Hints

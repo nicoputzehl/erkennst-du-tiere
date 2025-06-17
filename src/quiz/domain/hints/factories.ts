@@ -115,6 +115,7 @@ export const createContextualHint = (
 	triggers: string[],
 	content: string,
 	optional?: {
+		// TODO costs raus
 		cost?: number;
 		title?: string;
 	}

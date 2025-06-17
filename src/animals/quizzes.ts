@@ -30,7 +30,7 @@ export const animalQuizConfigs = [
 
 	QuizUtils.createQuizConfig(emojiAnimalsQuiz, {
 		order: 2,
-		initiallyLocked: true,
+		initiallyLocked: false,
 		unlockCondition: QuizUtils.createProgressUnlockCondition(
 			"namibia",
 			7,

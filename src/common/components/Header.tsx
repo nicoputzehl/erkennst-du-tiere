@@ -3,6 +3,8 @@ import { useThemeColor } from "../hooks/useThemeColor";
 import NavigateBack from "./NavigateBack";
 import { ThemedText } from "./ThemedText";
 
+type TitleType = "title" | "link" | "defaultSemiBold" | "default" | "subtitle";
+
 type HeaderProps = {
 	title?: string;
 	leftSlot?: React.ReactNode;
@@ -10,7 +12,7 @@ type HeaderProps = {
 	showBackButton?: boolean;
 	onBackPress?: () => void;
 	backButtonText?: string;
-	titleType?: "title" | "link" | "defaultSemiBold" | "default" | "subtitle";
+	titleType?: TitleType;
 	titleStyle?: TextStyle;
 };
 
@@ -21,7 +23,7 @@ const Header = ({
 	showBackButton = false,
 	onBackPress,
 	backButtonText = "Zurück",
-	titleType = "title",
+	titleType = "subtitle",
 	titleStyle,
 }: HeaderProps) => {
 	const textColor = useThemeColor({}, "tintOnGradient");
@@ -165,6 +167,7 @@ const Header = ({
 				<View style={[styles.titleContainer, dynamicStyles.titleContainer]}>
 					<ThemedText
 						type={titleType}
+						numberOfLines={1}
 						style={[styles.headerTitle, { color: textColor }, titleStyle]}
 					>
 						{title}

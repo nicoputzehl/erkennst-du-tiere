@@ -25,4 +25,4 @@ export const CardImage = memo(({ quiz }: QuizImageProps) => {
 	);
 });
 
-CardImage.displayName = "QuizCardImage";
+CardImage.displayName = "QuizImage";

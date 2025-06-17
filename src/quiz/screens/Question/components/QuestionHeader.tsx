@@ -17,6 +17,7 @@ interface QuestionHeaderProps {
 	hasHints: boolean;
 	onHintsPress: () => void;
 	onClose: () => void;
+	isSolved: boolean;
 }
 
 // OCP: Open for extension, closed for modification
@@ -49,8 +50,15 @@ export const QuestionHeader: React.FC<QuestionHeaderProps> = ({
 	hasHints,
 	onHintsPress,
 	onClose,
+	isSolved = false,
 }) => {
 	const iconColor = useThemeColor({}, "tintOnGradient");
+
+	// TODO warum wird header Style nicht richtig übergeben
+	const titleType = useMemo(
+		() => (isSolved ? "title" : "subtitle"),
+		[isSolved],
+	);
 
 	const actions = useMemo(
 		() => createHeaderActions(hasHints, onHintsPress, onClose, iconColor),
@@ -60,7 +68,10 @@ export const QuestionHeader: React.FC<QuestionHeaderProps> = ({
 	return (
 		<Header
 			title={title}
+
 			rightSlot={<HeaderActionsRenderer actions={actions} />}
+
+			titleType={titleType}
 		/>
 	);
 };
