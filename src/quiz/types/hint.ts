@@ -17,17 +17,18 @@ export enum HintType {
 export interface HintBase {
 	id: string;
 	type: HintType;
-	cost: number;
 	title: string;
 	description: string;
 }
 
 export interface StaticHint extends HintBase {
+	cost: number;
 	type: HintType.CUSTOM | HintType.CATEGORY | HintType.REGION;
 	content: string;
 }
 
 export interface DynamicHint extends HintBase {
+	cost: number;
 	type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
 	generator: (question: QuestionBase) => string;
 }

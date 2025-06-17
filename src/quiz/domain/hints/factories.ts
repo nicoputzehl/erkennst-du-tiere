@@ -115,24 +115,19 @@ export const createContextualHint = (
 	triggers: string[],
 	content: string,
 	optional?: {
-		// TODO costs raus
-		cost?: number;
 		title?: string;
 	}
 ): ContextualHint => {
-	const cost = optional?.cost ?? 0;
 	const title = optional?.title ?? "Knapp daneben";
 	console.log("🏭 [createContextualHint] Creating contextual hint:", {
 		questionId,
 		triggers,
 		title,
-		cost,
 	});
 
 	return {
 		id: `${questionId}_contextual_${triggers[0].toLowerCase().replace(/\s+/g, "_")}`,
 		type: HintType.CONTEXTUAL,
-		cost,
 		title,
 		description: "Wird bei bestimmten Antworten ausgelöst",
 		triggers,
@@ -160,7 +155,6 @@ export const createAutoFreeHint = (
 	return {
 		id: `${questionId}_auto_free`,
 		type: HintType.AUTO_FREE,
-		cost: 0,
 		title,
 		description: `Wird nach ${triggerAfterAttempts} falschen Versuchen freigeschaltet`,
 		triggerAfterAttempts,
@@ -187,7 +181,6 @@ export const createEscalatingAutoFreeHint = (
 	return {
 		id: `${questionId}_escalating_free`,
 		type: HintType.AUTO_FREE,
-		cost: 0,
 		title: "Erweiterte Hilfe",
 		description: "Zusätzliche Hinweise nach vielen Versuchen",
 		triggerAfterAttempts,

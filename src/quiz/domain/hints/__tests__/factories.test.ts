@@ -38,19 +38,11 @@ describe("Hint Factory Functions", () => {
 				1,
 				["jaguar", "leopard"],
 				"Fast richtig!",
-				{ cost: 5 }
 			);
 
 			expect(hint.type).toBe(HintType.CONTEXTUAL);
 			expect(hint.triggers).toEqual(["jaguar", "leopard"]);
 			expect(hint.content).toBe("Fast richtig!");
-			expect(hint.cost).toBe(5);
-		});
-
-		it("should default to free cost", () => {
-			const hint = createContextualHint(1, ["test"], "content");
-
-			expect(hint.cost).toBe(0);
 		});
 	});
 
@@ -61,7 +53,6 @@ describe("Hint Factory Functions", () => {
 			expect(hint.type).toBe(HintType.AUTO_FREE);
 			expect(hint.triggerAfterAttempts).toBe(3);
 			expect(hint.content).toBe("Free hint!");
-			expect(hint.cost).toBe(0);
 		});
 
 		it("should default to 5 trigger attempts", () => {

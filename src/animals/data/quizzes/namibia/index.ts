@@ -120,7 +120,7 @@ export const namibia: QuestionBase[] = [
 			createAutoFreeHint(4, "Man nennt mich auch den König der Tiere.")
 		],
 	},
-	// TODO: evtl später w
+	// TODO: evtl später wieder hinzufügen
 	// {
 	// 	id: 5,
 	// 	answer: "Oryxantilope",
