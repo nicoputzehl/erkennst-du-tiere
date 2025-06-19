@@ -6,16 +6,15 @@ import { useCallback } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
 
-interface AvailableHintsProps {
+interface HintsAvailableProps {
 	quizId: string;
 	questionId: number;
 	onHintPurchased: (content: string) => void;
 }
 
-export const AvailableHints: React.FC<AvailableHintsProps> = ({
+export const HintsAvailable: React.FC<HintsAvailableProps> = ({
 	quizId,
 	questionId,
-
 	onHintPurchased,
 }) => {
 	const {

@@ -49,6 +49,8 @@ export interface AutoFreeHint extends HintBase {
 
 export type Hint = StaticHint | DynamicHint | ContextualHint | AutoFreeHint;
 
+export type PurchasableHint = StaticHint | DynamicHint;
+
 export type UsedHint = {
 	id: string;
 	title: string;
@@ -95,20 +97,14 @@ export interface UseHintResult {
 	error?: string;
 }
 
-export interface AvailableHint {
-	hint: Hint;
-	canUse: boolean;
-	reason?: string;
-	content?: string;
-}
 
-export interface ContextualHintTrigger {
-	hintId: string;
-	triggeredAt: number;
-	userAnswer: string;
-}
 
 export interface HintTriggerResult {
 	contextualHints: ContextualHint[];
 	autoFreeHints: AutoFreeHint[];
 }
+
+// ==========================================
+// RESULT TYPES
+// ==========================================
+

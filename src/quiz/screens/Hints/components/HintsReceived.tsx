@@ -4,11 +4,11 @@ import type { UsedHint } from "@/src/quiz/types";
 import { View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
 
-type ReceivedHintsProps = {
+type HintsReceivedProps = {
 	hints: UsedHint[];
 };
 
-const ReceivedHints = ({ hints }: ReceivedHintsProps) => {
+export const HintsReceived = ({ hints }: HintsReceivedProps) => {
 	const borderColor = useThemeColor({}, "success");
 	if (hints.length === 0) {
 		return null;
@@ -36,4 +36,3 @@ const ReceivedHints = ({ hints }: ReceivedHintsProps) => {
 	);
 };
 
-export default ReceivedHints;

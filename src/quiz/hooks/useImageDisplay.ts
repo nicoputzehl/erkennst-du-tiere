@@ -16,11 +16,8 @@ export const useImageDisplay = (
 	images: QuizImages,
 	status: QuestionStatus,
 ): UseImageDisplayReturn => {
-	// Kein Generic!
-	// Closure Factory: Erstellt Funktionen basierend auf Image-Type
 	const createImageSelector = useMemo(() => {
 		return (type: ImageType) => {
-			// Innere Closure: Prüft Status und gibt entsprechende URL zurück
 			return (showUnsolved: boolean): number => {
 				if (type === ImageType.IMG) {
 					return showUnsolved && images.unsolvedImageUrl
@@ -42,7 +39,6 @@ export const useImageDisplay = (
 		);
 	}, [status, images.unsolvedImageUrl, images.unsolvedThumbnailUrl]);
 
-	// Public API: Einfache Funktion die Type entgegennimmt
 	const getImageUrl = useMemo(() => {
 		return (type: ImageType): number => {
 			const imageSelector = createImageSelector(type);

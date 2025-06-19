@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
-import type { AutoFreeHint, HintTriggerResult } from "../../types/hint";
+import { HintType, type PurchasableHint, type AutoFreeHint, type HintTriggerResult } from "../../types/hint";
 import { useQuizStore } from "../Store";
+import { isAutoFreeHint, isContextualHint } from "../../domain/hints/validation";
 
 export const useHints = (quizId: string, questionId: number) => {
 	const quizState = useQuizStore((state) => state.quizStates[quizId]);
@@ -20,7 +21,7 @@ export const useHints = (quizId: string, questionId: number) => {
 			}
 
 			// Auto-Free Hints: Prüfe spezielle Bedingungen
-			if (hint.type === "auto_free") {
+			if (hint.type === HintType.AUTO_FREE) {
 				const alreadyUsedAutoFree = hintState.autoFreeHintsUsed?.includes(
 					hint.id,
 				);
@@ -39,7 +40,7 @@ export const useHints = (quizId: string, questionId: number) => {
 			}
 
 			// Contextual Hints: Können nicht direkt gekauft werden
-			if (hint.type === "contextual") {
+			if (hint.type === HintType.CONTEXTUAL) {
 				return {
 					hint,
 					canUse: false,
@@ -60,14 +61,13 @@ export const useHints = (quizId: string, questionId: number) => {
 	const { purchasableHints, autoTriggerHints } = useMemo(() => {
 		const purchasable = availableHints.filter(
 			(h) =>
-				h.hint.cost > 0 &&
-				h.hint.type !== "contextual" &&
-				h.hint.type !== "auto_free" &&
+				!isAutoFreeHint(h.hint) &&
+				!isContextualHint(h.hint) &&
 				h.canUse,
-		);
+		) as { hint: PurchasableHint; canUse: boolean; reason: string | undefined; }[]; // Explicitly cast to the desired type;
 		const autoTrigger = availableHints.filter(
 			(h) =>
-				(h.hint.type === "contextual" || h.hint.type === "auto_free") &&
+				(h.hint.type === HintType.CONTEXTUAL || h.hint.type === HintType.AUTO_FREE) &&
 				h.canUse,
 		);
 
@@ -96,7 +96,7 @@ export const useHints = (quizId: string, questionId: number) => {
 
 		return question.hints.filter(
 			(hint): hint is AutoFreeHint =>
-				hint.type === "auto_free" &&
+				hint.type === HintType.AUTO_FREE &&
 				!hintState.autoFreeHintsUsed?.includes(hint.id) &&
 				!hintState.usedHints.some((uh) => uh.id === hint.id) &&
 				hintState.wrongAttempts >= hint.triggerAfterAttempts,
@@ -110,7 +110,6 @@ export const useHints = (quizId: string, questionId: number) => {
 		[quizId, questionId, applyHint],
 	);
 
-	// GEÄNDERT: Neue Implementierung für bessere Hint-Trennung
 	const handleWrongAnswer = useCallback(
 		(userAnswer: string): HintTriggerResult => {
 			console.log("[useHints] Processing wrong answer:", userAnswer);

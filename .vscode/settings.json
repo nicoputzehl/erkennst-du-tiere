@@ -3,5 +3,11 @@
 		"source.fixAll": "explicit",
 		"source.organizeImports": "explicit",
 		"source.sortMembers": "explicit"
+	},
+	"testing.automaticallyOpenTestResults": "neverOpen",
+	"jest.outputConfig": {
+		"revealOn": "run",
+		"revealWithFocus": "none",
+		"clearOnRun": "none"
 	}
 }

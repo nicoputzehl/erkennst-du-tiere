@@ -1,7 +1,7 @@
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { ScrollView, StyleSheet } from "react-native";
-import { AvailableHints } from "./AvailableHints";
-import ReceivedHints from "./ReceivedHints";
+import { HintsAvailable } from "./HintsAvailable";
+import { HintsReceived }from "./HintsReceived";
 
 interface HintsContentProps {
 	quizId: string;
@@ -16,8 +16,8 @@ export const HintsContent: React.FC<HintsContentProps> = ({
 
 	return (
 		<ScrollView style={styles.container}>
-			<ReceivedHints hints={usedHints} />
-			<AvailableHints
+			<HintsReceived hints={usedHints} />
+			<HintsAvailable
 				quizId={quizId}
 				questionId={Number.parseInt(questionId)}
 				onHintPurchased={() => {}}

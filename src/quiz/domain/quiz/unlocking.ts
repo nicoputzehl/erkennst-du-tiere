@@ -2,7 +2,6 @@ import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
 import { type PlaythroughCondition, type ProgressCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
 
-// TODO Prüfen ob aktuell noch benötigt
 export const checkUnlockCondition = (
 	condition: UnlockCondition,
 	quizStates: Record<string, QuizState>,

@@ -35,7 +35,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(UNSOLVED_IMAGE_URL);
 		});
@@ -51,7 +51,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(IMAGE_URL);
 		});
@@ -67,7 +67,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(IMAGE_URL);
 		});
@@ -83,7 +83,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(UNSOLVED_THUMBNAIL_URL);
 		});
@@ -99,7 +99,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(THUMBNAIL_URL);
 		});
@@ -115,7 +115,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(IMAGE_URL);
 		});
@@ -131,7 +131,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(THUMBNAIL_URL);
 		});
@@ -139,7 +139,7 @@ describe("useImageDisplay Hook", () => {
 		it("should handle default test question from testUtils", () => {
 			const question = createTestQuizQuestion(); // Standard TestQuestion
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			// Default status ist ACTIVE, keine unsolved images
 			expect(getImageUrl(ImageType.IMG)).toBe(4);
@@ -159,7 +159,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question);
+			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
 
 			expect(shouldShowUnsolvedImage).toBe(true);
 		});
@@ -175,7 +175,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question);
+			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
 
 			expect(shouldShowUnsolvedImage).toBe(true);
 		});
@@ -191,7 +191,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question);
+			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -207,7 +207,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question);
+			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -215,7 +215,7 @@ describe("useImageDisplay Hook", () => {
 		it("should return false for default test question (no unsolved images)", () => {
 			const question = createTestQuizQuestion(); // Standard TestQuestion
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question);
+			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -225,7 +225,7 @@ describe("useImageDisplay Hook", () => {
 		it("should call useMemo with correct dependencies for createImageSelector", () => {
 			const question = createTestQuizQuestion();
 
-			useImageDisplay(question);
+			useImageDisplay(question.images, question.status);
 
 			// Check first useMemo call (createImageSelector)
 			expect(mockUseMemo).toHaveBeenNthCalledWith(1, expect.any(Function), [
@@ -236,7 +236,7 @@ describe("useImageDisplay Hook", () => {
 		it("should call useMemo with correct dependencies for shouldShowUnsolvedImage", () => {
 			const question = createTestQuizQuestion();
 
-			useImageDisplay(question);
+			useImageDisplay(question.images, question.status);
 
 			// Check second useMemo call (shouldShowUnsolvedImage)
 			expect(mockUseMemo).toHaveBeenNthCalledWith(2, expect.any(Function), [
@@ -249,7 +249,7 @@ describe("useImageDisplay Hook", () => {
 		it("should call useMemo with correct dependencies for getImageUrl", () => {
 			const question = createTestQuizQuestion();
 
-			useImageDisplay(question);
+			useImageDisplay(question.images, question.status);
 
 			// Check third useMemo call (getImageUrl)
 			expect(mockUseMemo).toHaveBeenNthCalledWith(
@@ -271,7 +271,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(() => {
 				getImageUrl(ImageType.IMG);
@@ -286,7 +286,7 @@ describe("useImageDisplay Hook", () => {
 				const question = createTestQuizQuestion({ status });
 
 				expect(() => {
-					const { getImageUrl } = useImageDisplay(question);
+					const { getImageUrl } = useImageDisplay(question.images, question.status);
 					getImageUrl(ImageType.IMG);
 					getImageUrl(ImageType.THUMBNAIL);
 				}).not.toThrow();
@@ -302,7 +302,7 @@ describe("useImageDisplay Hook", () => {
 			});
 
 			const { getImageUrl, shouldShowUnsolvedImage } =
-				useImageDisplay(question);
+				useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(MINMAL);
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(MINMAL); // Fallback
@@ -322,7 +322,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			// Multiple calls should return same result
 			const firstCall = getImageUrl(ImageType.IMG);
@@ -343,7 +343,7 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl } = useImageDisplay(question);
+			const { getImageUrl } = useImageDisplay(question.images, question.status);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(UNSOLVED_IMAGE_URL);
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(UNSOLVED_THUMBNAIL_URL);
@@ -353,7 +353,7 @@ describe("useImageDisplay Hook", () => {
 			const question = createTestQuizQuestion();
 
 			const { getImageUrl, shouldShowUnsolvedImage } =
-				useImageDisplay(question);
+				useImageDisplay(question.images, question.status);
 
 			// Test default behavior
 			expect(shouldShowUnsolvedImage).toBe(false);
@@ -371,8 +371,8 @@ describe("useImageDisplay Hook", () => {
 				status: QuestionStatus.SOLVED,
 			});
 
-			const activeResult = useImageDisplay(activeQuestion);
-			const solvedResult = useImageDisplay(solvedQuestion);
+			const activeResult = useImageDisplay(activeQuestion.images, activeQuestion.status);
+			const solvedResult = useImageDisplay(solvedQuestion.images, solvedQuestion.status);
 
 			expect(activeResult.shouldShowUnsolvedImage).toBe(false); // keine unsolved images in default
 			expect(solvedResult.shouldShowUnsolvedImage).toBe(false);
@@ -394,7 +394,7 @@ describe("useImageDisplay Hook", () => {
 			});
 
 			const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(
-				questionWithUnsolvedImages,
+				questionWithUnsolvedImages.images, questionWithUnsolvedImages.status
 			);
 
 			expect(shouldShowUnsolvedImage).toBe(true);
