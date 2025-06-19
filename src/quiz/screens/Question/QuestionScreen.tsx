@@ -88,7 +88,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		<ThemedView gradientType="primary" style={{ flex: 1 }}>
 			<Header
 				showBackButton={false}
-				// TODO Platzhalter. Später aus Frage?
 				title={headerText}
 				rightSlot={
 					<View style={styles.headerActions}>
