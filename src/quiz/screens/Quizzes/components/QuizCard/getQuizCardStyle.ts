@@ -1,7 +1,7 @@
 import type { ViewStyle } from "react-native";
 
-import { styles } from "./quizCard.styles";
-import type { QuizCardVariant } from "./quizCard.types";
+import { styles } from "./QuizCard.styles";
+import type { QuizCardVariant } from "./QuizCard.types";
 
 type GetCardStyleOptions = {
 	variant: QuizCardVariant;

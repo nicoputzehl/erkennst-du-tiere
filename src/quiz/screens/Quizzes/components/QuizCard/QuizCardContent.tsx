@@ -7,8 +7,9 @@ import { LoadingOverlay } from "./components/LoadingOverlay";
 import { ProgressSection } from "./components/ProgressSection/ProgressSection";
 import { StartItem } from "./components/StartItem/StartItem";
 import { getQuizCardStyles } from "./getQuizCardStyle";
-import { styles } from "./quizCard.styles";
-import type { QuizCardViewProps } from "./quizCard.types";
+
+import type { QuizCardViewProps } from "./QuizCard.types";
+import { styles } from "./QuizCard.styles";
 
 export const QuizCardContent = memo(
 	({

@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { memo } from "react";
-import { styles } from "../../quizCard.styles";
-import type { QuizImageProps } from "../../quizCard.types";
+import { styles } from "../../QuizCard.styles";
+import type { QuizImageProps } from "../../QuizCard.types";
 
 const DEFAULT_TITLE_IMAGE = require("@/assets/images/test-title.jpg");
 const PLACEHOLDER_IMAGE = require("@/assets/images/placeholder.jpg");

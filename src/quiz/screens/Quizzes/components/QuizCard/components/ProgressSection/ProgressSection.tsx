@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { View } from "react-native";
 
-import { styles } from "../../quizCard.styles";
-import type { QuizCardViewProps } from "../../quizCard.types";
+import { styles } from "../../QuizCard.styles";
+import type { QuizCardViewProps } from "../../QuizCard.types";
 import { Progress } from "./Progress";
 import { UnlockConditionText } from "./UnlockConditionText";
 

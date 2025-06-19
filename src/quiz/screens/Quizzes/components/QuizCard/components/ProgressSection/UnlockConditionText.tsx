@@ -1,8 +1,8 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { memo } from "react";
 import { View } from "react-native";
-import { styles } from "../../quizCard.styles";
-import type { UnlockProgressProps } from "../../quizCard.types";
+import { styles } from "../../QuizCard.styles";
+import type { UnlockProgressProps } from "../../QuizCard.types";
 
 export const UnlockConditionText = memo(
 	({ unlockProgress }: UnlockProgressProps) => {
