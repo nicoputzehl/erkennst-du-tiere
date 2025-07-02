@@ -15,7 +15,7 @@ describe("HintUtils", () => {
 				questionId: 1,
 				usedHints: [],
 				wrongAttempts: 0,
-				contextualHintsTriggered: [],
+				autoFreeHintsUsed: [],
 			};
 			const userPoints: UserPointsState = {
 				totalPoints: 50,
@@ -34,7 +34,7 @@ describe("HintUtils", () => {
 				questionId: 1,
 				usedHints: [],
 				wrongAttempts: 0,
-				contextualHintsTriggered: [],
+				autoFreeHintsUsed: [],
 			};
 			const userPoints: UserPointsState = {
 				totalPoints: 5, // Nicht genug für 10 Punkte Hint
@@ -77,7 +77,7 @@ describe("HintUtils", () => {
 				questionId: 1,
 				usedHints: [],
 				wrongAttempts: 1,
-				contextualHintsTriggered: [],
+				autoFreeHintsUsed: [],
 			};
 
 			const triggered = HintUtils.checkForContextualHints(

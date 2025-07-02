@@ -135,6 +135,7 @@ export const quizCollectionBuilder = () => {
 				...testQuiz,
 				initiallyLocked: true,
 				unlockCondition: {
+					type: "playthrough",
 					requiredQuizId,
 					description: `Complete ${requiredQuizId} to unlock`,
 				},

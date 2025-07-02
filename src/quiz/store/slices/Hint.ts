@@ -4,7 +4,6 @@ import { HintUtils } from "../../domain/hints";
 import type { QuestionBase } from "../../types";
 import type {
 	AutoFreeHint,
-	AvailableHint,
 	Hint,
 	HintTriggerResult,
 	PointTransaction,
@@ -12,6 +11,7 @@ import type {
 	UsedHint,
 } from "../../types/hint";
 import type { QuizStore } from "../Store";
+import { isDynamicHint, isStaticHint } from "../../domain/hints/validation";
 
 export interface HintSlice {
 	applyHint: (
@@ -24,7 +24,7 @@ export interface HintSlice {
 		questionId: number,
 		userAnswer: string,
 	) => HintTriggerResult;
-	getAvailableHints: (quizId: string, questionId: number) => AvailableHint[];
+
 	getUsedHints: (quizId: string, questionId: number) => UsedHint[];
 	checkAutoFreeHints: (quizId: string, questionId: number) => AutoFreeHint[];
 	markAutoFreeHintAsUsed: (
@@ -106,10 +106,13 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 			};
 		}
 
+		const hasCosts = isDynamicHint(hint) || isStaticHint(hint);
+		const costs = hasCosts ? hint.cost : 0;
 		// Points transaction mit Quiz-Kontext
 		const transaction = HintUtils.createPointTransaction(
 			"spent",
-			hint.cost,
+
+			costs,
 			`Hint verwendet: ${hint.title}`,
 			quizId,
 			questionId,
@@ -136,8 +139,8 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 			// GLOBALE Points Update
 			userPoints: {
 				...state.userPoints,
-				totalPoints: state.userPoints.totalPoints - hint.cost,
-				spentPoints: state.userPoints.spentPoints + hint.cost,
+				totalPoints: state.userPoints.totalPoints - costs,
+				spentPoints: state.userPoints.spentPoints + costs,
 				pointsHistory: [...state.userPoints.pointsHistory, transaction],
 			},
 		}));
@@ -145,7 +148,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		return {
 			success: true,
 			hintContent: content,
-			pointsDeducted: hint.cost,
+			pointsDeducted: costs,
 		};
 	},
 
@@ -276,31 +279,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 				},
 			},
 		}));
-	},
-
-	getAvailableHints: (quizId: string, questionId: number): AvailableHint[] => {
-		const quizState = get().quizStates[quizId];
-		const globalUserPoints = get().userPoints;
-		const question = quizState?.questions.find((q) => q.id === questionId);
-		const hintState = quizState?.hintStates[questionId];
-
-		if (!question?.hints || !hintState || !globalUserPoints) return [];
-
-		return question.hints.map((hint) => {
-			const validation = HintUtils.canUseHint(
-				hint,
-				hintState,
-				globalUserPoints,
-			);
-			return {
-				hint,
-				canUse: validation.canUse,
-				reason: validation.reason,
-				content: validation.canUse
-					? HintUtils.generateHintContent(hint, question)
-					: undefined,
-			};
-		});
 	},
 
 	getUsedHints: (quizId: string, questionId: number): UsedHint[] => {
