@@ -11,7 +11,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();
 	const { hasVisibleHints } = useHints(quizId, Number.parseInt(questionId));
 
-	// Composition of smaller hooks
+
 	const navigation = useQuestionNavigation(quizId, questionId);
 	const answerState = useAnswerState();
 	const resultState = useResultState();
@@ -24,7 +24,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const isSolved = question?.status === QuestionStatus.SOLVED;
 	const showInput = useMemo(() => !isSolved, [isSolved]);
 
-	// Business logic delegation
+
 	const { handleSubmit } = useQuestionBusinessLogic({
 		quizId,
 		questionId,
@@ -33,7 +33,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		resultState,
 	});
 
-	// Initialize solved state
+
 	useState(() => {
 		if (isSolved) {
 			resultState.setShowResult(true);
@@ -54,7 +54,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		!resultState.showHint;
 
 	return {
-		// Data
+
 		quizState,
 		question,
 		isSolved,
@@ -62,12 +62,12 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		showInput,
 		headerText,
 
-		// Composed state
+
 		...answerState,
 		...resultState,
 		...navigation,
 
-		// Actions
+
 		handleSubmit,
 		showResultReaction,
 	};

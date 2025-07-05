@@ -3,11 +3,12 @@ import { ThemedView } from "@/src/common/components/ThemedView";
 import { FontSizes } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import type { Quiz } from "../../types";
 import { QuizGrid } from "./components/QuizGrid";
 import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
+import { useCallback } from "react";
+import { NavigationService } from "../../services/NavigationService";
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -19,9 +20,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	// Theme-basierte Farben
 	const textColor = useThemeColor({}, "text");
 
-	const handleNavigateToSettings = () => {
-		router.navigate("/settings");
-	};
+	const handleNavigateToSettings = useCallback(() => NavigationService.toSettings(), []);
 
 	const renderContent = () => (
 		<ScrollView

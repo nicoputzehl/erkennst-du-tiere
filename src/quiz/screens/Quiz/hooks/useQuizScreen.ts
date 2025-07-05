@@ -1,8 +1,8 @@
+import { NavigationService } from "@/src/quiz/services/NavigationService";
 import { useLoading } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import type { QuizState } from "@/src/quiz/types";
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useQuizScreen(quizId: string | null) {
 	const { getQuizState, initializeQuizState, getQuizProgress } = useQuiz();
@@ -54,15 +54,13 @@ export function useQuizScreen(quizId: string | null) {
 		}
 	}, [quizId, getQuizState]);
 
-	const handleQuestionClick = (questionId: string) => {
+	const handleQuestionClick = useCallback((questionId: string) => {
 		if (quizId) {
-			router.navigate(`/quiz/${quizId}/${questionId}`);
+			NavigationService.toQuestion(quizId, questionId);
 		}
-	};
+	},[quizId]);
 
-	const navigateBack = () => {
-		router.back();
-	};
+	const navigateBack = useCallback(() => NavigationService.back() ,[]);
 
 	return {
 		quizState,

@@ -1,5 +1,5 @@
+import { NavigationService } from "@/src/quiz/services/NavigationService";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
-import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 export const useQuizzes = () => {
@@ -57,7 +57,7 @@ export const useQuizzes = () => {
 
 				// Zum Quiz navigieren
 				setCurrentQuiz(quizId);
-				router.navigate(`/quiz/${quizId}`);
+				NavigationService.toQuiz(quizId);
 			} catch (error) {
 				console.error(
 					`[QuizDisplayProvider] Error navigating to quiz ${quizId}:`,

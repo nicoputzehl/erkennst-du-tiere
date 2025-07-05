@@ -1,18 +1,14 @@
-import { router } from "expo-router";
 import { useCallback } from "react";
+import { NavigationService } from "@/src/quiz/services/NavigationService";
 
 export const useQuestionNavigation = (quizId: string, questionId: string) => {
-	const navigateToHintsModal = useCallback(() => {
-		router.push(`/quiz/${quizId}/${questionId}/hints-modal`);
-	}, [quizId, questionId]);
+	const navigateToHintsModal = useCallback(() => NavigationService.toHints(quizId, questionId)
+		, [quizId, questionId]);
 
-	const handleBack = useCallback(() => {
-		router.back();
-	}, []);
+	const handleBack = useCallback(() => NavigationService.back(), []);
 
 	return {
 		navigateToHintsModal,
-
 		handleBack,
 	};
 };

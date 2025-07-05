@@ -1,9 +1,9 @@
 import Header from "@/src/common/components/Header";
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { ThemedView } from "@/src/common/components/ThemedView";
+import { NavigationService } from "@/src/quiz/services/NavigationService";
 import { useQuizStatistics, useUI } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
-import { router } from "expo-router";
 import React, { useState } from "react";
 import {
 	ActivityIndicator,
@@ -22,9 +22,7 @@ export function SettingsScreen() {
 	const [resettingQuiz, setResettingQuiz] = useState<string | null>(null);
 	const [resettingAll, setResettingAll] = useState(false);
 
-	const navigateBack = () => {
-		router.back();
-	};
+	const navigateBack = () => NavigationService.back();
 
 	const handleResetQuiz = async (quizId: string, quizTitle: string) => {
 		setResettingQuiz(quizId);
