@@ -47,8 +47,7 @@ export function useQuiz() {
 	const resetQuizState = useQuizStore((state) => state.resetQuizState);
 	const answerQuestion = useQuizStore((state) => state.answerQuestion);
 	const setCurrentQuiz = useQuizStore((state) => state.setCurrentQuiz);
-	const startQuiz = useQuizStore((state) => state.startQuiz);
-	const resetQuiz = useQuizStore((state) => state.resetQuiz);
+
 
 	// Fortschritts- und Navigationsaktionen aus dem Store auswählen
 	const getQuizProgress = useQuizStore((state) => state.getQuizProgress);
@@ -138,8 +137,6 @@ export function useQuiz() {
 		initializeQuizState,
 		updateQuizState,
 		resetQuizState,
-		startQuiz,
-		resetQuiz,
 		setCurrentQuiz,
 
 		// Antwortverarbeitung

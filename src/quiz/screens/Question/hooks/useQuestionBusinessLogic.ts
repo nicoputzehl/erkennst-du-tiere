@@ -34,9 +34,10 @@ export const useQuestionBusinessLogic = ({
 	const { showSuccess } = useUI();
 
 	const {
-		recordWrongAnswer,
+		handleWrongAnswer,
 		markContextualHintAsShown,
-		markAutoFreeHintAsShown,
+		handleActivateAutoFreeHint,
+
 	} = useHints(quizId, Number.parseInt(questionId));
 
 	const handleCorrectAnswer = useCallback(
@@ -70,7 +71,7 @@ export const useQuestionBusinessLogic = ({
 				userAnswer,
 			);
 
-			const triggerResult = recordWrongAnswer(userAnswer);
+			const triggerResult = handleWrongAnswer(userAnswer);
 
 			console.log("[handleIncorrectAnswer] Trigger result:", {
 				contextualHints: triggerResult.contextualHints.length,
@@ -102,7 +103,7 @@ export const useQuestionBusinessLogic = ({
 					autoFreeHint.id,
 				);
 
-				markAutoFreeHintAsShown(autoFreeHint.id);
+				handleActivateAutoFreeHint(autoFreeHint.id);
 
 				resultState.handleShowHint({
 					title: autoFreeHint.title,
@@ -118,9 +119,9 @@ export const useQuestionBusinessLogic = ({
 			}
 		},
 		[
-			recordWrongAnswer,
+			handleWrongAnswer,
 			markContextualHintAsShown,
-			markAutoFreeHintAsShown,
+			handleActivateAutoFreeHint,
 			resultState,
 		],
 	);
