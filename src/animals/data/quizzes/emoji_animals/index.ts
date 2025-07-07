@@ -1,5 +1,4 @@
 import type { QuestionBase } from "@/src/quiz";
-import { createAutoFreeHint, createContextualHint, createFirstLetterHint, createLetterCountHint } from "@/src/quiz/domain/hints/factories";
 
 export const emojiAnimals: QuestionBase[] = [
 	{
@@ -12,15 +11,13 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/stachelschwein.png"),
 		},
 		wikipediaName: "Stachelschweine",
-		hints: [
-			createLetterCountHint(1),
-			createFirstLetterHint(1),
-			createContextualHint(
-				1,
-				["igel"],
-				"Richtung stimmt.", { title: "ja, aber nein." }
-			),
-		]
+		// hints: [
+		// 	createContextualHint(
+		// 		1,
+		// 		["igel"],
+		// 		"Richtung stimmt.", { title: "ja, aber nein." }
+		// 	),
+		// ]
 	},
 	{
 		id: 2,
@@ -31,20 +28,18 @@ export const emojiAnimals: QuestionBase[] = [
 			imageUrl: require("./img/kaiserpinguin.png"),
 			thumbnailUrl: require("./img/thumbnails/kaiserpinguin.png"),
 		},
-		hints: [
-			createLetterCountHint(2),
-			createFirstLetterHint(2),
-			createContextualHint(
-				2,
-				["pinguin"],
-				"Ich weiß, dass kannst du besser.", { title: "Ernsthaft?!" }
-			),
-			createContextualHint(
-				2,
-				["königspinguin", "königs-pinguin"],
-				"Guter Versuch! Aber denk mal nach: Der berühmte römische Herrscher Augustus. War der ein König?", { title: "Ganz kanpp..." }
-			),
-		]
+		// hints: [
+		// 	createContextualHint(
+		// 		2,
+		// 		["pinguin"],
+		// 		"Ich weiß, dass kannst du besser.", { title: "Ernsthaft?!" }
+		// 	),
+		// 	createContextualHint(
+		// 		2,
+		// 		["königspinguin", "königs-pinguin"],
+		// 		"Guter Versuch! Aber denk mal nach: Der berühmte römische Herrscher Augustus. War der ein König?", { title: "Ganz kanpp..." }
+		// 	),
+		// ]
 	},
 	{
 		id: 3,
@@ -56,10 +51,6 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/klapperschlange.png"),
 		},
 		wikipediaName: "Klapperschlangen",
-		hints: [
-			createLetterCountHint(3),
-			createFirstLetterHint(3),
-		]
 	},
 	{
 		id: 4,
@@ -81,16 +72,14 @@ export const emojiAnimals: QuestionBase[] = [
 			imageUrl: require("./img/narwal.png"),
 			thumbnailUrl: require("./img/thumbnails/narwal.png"),
 		},
-		hints: [
-			createLetterCountHint(5),
-			createFirstLetterHint(5),
-			createContextualHint(
-				1,
-				["igel"],
-				"Aber auch ein Säugetier", { title: "Leider nicht." }
-			),
-			createAutoFreeHint(5, "KEIN Fisch", 5, "Leider nicht.")
-		]
+		// hints: [
+		// 	createContextualHint(
+		// 		1,
+		// 		["igel"],
+		// 		"Aber auch ein Säugetier", { title: "Leider nicht." }
+		// 	),
+		// 	createAutoFreeHint(5, "KEIN Fisch", 5, "Leider nicht.")
+		// ]
 	},
 	{
 		id: 6,
@@ -102,12 +91,10 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/zitteraal.png"),
 		},
 		wikipediaName: "Zitteraale",
-		hints: [
-			createLetterCountHint(6),
-			createFirstLetterHint(6),
-			createAutoFreeHint(6, "EIN Fisch", 3, "Rate weiter."),
-			createAutoFreeHint(6, "Der Wurm soll an die Körperform erinnern.", 5, "Ok, noch ein Tipp.")
-		]
+		// hints: [
+		// 	createAutoFreeHint(6, "EIN Fisch", 3, "Rate weiter."),
+		// 	createAutoFreeHint(6, "Der Wurm soll an die Körperform erinnern.", 5, "Ok, noch ein Tipp.")
+		// ]
 	},
 	{
 		id: 7,
@@ -120,13 +107,11 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/wuestenrennmaus.png"),
 		},
 		wikipediaName: "Rennmäuse",
-		hints: [
-			createLetterCountHint(7),
-			createFirstLetterHint(7),
-			createContextualHint(7, ["rennmaus"], "Aber WO rennt sie?", { title: "Gleich gelöst." }),
-			createContextualHint(7, ["maus"], "Aber WO und WIE?", { title: "Obvious." }),
+		// hints: [
+		// 	createContextualHint(7, ["rennmaus"], "Aber WO rennt sie?", { title: "Gleich gelöst." }),
+		// 	createContextualHint(7, ["maus"], "Aber WO und WIE?", { title: "Obvious." }),
 
-		]
+		// ]
 	},
 	{
 		id: 8,
@@ -138,10 +123,6 @@ export const emojiAnimals: QuestionBase[] = [
 			imageUrl: require("./img/okapi.png"),
 			thumbnailUrl: require("./img/thumbnails/okapi.png"),
 		},
-		hints: [
-			createLetterCountHint(8),
-			createFirstLetterHint(8),
-		]
 	},
 	{
 		id: 9,

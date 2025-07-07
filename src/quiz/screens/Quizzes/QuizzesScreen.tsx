@@ -17,8 +17,7 @@ type QuizzesProps = {
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	useQuizzesScreen();
 
-	// Theme-basierte Farben
-	const textColor = useThemeColor({}, "text");
+	const iconColor = useThemeColor({}, "icon");
 
 	const handleNavigateToSettings = useCallback(() => NavigationService.toSettings(), []);
 
@@ -40,7 +39,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 				rightSlot={
 					<TouchableOpacity
 						onPress={handleNavigateToSettings}
-						style={styles.settingsButton}
+						style={[styles.settingsButton, { shadowColor: iconColor }]}
 						activeOpacity={0.7}
 						accessibilityLabel="Einstellungen öffnen"
 						accessibilityRole="button"
@@ -48,8 +47,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 						<FontAwesome6
 							name="gear"
 							size={FontSizes.xxl}
-							// TODO Color aus Constanten
-							color={typeof textColor === "string" ? textColor : "#FFFFFF"}
+							color={iconColor}
 						/>
 					</TouchableOpacity>
 				}
@@ -67,7 +65,6 @@ const styles = StyleSheet.create({
 	settingsButton: {
 		padding: 10,
 		borderRadius: 12,
-		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
 			height: 2,

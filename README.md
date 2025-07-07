@@ -22,7 +22,7 @@ Es wird ein Bild von einem Tier gezeigt, und man muss den Namen es Tieres eingeb
 
 * AutoHint als Sprechblase
 
-## TODOS
+## What ToDo 
 
 ### Hints
 

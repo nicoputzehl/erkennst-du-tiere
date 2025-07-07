@@ -17,6 +17,9 @@ export function useQuiz() {
 		return quizArray;
 	}, [quizzesRecord, isQuizDataLoaded]);
 
+	for(const quiz of quizzes) {
+		console.log(`[useQuiz Hook] Quiz: ${quiz.description}`);
+	}
 	const getQuizById = useMemo(
 		() =>
 			(id: string): Quiz | undefined => {

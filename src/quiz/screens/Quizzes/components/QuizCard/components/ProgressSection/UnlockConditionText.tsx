@@ -10,7 +10,7 @@ export const UnlockConditionText = memo(
 
 		return (
 			<View style={styles.progressSection}>
-				<ThemedText style={styles.unlockDescription} numberOfLines={2}>
+				<ThemedText style={styles.description} numberOfLines={2}>
 					{unlockProgress.condition.description}
 				</ThemedText>
 			</View>

@@ -10,7 +10,6 @@ import type {
   UsedHint,
 } from "../../types/hint";
 import type { QuizStore } from "../Store";
-import { isDynamicHint, isStaticHint } from "../../domain/hints/validation";
 
 export interface HintSlice {
   applyHint: (
@@ -32,12 +31,21 @@ export interface HintSlice {
   initializeHintState: (quizId: string, questionId: number) => void;
 }
 
+// ==========================================
+// VEREINFACHTE USED-HINT-GENERIERUNG
+// ==========================================
+
+/**
+ * Diese Funktion ist jetzt viel einfacher, weil alle Hints bereits ihren Content haben.
+ * Wir müssen keine Generator-Funktionen mehr aufrufen oder Content rekonstruieren.
+ */
 const generateUsedHint = (hint: Hint, question: QuestionBase): UsedHint => {
-  const content = HintUtils.generateHintContent(hint, question);
+  // Der Hint hat bereits seinen Content - wir müssen nichts mehr generieren!
+  // Das ist ein großer Vorteil des neuen Systems: keine komplexe Logic mehr nötig
   return {
     id: hint.id,
     title: hint.title,
-    content: content,
+    content: hint.content, // Direkt verfügbar, keine Generierung nötig
   };
 };
 
@@ -59,25 +67,39 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
     }
 
     const question = quizState.questions.find((q) => q.id === questionId);
-    const hint = question?.hints?.find((h) => h.id === hintId);
     const hintState = quizState.hintStates[questionId];
 
-    if (!question || !hint || !hintState || !globalUserPoints) {
+    if (!question || !hintState || !globalUserPoints) {
       return { success: false, error: "Benötigte Daten für den Hinweis nicht gefunden." };
     }
 
-    // Validierung
+    // ==========================================
+    // NEUE HINT-FINDING-LOGIC
+    // ==========================================
+    
+    // Alle verfügbaren Hints für diese Frage generieren (Standard + Custom + Contextual + Auto-Free)
+    const allAvailableHints = HintUtils.generateAllHints(question);
+    const hint = allAvailableHints.find((h) => h.id === hintId);
+
+    if (!hint) {
+      return { success: false, error: "Hint nicht gefunden." };
+    }
+
+    // Validierung mit dem vereinfachten System
     const validation = HintUtils.canUseHint(hint, hintState, globalUserPoints);
     if (!validation.canUse) {
       return { success: false, error: validation.reason };
     }
 
+    // Used Hint erstellen - jetzt viel einfacher!
     const usedHint = generateUsedHint(hint, question);
     const isAutoFree = HintUtils.isAutoFreeHint(hint);
-    const costs = isAutoFree || !(isDynamicHint(hint) || isStaticHint(hint)) ? 0 : hint.cost;
+    
+    // Kosten berechnen: Auto-Free und Contextual Hints sind kostenlos
+    const costs = isAutoFree || HintUtils.isContextualHint(hint) ? 0 : (hint as any).cost || 0;
 
     set((currentState) => {
-      // Tiefes Kopieren für Immutabilität
+      // Immutable State-Update (hier könntest du später Immer verwenden)
       const newQuizStates = { ...currentState.quizStates };
       const newQuizState = { ...newQuizStates[quizId] };
       const newHintStates = { ...newQuizState.hintStates };
@@ -150,19 +172,19 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
             ...state.quizStates[quizId].hintStates,
             [questionId]: {
               ...state.quizStates[quizId].hintStates[questionId],
-              wrongAttempts: hintState.wrongAttempts + 1, // Basierend auf dem aktuellen hintState
+              wrongAttempts: hintState.wrongAttempts + 1,
             },
           },
         },
       },
     }));
 
-
-    return HintUtils.checkTriggeredHints(
-      userAnswer,
-      question,
-      hintState,
-    );
+    // ==========================================
+    // VEREINFACHTE HINT-TRIGGER-LOGIC
+    // ==========================================
+    
+    // Verwende die neuen Triggering-Funktionen, die mit der strukturierten Hint-Definition arbeiten
+    return HintUtils.checkTriggeredHints(userAnswer, question, hintState);
   },
 
   checkAutoFreeHints: (quizId: string, questionId: number): AutoFreeHint[] => {
@@ -170,17 +192,27 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
     const question = quizState?.questions.find((q) => q.id === questionId);
     const hintState = quizState?.hintStates[questionId];
 
-    if (!question?.hints || !hintState) return [];
+    if (!question || !hintState) return [];
 
-    // Filtert nur AutoFreeHints, die noch nicht verwendet wurden und deren Triggerbedingungen erfüllt sind.
-    return question.hints.filter(
-      (hint): hint is AutoFreeHint =>
-        HintUtils.isAutoFreeHint(hint) &&
-        !hintState.usedHints.some((uh) => uh.id === hint.id) &&
-        hintState.wrongAttempts >= hint.triggerAfterAttempts,
+    // ==========================================
+    // NEUE AUTO-FREE-HINTS-LOGIC
+    // ==========================================
+    
+    // Alle Hints für die Frage generieren und Auto-Free Hints filtern
+    const allHints = HintUtils.generateAllHints(question);
+    
+    return allHints.filter((hint): hint is AutoFreeHint =>
+      HintUtils.isAutoFreeHint(hint) &&
+      !hintState.usedHints.some((uh) => uh.id === hint.id) &&
+      !hintState.autoFreeHintsUsed?.includes(hint.id) &&
+      hintState.wrongAttempts >= hint.triggerAfterAttempts,
     );
   },
 
+  // ==========================================
+  // UNVERÄNDERTE FUNKTIONEN
+  // ==========================================
+  
   getUsedHints: (quizId: string, questionId: number): UsedHint[] => {
     const quizState = get().quizStates[quizId];
     const hintState = quizState?.hintStates[questionId];
@@ -215,7 +247,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 
   initializeHintState: (quizId: string, questionId: number) => {
     set((state) => {
-      // Sicherstellen, dass quizStates[quizId] existiert, bevor auf hintStates zugegriffen wird
       if (!state.quizStates[quizId]) {
         console.warn(`Quiz with ID ${quizId} not found during hint state initialization.`);
         return state;

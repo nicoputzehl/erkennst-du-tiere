@@ -1,59 +1,41 @@
-import { generateHintContent } from "./generation";
+import { generateAllHints, generateStandardHints } from "./standard";
+import { generateHintContent, getTriggeredContent } from "./generation";
+
 import {
-	calculatePointsForCorrectAnswer,
-	createPointTransaction,
-	getInitialUserPoints,
+  calculatePointsForCorrectAnswer,
+  createPointTransaction,
+  getInitialUserPoints,
 } from "./points";
+
 import {
-	checkForContextualHints,
-	checkTriggeredHints,
-	getTriggeredContent,
+  checkForContextualHints,
+  checkTriggeredHints,
 } from "./triggering";
+
 import {
-	canUseHint,
-	isAutoFreeHint,
-	isContextualHint,
-	isDynamicHint,
-	isStaticHint,
+  canUseHint,
+  isAutoFreeHint,
+  isContextualHint,
 } from "./validation";
 
-import {
-	createAutoFreeHint,
-	createContextualHint,
-	createCustomHint,
-	createEscalatingAutoFreeHint,
-	createFirstLetterHint,
-	createLetterCountHint,
-} from "./factories";
-
 export const HintUtils = {
-	// Validation
-	canUseHint,
+  generateAllHints,
+  generateStandardHints,
+  generateHintContent,
+  getTriggeredContent,
+  
+  // Validation
+  canUseHint,
 
-	// Generation
-	generateHintContent,
-	getTriggeredContent,
+  // Triggering
+  checkForContextualHints,
+  checkTriggeredHints,
 
-	// Triggering
-	checkForContextualHints,
-	checkTriggeredHints,
+  // Points
+  calculatePointsForCorrectAnswer,
+  createPointTransaction,
+  getInitialUserPoints,
 
-	// Points
-	calculatePointsForCorrectAnswer,
-	createPointTransaction,
-	getInitialUserPoints,
-
-	// Type Guards
-	isStaticHint,
-	isDynamicHint,
-	isContextualHint,
-	isAutoFreeHint,
-
-	// Factories
-	createAutoFreeHint,
-	createCustomHint,
-	createContextualHint,
-	createEscalatingAutoFreeHint,
-	createFirstLetterHint,
-	createLetterCountHint,
+  isContextualHint,
+  isAutoFreeHint,
 } as const;

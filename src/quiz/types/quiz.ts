@@ -11,6 +11,7 @@ export interface Quiz {
 	title: string;
 	questions: QuestionBase[];
 	titleImage?: number;
+	description?: string;
 }
 
 /**

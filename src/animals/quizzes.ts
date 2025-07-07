@@ -1,7 +1,8 @@
+import type { Quiz } from "../quiz";
 import { QuizUtils } from "../quiz/domain/quiz/";
 import { emojiAnimals, namibia, weirdAnimals } from "./data/quizzes";
 
-const namibiaQuiz = {
+const namibiaQuiz : Quiz= {
 	id: "namibia",
 	title: "Tiere Namibias",
 	questions: namibia,
@@ -9,6 +10,7 @@ const namibiaQuiz = {
 };
 
 const emojiAnimalsQuiz = {
+	description: "BLA",
 	id: "emoji_animals",
 	title: "Emojis",
 	questions: emojiAnimals,
@@ -25,7 +27,7 @@ const weirdAnimalsQuiz = {
 export const animalQuizConfigs = [
 	QuizUtils.createQuizConfig(namibiaQuiz, {
 		order: 1,
-		initiallyLocked: false,
+		initiallyLocked: true,
 	}),
 
 	QuizUtils.createQuizConfig(emojiAnimalsQuiz, {

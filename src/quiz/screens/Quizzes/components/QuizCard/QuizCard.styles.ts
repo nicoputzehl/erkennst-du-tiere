@@ -13,11 +13,9 @@ export const styles = StyleSheet.create({
 		fontSize: FontSizes.lg,
 		fontWeight: FontWeights.semibold,
 		zIndex: 1,
-		// TODO Color aus constanten
 		color: "#666",
 	},
 	quizCardOuter: {
-		// TODO Color aus constanten
 		backgroundColor: "#f8f9fa",
 		borderRadius: BorderRadius.md,
 		flex: 1,
@@ -50,22 +48,16 @@ export const styles = StyleSheet.create({
 		height: "100%",
 		...CommonStyles.centered,
 	},
-	unlockDescription: {
+	description: {
 		fontSize: FontSizes.xs,
-		// TODO Color aus constanten
 		color: "#6c757d",
 		lineHeight: FontSizes.md,
 	},
 	locked: {
-		// TODO Color aus constanten
 		backgroundColor: "#f8f9fa",
-
-		// TODO Color aus constanten
-		// borderColor: "#dee2e6",
 	},
 	new: {
 		borderStyle: "dotted",
-		// TODO Color und Type evtl anpassen
 		borderColor: "orange",
 		borderWidth: 4,
 	},
@@ -74,14 +66,12 @@ export const styles = StyleSheet.create({
 	},
 	loadingOverlay: {
 		...StyleSheet.absoluteFillObject,
-		// TODO Color aus constanten
 		backgroundColor: "rgba(0, 0, 0, 0.15)",
 		justifyContent: "center",
 		alignItems: "center",
 		borderRadius: 8,
 	},
 
-	// Progress
 
 	activeProgressContainer: {
 		...CommonStyles.rowSpaceBetween,
@@ -98,14 +88,12 @@ export const styles = StyleSheet.create({
 	},
 	progressText: {
 		fontSize: FontSizes.sm,
-		// TODO Color aus constanten
 		color: "#666",
 		zIndex: 1,
 		textAlign: "right",
 	},
 	newText: {
 		fontSize: FontSizes.sm,
-		// TODO Color aus constanten
 		color: "#ff9800",
 		fontWeight: FontWeights.medium,
 	},

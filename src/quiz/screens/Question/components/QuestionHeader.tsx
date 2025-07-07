@@ -54,7 +54,7 @@ export const QuestionHeader: React.FC<QuestionHeaderProps> = ({
 }) => {
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
-	// TODO warum wird header Style nicht richtig übergeben
+	// TODO Untersuchen warum der header Style nicht richtig übergeben wird
 	const titleType = useMemo(
 		() => (isSolved ? "title" : "subtitle"),
 		[isSolved],

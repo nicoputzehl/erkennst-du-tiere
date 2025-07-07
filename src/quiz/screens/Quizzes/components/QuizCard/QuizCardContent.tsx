@@ -23,6 +23,8 @@ export const QuizCardContent = memo(
 	}: QuizCardViewProps) => {
 		const isNewCard = variant === "active" && !quizCardProgress;
 
+		console.warn({quiz})
+
 		const handlePress = useCallback(() => {
 			if (variant === "active" && onPress) {
 				onPress(quiz.id);
@@ -33,9 +35,13 @@ export const QuizCardContent = memo(
 			<View style={styles.quizCardInner}>
 				<StartItem variant={variant} quiz={quiz} />
 				<View style={styles.quizCardContent}>
+					<View>
+
 					<ThemedText style={styles.quizTitle} numberOfLines={2}>
 						{quiz.title}
-					</ThemedText>
+					</ThemedText>	
+					<ThemedText lightColor="red" darkColor="red" style={styles.description}>{quiz.description}</ThemedText>
+					</View>
 					<ProgressSection
 						variant={variant}
 						unlockProgress={unlockProgress}

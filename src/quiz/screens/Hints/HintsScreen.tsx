@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { HintsContent } from "./components/HintsContent";
 import { PointsDisplay } from "./components/PointsDisplay";
+import { useHints } from "../../store/hooks/useHints";
 
 interface HintsScreenProps {
 	quizId: string;
@@ -16,11 +17,16 @@ export const HintsScreen: React.FC<HintsScreenProps> = ({
 	quizId,
 	questionId,
 }) => {
+
+	const { pointsBalance } = useHints(quizId, Number.parseInt(questionId));
+
 	const handleClose = () => {
 		router.back();
 	};
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
+
+
 	return (
 		<ThemedView gradientType="primary" style={styles.container}>
 			<View style={styles.container}>
@@ -38,7 +44,7 @@ export const HintsScreen: React.FC<HintsScreenProps> = ({
 					}
 					rightSlot={
 						<View style={styles.headerRight}>
-							<PointsDisplay quizId={quizId} compact />
+							<PointsDisplay pointsBalance={pointsBalance} compact />
 							<TouchableOpacity
 								onPress={handleClose}
 								style={styles.closeButton}

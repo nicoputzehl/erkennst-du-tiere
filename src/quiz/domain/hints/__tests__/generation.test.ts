@@ -1,49 +1,91 @@
-import type { QuestionBase } from "@/src/quiz/types/question";
-import { HintUtils } from "..";
-import {
-	createContextualHint,
-	createCustomHint,
-	createFirstLetterHint,
-	createLetterCountHint,
-} from "../factories";
+import { type ContextualHint, type CustomHint, HintType } from "@/src/quiz/types";
+import { generateHintContent, getTriggeredContent } from "../generation";
+import { createTestQuestion } from "@/src/quiz/testing/testUtils";
 
-describe("HintUtils.generateHintContent", () => {
-	const mockQuestion: QuestionBase = {
-		id: 1,
-		answer: "Leopard",
-		images: { imageUrl: 1 },
-		hints: [],
-	};
+describe("generateHintContent", () => {
+  const mockQuestion = createTestQuestion();
 
-	it("should generate letter count hint", () => {
-		const hint = createLetterCountHint(1);
+  it("should return the content directly if it exists on the hint object", () => {
+    const hint: CustomHint = {
+      id: "custom1",
+      type: HintType.CUSTOM,
+      title: "Custom Hint",
+      content: "This is a custom hint content.",
+      cost: 10,
+    };
+    expect(generateHintContent(hint, mockQuestion)).toBe("This is a custom hint content.");
+  });
 
-		const content = HintUtils.generateHintContent(hint, mockQuestion);
+  it("should return 'Hint nicht verfügbar' and log a warning if content is missing (fallback)", () => {
+    // This scenario should ideally not happen with the current hint structure,
+    // but testing the fallback.
+    const hint = {
+      id: "brokenHint",
+      type: HintType.CUSTOM,
+      title: "Broken Hint",
+      content: undefined, // Simulating missing content
+    } as unknown as CustomHint;
 
-		expect(content).toBe("Das gesuchte Tier hat 7 Buchstaben");
-	});
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {}); // Suppress console.warn for test
 
-	it("should generate first letter hint", () => {
-		const hint = createFirstLetterHint(1);
+    expect(generateHintContent(hint, mockQuestion)).toBe("Hint nicht verfügbar");
+    expect(consoleWarnSpy).toHaveBeenCalledWith(`Hint brokenHint has no content, this should not happen`);
+    
+    consoleWarnSpy.mockRestore(); // Restore console.warn
+  });
+});
 
-		const content = HintUtils.generateHintContent(hint, mockQuestion);
+describe("getTriggeredContent", () => {
+  const baseContextualHint = {
+    id: "ctx1",
+    type: HintType.CONTEXTUAL,
+    title: "Animal Group",
+    content: "It's a wild animal.", // Standard content
+    triggers: ["wild"],
+  } as ContextualHint;
 
-		expect(content).toBe('Das gesuchte Tier beginnt mit "L"');
-	});
+  it("should return specific content if a trigger matches and triggerSpecificContent is defined", () => {
+    const hintWithSpecificContent = {
+      ...baseContextualHint,
+      triggerSpecificContent: {
+        "mammal": "It is a mammal.",
+        "fish": "It lives in water.",
+      },
+      triggers: ["mammal", "fish"]
+    };
 
-	it("should return static content for custom hints", () => {
-		const hint = createCustomHint(1, "Lebensraum", "Lebt in der Savanne", 15);
+    expect(getTriggeredContent(hintWithSpecificContent, "Is it a mammal?")).toBe("It is a mammal.");
+    expect(getTriggeredContent(hintWithSpecificContent, "It's a fishy animal")).toBe("It lives in water.");
+  });
 
-		const content = HintUtils.generateHintContent(hint, mockQuestion);
+  it("should return standard content if no specific trigger content matches", () => {
+    const hintWithSpecificContent = {
+      ...baseContextualHint,
+      triggerSpecificContent: {
+        "mammal": "It is a mammal.",
+      },
+      triggers: ["mammal"]
+    };
 
-		expect(content).toBe("Lebt in der Savanne");
-	});
+    // User answer does not match any specific trigger, falls back to standard content
+    expect(getTriggeredContent(hintWithSpecificContent, "Is it a bird?")).toBe("It's a wild animal.");
+  });
 
-	it("should return contextual hint content", () => {
-		const hint = createContextualHint(1, ["jaguar"], "Fast richtig!");
+  it("should return standard content if triggerSpecificContent is not defined", () => {
+    expect(getTriggeredContent(baseContextualHint, "Is it wild?")).toBe("It's a wild animal.");
+    expect(getTriggeredContent(baseContextualHint, "Any answer")).toBe("It's a wild animal.");
+  });
 
-		const content = HintUtils.generateHintContent(hint, mockQuestion);
+  it("should handle case-insensitivity and trimming for triggers and user answer", () => {
+    const hintWithSpecificContent = {
+      ...baseContextualHint,
+      triggerSpecificContent: {
+        "BIG": "It is a big animal.",
+      },
+      triggers: ["big"]
+    };
 
-		expect(content).toBe("Fast richtig!");
-	});
+    expect(getTriggeredContent(hintWithSpecificContent, "Is it Big?")).toBe("It is a big animal.");
+    expect(getTriggeredContent(hintWithSpecificContent, " it is big ")).toBe("It is a big animal.");
+  });
 });

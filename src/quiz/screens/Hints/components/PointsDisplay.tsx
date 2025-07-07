@@ -1,19 +1,17 @@
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
-import { useQuizStore } from "@/src/quiz/store/Store";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
 interface PointsDisplayProps {
-	quizId: string;
 	compact?: boolean;
+	pointsBalance: number;
 }
 
 export const PointsDisplay: React.FC<PointsDisplayProps> = ({
-	quizId,
 	compact = false,
+	pointsBalance
 }) => {
-	// TODO von außen reingeben
-	const pointsBalance = useQuizStore((state) => state.getPointsBalance());
+
 	const textColor = useThemeColor({}, "text");
 
 	return (

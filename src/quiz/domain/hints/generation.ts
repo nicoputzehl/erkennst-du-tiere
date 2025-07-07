@@ -1,81 +1,39 @@
 import type { QuestionBase } from "../../types";
-import { type Hint, HintType } from "../../types/hint";
-import {
-	isAutoFreeHint,
-	isContextualHint,
-	isDynamicHint,
-	isStaticHint,
-} from "./validation";
+import type { ContextualHint, Hint } from "../../types/hint";
 
 /**
- * Rekonstruiert Generator-Funktionen für dynamische Hints
- * Diese Funktionen gehen bei Serialisierung verloren und müssen zur Laufzeit wiederhergestellt werden
+ * VEREINFACHTE HINT-CONTENT-GENERIERUNG
+ * 
+ * Diese Funktion ist jetzt viel einfacher, weil die meisten Hints
+ * bereits ihren Content haben. Nur für spezielle Fälle wird Content generiert.
  */
-const recreateGenerator = (
-	hintType: HintType,
-): ((question: QuestionBase) => string) => {
-	switch (hintType) {
-		case HintType.LETTER_COUNT:
-			return (question: QuestionBase) =>
-				`Das gesuchte Tier hat ${question.answer.length} Buchstaben`;
-
-		case HintType.FIRST_LETTER:
-			return (question: QuestionBase) =>
-				`Das gesuchte Tier beginnt mit "${question.answer[0].toUpperCase()}"`;
-
-		default:
-			return () => "Hint nicht verfügbar";
-	}
+export const generateHintContent = (hint: Hint, question: QuestionBase): string => {
+  // Für die meisten Hints ist der Content bereits vorhanden
+  if (hint.content) {
+    return hint.content;
+  }
+  
+  // Fallback für den unwahrscheinlichen Fall, dass Content fehlt
+  console.warn(`Hint ${hint.id} has no content, this should not happen`);
+  return "Hint nicht verfügbar";
 };
 
-export const generateHintContent = (
-	hint: Hint,
-	question: QuestionBase,
-): string => {
-	console.log("🔧 [generateHintContent] Processing hint:", {
-		hintId: hint.id,
-		hintType: hint.type,
-		hasGenerator:
-			"generator" in hint && typeof (hint as any).generator === "function",
-		questionAnswer: question.answer,
-	});
-
-	if (isDynamicHint(hint)) {
-		// Prüfe ob Generator-Funktion vorhanden ist
-		if (typeof (hint as any).generator === "function") {
-			console.log("🔧 [generateHintContent] Using existing generator");
-			return (hint as any).generator(question);
-		}
-		// Generator-Funktion wurde durch Serialisierung verloren - rekonstruiere sie
-		console.log(
-			"🔧 [generateHintContent] Recreating generator for type:",
-			hint.type,
-		);
-		const recreatedGenerator = recreateGenerator(hint.type);
-		return recreatedGenerator(question);
-	}
-
-	if (isStaticHint(hint)) {
-		console.log("🔧 [generateHintContent] Using static content");
-		return hint.content;
-	}
-
-	if (isContextualHint(hint)) {
-		console.log("🔧 [generateHintContent] Using contextual content");
-		return hint.content;
-	}
-
-	if (isAutoFreeHint(hint)) {
-		console.log("🔧 [generateHintContent] Using auto-free content");
-		if (hint.escalatingContent) {
-			// Needs access to wrong attempts - passed separately
-			return hint.content; // Fallback for now
-		}
-		return hint.content;
-	}
-
-	console.warn(
-		"🔧 [generateHintContent] Unknown hint type, returning fallback",
-	);
-	return "Hint nicht verfügbar";
+/**
+ * Hilfsfunktion für Contextual Hints mit spezifischem Content pro Trigger
+ * Wird verwendet, wenn ein Contextual Hint verschiedene Nachrichten je nach Trigger haben soll
+ */
+export const getTriggeredContent = (hint: ContextualHint, userAnswer: string): string => {
+  // Wenn spezifischer Content für verschiedene Trigger definiert ist
+  if (hint.triggerSpecificContent) {
+    const normalizedAnswer = userAnswer.toLowerCase().trim();
+    
+    for (const [trigger, specificContent] of Object.entries(hint.triggerSpecificContent)) {
+      if (normalizedAnswer.includes(trigger.toLowerCase().trim())) {
+        return specificContent;
+      }
+    }
+  }
+  
+  // Ansonsten den Standard-Content verwenden
+  return hint.content;
 };

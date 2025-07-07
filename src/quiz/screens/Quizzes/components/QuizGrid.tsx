@@ -15,7 +15,7 @@ export const QuizGrid = ({ quizzes }: QuizGridProps) => {
 			console.log(`[QuizGrid] Quiz: ${quiz.id} - ${quiz.title}`);
 		}
 	}, [quizzes]);
-
+console.log({quizzes})
 	return (
 		<View style={styles.grid}>
 			{quizzes.map((quiz) => (

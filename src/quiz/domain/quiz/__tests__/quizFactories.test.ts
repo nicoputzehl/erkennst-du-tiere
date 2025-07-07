@@ -14,11 +14,12 @@ import {
 describe("Quiz Creation Utilities", () => {
 	describe("createQuizConfig", () => {
 		it("creates a basic quiz config with default values", () => {
-			const quiz = createTestQuiz({ id: "test-quiz", title: "My Quiz" });
+			const quiz = createTestQuiz({ id: "test-quiz", title: "My Quiz", description: "Beschreibung" });
 			const config = createQuizConfig(quiz);
 
 			expect(config.id).toBe("test-quiz");
 			expect(config.title).toBe("My Quiz");
+			expect(config.description).toBe("Beschreibung");
 			expect(config.initiallyLocked).toBe(false);
 			expect(config.order).toBe(1);
 			expect(config.initialUnlockedQuestions).toBe(2);

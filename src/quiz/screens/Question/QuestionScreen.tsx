@@ -34,7 +34,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		isSolved,
 		handleSubmit,
 		handleBack,
-		// TODO Hints noch entfernen
 		hint,
 		hasVisibleHints,
 		clearAnswer,
@@ -48,7 +47,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
-	// TODO auf anderen Komponente außerhalb des Views
 	const headerActions = useMemo(() => {
 		const actions = [];
 
