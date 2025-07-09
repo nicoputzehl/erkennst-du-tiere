@@ -7,10 +7,10 @@ const namibiaQuiz : Quiz= {
 	title: "Tiere Namibias",
 	questions: namibia,
 	titleImage: require("./data/quizzes/namibia/img/namibia_title.jpg"),
+	description: "Die meisten Tiere sind wahrscheinlich bekannt. Darum ist der Auschnitt etwas schwieriger 😉"
 };
 
 const emojiAnimalsQuiz = {
-	description: "BLA",
 	id: "emoji_animals",
 	title: "Emojis",
 	questions: emojiAnimals,
@@ -27,12 +27,12 @@ const weirdAnimalsQuiz = {
 export const animalQuizConfigs = [
 	QuizUtils.createQuizConfig(namibiaQuiz, {
 		order: 1,
-		initiallyLocked: true,
+		initiallyLocked: false,
 	}),
 
 	QuizUtils.createQuizConfig(emojiAnimalsQuiz, {
 		order: 2,
-		initiallyLocked: false,
+		initiallyLocked: true,
 		unlockCondition: QuizUtils.createProgressUnlockCondition(
 			"namibia",
 			7,

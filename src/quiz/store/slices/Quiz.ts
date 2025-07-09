@@ -71,6 +71,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
       title: config.title,
       questions: config.questions,
       titleImage: config.titleImage,
+      description: config.description,
     };
     set((state) => ({
       quizzes: { ...state.quizzes, [config.id]: quiz },

@@ -23,8 +23,6 @@ export const QuizCardContent = memo(
 	}: QuizCardViewProps) => {
 		const isNewCard = variant === "active" && !quizCardProgress;
 
-		console.warn({quiz})
-
 		const handlePress = useCallback(() => {
 			if (variant === "active" && onPress) {
 				onPress(quiz.id);
