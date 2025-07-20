@@ -9,6 +9,7 @@ import { QuizGrid } from "./components/QuizGrid";
 import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
 import { useCallback } from "react";
 import { NavigationService } from "../../services/NavigationService";
+import { useDatabase } from "@/db/DatabaseProvider";
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -16,6 +17,9 @@ type QuizzesProps = {
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	useQuizzesScreen();
+	const { error, isReady } = useDatabase();
+
+	console.log({ error }, { isReady })
 
 	const iconColor = useThemeColor({}, "icon");
 

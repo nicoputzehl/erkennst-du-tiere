@@ -11,6 +11,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { ToastContainer } from "@/src/quiz/components/ToastContainer";
 import { QuizProvider } from "@/src/quiz/contexts/QuizProvider";
+import { DatabaseProvider } from "@/db/DatabaseProvider";
 
 export default function RootLayout() {
 	const colorScheme = useColorScheme();
@@ -21,24 +22,26 @@ export default function RootLayout() {
 	}
 
 	return (
-		<QuizProvider>
-			<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-				<Stack screenOptions={{ headerShown: false }}>
-					<Stack.Screen name="index" options={{ headerShown: false }} />
-					<Stack.Screen
-						name="quiz/[quizId]/[questionId]/hints-modal"
-						options={{
-							presentation: "modal",
-							headerShown: false,
-							gestureEnabled: true,
-							animationDuration: 300,
-						}}
-					/>
-					<Stack.Screen name="+not-found" />
-				</Stack>
-				<StatusBar style="auto" />
-				<ToastContainer />
-			</ThemeProvider>
-		</QuizProvider>
+		<DatabaseProvider>
+			<QuizProvider>
+				<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+					<Stack screenOptions={{ headerShown: false }}>
+						<Stack.Screen name="index" options={{ headerShown: false }} />
+						<Stack.Screen
+							name="quiz/[quizId]/[questionId]/hints-modal"
+							options={{
+								presentation: "modal",
+								headerShown: false,
+								gestureEnabled: true,
+								animationDuration: 300,
+							}}
+						/>
+						<Stack.Screen name="+not-found" />
+					</Stack>
+					<StatusBar style="auto" />
+					<ToastContainer />
+				</ThemeProvider>
+			</QuizProvider>
+		</DatabaseProvider>
 	);
 }
