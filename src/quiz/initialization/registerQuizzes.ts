@@ -1,5 +1,6 @@
 import type { QuizConfig } from "@/src/quiz/types";
 import { useQuizStore } from "../store/Store";
+import { QuizOperations } from "@/db/operations";
 
 /**
  * Simplified quiz registration - replaces the complex utils/index.ts approach
@@ -12,6 +13,26 @@ export function registerQuizzes(configs: QuizConfig[]) {
 	for (const config of configs) {
 		console.log(`[QuizInit] Registering quiz: ${config.id}`);
 		store.registerQuiz(config);
+		
+		const quizData = {
+			quiz: {
+				id: config.id,
+				title: config.title,
+				description: config.description,
+				titleImage: config.titleImage,
+			},
+			config: {
+				initiallyLocked: config.initiallyLocked,
+				unlockCondition: config.unlockCondition,
+				order: config.order,
+				initialUnlockedQuestions: config.initialUnlockedQuestions,
+			},
+			questions: config.questions.map((question) => ({
+				...question,
+				quizId: config.id, // Add the quizId property to each question object
+			})),
+		};
+		QuizOperations.registerQuiz(quizData);
 	}
 
 	console.log(

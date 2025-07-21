@@ -4,6 +4,7 @@ import { db, optimizeDatabase } from '../db/client';
 import migrations from '../drizzle/migrations';
 import { Text, View } from 'react-native';
 
+
 interface DatabaseContextType {
   db: typeof db;
   isReady: boolean;
@@ -14,8 +15,10 @@ const DatabaseContext = createContext<DatabaseContextType | null>(null);
 
 export function DatabaseProvider({ children }: { children: ReactNode }) {
   const { success, error } = useMigrations(db, migrations);
+
   const [isOptimized, setIsOptimized] = useState(false);
 
+  
   useEffect(() => {
     if (success && !isOptimized) {
       optimizeDatabase().then(() => {

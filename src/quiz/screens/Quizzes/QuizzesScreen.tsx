@@ -10,6 +10,9 @@ import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
 import { useCallback } from "react";
 import { NavigationService } from "../../services/NavigationService";
 import { useDatabase } from "@/db/DatabaseProvider";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { expoDatabase } from "@/db/client";
+
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -17,8 +20,8 @@ type QuizzesProps = {
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	useQuizzesScreen();
-	const { error, isReady } = useDatabase();
-
+	const { error, isReady, db } = useDatabase();
+	useDrizzleStudio(expoDatabase);
 	console.log({ error }, { isReady })
 
 	const iconColor = useThemeColor({}, "icon");
