@@ -1,6 +1,7 @@
 import { eq, and, asc, isNotNull } from 'drizzle-orm';
 import { db } from './client';
 import * as schema from './schema';
+import { QuizUtils } from '@/src/quiz/domain/quiz';
 
 export const QuizOperations = {
   // Quiz Registration (entspricht registerQuiz aus Store)
@@ -92,7 +93,11 @@ export const QuizOperations = {
     }
 
     // Hier Ihre bestehende Antwort-Validierung einsetzen
-    const isCorrect = answer.toLowerCase().trim() === question.answer.toLowerCase().trim();
+    const isCorrect = QuizUtils.isAnswerCorrect(
+      answer,
+      question.answer,
+      question.alternativeAnswers
+    )
 
     if (!isCorrect) {
       await this.recordWrongAnswer(questionId);

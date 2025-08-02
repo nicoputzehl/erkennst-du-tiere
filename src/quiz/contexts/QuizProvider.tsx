@@ -56,6 +56,10 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	// Effekt zur Registrierung statischer Quiz-Daten
 	useEffect(() => {
 		let isMounted = true;
+		const registerQuizzesEffect = async () => {
+			await registerQuizzes(animalQuizConfigs);
+		}
+
 
 		console.log(
 			`[QuizProvider-Effect1] Check conditions - Hydrated: ${hasStoreHydrated}, RegisteredRef: ${hasRegisteredQuizzesRef.current}, DataLoadedInStore: ${isQuizDataLoadedInStore}, QuizzesCount: ${Object.keys(quizzesRecord).length}`,
@@ -78,7 +82,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		);
 
 		try {
-			registerQuizzes(animalQuizConfigs);
+			registerQuizzesEffect();
 
 			const currentQuizzesInStore = useQuizStore.getState().quizzes;
 			console.log(

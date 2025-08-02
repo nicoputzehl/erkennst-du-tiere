@@ -29,7 +29,7 @@ export function arePhoneticallySimilar(
 export const isAnswerCorrect = (
 	userAnswer: string,
 	correctAnswer: string,
-	alternativeAnswers?: string[],
+	alternativeAnswers?: string[] | null,
 ): boolean => {
 	if (!userAnswer || !correctAnswer) {
 		// Basic null/undefined/empty check

@@ -98,7 +98,7 @@ export const questions = sqliteTable('questions', {
   quizId: text('quiz_id').notNull().references(() => quiz.id, { onDelete: 'cascade' }),
   images: text('images', { mode: 'json' }).$type<QuizImages>().notNull(),
   answer: text('answer').notNull(),
-  alternativeAnswers: text('alternative_answers', { mode: 'json' }).$type<string[]>(),
+  alternativeAnswers: text('alternative_answers', { mode: 'json' }).$type<string[]>().default([]),
   funFact: text('fun_fact'),
   wikipediaName: text('wikipedia_name'),
   title: text('title'),
@@ -120,9 +120,7 @@ export const questionState = sqliteTable('question_state', {
   questionId: integer('question_id').primaryKey().references(() => questions.id, { onDelete: 'cascade' }),
   quizId: text('quiz_id').notNull().references(() => quiz.id, { onDelete: 'cascade' }),
   status: text('status').$type<QuestionStatus>().notNull().default(QuestionStatus.INACTIVE),
-}, (table) => ({
-  quizIdx: index('question_state_quiz_idx').on(table.quizId),
-}));
+}, (table) => [index("question_state_quiz_idx").on(table.quizId)]);
 
 export const hintState = sqliteTable('hint_state', {
   questionId: integer('question_id').primaryKey().references(() => questions.id, { onDelete: 'cascade' }),

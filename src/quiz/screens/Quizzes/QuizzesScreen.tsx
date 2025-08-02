@@ -20,7 +20,7 @@ type QuizzesProps = {
 
 export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 	useQuizzesScreen();
-	const { error, isReady, db } = useDatabase();
+	const { error, isReady } = useDatabase();
 	useDrizzleStudio(expoDatabase);
 	console.log({ error }, { isReady })
 

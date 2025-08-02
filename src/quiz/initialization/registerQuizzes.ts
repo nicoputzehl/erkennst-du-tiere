@@ -5,7 +5,7 @@ import { QuizOperations } from "@/db/operations";
 /**
  * Simplified quiz registration - replaces the complex utils/index.ts approach
  */
-export function registerQuizzes(configs: QuizConfig[]) {
+export async function registerQuizzes(configs: QuizConfig[]) {
 	const store = useQuizStore.getState();
 
 	console.log(`[QuizInit] Registering ${configs.length} quiz configs`);
@@ -32,7 +32,7 @@ export function registerQuizzes(configs: QuizConfig[]) {
 				quizId: config.id, // Add the quizId property to each question object
 			})),
 		};
-		QuizOperations.registerQuiz(quizData);
+		await QuizOperations.registerQuiz(quizData);
 	}
 
 	console.log(
