@@ -1,4 +1,4 @@
-import type { QuestionBase } from "@/src/quiz";
+import { HintType, type QuestionBase } from "@/src/quiz";
 
 export const emojiAnimals: QuestionBase[] = [
 	{
@@ -11,13 +11,15 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/stachelschwein.png"),
 		},
 		wikipediaName: "Stachelschweine",
-		// hints: [
-		// 	createContextualHint(
-		// 		1,
-		// 		["igel"],
-		// 		"Richtung stimmt.", { title: "ja, aber nein." }
-		// 	),
-		// ]
+		contextualHints: [
+			{
+				id: "igel",
+				triggers: ["igel"],
+				content: "Fast...",
+				title: "Die Richtung stimmt",
+				type: HintType.CONTEXTUAL
+			}
+		]
 	},
 	{
 		id: 2,
@@ -28,18 +30,22 @@ export const emojiAnimals: QuestionBase[] = [
 			imageUrl: require("./img/kaiserpinguin.png"),
 			thumbnailUrl: require("./img/thumbnails/kaiserpinguin.png"),
 		},
-		// hints: [
-		// 	createContextualHint(
-		// 		2,
-		// 		["pinguin"],
-		// 		"Ich weiß, dass kannst du besser.", { title: "Ernsthaft?!" }
-		// 	),
-		// 	createContextualHint(
-		// 		2,
-		// 		["königspinguin", "königs-pinguin"],
-		// 		"Guter Versuch! Aber denk mal nach: Der berühmte römische Herrscher Augustus. War der ein König?", { title: "Ganz kanpp..." }
-		// 	),
-		// ]
+		contextualHints: [
+			{
+				id: "pinguin",
+				triggers: ["pinguin"],
+				content: "Etwas genauer wird gesucht.",
+				title: "Nicht falsch",
+				type: HintType.CONTEXTUAL
+			},
+			{
+				id: "koeningspinguin",
+				triggers: ["königspinguin", "königs-pinguin"],
+				content: "Schon royal. Aber irgendwie ... mehr",
+				title: "Ganz kanpp...",
+				type: HintType.CONTEXTUAL
+			},
+		]
 	},
 	{
 		id: 3,
@@ -72,14 +78,23 @@ export const emojiAnimals: QuestionBase[] = [
 			imageUrl: require("./img/narwal.png"),
 			thumbnailUrl: require("./img/thumbnails/narwal.png"),
 		},
-		// hints: [
-		// 	createContextualHint(
-		// 		1,
-		// 		["igel"],
-		// 		"Aber auch ein Säugetier", { title: "Leider nicht." }
-		// 	),
-		// 	createAutoFreeHint(5, "KEIN Fisch", 5, "Leider nicht.")
-		// ]
+		contextualHints: [
+			{
+				id: "igel",
+				triggers: ["igel"],
+				content: "Aber auch ein Säugetier",
+				title: "Leider nicht.",
+				type: HintType.CONTEXTUAL
+			}
+		],
+		autoFreeHints: [
+			{
+				id: "fisch",
+				content: "KEIN Fisch",
+				type: HintType.AUTO_FREE,
+				triggerAfterAttempts: 5
+			}
+		]
 	},
 	{
 		id: 6,
@@ -91,10 +106,22 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/zitteraal.png"),
 		},
 		wikipediaName: "Zitteraale",
-		// hints: [
-		// 	createAutoFreeHint(6, "EIN Fisch", 3, "Rate weiter."),
-		// 	createAutoFreeHint(6, "Der Wurm soll an die Körperform erinnern.", 5, "Ok, noch ein Tipp.")
-		// ]
+		autoFreeHints: [
+			{
+				id: "fisch",
+				content: "KEIN Fisch",
+				title: "Kleiner Tipp",
+				type: HintType.AUTO_FREE,
+				triggerAfterAttempts: 3
+			},
+			{
+				id: "fisch",
+				content: "Der Wurm soll an ein Hinweise für die Körperform des gesuchten Tieres sein.",
+				title: "Ok, noch ein Tipp.",
+				type: HintType.AUTO_FREE,
+				triggerAfterAttempts: 5
+			}
+		]
 	},
 	{
 		id: 7,
@@ -107,11 +134,22 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/wuestenrennmaus.png"),
 		},
 		wikipediaName: "Rennmäuse",
-		// hints: [
-		// 	createContextualHint(7, ["rennmaus"], "Aber WO rennt sie?", { title: "Gleich gelöst." }),
-		// 	createContextualHint(7, ["maus"], "Aber WO und WIE?", { title: "Obvious." }),
-
-		// ]
+		contextualHints: [
+			{
+				id: "rennmaus",
+				triggers: ["rennmaus"],
+				content: "Aber WO rennt sie?",
+				title: "Gleich gelöst.",
+				type: HintType.CONTEXTUAL
+			},
+			{
+				id: "maus",
+				triggers: ["maus"],
+				content: "WO und WIE?",
+				title: "Nicht falsch,",
+				type: HintType.CONTEXTUAL
+			},
+		]
 	},
 	{
 		id: 8,

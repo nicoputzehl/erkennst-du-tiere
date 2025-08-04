@@ -67,11 +67,14 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/nilpferd_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/nilpferd_unsolved.jpg"),
 		},
-		// hints: [
-
-
-		// 	createAutoFreeHint(2, "Ich bin ein großes Säugetier, das viel Zeit im Wasser verbringt und dessen Name 'Pferd des Flusses' Flussbedeutet.", 7)
-		// ],
+		autoFreeHints: [
+			{
+				id: "fpferd",
+				type: HintType.AUTO_FREE,
+				content: "Ich bin ein großes Säugetier, das viel Zeit im Wasser verbringt...",
+				triggerAfterAttempts: 2,
+			}
+		]
 	},
 
 	{
@@ -86,9 +89,14 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/flamingo_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/flamingo_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(2, "Ich bin ein Stelzvogel, bekannt für meine leuchtende Farbe und dass ich oft auf einem Bein stehe.", 4)
-		// ],
+		autoFreeHints: [
+			{
+				id: "stelz",
+				type: HintType.AUTO_FREE,
+				content: "Ich bin ein Stelzvogel, bekannt für meine leuchtende Farbe und dass ich oft auf einem Bein stehe.",
+				triggerAfterAttempts: 4
+			}
+		]
 	},
 	{
 		id: 4,
@@ -102,26 +110,17 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/loewe_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/loewe_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(4, "Man nennt mich auch den König der Tiere.")
-		// ],
+		autoFreeHints: [
+			{
+				id: "loew",
+				type: HintType.AUTO_FREE,
+				content: "Man nennt mich auch den König der Tiere.",
+				triggerAfterAttempts: 4
+			}
+		]
 	},
-	// TODO: nicht verwendete Tiere evtl später hinzufügen
-	// {
-	// 	id: 5,
-	// 	answer: "Oryxantilope",
-	// 	alternativeAnswers: ["Oryx"],
-	// 	funFact:
-	// 		"Oryxantilopen können monatelang ohne Wasser überleben und ihren Wasserbedarf komplett aus der Nahrung decken, selbst in der Sahara.",
-	// 	images: {
-	// 		imageUrl: require("./img/oryxantilope.jpg"),
-	// 		thumbnailUrl: require("./img/thumbnails/oryxantilope.jpg"),
-	// 		unsolvedImageUrl: require("./img/oryxantilope_unsolved.jpg"),
-	// 		unsolvedThumbnailUrl: require("./img/thumbnails/oryxantilope_unsolved.jpg"),
-	// 	},
-	// },
 	{
-		id: 6,
+		id: 5,
 		answer: "Nashorn",
 		title: "Ein Dickhäuter.",
 		funFact:
@@ -132,12 +131,17 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/nashorn_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/nashorn_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(6, "Den Namensgebenden Teil meines Gesichts kann man nicht sehen.")
-		// ],
+		autoFreeHints: [
+			{
+				id: "nashorn",
+				type: HintType.AUTO_FREE,
+				content: "Den Namensgebenden Teil meines Gesichts kann man nicht sehen.",
+				triggerAfterAttempts: 6
+			}
+		]
 	},
 	{
-		id: 7,
+		id: 6,
 		answer: "Zebra",
 		title: "Das ist leicht",
 		funFact:
@@ -148,12 +152,17 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/zebra_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/zebra_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(6, "Ich bin mit Pferden verwandt.")
-		// ],
+		autoFreeHints: [
+			{
+				id: "zebra",
+				type: HintType.AUTO_FREE,
+				content: "Ich bin mit Pferden verwandt.",
+				triggerAfterAttempts: 6
+			}
+		]
 	},
 	{
-		id: 8,
+		id: 7,
 		answer: "Strauss",
 		title: "Ein Vogel.",
 		funFact:
@@ -164,25 +173,17 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/strauss_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/strauss_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(8, "Steck mal nicht den Kopf in den Sand.")
-		// ],
+		autoFreeHints: [
+			{
+				id: "strauss",
+				type: HintType.AUTO_FREE,
+				content: "Nicht den Kopf in den Sand.",
+				triggerAfterAttempts: 4
+			}
+		]
 	},
-	// {
-	// 	id: 9,
-	// 	answer: "Südafrikanischer-Seebär",
-	// 	alternativeAnswers: ["Seebär"],
-	// 	funFact:
-	// 		"Südafrikanische Seebären können ihre Hinterflossen nach vorne drehen und dadurch als einzige Robbenart richtig 'laufen' statt nur robben.",
-	// 	images: {
-	// 		imageUrl: require("./img/suedafrikanischer-seebaer.jpg"),
-	// 		thumbnailUrl: require("./img/thumbnails/suedafrikanischer-seebaer.jpg"),
-	// 		unsolvedImageUrl: require("./img/suedafrikanischer-seebaer_unsolved.jpg"),
-	// 		unsolvedThumbnailUrl: require("./img/thumbnails/suedafrikanischer-seebaer_unsolved.jpg"),
-	// 	},
-	// },
 	{
-		id: 10,
+		id: 8,
 		answer: "Elefant",
 		title: "Nicht die Zebras im Hintergrund!",
 		funFact:
@@ -193,25 +194,18 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/elefant_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/elefant_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(10, "Tööröö", 3)
-		// ],
+		autoFreeHints: [
+			{
+				id: "elefant",
+				type: HintType.AUTO_FREE,
+				content: "Tööörööö",
+				triggerAfterAttempts: 3
+			}
+		]
+
 	},
-	// {
-	// 	id: 11,
-	// 	answer: "Steenbock",
-	// 	alternativeAnswers: ["Steinböckchen", "Steinbock"],
-	// 	funFact:
-	// 		"Steinböcke sind so kleine Antilopen, dass sie sich bei Gefahr regungslos hinlegen und dank ihrer braunen Farbe praktisch unsichtbar werden.",
-	// 	images: {
-	// 		imageUrl: require("./img/steenbock.jpg"),
-	// 		thumbnailUrl: require("./img/thumbnails/steenbock.jpg"),
-	// 		unsolvedImageUrl: require("./img/steenbock_unsolved.jpg"),
-	// 		unsolvedThumbnailUrl: require("./img/thumbnails/steenbock_unsolved.jpg"),
-	// 	},
-	// },
 	{
-		id: 12,
+		id: 9,
 		answer: "Kap-Borstenhörnchen",
 		title: "Wer könnte ich sein.",
 		alternativeAnswers: ["Borstenhörnchen"],
@@ -223,13 +217,25 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/kap-borstenhoernchen_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/kap-borstenhoernchen_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createContextualHint(12, ["Erdmännchend"], "Die gesuchten Tieren bilden sogar manchmal WGs mit Erdmännchen.", { title: "Könnte man meinen" }),
-		// 	createContextualHint(12, ["Eichhörnchen", "Streifenhörnchen", "Hörnchen"], "Hönrchen ist schonmal nicht schlecht.", { title: "Fast...." })
-		// ],
+		contextualHints: [
+			{
+				id: "erdmaennchen",
+				type: HintType.CONTEXTUAL,
+				title: "Könnte man meinen",
+				content: "Die gesuchten Tieren bilden sogar manchmal WGs mit Erdmännchen.",
+				triggers: ["Erdmännchen"]
+			},
+			{
+				id: "hoernchen",
+				type: HintType.CONTEXTUAL,
+				title: "Fast...",
+				content: "Hönrchen ist schonmal nicht schlecht.",
+				triggers: ["Eichhörnchen", "Streifenhörnchen", "Hörnchen"]
+			}
+		]
 	},
 	{
-		id: 13,
+		id: 10,
 		answer: "Giraffe",
 		title: "Hallo da unten",
 		funFact:
@@ -240,13 +246,23 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/giraffe_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/giraffe_unsolved.jpg"),
 		},
-		// hints: [
-		// 	createAutoFreeHint(13, "Schwer zu erkennen. Aber versuch mal das Muster zu erkennen.", 3),
-		// 	createAutoFreeHint(13, "Die Zunge des gesuchten Tieres kann 45-50 Zentimeter lang werden und ist oft bläulich-violett gefärbt", 6)
-		// ],
+		autoFreeHints: [
+			{
+				id: "giraffe",
+				type: HintType.AUTO_FREE,
+				content: "Schwer zu erkennen. Aber versuch mal das Muster zu erkennen.",
+				triggerAfterAttempts: 3
+			},
+			{
+				id: "giraffe2",
+				type: HintType.AUTO_FREE,
+				content: "Die Zunge des gesuchten Tieres kann 45-50 Zentimeter lang werden und ist oft bläulich-violett gefärbt.",
+				triggerAfterAttempts: 6
+			},
+		]
 	},
 	{
-		id: 14,
+		id: 11,
 		answer: "Warzenschwein",
 		title: "Hakuna Matata!",
 		funFact:
@@ -257,13 +273,17 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/warzenschwein_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/warzenschwein_unsolved.jpg"),
 		},
-
-		// hints: [
-		// 	createAutoFreeHint(14, "Nicht Timon!", 3)
-		// ],
+		autoFreeHints: [
+			{
+				id: "warzenschwein",
+				type: HintType.AUTO_FREE,
+				content: "Nicht Timon!",
+				triggerAfterAttempts: 3
+			}
+		]
 	},
 	{
-		id: 15,
+		id: 12,
 		answer: "Gelbschnabeltoko",
 		title: "Nashornvogel.",
 		funFact:
@@ -274,10 +294,19 @@ export const namibia: QuestionBase[] = [
 			unsolvedImageUrl: require("./img/gelbschnabeltoko_unsolved.jpg"),
 			unsolvedThumbnailUrl: require("./img/thumbnails/gelbschnabeltoko_unsolved.jpg"),
 		},
-
-		// hints: [
-		// 	createAutoFreeHint(15, "Denk mal an die Farbe des Schnabels.", 4),
-		// 	createAutoFreeHint(15, "Sein Name verrät schon einiges über sein markantestes Merkmal.", 8)
-		// ],
+		autoFreeHints: [
+			{
+				id: "gelbschnabeltoko",
+				type: HintType.AUTO_FREE,
+				content: "Denk mal an die Farbe des Schnabels.",
+				triggerAfterAttempts: 4
+			},
+			{
+				id: "gelbschnabeltoko2",
+				type: HintType.AUTO_FREE,
+				content: "Sein Name verrät schon einiges über sein markantestes Merkmal.",
+				triggerAfterAttempts: 7
+			},
+		]
 	},
 ];
