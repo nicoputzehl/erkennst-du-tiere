@@ -1,5 +1,5 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ContentWrapper } from "./components/ContentWrapper";
 
@@ -29,16 +29,18 @@ export const QuizCardContent = memo(
 			}
 		}, [variant, onPress, quiz.id]);
 
+		const descriptionText = useMemo(() => variant === "locked" ? unlockProgress?.condition?.description : quiz.description, [unlockProgress?.condition?.description, quiz.description, variant])
+
 		const innerContent = (
 			<View style={styles.quizCardInner}>
 				<StartItem variant={variant} quiz={quiz} />
 				<View style={styles.quizCardContent}>
 					<View>
 
-					<ThemedText style={styles.quizTitle} numberOfLines={2}>
-						{quiz.title}
-					</ThemedText>	
-					<ThemedText lightColor="red" darkColor="red" style={styles.description}>{quiz.description}</ThemedText>
+						<ThemedText style={styles.quizTitle} numberOfLines={2}>
+							{quiz.title}
+						</ThemedText>
+						<ThemedText lightColor="red" darkColor="red" style={styles.description}>{descriptionText}</ThemedText>
 					</View>
 					<ProgressSection
 						variant={variant}

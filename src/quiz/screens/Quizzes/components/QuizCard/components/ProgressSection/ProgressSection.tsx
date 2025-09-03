@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { styles } from "../../QuizCard.styles";
 import type { QuizCardViewProps } from "../../QuizCard.types";
 import { Progress } from "./Progress";
-import { UnlockConditionText } from "./UnlockConditionText";
+// import { UnlockConditionText } from "./UnlockConditionText";
 
 export const ProgressSection = memo(
 	({
@@ -16,9 +16,10 @@ export const ProgressSection = memo(
 		QuizCardViewProps,
 		"variant" | "unlockProgress" | "quizCardProgress" | "quizCardProgressString"
 	>) => {
-		if (variant === "locked") {
-			return <UnlockConditionText unlockProgress={unlockProgress} />;
-		}
+		// TODO umbauen, damit die Komponente ein Höher genutzt wird
+		// if (variant === "locked") {
+		// 	return <UnlockConditionText unlockProgress={unlockProgress} />;
+		// }
 		return (
 			<View style={styles.activeProgressContainer}>
 				<Progress

@@ -1,4 +1,3 @@
-import { animalQuizConfigs } from "@/src/animals/quizzes";
 import { ThemedText } from "@/src/common/components/ThemedText";
 import React, { type ReactNode, useEffect, useRef } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
@@ -7,6 +6,7 @@ import {
 	registerQuizzes,
 } from "../initialization/registerQuizzes";
 import { useQuizStore } from "../store/Store";
+import { newAnmilQuizConfig } from "@/src/data";
 
 interface QuizProviderProps {
 	children: ReactNode;
@@ -78,7 +78,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		);
 
 		try {
-			registerQuizzes(animalQuizConfigs);
+			registerQuizzes(newAnmilQuizConfig);
 
 			const currentQuizzesInStore = useQuizStore.getState().quizzes;
 			console.log(

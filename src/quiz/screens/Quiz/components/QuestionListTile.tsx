@@ -87,7 +87,7 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 				}`}
 			>
 				<Image
-					source={getImageUrl(ImageType.THUMBNAIL)}
+					source={getImageUrl(ImageType.IMG)}
 					style={imageStyle}
 					contentFit="cover"
 					cachePolicy="memory-disk"

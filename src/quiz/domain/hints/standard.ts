@@ -17,13 +17,13 @@ const STANDARD_HINT_DEFINITIONS: StandardHintDefinition[] = [
   {
     type: HintType.LETTER_COUNT,
     title: "Buchstabenanzahl",
-    cost: 5,
+    cost: 2,
     description: "Zeigt die Anzahl der Buchstaben",
   },
   {
     type: HintType.FIRST_LETTER,
     title: "Erster Buchstabe", 
-    cost: 10,
+    cost: 2,
     description: "Zeigt den ersten Buchstaben",
   },
 ];
