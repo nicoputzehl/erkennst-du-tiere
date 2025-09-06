@@ -9,11 +9,10 @@ import { useResultState } from "./useQuestionResultState";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();
-	const { hasVisibleHints } = useHints(quizId, Number.parseInt(questionId));
-
+	const { hasVisibleHints, visibleHints, firstLetterHint } = useHints(quizId, Number.parseInt(questionId));
 
 	const navigation = useQuestionNavigation(quizId, questionId);
-	const answerState = useAnswerState();
+	const answerState = useAnswerState(firstLetterHint?.value || "");
 	const resultState = useResultState();
 
 	const quizState = getQuizState(quizId);
@@ -70,5 +69,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 
 		handleSubmit,
 		showResultReaction,
+		visibleHints
 	};
 }

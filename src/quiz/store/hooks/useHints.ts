@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import type { PurchasableHint, AutoFreeHint, HintTriggerResult } from "../../types/hint";
+import { type PurchasableHint, type AutoFreeHint, type HintTriggerResult, HintType } from "../../types/hint";
 import { useQuizStore } from "../Store";
 import { isAutoFreeHint, isContextualHint, isStandardHint, isCustomHint } from "../../domain/hints/validation";
 import { HintUtils } from "../../domain/hints";
@@ -15,7 +15,7 @@ export const useHints = (quizId: string, questionId: number) => {
   const recordWrongAnswerFromStore = useQuizStore((state) => state.recordWrongAnswer);
   const checkAutoFreeHintsFromStore = useQuizStore((state) => state.checkAutoFreeHints);
 
-  
+
   const allHintsWithStatus = useMemo(() => {
     console.log(`🔍 [useHints] Starting hint analysis for question ${questionId}`);
     console.log(`🔍 [useHints] Question exists: ${!!question}, HintState exists: ${!!hintState}`);
@@ -26,9 +26,8 @@ export const useHints = (quizId: string, questionId: number) => {
       return [];
     }
 
-    // Generiere alle Hints für diese Frage
     const allAvailableHints = HintUtils.generateAllHints(question);
-    
+
     console.log(`🔍 [useHints] Generated ${allAvailableHints.length} total hints:`, {
       standardHints: allAvailableHints.filter(isStandardHint).length,
       customHints: allAvailableHints.filter(isCustomHint).length,
@@ -36,7 +35,6 @@ export const useHints = (quizId: string, questionId: number) => {
       autoFreeHints: allAvailableHints.filter(isAutoFreeHint).length,
     });
 
-    // Detaillierte Analyse jedes Hints
     const hintsWithStatus = allAvailableHints.map((hint) => {
       console.log(`🔍 [useHints] Analyzing hint:`, {
         id: hint.id,
@@ -64,7 +62,7 @@ export const useHints = (quizId: string, questionId: number) => {
         reason = canUse
           ? undefined
           : `Erst nach ${hint.triggerAfterAttempts} falschen Versuchen`;
-        
+
         console.log(`🔍 [useHints] Auto-free hint ${hint.id}:`, {
           wrongAttempts: hintState.wrongAttempts,
           requiredAttempts: hint.triggerAfterAttempts,
@@ -124,24 +122,24 @@ export const useHints = (quizId: string, questionId: number) => {
     return hintsWithStatus;
   }, [question, hintState, globalPointsBalance, questionId]);
 
-  
+
   const purchasableHints = useMemo(() => {
     console.log(`🛒 [useHints] Filtering purchasable hints from ${allHintsWithStatus.length} total hints`);
-    
+
     const purchasable = allHintsWithStatus.filter((h) => {
       const isPurchasableType = isStandardHint(h.hint) || isCustomHint(h.hint);
       const isUsable = h.canUse;
-      
+
       console.log(`🛒 [useHints] Checking hint ${h.hint.id}:`, {
         isPurchasableType,
         isUsable,
         willBeIncluded: isPurchasableType && isUsable,
       });
-      
+
       return isPurchasableType && isUsable;
     }) as { hint: PurchasableHint; canUse: boolean; reason: string | undefined; alreadyUsed: boolean; }[];
 
-    console.log(`🛒 [useHints] Found ${purchasable.length} purchasable hints:`, 
+    console.log(`🛒 [useHints] Found ${purchasable.length} purchasable hints:`,
       purchasable.map(h => ({ id: h.hint.id, title: h.hint.title, cost: (h.hint as any).cost }))
     );
 
@@ -153,6 +151,20 @@ export const useHints = (quizId: string, questionId: number) => {
     console.log(`📖 [useHints] Used hints: ${used.length}`, used.map(h => h.id));
     return used;
   }, [hintState?.usedHints]);
+
+  const visibleHints = useMemo(() => {
+    const visible = hintState?.visibleHints || [];
+    console.log(`📖 [useHints] Visible hints: ${visible.length}`, visible.map(h => h.type));
+    return visible;
+  }, [hintState?.visibleHints]);
+
+  const firstLetterHint = useMemo(() => {
+    const firstLetter = hintState.visibleHints.find(h => h.type === HintType.FIRST_LETTER);
+    console.log(`📖 [useHints] First letter hint:`, firstLetter);
+    return firstLetter;
+  },[hintState.visibleHints]);
+
+
 
   const hasVisibleHints = useMemo(() => {
     const visible = usedHints.length > 0 || purchasableHints.length > 0;
@@ -223,6 +235,8 @@ export const useHints = (quizId: string, questionId: number) => {
     pointsBalance: globalPointsBalance,
     wrongAttempts: hintState?.wrongAttempts || 0,
     usedHints,
+    visibleHints,
+    firstLetterHint,
     hasVisibleHints,
     purchasableHints,
     handleUseHint,

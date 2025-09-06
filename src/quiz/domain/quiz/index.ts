@@ -4,7 +4,8 @@ import {
 	createQuizState,
 	// createUnlockCondition,
 	createPlaythroughUnlockCondition,
-	createProgressUnlockCondition
+	createProgressUnlockCondition,
+	createMultiplePlaythroughUnlockCondition
 } from "./factories";
 import { calculateAnswerResult, getNextActiveQuestionId } from "./progression";
 import {
@@ -22,6 +23,7 @@ export const QuizUtils = {
 	// createUnlockCondition,
 	createPlaythroughUnlockCondition,
 	createProgressUnlockCondition,
+	createMultiplePlaythroughUnlockCondition,
 	createQuizConfig,
 	createQuizState,
 

@@ -1,8 +1,8 @@
 import type { StateCreator } from "zustand";
+import { HintUtils } from "../../domain/hints";
 import { QuizUtils } from "../../domain/quiz";
 import type { ContextualHint, PointTransaction, Quiz, QuizConfig, QuizState, UnlockCondition } from "../../types";
 import type { QuizStore } from "../Store";
-import { HintUtils } from "../../domain/hints";
 
 export interface AnswerResult {
   isCorrect: boolean;
@@ -242,7 +242,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
           return (
             config?.initiallyLocked &&
             config.unlockCondition &&
-            config.unlockCondition.requiredQuizId === quizId
+            config.unlockCondition.requiredQuizIds === quizId
           );
         });
 

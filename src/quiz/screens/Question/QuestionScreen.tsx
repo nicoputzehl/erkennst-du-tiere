@@ -5,13 +5,14 @@ import { ThemedView } from "@/src/common/components/ThemedView";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMemo } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import Hint from "./components/Hint";
-import { QuestionContentContainer } from "./components/QuestionContentContainer";
 import { QuestionInput } from "./components/QuestionInput";
 import ResultReaction from "./components/ResultReaction";
 import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
+import { HintPatch } from "./components/HintPatch";
+import { QuestionImage } from "./components/QuestionImage";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -43,6 +44,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		showHint,
 		navigateToHintsModal,
 		showResultReaction,
+		visibleHints
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
@@ -69,7 +71,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		return actions;
 	}, [hasVisibleHints, handleBack, iconColor, navigateToHintsModal]);
 
-	// Early returns for error states
+
 	if (!quizId || !questionId) {
 		return <ErrorComponent message="Quiz oder Frage-ID fehlt" />;
 	}
@@ -104,23 +106,36 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 			/>
 			<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 			{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
-			<QuestionContentContainer question={question}>
-				{isSolved && (
-					<View style={styles.resultContainer}>
-						<Solved question={question} justSolved={statusChanged} />
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				style={{ flex: 1 }}
+			>
+				<View style={{ flex: 1, justifyContent: "space-between" }}>
+					<View style={styles.imageWrapper}>
+						<QuestionImage
+							question={question}
+						/>
+
+						<HintPatch hints={visibleHints} />
+
 					</View>
-				)}
-				{showInput && (
-					<QuestionInput
-						value={answer}
-						onChangeText={handleChangeAnswer}
-						onSubmit={handleSubmit}
-						onClear={clearAnswer}
-						isSubmitting={isSubmitting}
-						hasError={showResult && !isCorrect}
-					/>
-				)}
-			</QuestionContentContainer>
+					{isSolved && (
+						<View style={styles.resultContainer}>
+							<Solved question={question} justSolved={statusChanged} />
+						</View>
+					)}
+					{showInput && (
+						<QuestionInput
+							value={answer}
+							onChangeText={handleChangeAnswer}
+							onSubmit={handleSubmit}
+							onClear={clearAnswer}
+							isSubmitting={isSubmitting}
+							hasError={showResult && !isCorrect}
+						/>
+					)}
+				</View>
+			</KeyboardAvoidingView>
 		</ThemedView>
 	);
 };
@@ -141,5 +156,12 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		minHeight: 200,
 		padding: 16,
+	},
+	imageWrapper: {
+		alignItems: "center",
+		paddingHorizontal: 16,
+		paddingVertical: 16,
+		width: "100%",
+		gap: 16
 	},
 });

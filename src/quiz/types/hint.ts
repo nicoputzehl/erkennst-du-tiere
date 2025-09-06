@@ -1,28 +1,29 @@
 export enum HintType {
   LETTER_COUNT = "letter_count",
-  FIRST_LETTER = "first_letter", 
+  FIRST_LETTER = "first_letter",
   CUSTOM = "custom",
   CONTEXTUAL = "contextual",
   AUTO_FREE = "auto_free",
 }
 
-// ==========================================
-// VEREINFACHTE HINT-INTERFACES
-// ==========================================
-
-// Basis-Interface für alle Hints - jetzt mit content statt generator
 export interface HintBase {
   id: string;
   type: HintType;
   title?: string;
-  content: string; // Jetzt direkt als String, nicht mehr als Funktion
+  content: string;
+}
+
+export interface FirstLetterHint extends HintBase {
+  type: HintType.FIRST_LETTER;
+  cost: number;
+}
+export interface LetterCountHint extends HintBase {
+  type: HintType.LETTER_COUNT;
+  cost: number;
 }
 
 // Standard-Hints (Letter Count, First Letter) - werden automatisch generiert
-export interface StandardHint extends HintBase {
-  type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
-  cost: number;
-}
+export type StandardHint = FirstLetterHint | LetterCountHint;
 
 // Custom-Hints - statischer Content mit Kosten
 export interface CustomHint extends HintBase {
@@ -51,22 +52,26 @@ export type Hint = StandardHint | CustomHint | ContextualHint | AutoFreeHint;
 // Hints, die gekauft werden können (haben Kosten)
 export type PurchasableHint = StandardHint | CustomHint;
 
-// Hints, die bereits verwendet wurden
 export type UsedHint = {
   id: string;
   title: string;
   content: string;
 };
 
-// ==========================================
-// STATE TYPES (unverändert)
-// ==========================================
+export type VisibleHint = {
+  type: HintType.FIRST_LETTER;
+  value: string
+} | {
+  type: HintType.LETTER_COUNT;
+  value: number;
+}
 
 export interface HintState {
   questionId: number;
   usedHints: UsedHint[];
   wrongAttempts: number;
   autoFreeHintsUsed: string[];
+  visibleHints: VisibleHint[]
 }
 
 export interface PointTransaction {
@@ -86,10 +91,6 @@ export interface UserPointsState {
   spentPoints: number;
   pointsHistory: PointTransaction[];
 }
-
-// ==========================================
-// RESULT TYPES (unverändert)
-// ==========================================
 
 export interface UseHintResult {
   success: boolean;

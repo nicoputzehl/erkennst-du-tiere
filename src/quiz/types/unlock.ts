@@ -8,14 +8,20 @@ export interface PlaythroughCondition extends BaseUnlockCondition {
   requiredQuizId: string;
 }
 
+export interface MultiplePlaythroughCondition extends BaseUnlockCondition {
+  type: "multipleplaythrough";
+  requiredQuizId: string[];
+}
+
 export interface ProgressCondition extends BaseUnlockCondition {
   type: "progress";
   requiredQuizId: string;
   requiredQuestionsSolved: number;
 }
 
-
-export type UnlockCondition = PlaythroughCondition | ProgressCondition;
+export type MultipleUnlockConditions = MultiplePlaythroughCondition;
+export type SingleUnlockCondition = PlaythroughCondition | ProgressCondition;
+export type UnlockCondition = SingleUnlockCondition | MultipleUnlockConditions;
 
 export interface UnlockConditionProgress {
   condition: UnlockCondition;
@@ -23,17 +29,26 @@ export interface UnlockConditionProgress {
   isMet: boolean;
 }
 
+export function hasMultipleQuizIds(condition: UnlockCondition): condition is MultipleUnlockConditions {
+  return Array.isArray(condition.requiredQuizId);
+}
 
 export function isQuizPlaythroughCondition(
   condition: UnlockCondition
 ): condition is PlaythroughCondition {
-  return condition.type === "playthrough";
+  return !hasMultipleQuizIds(condition) && condition.type === "playthrough";
 }
 
 export function isQuizProgressCondition(
   condition: UnlockCondition
 ): condition is ProgressCondition {
-  return condition.type === "progress";
+  return !hasMultipleQuizIds(condition) && condition.type === "progress";
+}
+
+export function isMultiplePlaythroughCondition(
+  condition: UnlockCondition
+): condition is MultiplePlaythroughCondition {
+  return hasMultipleQuizIds(condition) && condition.type === "multipleplaythrough";
 }
 
 // export function isAnotherFutureCondition(

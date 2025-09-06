@@ -1,5 +1,5 @@
 import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
-import { type PlaythroughCondition, type ProgressCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
+import { type MultiplePlaythroughCondition, type ProgressCondition, isMultiplePlaythroughCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
 
 export const checkUnlockCondition = (
@@ -7,11 +7,15 @@ export const checkUnlockCondition = (
 	quizStates: Record<string, QuizState>,
 ): { isMet: boolean; progress: number } => {
 	if (isQuizPlaythroughCondition(condition)) {
-		return checkPlaythroughCondition(condition, quizStates);
+		return checkPlaythroughCondition(condition.requiredQuizId, quizStates);
 	}
 
 	if (isQuizProgressCondition(condition)) {
 		return checkProgressCondition(condition, quizStates);
+	}
+
+	if(isMultiplePlaythroughCondition(condition)) {
+		return checkMultiplePlaythroughCondition(condition, quizStates);
 	}
 	return {
 		isMet: false,
@@ -20,10 +24,10 @@ export const checkUnlockCondition = (
 };
 
 const checkPlaythroughCondition = (
-	condition: PlaythroughCondition,
+	quizId: string,
 	quizStates: Record<string, QuizState>,
 ): { isMet: boolean; progress: number } => {
-	const quizState = quizStates[condition.requiredQuizId];
+	const quizState = quizStates[quizId];
 
 	const isRequiredQuizCompleted = quizState
 		? isCompleted(quizState)
@@ -33,6 +37,20 @@ const checkPlaythroughCondition = (
 		progress: isRequiredQuizCompleted ? 100 : 0,
 	};
 };
+
+const checkMultiplePlaythroughCondition = (
+	condition: MultiplePlaythroughCondition,
+	quizStates: Record<string, QuizState>,
+): { isMet: boolean; progress: number } => {
+	const results = condition.requiredQuizId.map((quizId) =>
+		checkPlaythroughCondition(quizId, quizStates)
+	);
+	const isMet = results.every((result) => result.isMet);
+	const totalProgress = results.reduce((acc, result) => acc + result.progress, 0);
+	const progress = isMet ? totalProgress / condition.requiredQuizId.length : 0;
+	return { isMet, progress };
+};
+
 
 const checkProgressCondition = (
 	condition: ProgressCondition,

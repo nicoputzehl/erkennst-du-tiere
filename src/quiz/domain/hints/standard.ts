@@ -1,11 +1,6 @@
 import type { AutoFreeHint, ContextualHint, CustomHint, QuestionBase } from "../../types";
 import { type StandardHint, HintType } from "../../types/hint";
 
-// ==========================================
-// STANDARD-HINT-DEFINITIONEN
-// ==========================================
-
-// Diese Hints werden automatisch für jede Frage generiert
 interface StandardHintDefinition {
   type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
   title: string;
@@ -28,21 +23,21 @@ const STANDARD_HINT_DEFINITIONS: StandardHintDefinition[] = [
   },
 ];
 
-// ==========================================
-// STANDARD-HINT-GENERIERUNG
-// ==========================================
+export function getLetterCount(question: QuestionBase): number {
+  return question.answer.length;
+}
 
-/**
- * Generiert den Content für Standard-Hints basierend auf der Frage
- * Das passiert zur Laufzeit, wenn der Hint tatsächlich gebraucht wird
- */
+export function getFirstLetter(question: QuestionBase): string {
+  return question.answer[0].toUpperCase();
+}
+
 function generateStandardHintContent(hintType: HintType, question: QuestionBase): string {
   switch (hintType) {
     case HintType.LETTER_COUNT:
-      return `Das gesuchte Tier hat ${question.answer.length} Buchstaben`;
+      return `Das gesuchte Tier hat ${getLetterCount(question)} Buchstaben`;
       
     case HintType.FIRST_LETTER:
-      return `Das gesuchte Tier beginnt mit "${question.answer[0].toUpperCase()}"`;
+      return `Das gesuchte Tier beginnt mit "${getFirstLetter(question)}"`;
       
     default:
       console.warn(`Unknown standard hint type: ${hintType}`);

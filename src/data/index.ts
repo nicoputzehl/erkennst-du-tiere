@@ -6,11 +6,11 @@ export const newAnmilQuizConfig = [
   QuizUtils.createQuizConfig(emojiAnimalsQuiz),
   QuizUtils.createQuizConfig(afrikaQuiz, {
     initiallyLocked: true,
-    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("europa", 'Schließe "Europa" ab, um Afrika freizuschalten.')
+    unlockCondition: QuizUtils.createMultiplePlaythroughUnlockCondition(["europa", "emojis"], 'Schließe "Europa" und "Emojis" ab, um Afrika freizuschalten.')
   }),
   QuizUtils.createQuizConfig(vogelIllustrationenQuiz, {
     initiallyLocked: true,
-    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("emojis", 'Schließe "Emojis" ab, um Heimische Vögel freizuschalten.')
+    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("emojis", 'Schließe "Emojis" ab, um Heimirsche Vögel freizuschalten.')
   }),
   QuizUtils.createQuizConfig(australienQuiz, {
     initiallyLocked: true,

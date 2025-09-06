@@ -3,32 +3,34 @@ import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { Image } from "expo-image";
 import type React from "react";
 import { memo, useState } from "react";
-import { ActivityIndicator, Animated, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react-native";
+import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
+import type { Question } from "@/src/quiz/types";
+import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
 
 interface QuestionImageProps {
-	imageUrl: number;
-	thumbnailUrl?: number;
-	animatedHeight?: Animated.Value;
+	question: Question;
 }
 
 export const QuestionImage: React.FC<QuestionImageProps> = memo(
-	({ imageUrl, thumbnailUrl, animatedHeight }) => {
+	({ question }) => {
 		const [isLoading, setIsLoading] = useState(true);
+		const { getImageUrl } = useImageDisplay(question.images, question.status);
 
-		// Sicherstellen dass nur ein String zurückgegeben wird
-		const backgroundColor = useThemeColor(
-			{ light: "rgba(0, 0, 0, 0.05)", dark: "rgba(255, 255, 255, 0.1)" },
-			"background",
-		);
+		const initialImageWidth =
+			Dimensions.get("window").width -
+			(styles.imageWrapper.paddingHorizontal || 0) * 2; // Berücksichtige das horizontale Padding
+		const { imageSize } = useKeyboardHandling({
+			initialImageSize: initialImageWidth,
+		});
 
 		const tintColor = useThemeColor({}, "tint");
 
 		return (
 			<Animated.View
 				style={[
-					styles.container,
-					{ backgroundColor },
-					animatedHeight && { height: animatedHeight },
+					styles.imageContainer,
+					{ height: imageSize, width: imageSize }, // Breite und Höhe auf imageSize setzen für 1:1 Ratio
 				]}
 			>
 				{isLoading && (
@@ -37,14 +39,14 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 					</View>
 				)}
 				<Image
-					source={imageUrl}
-					style={[styles.image, !!thumbnailUrl && styles.fullImageOverlay]}
+					source={getImageUrl(ImageType.IMG)}
+					style={[styles.image, !!getImageUrl(ImageType.THUMBNAIL) && styles.fullImageOverlay]}
 					contentFit="cover"
 					cachePolicy="memory-disk"
-					transition={thumbnailUrl ? 400 : 300}
+					transition={getImageUrl(ImageType.THUMBNAIL) ? 400 : 300}
 					priority="high"
 					placeholder={
-						!thumbnailUrl
+						!getImageUrl(ImageType.THUMBNAIL)
 							? require("@/assets/images/placeholder.jpg")
 							: undefined
 					}
@@ -55,16 +57,14 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 						setIsLoading(false);
 					}}
 					allowDownscaling={true}
-					recyclingKey={imageUrl.toString()}
+					recyclingKey={getImageUrl(ImageType.IMG).toString()}
 				/>
 			</Animated.View>
 		);
 	},
 	(prevProps, nextProps) => {
 		return (
-			prevProps.imageUrl === nextProps.imageUrl &&
-			prevProps.thumbnailUrl === nextProps.thumbnailUrl &&
-			prevProps.animatedHeight === nextProps.animatedHeight
+			prevProps.question === nextProps.question
 		);
 	},
 );
@@ -99,5 +99,16 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		zIndex: 1,
+	},
+	imageContainer: {
+		overflow: "hidden",
+		borderRadius: 16,
+	},
+	imageWrapper: {
+		alignItems: "center",
+		paddingHorizontal: 16,
+		paddingVertical: 16,
+		width: "100%",
+		gap: 16
 	},
 });

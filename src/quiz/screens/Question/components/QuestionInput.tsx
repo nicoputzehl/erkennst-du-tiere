@@ -1,4 +1,3 @@
-// src/quiz/screens/Question/components/QuestionInput/QuestionInput.tsx - NEW OPTIMIZED COMPONENT
 import ThemedTextInput from "@/src/common/components/ThemedTextInput";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 2,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
-		paddingRight: 40, // Space for clear button
 		fontSize: 24,
 		backgroundColor: "transparent",
 		textAlign: "center",

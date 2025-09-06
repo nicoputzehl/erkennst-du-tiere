@@ -1,34 +1,45 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export const useAnswerState = () => {
-	const [answer, setAnswer] = useState("");
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [submittedAnswer, setSubmittedAnswer] = useState<boolean>(false);
+export const useAnswerState = (initialLetter = "") => {
+  const [answer, setAnswer] = useState(initialLetter);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedAnswer, setSubmittedAnswer] = useState(false);
 
-	const resetSubmittedAnswer = useCallback(() => {
-		setSubmittedAnswer(false);
-	}, []);
+  useEffect(() => {
+    if (initialLetter && !answer.startsWith(initialLetter)) {
+      setAnswer(initialLetter);
+    }
+  }, [initialLetter, answer]);
 
-	const handleChangeAnswer = useCallback(
-		(answer: string) => {
-			setAnswer(answer);
-			resetSubmittedAnswer();
-		},
-		[resetSubmittedAnswer],
-	);
+  const resetSubmittedAnswer = useCallback(() => {
+    setSubmittedAnswer(false);
+  }, []);
 
-	const clearAnswer = useCallback(() => {
-		setAnswer("");
-		resetSubmittedAnswer();
-	}, [resetSubmittedAnswer]);
 
-	return {
-		answer,
-		handleChangeAnswer,
-		isSubmitting,
-		setIsSubmitting,
-		clearAnswer,
-		submittedAnswer,
-		setSubmittedAnswer,
-	};
+  const handleChangeAnswer = useCallback(
+    (newAnswer: string) => {
+      if (!newAnswer.startsWith(initialLetter)) {
+        setAnswer(initialLetter + newAnswer.substring(initialLetter.length));
+      } else {
+        setAnswer(newAnswer);
+      }
+      resetSubmittedAnswer();
+    },
+    [initialLetter, resetSubmittedAnswer],
+  );
+
+  const clearAnswer = useCallback(() => {
+    setAnswer(initialLetter);
+    resetSubmittedAnswer();
+  }, [initialLetter, resetSubmittedAnswer]);
+
+  return {
+    answer,
+    handleChangeAnswer,
+    isSubmitting,
+    setIsSubmitting,
+    clearAnswer,
+    submittedAnswer,
+    setSubmittedAnswer,
+  };
 };

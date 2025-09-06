@@ -2,9 +2,11 @@ import {
   type AutoFreeHint,
   type ContextualHint,
   type CustomHint,
+  type FirstLetterHint,
   type Hint,
   type HintState,
   HintType,
+  type LetterCountHint,
   type StandardHint,
   type UserPointsState,
 } from "../../types/hint";
@@ -14,7 +16,6 @@ export const canUseHint = (
   hintState: HintState,
   globalUserPoints: UserPointsState,
 ): { canUse: boolean; reason?: string } => {
-  // Bereits verwendet?
   if (hintState.usedHints.some((h) => h.id === hint.id)) {
     return { canUse: false, reason: "Hint bereits verwendet" };
   }
@@ -39,11 +40,6 @@ export const canUseHint = (
     return { canUse: false, reason: "Wird durch Antworten ausgelöst" };
   }
 
-  // ==========================================
-  // VEREINFACHTE PUNKTE-PRÜFUNG
-  // ==========================================
-  
-  // Standard-Hints und Custom-Hints haben Kosten
   if (isStandardHint(hint) || isCustomHint(hint)) {
     if (globalUserPoints.totalPoints < hint.cost) {
       return { canUse: false, reason: "Nicht genug Punkte" };
@@ -65,9 +61,13 @@ export const canTriggerContextualHint = (
   );
 };
 
-// ==========================================
-// VEREINFACHTE TYPE GUARDS
-// ==========================================
+export const isFirsLetterHint = (hint:Hint): hint is FirstLetterHint => {
+  return hint.type === HintType.FIRST_LETTER;
+}
+
+export const isLetterCountHint = (hint:Hint): hint is LetterCountHint => {
+  return hint.type === HintType.LETTER_COUNT;
+}
 
 export const isStandardHint = (hint: Hint): hint is StandardHint => {
   return [HintType.LETTER_COUNT, HintType.FIRST_LETTER].includes(hint.type);

@@ -6,7 +6,7 @@ import {
   type QuizState,
 } from "../../types";
 import type { HintState } from "../../types/hint";
-import type { PlaythroughCondition, ProgressCondition } from "../../types/unlock";
+import type { MultiplePlaythroughCondition, PlaythroughCondition, ProgressCondition } from "../../types/unlock";
 import { HintUtils } from "../hints"; // Import für die neuen Hint-Utilities
 
 /**
@@ -48,6 +48,18 @@ export const createProgressUnlockCondition = (
     `Löse ${requiredQuestionsSolved} Fragen von Quiz "${requiredQuizId}", um dieses Quiz freizuschalten.`,
 });
 
+export const createMultiplePlaythroughUnlockCondition = (
+  requiredQuizId: string[],
+  description?: string,
+): MultiplePlaythroughCondition => ({
+  type: "multipleplaythrough",
+  requiredQuizId,
+  description:
+    description ||
+    `Schließe die Quizs ${requiredQuizId.join(", ")} ab, um dieses Quiz freizuschalten.`,
+});
+
+
 export const calculateInitialQuestionStatus = (
   questionCount: number,
   initialUnlockedQuestions: number,
@@ -76,15 +88,10 @@ export const createQuizState = (
     initialUnlockedQuestions,
   );
 
-  // ==========================================
-  // VERBESSERTE HINT-STATE-INITIALISIERUNG
-  // ==========================================
   
   const hintStates: Record<number, HintState> = {};
 
-  // Für jede Frage einen Hint-State erstellen und dabei das neue System verwenden
   quiz.questions.forEach((question, index) => {
-    // Alle verfügbaren Hints für diese Frage generieren (Standard + Custom + Contextual + Auto-Free)
     const allHints = HintUtils.generateAllHints(question);
     
     console.log(`🏗️ [createQuizState] Processing question ${question.id}:`, {
@@ -97,19 +104,15 @@ export const createQuizState = (
       totalGeneratedHints: allHints.length,
     });
 
-    // Hint-State für diese Frage initialisieren
     hintStates[question.id] = {
       questionId: question.id,
       usedHints: [],
       wrongAttempts: 0,
       autoFreeHintsUsed: [],
+      visibleHints: []
     };
   });
 
-  // ==========================================
-  // QUIZ-STATE-ERSTELLUNG MIT VERBESSERTER HINT-INTEGRATION
-  // ==========================================
-  
   const result: QuizState = {
     id: quiz.id,
     title: quiz.title,
@@ -121,7 +124,6 @@ export const createQuizState = (
     hintStates,
   };
 
-  // Debug-Ausgabe für bessere Nachvollziehbarkeit
   console.log("🏗️ [createQuizState] Final quiz state analysis:");
   result.questions.forEach((question, index) => {
     const allHints = HintUtils.generateAllHints(question);
