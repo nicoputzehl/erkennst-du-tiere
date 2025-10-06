@@ -22,7 +22,7 @@ export const newAnmilQuizConfig = [
   }),
   QuizUtils.createQuizConfig(dinosaurierQuiz, {
     initiallyLocked: true,
-    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("heimischeVoegel", 'Schließe "Heimische Vögel" ab, um Dinosaurier freizuschalten.')
+    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("vogelIllustrationenQuiz", 'Schließe "Heimische Vögel" ab, um Dinosaurier freizuschalten.')
   }),
   QuizUtils.createQuizConfig(asienQuiz, {
     initiallyLocked: true,
