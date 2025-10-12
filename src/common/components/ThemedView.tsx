@@ -1,7 +1,8 @@
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView, StyleSheet, type ViewProps } from "react-native";
+import {  StyleSheet, type ViewProps } from "react-native";
 import { Gradients } from "../constants/Gradients";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export type ThemedViewProps = ViewProps & {
 	lightColor?: string;
