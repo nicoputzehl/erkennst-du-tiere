@@ -41,27 +41,27 @@ export default Hint;
 const styles = StyleSheet.create({
 	overlay2: {
 		flex: 1,
-		backgroundColor: "rgba(205, 205, 205, 0.7)",
+		backgroundColor: "rgba(0, 0, 0, 0.5)",
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	usedHintContainer: {
-		backgroundColor: "#E8F5E8",
-		padding: 12,
+		backgroundColor: "rgba(255, 255, 255, 0.8)",
+		padding: 24,
 		borderRadius: 16,
 		marginBottom: 16,
 		width: "90%",
-		height: "50%",
 	},
 	usedHintTitle: {
-		fontSize: 20,
+		fontSize: 32,
 		fontWeight: "600",
-		color: "#2E7D32",
+		color: "#000000ff",
 		marginBottom: 4,
+		lineHeight: 40,
 	},
 	usedHintContent: {
 		fontSize: 24,
-		color: "#1B5E20",
-		lineHeight: 28,
+		color: "#000000ff",
+		lineHeight: 32,
 	},
 });

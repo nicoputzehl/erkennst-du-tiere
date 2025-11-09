@@ -242,7 +242,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
           return (
             config?.initiallyLocked &&
             config.unlockCondition &&
-            config.unlockCondition.requiredQuizIds === quizId
+            config.unlockCondition.requiredQuizId === quizId
           );
         });
 

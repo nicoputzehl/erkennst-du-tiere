@@ -39,7 +39,7 @@ const ResultReaction = ({ correctAnswer }: { correctAnswer: boolean }) => {
 		};
 	});
 
-	const name = correctAnswer ? "smileo" : "frowno";
+	const name = correctAnswer ? "smile" : "frown";
 	return (
 		<Animated.View style={[styles.container, animatedStyle]}>
 			<AntDesign name={name} size={40} color={color} />

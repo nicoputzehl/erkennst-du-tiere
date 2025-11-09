@@ -39,7 +39,6 @@ export function useQuiz() {
 	);
 	const isLoading = useQuizStore((state) => state.isLoading);
 
-	// Aktionen aus dem Store auswählen
 	const initializeQuizState = useQuizStore(
 		(state) => state.initializeQuizState,
 	);
@@ -48,8 +47,6 @@ export function useQuiz() {
 	const answerQuestion = useQuizStore((state) => state.answerQuestion);
 	const setCurrentQuiz = useQuizStore((state) => state.setCurrentQuiz);
 
-
-	// Fortschritts- und Navigationsaktionen aus dem Store auswählen
 	const getQuizProgress = useQuizStore((state) => state.getQuizProgress);
 	const getQuizProgressString = useQuizStore(
 		(state) => state.getQuizProgressString,
@@ -58,16 +55,14 @@ export function useQuiz() {
 		(state) => state.getNextActiveQuestion,
 	);
 
-	// Freischalt-System-Aktionen aus dem Store auswählen
 	const checkForUnlocks = useQuizStore((state) => state.checkForUnlocks);
 	const isQuizUnlocked = useQuizStore((state) => state.isQuizUnlocked);
 	const getUnlockProgress = useQuizStore((state) => state.getUnlockProgress);
 	const detectMissedUnlocks = useQuizStore(
 		(state) => state.detectMissedUnlocks,
 	);
-	const resetAllQuizStates = useQuizStore((state) => state.resetAllQuizStates); // Diese Aktion ist jetzt global im Store definiert
+	const resetAllQuizStates = useQuizStore((state) => state.resetAllQuizStates);
 
-	// Abgeleitete Funktion: Prüfen, ob ein Quiz abgeschlossen ist
 	const isQuizCompleted = useMemo(
 		() =>
 			(quizId: string): boolean => {
@@ -79,7 +74,6 @@ export function useQuiz() {
 		[quizStatesRecord],
 	);
 
-	// Abgeleitete Funktion: Freischaltbeschreibung abrufen
 	const getUnlockDescription = useMemo(
 		() =>
 			(quizId: string): string | null => {
@@ -89,7 +83,6 @@ export function useQuiz() {
 		[quizConfigsRecord],
 	);
 
-	// Abgeleitete Funktion: Allgemeine Statistiken abrufen
 	const getStatistics = useMemo(
 		() => () => {
 			const allStates = Object.values(quizStatesRecord);

@@ -40,3 +40,4 @@ app-example
 ios
 
 coverage
+.env

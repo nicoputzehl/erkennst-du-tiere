@@ -8,7 +8,7 @@ import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
-	const { getQuizState } = useQuiz();
+	const { getQuizState, getNextActiveQuestion } = useQuiz();
 	const { hasVisibleHints, visibleHints, firstLetterHint } = useHints(quizId, Number.parseInt(questionId));
 
 	const navigation = useQuestionNavigation(quizId, questionId);

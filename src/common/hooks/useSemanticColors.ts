@@ -14,7 +14,7 @@ export const useSemanticColors = () => {
 		buttonError: useThemeColor({}, "buttonError"),
 		buttonDisabled: useThemeColor({}, "buttonDisabled"),
 
-		textPrimary: useThemeColor({}, "textPrimary"),
+		textPrimary: useThemeColor({}, "text"),
 		textSecondary: useThemeColor({}, "textSecondary"),
 		textOnButton: useThemeColor({}, "textOnButton"),
 		textPlaceholder: useThemeColor({}, "textPlaceholder"),

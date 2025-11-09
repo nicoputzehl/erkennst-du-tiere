@@ -91,7 +91,7 @@ export const useQuestionBusinessLogic = ({
 				markContextualHintAsShown(contextualHint.id);
 
 				resultState.handleShowHint({
-					title: contextualHint.title,
+					title: contextualHint.title ?? "Hinweis",
 					content: contextualHint.content,
 				});
 				hintShown = true;
@@ -106,7 +106,7 @@ export const useQuestionBusinessLogic = ({
 				handleActivateAutoFreeHint(autoFreeHint.id);
 
 				resultState.handleShowHint({
-					title: autoFreeHint.title,
+					title: autoFreeHint.title ?? "Hinweis",
 					content: autoFreeHint.content,
 				});
 				hintShown = true;
