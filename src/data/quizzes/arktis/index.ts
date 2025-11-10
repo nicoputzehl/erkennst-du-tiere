@@ -155,7 +155,7 @@ const papageientaucher: QuestionBase = {
 const schneeeule: QuestionBase = {
   id: 4,
   answer: "Schneeeule",
-  title: "Die weiße Jägerin der Tundra",
+  title: "Hedwig",
   images: {
     imageUrl: require("./schneeeule.webp"),
   },
@@ -205,7 +205,7 @@ const schneeeule: QuestionBase = {
 const polarfuchs: QuestionBase = {
   id: 5,
   answer: "Polarfuchs",
-  title: "Der flinke Verwandlungskünstler",
+  title: "Schlau im Eis",
   images: {
     imageUrl: require("./polarfuchs.webp"),
   },
@@ -307,7 +307,7 @@ const rentier: QuestionBase = {
 const polarwolf: QuestionBase = {
   id: 7,
   answer: "Polarwolf",
-  title: "Der gesellige Überlebenskünstler",
+  title: "Überlebenskünstler",
   images: {
     imageUrl: require("./polarwolf.webp"),
   },

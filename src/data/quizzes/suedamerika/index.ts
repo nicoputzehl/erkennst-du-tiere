@@ -209,7 +209,7 @@ const lama: QuestionBase = {
 const capybara: QuestionBase = {
   id: 5,
   answer: "Capybara",
-  title: "Das freundliche Riesennagetier",
+  title: "Riesennagetier",
   images: {
     imageUrl: require("./capybara.webp"),
   },

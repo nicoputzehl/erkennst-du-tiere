@@ -105,7 +105,7 @@ const basilisk: QuestionBase = {
 const mantikor: QuestionBase = {
   id: 3,
   answer: "Mantikor",
-  title: "Der menschenfressende Löwe",
+  title: "Menschenfresser",
   images: {
     imageUrl: require("./mantikor.webp"),
   },
@@ -362,7 +362,7 @@ const phoenex: QuestionBase = {
 const greif: QuestionBase = {
   id: 8,
   answer: "Greif",
-  title: "Der König der Lüfte und der Erde",
+  title: "Gryffindor",
   images: {
     imageUrl: require("./greif.webp"),
   },

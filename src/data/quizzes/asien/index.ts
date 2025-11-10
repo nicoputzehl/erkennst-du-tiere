@@ -366,7 +366,7 @@ const roter_panda: QuestionBase = {
 const tigerpython: QuestionBase = {
   id: 6,
   answer: "Tigerpython",
-  title: "Die asiatische Würgeschlange",
+  title: "Würgeschlange",
   wikipediaName: "Heller_Tigerpython",
   images: {
     imageUrl: require("./tigerpython.webp"),

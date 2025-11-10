@@ -56,7 +56,7 @@ const weisskopfseeadler: QuestionBase = {
 const stinktier: QuestionBase = {
   id: 2,
   answer: "Stinktier",
-  title: "Die schwarz-weiße Warnung",
+  title: "Blume",
   images: {
     imageUrl: require("./stinktier.webp"),
     unsolvedImageUrl: require("./stinktier_unsolved.webp"),
@@ -369,7 +369,7 @@ const kojote: QuestionBase = {
 const kanadagans: QuestionBase = {
   id: 8,
   answer: "Kanadagans",
-  title: "Der Zugvogel in V-Formation",
+  title: "V-Formation",
   images: {
     imageUrl: require("./kanadagans.webp"),
   },

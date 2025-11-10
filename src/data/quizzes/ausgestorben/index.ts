@@ -266,7 +266,7 @@ const beutelwolf: QuestionBase = {
 const elefantenVogel: QuestionBase = {
   id: 7,
   answer: "Elefantenvogel",
-  title: "Der größte Vogel aller Zeiten",
+  title: "Größter Vogel",
   images: {
     imageUrl: require("./elefantenvogel.webp"),
   },
