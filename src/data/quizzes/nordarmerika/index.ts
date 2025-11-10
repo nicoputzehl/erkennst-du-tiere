@@ -353,7 +353,14 @@ const kojote: QuestionBase = {
       content: "Falsche Größe! Der gesuchte ist größer und hat keinen buschigen, dicken Schwanz wie dieser.",
       title: "Zu klein!",
       triggers: ["fuchs"]
-    }
+    },
+    {
+      id: "schakal",
+      type: HintType.CONTEXTUAL,
+      content: "Sehr knapp, aber anderer Kontinent.",
+      title: "Zu klein!",
+      triggers: ["fuchs"]
+    },
   ],
   customHints: [
     {
