@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import { HintUtils } from "../../domain/hints";
 import { QuizUtils } from "../../domain/quiz";
-import type { ContextualHint, PointTransaction, Quiz, QuizConfig, QuizState, UnlockCondition } from "../../types";
+import { QuestionStatus, type ContextualHint, type PointTransaction, type Quiz, type QuizConfig, type QuizState, type UnlockCondition } from "../../types";
 import type { QuizStore } from "../Store";
 
 export interface AnswerResult {
@@ -41,6 +41,7 @@ export interface QuizSlice {
   resetQuizState: (quizId: string) => QuizState | null;
   resetAllQuizStates: () => void;
   answerQuestion: (quizId: string, questionId: number, answer: string) => Promise<AnswerResult>;
+  solveAllQuizQuestions: (quizId: string) => void;
 
   // === UNLOCK ACTIONS ===
   checkForUnlocks: () => Quiz[];
@@ -111,6 +112,38 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
       quizStates: { ...state.quizStates, [quizId]: newState },
     }));
   },
+
+solveAllQuizQuestions(quizId: string) {
+  const { quizStates, updateQuizState, checkForUnlocks, showToast } = get();
+  const state = quizStates[quizId];
+  if (!state?.questions?.length) return;
+
+
+  const updatedQuestions = state.questions.map((question) => ({
+    ...question,
+    isCorrect: true,
+    status: QuestionStatus.SOLVED,
+    unlocked: true,
+  }));
+
+  const newState: QuizState = {
+    ...state,
+    questions: updatedQuestions,
+    completedQuestions: updatedQuestions.length,
+  };
+
+  updateQuizState(quizId, newState);
+
+
+  if (updatedQuestions.length > 0 && newState.completedQuestions === updatedQuestions.length) {
+    checkForUnlocks();
+
+    if (showToast) {
+      showToast(`🎉 Quiz "${newState.title}" vollständig gelöst!`, "success", 4000);
+    }
+  }
+},
+
 
   resetQuizState: (quizId: string) => {
     const { quizzes, quizConfigs } = get();

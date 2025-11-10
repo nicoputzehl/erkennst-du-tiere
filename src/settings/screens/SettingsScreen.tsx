@@ -15,7 +15,7 @@ import {
 } from "react-native";
 
 export function SettingsScreen() {
-	const { quizzes, resetQuizState, resetAllQuizStates } = useQuiz();
+	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } = useQuiz();
 	const { showSuccess, showError } = useUI();
 	const statistics = useQuizStatistics();
 
@@ -33,6 +33,20 @@ export function SettingsScreen() {
 		} catch (error) {
 			console.error(`Error resetting quiz ${quizId}:`, error);
 			showError(`Fehler beim Zurücksetzen: ${error}`);
+		} finally {
+			setResettingQuiz(null);
+		}
+	};
+
+	const handleSolveQuiz = async (quizId: string, quizTitle: string) => {
+		setResettingQuiz(quizId);
+
+		try {
+			solveAllQuizQuestions(quizId);
+			showSuccess(`Quiz "${quizTitle}" gelöst!`);
+		} catch (error) {
+			console.error(`Error solving quiz ${quizId}:`, error);
+			showError(`Fehler beim lösen: ${error}`);
 		} finally {
 			setResettingQuiz(null);
 		}
@@ -141,6 +155,33 @@ export function SettingsScreen() {
 								) : (
 									<ThemedText style={styles.quizResetButtonText}>
 										{quiz.title} zurücksetzen
+									</ThemedText>
+								)}
+							</TouchableOpacity>
+						))}
+					</View>
+
+					{/* Playthrough Section */}
+					<View style={styles.section}>
+						<ThemedText style={styles.sectionTitle}>
+							Quiz-Fortschritte cheaten
+						</ThemedText>
+
+						{quizzes.map((quiz) => (
+							<TouchableOpacity
+								key={quiz.id}
+								style={[
+									styles.quizResetButton,
+									resettingQuiz === quiz.id && styles.disabledButton,
+								]}
+								onPress={() => handleSolveQuiz(quiz.id, quiz.title)}
+								disabled={resettingQuiz === quiz.id}
+							>
+								{resettingQuiz === quiz.id ? (
+									<ActivityIndicator size="small" color="#fff" />
+								) : (
+									<ThemedText style={styles.quizResetButtonText}>
+										{quiz.title} lösen
 									</ThemedText>
 								)}
 							</TouchableOpacity>
