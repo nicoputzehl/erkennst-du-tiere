@@ -104,15 +104,15 @@ const grosser_panda: QuestionBase = {
   ]
 };
 
-const koenigstiger: QuestionBase = {
+const tiger: QuestionBase = {
   id: 2,
-  answer: "Königstiger",
+  answer: "Tiger",
   title: "Der gestreifte Jäger",
   images: {
     imageUrl: require("./koenigstiger.webp"),
     unsolvedImageUrl: require("./koenigstiger_unsolved.webp"),
   },
-  alternativeAnswers: ["Bengal-Tiger", "Indischer Tiger", "Tiger"],
+  alternativeAnswers: ["Bengal-Tiger", "Indischer Tiger", "Königstiger"],
   funFact:
     "Er ist die größte lebende Katzenart der Welt. Jeder Tiger hat ein einzigartiges Streifenmuster, vergleichbar mit menschlichen Fingerabdrücken.",
   autoFreeHints: [
@@ -268,7 +268,7 @@ const asiatischer_elefant: QuestionBase = {
   images: {
     imageUrl: require("./asiatischer_elefant.webp"),
   },
-  alternativeAnswers: ["Indischer Elefant", "Elefant"],
+  alternativeAnswers: ["Indischer Elefant"],
   funFact:
     "Er ist das größte Landsäugetier Asiens. Im Gegensatz zu seinem afrikanischen Verwandten hat er kleinere Ohren, die eher dreieckig geformt sind.",
   autoFreeHints: [
@@ -299,6 +299,13 @@ const asiatischer_elefant: QuestionBase = {
       content: "Falsches Merkmal! Das gesuchte Tier hat einen Rüssel, keinen hornbesetzten Kopf.",
       title: "Falsche Nase!",
       triggers: ["nashorn"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["elefant"]
     }
   ],
   customHints: [
@@ -363,15 +370,15 @@ const roter_panda: QuestionBase = {
   ]
 };
 
-const tigerpython: QuestionBase = {
+const python: QuestionBase = {
   id: 6,
-  answer: "Tigerpython",
+  answer: "Python",
   title: "Würgeschlange",
   wikipediaName: "Heller_Tigerpython",
   images: {
     imageUrl: require("./tigerpython.webp"),
   },
-  alternativeAnswers: ["Python"],
+  alternativeAnswers: ["Tigerpython"],
   funFact:
     "Er zählt zu den größten Schlangen der Welt und kann bis zu 5 Meter lang werden. Er tötet seine Beute durch Umschlingen und Ersticken.",
   autoFreeHints: [
@@ -418,12 +425,12 @@ const tigerpython: QuestionBase = {
 export const tiereAsiens: QuestionBase[] = [
   koenigskobra,
   grosser_panda,
-  koenigstiger,
+  tiger,
   orang_utan,
   pfau,
   asiatischer_elefant,
   roter_panda,
-  tigerpython,
+  python,
 ];
 
 export const asienQuiz: Quiz = {

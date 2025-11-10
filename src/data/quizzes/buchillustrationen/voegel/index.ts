@@ -29,7 +29,7 @@ const haubenmeise: QuestionBase = {
       type: HintType.CONTEXTUAL,
       content: "Gleiche Familie, aber der gesuchte ist nicht gelb und trägt eine markante Kopfbedeckung.",
       title: "Falsche Meise!",
-      triggers: ["kohlmeise", "blaumeise"]
+      triggers: ["kohlmeise", "blaumeise", "meise"]
     },
     {
       id: "fink_trigger",

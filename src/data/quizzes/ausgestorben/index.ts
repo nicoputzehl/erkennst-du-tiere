@@ -337,6 +337,13 @@ const goldkroete: QuestionBase = {
       content: "Der gesuchte ist eine Kröte mit rauer, trockener Haut und keine 'glatte' Froschart.",
       title: "Kein Laubfrosch!",
       triggers: ["frosch", "laubfrosch"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["kröter"]
     }
   ],
   customHints: [

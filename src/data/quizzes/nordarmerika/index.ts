@@ -40,6 +40,13 @@ const weisskopfseeadler: QuestionBase = {
       content: "Falscher Lebensstil! Der gesuchte ist ein aktiver Jäger und kein Aasfresser.",
       title: "Falsche Mahlzeit!",
       triggers: ["geier"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["adler"]
     }
   ],
   customHints: [
@@ -251,6 +258,20 @@ const grizzly: QuestionBase = {
       content: "Zu klein! Der gesuchte ist deutlich größer und hat eine charakteristische 'Buckel'-Form auf dem Rücken.",
       title: "Falscher Bär!",
       triggers: ["schwarzbär", "baribal"]
+    },
+    {
+      id: "braunbaer",
+      type: HintType.CONTEXTUAL,
+      content: "Zu klein! Der gesuchte ist größer und hat eine charakteristische 'Buckel'-Form auf dem Rücken.",
+      title: "Falscher Bär!",
+      triggers: ["braunbär"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["bär"]
     }
   ],
   customHints: [
@@ -411,6 +432,13 @@ const kanadagans: QuestionBase = {
       content: "Falsche Größe und zu langer Hals! Der gesuchte hat einen kompakteren Körperbau.",
       title: "Zu elegant!",
       triggers: ["schwan"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["gans"]
     }
   ],
   customHints: [

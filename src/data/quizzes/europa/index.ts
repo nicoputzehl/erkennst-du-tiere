@@ -63,7 +63,7 @@ const wildschwein: QuestionBase = {
   ]
 };
 
-const rotfuchs: QuestionBase = {
+const fuchs: QuestionBase = {
   id: 2,
   answer: "Fuchs",
   title: "Meister Reinecke",
@@ -197,7 +197,7 @@ const wolf: QuestionBase = {
   ]
 };
 
-const feldhase: QuestionBase = {
+const hase: QuestionBase = {
   id: 4,
   answer: "Hase",
   title: "Meister Lampe",
@@ -306,6 +306,13 @@ const braunbaer: QuestionBase = {
       content: "Falscher Kontinent! Dieser lebt in Nordamerika. Der gesuchte ist der heimische europäische Bär.",
       title: "Zu amerikanisch!",
       triggers: ["schwarzbaer"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["bär"]
     }
   ],
   customHints: [
@@ -518,9 +525,9 @@ const dachs: QuestionBase = {
 
 const tiereEuropas: QuestionBase[] = [
   wildschwein,
-  rotfuchs,
+  fuchs,
   wolf,
-  feldhase,
+  hase,
   braunbaer,
   eichhoernchen,
   elch,

@@ -189,6 +189,13 @@ const schneeeule: QuestionBase = {
       content: "Der gesuchte ist ein Raubvogel (Eule), kein Huhn.",
       title: "Falsche Vogelfamilie!",
       triggers: ["schneehuhn"]
+    },
+    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["eule"]
     }
   ],
   customHints: [
@@ -240,6 +247,12 @@ const polarfuchs: QuestionBase = {
       content: "Der gesuchte ist ein Raubtier und jagt seine Beute.",
       title: "Kein Hase!",
       triggers: ["hase", "schneehase"]
+    }, {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["fuchs"]
     }
   ],
   customHints: [
@@ -342,6 +355,12 @@ const polarwolf: QuestionBase = {
       content: "Gleiche Familie, aber der gesuchte ist viel größer und bleibt das ganze Jahr weiß.",
       title: "Zu klein!",
       triggers: ["polarfuchs"]
+    },    {
+      id: "genauer_trigger",
+      type: HintType.CONTEXTUAL,
+      content: "Aber die Lösung ist etwas genauer.",
+      title: "Nicht falsch",
+      triggers: ["wolf"]
     }
   ],
   customHints: [
@@ -405,7 +424,7 @@ const schneehase: QuestionBase = {
   ]
 };
 
- const arktis: QuestionBase[] = [
+const arktis: QuestionBase[] = [
   eisbaer,
   walross,
   papageientaucher,
@@ -416,7 +435,7 @@ const schneehase: QuestionBase = {
   schneehase
 ]
 
-export const arktisQuiz: Quiz= {
+export const arktisQuiz: Quiz = {
   id: "arktis",
   title: "Arktis",
   questions: arktis,
