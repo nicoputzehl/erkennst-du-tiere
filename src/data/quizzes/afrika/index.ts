@@ -68,7 +68,7 @@ const afrikanischer_elefant: QuestionBase = {
 const flusspferd: QuestionBase = {
   id: 2,
   answer: "Flusspferd",
-  title: "Schau mir ins Auge, kleines",
+  title: "Schwimmläufer",
   images: {
     imageUrl: require("./flusspferd.webp"),
     unsolvedImageUrl: require("./flusspferd_unsolved.webp"),
