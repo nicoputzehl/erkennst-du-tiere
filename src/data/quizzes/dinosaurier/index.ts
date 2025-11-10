@@ -325,10 +325,10 @@ const parasaurolophus: QuestionBase = {
 
 const pteosaurus: QuestionBase = {
   id: 7,
-  answer: "Pteranodon", // Ersetzt "Pteosaurus"
+  answer: "Pteranodon",
   title: "Der zahnlose Flieger",
   images: {
-    imageUrl: require("./pteranodon.webp"), // Bild anpassen
+    imageUrl: require("./pteranodon.webp"),
   },
   alternativeAnswers: ["Flugsaurier", "Pterodactylus"],
   funFact: "Obwohl sie oft als 'Flugsaurier' bezeichnet werden, waren Pterosaurier **keine** Dinosaurier, sondern gehörten zu einer eigenen Gruppe fliegender Reptilien.",

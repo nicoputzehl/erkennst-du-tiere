@@ -54,6 +54,7 @@ const bienenfresser: QuestionBase = {
   id: 2,
   answer: "Bienenfresser",
   title: "Der fliegende Edelstein",
+  wikipediaName: "Bienenfresser_(Art)",
   images: {
     imageUrl: require("./bienenfresser.webp"),
   },

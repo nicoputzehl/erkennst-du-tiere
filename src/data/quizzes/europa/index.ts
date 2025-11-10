@@ -72,6 +72,7 @@ const rotfuchs: QuestionBase = {
     unsolvedImageUrl: require("./rotfuchs_unsolved.webp"),
   },
   alternativeAnswers: ["Rotfuchs"],
+  wikipediaName: "Fuchs_(Raubtier)",
   funFact: "Der Fuchs kann das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören und sie dann mit einem charakteristischen Sprung (dem 'Mäusesprung') fangen.",
   autoFreeHints: [
     {
@@ -130,7 +131,7 @@ const rotfuchs: QuestionBase = {
 const wolf: QuestionBase = {
   id: 3,
   answer: "Wolf",
-  title: "Rückkehrer",
+  title: "Isegrim",
   images: {
     imageUrl: require("./wolf.webp"),
   },
@@ -204,6 +205,7 @@ const feldhase: QuestionBase = {
     imageUrl: require("./feldhase.webp"),
     unsolvedImageUrl: require("./feldhase_unsolved.webp"),
   },
+  wikipediaName: "Feldhase",
   alternativeAnswers: ["Feldhase"],
   funFact: "Bei Gefahr verharrt der Feldhase zunächst regungslos in seiner Mulde ('Sasse') und flieht erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h.",
   autoFreeHints: [
@@ -263,7 +265,7 @@ const feldhase: QuestionBase = {
 const braunbaer: QuestionBase = {
   id: 5,
   answer: "Braunbär",
-  title: "Der größte Europäer",
+  title: "Meister Petz",
   images: {
     imageUrl: require("./braunbaer.webp"),
     unsolvedImageUrl: require("./braunbaer_unsolved.webp"),

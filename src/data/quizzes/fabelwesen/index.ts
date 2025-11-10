@@ -4,6 +4,7 @@ const drache: QuestionBase = {
   id: 1,
   answer: "Drache",
   title: "Der feurige Wächter",
+  wikipediaName: "Drache_(Mythologie)",
   images: {
     imageUrl: require("./drache.webp"),
   },
@@ -54,6 +55,7 @@ const basilisk: QuestionBase = {
   id: 2,
   answer: "Basilisk",
   title: "Der König der Schlangen",
+  wikipediaName: "Basilisk_(Mythologie)",
   images: {
     imageUrl: require("./basilisk.webp"),
   },
@@ -210,6 +212,7 @@ const pegasos: QuestionBase = {
     imageUrl: require("./pegasos.webp"),
   },
   alternativeAnswers: ["Pegasus"],
+  wikipediaName: "Pegasos_(Mythologie)",
   funFact:
     "Er war das Kind des Meeresgottes **Poseidon** und der Gorgone **Medusa** und entsprang ihrem Nacken, als Perseus sie enthauptete.",
   autoFreeHints: [
@@ -308,6 +311,7 @@ const phoenex: QuestionBase = {
   id: 7,
   answer: "Phönix",
   title: "Der Vogel der Auferstehung",
+  wikipediaName: "Phönix_(Mythologie)",
   images: {
     imageUrl: require("./phoenix.webp"),
   },

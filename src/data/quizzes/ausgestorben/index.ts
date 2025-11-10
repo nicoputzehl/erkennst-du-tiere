@@ -179,6 +179,7 @@ const mammut: QuestionBase = {
   id: 5,
   answer: "Mammut",
   title: "Der behaarte Gigant",
+  wikipediaName: "Mammute",
   images: {
     imageUrl: require("./mammut.webp"),
   },

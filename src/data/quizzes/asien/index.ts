@@ -211,6 +211,7 @@ const orang_utan: QuestionBase = {
 const pfau: QuestionBase = {
   id: 1,
   answer: "Pfau",
+  wikipediaName: "Asiatische_Pfauen",
   title: "Der Radschläger",
   images: {
     imageUrl: require("./pfau.webp"),
@@ -366,6 +367,7 @@ const tigerpython: QuestionBase = {
   id: 6,
   answer: "Tigerpython",
   title: "Die asiatische Würgeschlange",
+  wikipediaName: "Heller_Tigerpython",
   images: {
     imageUrl: require("./tigerpython.webp"),
   },

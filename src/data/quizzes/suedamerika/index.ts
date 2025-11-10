@@ -55,6 +55,7 @@ const piranha: QuestionBase = {
   id: 2,
   answer: "Piranha",
   title: "Der scharfe Räuber",
+  wikipediaName: "Piranhas",
   images: {
     imageUrl: require("./piranha.webp"),
     unsolvedImageUrl: require("./piranha_unsolved.webp"),
@@ -157,6 +158,7 @@ const lama: QuestionBase = {
   id: 4,
   answer: "Lama",
   title: "Das Lasttier der Anden",
+  wikipediaName: "Lama_(Kamel)",
   images: {
     imageUrl: require("./lama.webp"),
     unsolvedImageUrl: require("./lama_unsolved.webp"),
