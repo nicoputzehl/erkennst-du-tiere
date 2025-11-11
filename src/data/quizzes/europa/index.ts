@@ -134,6 +134,7 @@ const wolf: QuestionBase = {
   title: "Isegrim",
   images: {
     imageUrl: require("./wolf.webp"),
+    unsolvedImageUrl: require("./wolf_unsolved.webp"),
   },
   funFact: "Wölfe sind sehr ausdauernd: Auf der Suche nach Beute legen sie durchschnittlich 40 Kilometer pro Tag zurück. Bei der Abwanderung zur Reviersuche können es sogar bis zu 70 Kilometer sein.",
   autoFreeHints: [

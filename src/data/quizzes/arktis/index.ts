@@ -6,6 +6,7 @@ const eisbaer: QuestionBase = {
   title: "Der weiße Riese der Arktis",
   images: {
     imageUrl: require("./eisbaer.webp"),
+    unsolvedImageUrl: require("./eisbaer_unsolved.webp"),
   },
   alternativeAnswers: ["Polarbär"],
   funFact:
@@ -57,6 +58,7 @@ const walross: QuestionBase = {
   title: "Der Robbenartige mit den Hauern",
   images: {
     imageUrl: require("./walross.webp"),
+    unsolvedImageUrl: require("./walross_unsolved.webp"),
   },
   funFact:
     "Die **Stoßzähne** (Hauer) tragen sowohl Männchen als auch Weibchen. Sie nutzen sie, um sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren.",
