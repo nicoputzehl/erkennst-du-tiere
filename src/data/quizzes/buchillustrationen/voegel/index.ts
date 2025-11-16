@@ -8,12 +8,12 @@ const haubenmeise: QuestionBase = {
     imageUrl: require("./haubenmeise.webp"),
   },
   funFact:
-    "Sie ist die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube, die wie ein militärischer Schopf aussieht.",
+    "...sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
   autoFreeHints: [
     {
       id: "haubenmeise_h1",
       type: HintType.AUTO_FREE,
-      content: "Ein weiteres auffälliges Merkmal ist das halbmondförmige, schwarze Band, das vom Auge bis zur Kehle verläuft ('Lätzchen').",
+      content: "Ein weiteres auffälliges Merkmal ist das halbmondförmige, schwarze Band, das vom Auge bis zur Kehle verläuft (\"Lätzchen\").",
       triggerAfterAttempts: 3
     },
     {
@@ -34,7 +34,7 @@ const haubenmeise: QuestionBase = {
     {
       id: "fink_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Ganz anderer Gesang! Der gesuchte hat ein charakteristisches, brodelndes 'dürr-dürr-ET'.",
+      content: "Ganz anderer Gesang! Der gesuchte hat ein charakteristisches, brodelndes \"dürr-dürr-ET\".",
       title: "Kein Fink!",
       triggers: ["buchfink", "grünfink"]
     }
@@ -59,7 +59,7 @@ const bienenfresser: QuestionBase = {
     imageUrl: require("./bienenfresser.webp"),
   },
   funFact:
-    "Er ist der farbenprächtigste europäische Brutvogel. Er entfernt vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage.",
+    "...er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
   autoFreeHints: [
     {
       id: "bienenfresser_h1",
@@ -95,7 +95,7 @@ const bienenfresser: QuestionBase = {
       id: "bienenfresser_ruf",
       type: HintType.CUSTOM,
       title: "Stimme",
-      content: "Sein Ruf ist ein weiches, rollendes und charakteristisches 'prüpp' oder 'püt'.",
+      content: "Sein Ruf ist ein weiches, rollendes und charakteristisches \"prüpp\" oder \"püt\".",
       cost: 1,
     }
   ]
@@ -104,12 +104,12 @@ const bienenfresser: QuestionBase = {
 const eichelhaeher: QuestionBase = {
   id: 3,
   answer: "Eichelhäher",
-  title: "Der 'Polizist' des Waldes",
+  title: "Der \"Polizist\" des Waldes",
   images: {
     imageUrl: require("./eichelhaeher.webp"),
   },
   funFact:
-    "Er ist ein Rabenvogel und dafür bekannt, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können.",
+    "...dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
   autoFreeHints: [
     {
       id: "eichelhaeher_h1",
@@ -120,7 +120,7 @@ const eichelhaeher: QuestionBase = {
     {
       id: "eichelhaeher_h2",
       type: HintType.AUTO_FREE,
-      content: "Dieser Vogel legt große Wintervorräte an und kann bis zu 10 Eicheln gleichzeitig in seinem Kehlsack transportieren. Er ist ein wichtiger 'Waldpflanzer'.",
+      content: "Dieser Vogel legt große Wintervorräte an und kann bis zu 10 Eicheln gleichzeitig in seinem Kehlsack transportieren. Er ist ein wichtiger \"Waldpflanzer\".",
       triggerAfterAttempts: 6
     }
   ],
@@ -145,7 +145,7 @@ const eichelhaeher: QuestionBase = {
       id: "eichelhaeher_warnruf",
       type: HintType.CUSTOM,
       title: "Sein Ruf",
-      content: "Sein lauter, heiserer Warnruf ('Rätschen') alarmiert andere Waldbewohner bei Gefahr, weshalb er als 'Wächter des Waldes' gilt.",
+      content: "Sein lauter, heiserer Warnruf (\"Rätschen\") alarmiert andere Waldbewohner bei Gefahr, weshalb er als \"Wächter des Waldes\" gilt.",
       cost: 1,
     }
   ]
@@ -159,12 +159,12 @@ const raubwuerger: QuestionBase = {
     imageUrl: require("./raubwuerger.webp"),
   },
   funFact:
-    "Er ist ein Singvogel, der sich aber wie ein Greifvogel ernährt. Er hat einen kräftigen, hakenförmigen Schnabel, ähnlich dem eines Falken.",
+    "...dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
   autoFreeHints: [
     {
       id: "raubwuerger_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Gefieder ist grau-weiß mit einem markanten schwarzen Streifen, der wie eine 'Räubermaske' über die Augen verläuft.",
+      content: "Sein Gefieder ist grau-weiß mit einem markanten schwarzen Streifen, der wie eine \"Räubermaske\" über die Augen verläuft.",
       triggerAfterAttempts: 3
     },
     {
@@ -210,7 +210,7 @@ const gruenspecht: QuestionBase = {
   },
   alternativeAnswers: ["Grasspecht", "Erdspecht"],
   funFact:
-    "Sein lauter, schnell aneinander gereihter Ruf klingt wie ein schallendes Lachen ('klü-klü-klü-klü'), daher sein Spitzname 'Lachvogel'.",
+    "...sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
   autoFreeHints: [
     {
       id: "gruenspecht_h1",
@@ -260,7 +260,7 @@ const wespenbussard: QuestionBase = {
     imageUrl: require("./wespenbussard.webp"),
   },
   funFact:
-    "Er ist der einzige Greifvogel, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat. Er gräbt die Nester aus dem Boden.",
+    "...er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
   autoFreeHints: [
     {
       id: "wespenbussard_h1",
@@ -310,12 +310,12 @@ const rotkopfwuerger: QuestionBase = {
     imageUrl: require("./rotkopfwuerger.webp"),
   },
   funFact:
-    "Er war früher ein typischer Brutvogel in Streuobstwiesen, gilt in Deutschland aber heute als vom Aussterben bedroht.",
+    "...dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
   autoFreeHints: [
     {
       id: "rotkopfwuerger_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist erkennbar an seiner leuchtend rotbraunen 'Kappe' und der schwarzen Augenmaske.",
+      content: "Er ist erkennbar an seiner leuchtend rotbraunen \"Kappe\" und der schwarzen Augenmaske.",
       triggerAfterAttempts: 3
     },
     {
@@ -360,7 +360,7 @@ const star: QuestionBase = {
     imageUrl: require("./star.webp"),
   },
   funFact:
-    "Sein Gesang besteht aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen.",
+    "...sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
   autoFreeHints: [
     {
       id: "star_h1",
@@ -371,7 +371,7 @@ const star: QuestionBase = {
     {
       id: "star_h2",
       type: HintType.AUTO_FREE,
-      content: "Er ist bekannt für seine riesigen Schwärme ('Massenflüge'), die am Abend beeindruckende Formationen an den Himmel zaubern.",
+      content: "Er ist bekannt für seine riesigen Schwärme (\"Massenflüge\"), die am Abend beeindruckende Formationen an den Himmel zaubern.",
       triggerAfterAttempts: 6
     }
   ],

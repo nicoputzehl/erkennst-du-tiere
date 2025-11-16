@@ -9,18 +9,18 @@ const drache: QuestionBase = {
     imageUrl: require("./drache.webp"),
   },
   funFact:
-    "Der Name leitet sich vom griechischen Wort **'Drakon'** ab, was 'starrblickend' oder 'scharf blickendes Tier' bedeutet und in der Antike auch für große Schlangen verwendet wurde.",
+    "...der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
   autoFreeHints: [
     {
       id: "drache_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist das bekannteste Fabelwesen, kann meist **Feuer speien** und symbolisiert oft Gefahr oder einen Schatz, den es zu bewachen gilt.",
+      content: "Er ist das bekannteste Fabelwesen, kann meist Feuer speien und symbolisiert oft Gefahr oder einen Schatz, den es zu bewachen gilt.",
       triggerAfterAttempts: 3
     },
     {
       id: "drache_h2",
       type: HintType.AUTO_FREE,
-      content: "Ein Bad im Blut dieses Wesens machte den Helden **Siegfried** unverwundbar.",
+      content: "Ein Bad im Blut dieses Wesens machte den Helden Siegfried unverwundbar.",
       triggerAfterAttempts: 6
     }
   ],
@@ -45,7 +45,7 @@ const drache: QuestionBase = {
       id: "drache_asien",
       type: HintType.CUSTOM,
       title: "Fernöstliche Variante",
-      content: "In der **asiatischen Mythologie** ist er oft ein wohlwollendes Symbol für Glück, Macht und Wetterkontrolle (Regen).",
+      content: "In der asiatischen Mythologie ist er oft ein wohlwollendes Symbol für Glück, Macht und Wetterkontrolle (Regen).",
       cost: 1,
     }
   ]
@@ -60,18 +60,18 @@ const basilisk: QuestionBase = {
     imageUrl: require("./basilisk.webp"),
   },
   funFact:
-    "Der Legende nach schlüpft er aus einem **dotterlosen Hühnerei**, das von einer Kröte oder Schlange ausgebrütet wird. Sein Name bedeutet **'kleiner König'**.",
+    "...der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
   autoFreeHints: [
     {
       id: "basilisk_h1",
       type: HintType.AUTO_FREE,
-      content: "Seine berühmteste Waffe ist sein **tödlicher Blick** oder **Basiliskenblick**, der Menschen versteinern oder töten kann.",
+      content: "Seine berühmteste Waffe ist sein tödlicher Blick oder Basiliskenblick, der Menschen versteinern oder töten kann.",
       triggerAfterAttempts: 3
     },
     {
       id: "basilisk_h2",
       type: HintType.AUTO_FREE,
-      content: "Im Mittelalter wurde er oft mit dem Oberkörper eines **Hahns** und dem Unterleib einer **Schlange** dargestellt.",
+      content: "Im Mittelalter wurde er oft mit dem Oberkörper eines Hahns und dem Unterleib einer Schlange dargestellt.",
       triggerAfterAttempts: 6
     }
   ],
@@ -86,7 +86,7 @@ const basilisk: QuestionBase = {
     {
       id: "kobra_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Der gesuchte ist ein mythisches Wesen, das nicht nur giftig ist, sondern auch einen **tödlichen Blick** besitzt.",
+      content: "Der gesuchte ist ein mythisches Wesen, das nicht nur giftig ist, sondern auch einen tödlichen Blick besitzt.",
       title: "Keine Kobra!",
       triggers: ["schlange", "kobra"]
     }
@@ -96,7 +96,7 @@ const basilisk: QuestionBase = {
       id: "basilisk_feind",
       type: HintType.CUSTOM,
       title: "Sein einziger Feind",
-      content: "Er soll angeblich nur durch das **Krähen eines Hahnes** oder durch sein eigenes Spiegelbild getötet werden können.",
+      content: "Er soll angeblich nur durch das Krähen eines Hahnes oder durch sein eigenes Spiegelbild getötet werden können.",
       cost: 1,
     }
   ]
@@ -111,18 +111,18 @@ const mantikor: QuestionBase = {
   },
   alternativeAnswers: ["Manticor", "Manticore", "Manticora", "Marticora"],
   funFact:
-    "Sein altpersischer Name **'Martiyaxvāra'** bedeutet wörtlich **'Menschenfresser'**. Die Legende stammt ursprünglich aus Indien.",
+    "...sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
   autoFreeHints: [
     {
       id: "mantikor_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist ein Mischwesen mit dem Körper eines **Löwen**, einem **menschlichen Kopf** und dem Schwanz eines **Skorpions**.",
+      content: "Er ist ein Mischwesen mit dem Körper eines Löwen, einem menschlichen Kopf und dem Schwanz eines Skorpions.",
       triggerAfterAttempts: 3
     },
     {
       id: "mantikor_h2",
       type: HintType.AUTO_FREE,
-      content: "Sein Maul ist oft mit **drei Reihen rasiermesserscharfer Zähne** beschrieben, um seine Opfer restlos zu zerreißen.",
+      content: "Sein Maul ist oft mit drei Reihen rasiermesserscharfer Zähne beschrieben, um seine Opfer restlos zu zerreißen.",
       triggerAfterAttempts: 6
     }
   ],
@@ -147,7 +147,7 @@ const mantikor: QuestionBase = {
       id: "mantikor_ursprung",
       type: HintType.CUSTOM,
       title: "Reales Vorbild",
-      content: "Manche antike Gelehrte vermuteten, dass die Legende auf Berichten über den indischen **Tiger** beruhte.",
+      content: "Manche antike Gelehrte vermuteten, dass die Legende auf Berichten über den indischen Tiger beruhte.",
       cost: 1,
     }
   ]
@@ -162,18 +162,18 @@ const hippokamp: QuestionBase = {
   },
   alternativeAnswers: ["Seepferd", "Hippocamp"],
   funFact:
-    "Er ist das mythologische Vorbild für das uns bekannte **Seepferdchen** (Hippocampus) und gibt auch einem Teil des menschlichen Gehirns seinen Namen.",
+    "...der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
   autoFreeHints: [
     {
       id: "hippokamp_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist ein griechisches Mischwesen: vorne ein **Pferd** und hinten ein **Fisch** (oder eine Schlange).",
+      content: "Er ist ein griechisches Mischwesen: vorne ein Pferd und hinten ein Fisch (oder eine Schlange).",
       triggerAfterAttempts: 3
     },
     {
       id: "hippokamp_h2",
       type: HintType.AUTO_FREE,
-      content: "Er dient als Zugtier für den Streitwagen des Meeresgottes **Poseidon** und anderer Meeresgottheiten.",
+      content: "Er dient als Zugtier für den Streitwagen des Meeresgottes Poseidon und anderer Meeresgottheiten.",
       triggerAfterAttempts: 6
     }
   ],
@@ -214,18 +214,18 @@ const pegasos: QuestionBase = {
   alternativeAnswers: ["Pegasus"],
   wikipediaName: "Pegasos_(Mythologie)",
   funFact:
-    "Er war das Kind des Meeresgottes **Poseidon** und der Gorgone **Medusa** und entsprang ihrem Nacken, als Perseus sie enthauptete.",
+    "...Pegasos das Kind des Meeresgottes Poseidon und der Gorgone Medusa war und ihrem Nacken entsprang, als Perseus sie enthauptete?",
   autoFreeHints: [
     {
       id: "pegasos_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist das berühmteste **geflügelte Pferd** der griechischen Mythologie.",
+      content: "Er ist das berühmteste geflügelte Pferd der griechischen Mythologie.",
       triggerAfterAttempts: 3
     },
     {
       id: "pegasos_h2",
       type: HintType.AUTO_FREE,
-      content: "Mit einem Hufschlag erzeugte er die Quelle **Hippokrene** auf dem Berg Helikon, die den Musen und Dichtern Inspiration schenkte.",
+      content: "Mit einem Hufschlag erzeugte er die Quelle Hippokrene auf dem Berg Helikon, die den Musen und Dichtern Inspiration schenkte.",
       triggerAfterAttempts: 6
     }
   ],
@@ -250,7 +250,7 @@ const pegasos: QuestionBase = {
       id: "pegasos_reiter",
       type: HintType.CUSTOM,
       title: "Sein berühmter Reiter",
-      content: "Sein Reiter war der Held **Bellerophon**, dem er half, die Chimäre zu besiegen.",
+      content: "Sein Reiter war der Held Bellerophon, dem er half, die Chimäre zu besiegen.",
       cost: 1,
     }
   ]
@@ -265,18 +265,18 @@ const einhorn: QuestionBase = {
   },
   alternativeAnswers: ["Unicorn"],
   funFact:
-    "Das angebliche Horn, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, stammte meist vom Stoßzahn des **Narwals**.",
+    "...das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
   autoFreeHints: [
     {
       id: "einhorn_h1",
       type: HintType.AUTO_FREE,
-      content: "Dieses Huftier wird meist als reines, weißes Pferd dargestellt, das ein einzelnes, **gewundenes Horn** auf der Stirn trägt.",
+      content: "Dieses Huftier wird meist als reines, weißes Pferd dargestellt, das ein einzelnes, gewundenes Horn auf der Stirn trägt.",
       triggerAfterAttempts: 3
     },
     {
       id: "einhorn_h2",
       type: HintType.AUTO_FREE,
-      content: "Es gilt als Symbol für **Keuschheit und Unschuld** und kann der Legende nach nur von einer **Jungfrau** eingefangen werden.",
+      content: "Es gilt als Symbol für Keuschheit und Unschuld und kann der Legende nach nur von einer Jungfrau eingefangen werden.",
       triggerAfterAttempts: 6
     }
   ],
@@ -291,7 +291,7 @@ const einhorn: QuestionBase = {
     {
       id: "pegasus_trigger_2",
       type: HintType.CONTEXTUAL,
-      content: "Der gesuchte hat ein Horn, aber **keine Flügel**.",
+      content: "Der gesuchte hat ein Horn, aber keine Flügel.",
       title: "Fehlende Flügel!",
       triggers: ["pegasus", "geflügeltes pferd"]
     }
@@ -301,7 +301,7 @@ const einhorn: QuestionBase = {
       id: "einhorn_gift",
       type: HintType.CUSTOM,
       title: "Horn-Kräfte",
-      content: "Sein Horn wurde traditionell als Mittel zur **Neutralisierung von Gift** in Speisen und Getränken verwendet.",
+      content: "Sein Horn wurde traditionell als Mittel zur Neutralisierung von Gift in Speisen und Getränken verwendet.",
       cost: 1,
     }
   ]
@@ -317,18 +317,18 @@ const phoenex: QuestionBase = {
   },
   alternativeAnswers: ["Phoenix"],
   funFact:
-    "Er wird oft mit dem Sonnengott **Re** in der ägyptischen Mythologie in Verbindung gebracht und symbolisiert den täglichen Aufstieg der Sonne.",
+    "...der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
   autoFreeHints: [
     {
       id: "phoenex_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist ein Vogel mit leuchtend **roten und goldenen Federn** und sieht oft einem Adler oder Pfau ähnlich.",
+      content: "Er ist ein Vogel mit leuchtend roten und goldenen Federn und sieht oft einem Adler oder Pfau ähnlich.",
       triggerAfterAttempts: 3
     },
     {
       id: "phoenex_h2",
       type: HintType.AUTO_FREE,
-      content: "Er verbrennt sich am Ende seines Lebenszyklus selbst und steigt dann **aus seiner eigenen Asche** neu und verjüngt auf.",
+      content: "Er verbrennt sich am Ende seines Lebenszyklus selbst und steigt dann aus seiner eigenen Asche neu und verjüngt auf.",
       triggerAfterAttempts: 6
     }
   ],
@@ -367,12 +367,12 @@ const greif: QuestionBase = {
     imageUrl: require("./greif.webp"),
   },
   funFact:
-    "Er ist ein Zeichen für **Wachsamkeit** und **Stärke** und wurde oft verwendet, um wertvolle Schätze wie Goldminen zu bewachen.",
+    "...der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
   autoFreeHints: [
     {
       id: "greif_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist ein Mischwesen: Er hat den Kopf, die Flügel und die Krallen eines **Adlers** und den Körper, die Beine und den Schwanz eines **Löwen**.",
+      content: "Er ist ein Mischwesen: Er hat den Kopf, die Flügel und die Krallen eines Adlers und den Körper, die Beine und den Schwanz eines Löwen.",
       triggerAfterAttempts: 3
     },
     {
@@ -403,7 +403,7 @@ const greif: QuestionBase = {
       id: "greif_herkules",
       type: HintType.CUSTOM,
       title: "Wagen des Zeus",
-      content: "Er ist oft das Tier, das den Wagen des obersten Gottes **Zeus** (oder in Rom Jupiter) zieht.",
+      content: "Er ist oft das Tier, das den Wagen des obersten Gottes Zeus (oder in Rom Jupiter) zieht.",
       cost: 1,
     }
   ]
