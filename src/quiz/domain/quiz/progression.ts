@@ -92,9 +92,7 @@ export const findNextUnsolvedQuestionBackward = (
 	sortedQuestions: Question[],
 	currentIndex: number,
 ): Question | null => {
-	// Schleife muss von currentIndex - 1 abwärts gehen
 	for (let i = currentIndex - 1; i >= 0; i--) {
-		// <-- Korrektur hier
 		if (sortedQuestions[i].status !== QuestionStatus.SOLVED) {
 			return sortedQuestions[i];
 		}
@@ -120,14 +118,12 @@ export const getNextActiveQuestionId = (
 		);
 
 		if (currentIndex !== -1) {
-			// Suche vorwärts
 			const nextForward = findNextUnsolvedQuestionForward(
 				sortedQuestions,
 				currentIndex,
 			);
 			if (nextForward) return nextForward.id;
 
-			// Suche rückwärts
 			const nextBackward = findNextUnsolvedQuestionBackward(
 				sortedQuestions,
 				currentIndex,
@@ -136,7 +132,6 @@ export const getNextActiveQuestionId = (
 		}
 	}
 
-	// Finde erste ungelöste Frage
 	const firstUnsolved = findFirstUnsolvedQuestion(sortedQuestions);
 	return firstUnsolved ? firstUnsolved.id : null;
 };

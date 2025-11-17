@@ -7,7 +7,7 @@ import {
 } from "../../types";
 import type { HintState } from "../../types/hint";
 import type { MultiplePlaythroughCondition, PlaythroughCondition, ProgressCondition } from "../../types/unlock";
-import { HintUtils } from "../hints"; // Import für die neuen Hint-Utilities
+import { HintUtils } from "../hints";
 
 /**
  * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen
@@ -71,10 +71,6 @@ export const calculateInitialQuestionStatus = (
   });
 };
 
-/**
- * Erstellt Quiz-State aus Quiz-Inhalt und Konfiguration
- * Diese Funktion ist jetzt viel robuster, weil sie das neue Hint-System versteht
- */
 export const createQuizState = (
   quiz: Quiz,
   config: Pick<QuizConfig, "initialUnlockedQuestions"> = {},
