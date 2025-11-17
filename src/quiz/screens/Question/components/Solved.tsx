@@ -18,7 +18,10 @@ const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
 				{question.funFact && <FunFactSection funFact={question.funFact} />}
-				<WikipediaSection slug={wikipediaSlug} />
+
+				<View style={styles.bottomContainer}>
+					<WikipediaLink slug={wikipediaSlug} />
+				</View>
 			</View>
 		</View>
 	);
@@ -41,11 +44,6 @@ const FunFactSection = ({ funFact }: { funFact: string }) => {
 	);
 };
 
-const WikipediaSection = ({ slug }: { slug: string }) => (
-	<View style={styles.wikipediaLinkContainer}>
-		<WikipediaLink slug={slug} />
-	</View>
-);
 
 export default Solved;
 
@@ -66,7 +64,7 @@ const styles = StyleSheet.create({
 	funFactHeader: {
 		marginBottom: 10,
 	},
-	wikipediaLinkContainer: {
+	bottomContainer: {
 		flex: 1,
 		justifyContent: "flex-end",
 		alignItems: "flex-end",
