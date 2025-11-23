@@ -135,3 +135,26 @@ export const getNextActiveQuestionId = (
 	const firstUnsolved = findFirstUnsolvedQuestion(sortedQuestions);
 	return firstUnsolved ? firstUnsolved.id : null;
 };
+
+export const getNextQuestionId = (
+	state?: QuizState,
+	currentQuestionId?: number,
+): number | null => {
+	if(!state) return null;
+	const sorted = sortQuestionsByIds(state.questions);
+
+	if (sorted.length === 0) return null;
+
+
+	if (currentQuestionId === undefined) {
+		return sorted[0].id;
+	}
+
+	const currentIndex = sorted.findIndex((q) => q.id === currentQuestionId);
+
+	if (currentIndex === -1) return null;
+
+	if (currentIndex >= sorted.length - 1) return null;
+
+	return sorted[currentIndex + 1].id;
+};

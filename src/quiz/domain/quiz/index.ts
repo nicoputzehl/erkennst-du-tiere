@@ -7,7 +7,7 @@ import {
 	createProgressUnlockCondition,
 	createMultiplePlaythroughUnlockCondition
 } from "./factories";
-import { calculateAnswerResult, getNextActiveQuestionId } from "./progression";
+import { calculateAnswerResult, getNextActiveQuestionId, getNextQuestionId } from "./progression";
 import {
 	calculateCompletionPercentage,
 	countCompletedQuestions,
@@ -33,6 +33,8 @@ export const QuizUtils = {
 	getNextActiveQuestionId,
 	isQuizUnlocked,
 	getUnlockProgress,
+	getNextQuestionId,
+
 
 	// Statistics
 	countTotalQuizzes,

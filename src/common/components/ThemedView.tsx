@@ -1,8 +1,8 @@
 import { useColorScheme } from "@/src/common/hooks/useColorScheme";
 import { LinearGradient } from "expo-linear-gradient";
-import {  StyleSheet, type ViewProps } from "react-native";
-import { Gradients } from "../constants/Gradients";
+import { StyleSheet, type ViewProps } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Gradients } from "../constants/Gradients";
 
 export type ThemedViewProps = ViewProps & {
 	lightColor?: string;
@@ -41,7 +41,7 @@ export function ThemedView({
 			case "success":
 				return gradients.gradientSuccess as [string, string, ...string[]];
 			default:
-				return gradients.gradientNewPrimary as [string, string, ...string[]];
+				return gradients.gradientPrimary as [string, string, ...string[]];
 		}
 	};
 

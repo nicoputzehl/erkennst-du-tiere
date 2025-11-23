@@ -13,6 +13,7 @@ import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
 import { HintPatch } from "./components/HintPatch";
 import { QuestionImage } from "./components/QuestionImage";
+import Button from "@/src/common/components/Button";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -32,7 +33,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		showResult,
 		isCorrect,
 		statusChanged,
-		isSolved,
 		handleSubmit,
 		handleBack,
 		hint,
@@ -44,7 +44,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		showHint,
 		navigateToHintsModal,
 		showResultReaction,
-		visibleHints
+		visibleHints,
+		isSolved,
+		navigateToNextQuestion
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
@@ -121,7 +123,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 					</View>
 					{isSolved && (
 						<View style={styles.resultContainer}>
-							<Solved question={question} justSolved={statusChanged} />
+							<Solved question={question} justSolved={statusChanged} >
+								<Button text="weiter" onPress={navigateToNextQuestion} />
+							</Solved>
 						</View>
 					)}
 					{showInput && (

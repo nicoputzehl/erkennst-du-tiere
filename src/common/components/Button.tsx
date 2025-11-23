@@ -7,6 +7,8 @@ import {
 	type TouchableOpacityProps,
 } from "react-native";
 import { ThemedText } from "./ThemedText";
+import { useColorScheme } from "../hooks/useColorScheme.web";
+import { Colors } from "../constants/Colors";
 
 interface ButtonProps extends TouchableOpacityProps {
 	text: string;
@@ -20,9 +22,13 @@ const Button = ({
 	buttonStyle,
 	style,
 }: ButtonProps) => {
+		const colorScheme = useColorScheme();
+		const isDark = colorScheme === "dark";
+
+		const buttonColor = isDark ? Colors.dark.buttonWarning : Colors.light.buttonWarning;
 	return (
 		<TouchableOpacity
-			style={[styles.button, disabled && styles.disabledButton, style]}
+			style={[styles.button, disabled && styles.disabledButton, style, { backgroundColor: buttonColor }]}
 			onPress={onPress}
 			disabled={disabled}
 			activeOpacity={0.8}
@@ -36,11 +42,11 @@ export default Button;
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: "#0a7ea4",
+		backgroundColor: "#00ffbfac",
 		paddingVertical: 14,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		width: "70%",
+		// width: "70%",
 		alignItems: "center",
 		justifyContent: "center",
 		minHeight: 50,

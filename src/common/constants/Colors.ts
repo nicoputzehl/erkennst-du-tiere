@@ -17,7 +17,8 @@ const darkThemeErrorRed = "#E57373"; // Dark theme specific error red
 const dawnOrange = "#FFC266";
 const darkOrange = "#FF9800"; // Light theme warning/new
 const darkThemeWarningOrange = "#FFB74D"; // Dark theme specific warning/new
-
+const darkOrangeWithTransparency ="#ff990020"
+const darkThemeWarningOrangeWithTransparency = "#FFB74D20"; // Dark theme specific warning/new
 // Yellows
 const citrus = "#FFF2A1";
 
@@ -68,7 +69,7 @@ export const Colors = {
     // Oranges
     warning: darkOrange,
     new: darkOrange,
-    buttonWarning: darkOrange,
+    buttonWarning: darkOrangeWithTransparency,
 
     // Yellows
     lightAccent: citrus,
@@ -119,7 +120,7 @@ export const Colors = {
     accent: dawnOrange, // Assuming accent is dawnOrange in dark mode
     warning: darkThemeWarningOrange,
     new: darkThemeWarningOrange,
-    buttonWarning: darkThemeWarningOrange,
+    buttonWarning: darkThemeWarningOrangeWithTransparency,
 
     // Yellows
     lightAccent: citrus, // Assuming lightAccent is citrus in dark mode

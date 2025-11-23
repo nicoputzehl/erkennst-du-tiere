@@ -1,14 +1,15 @@
+import { QuizUtils } from "@/src/quiz/domain/quiz";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { QuestionStatus } from "@/src/quiz/types";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useAnswerState } from "./useAnswerState";
 import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
 import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
-	const { getQuizState, getNextActiveQuestion } = useQuiz();
+	const { getQuizState } = useQuiz();
 	const { hasVisibleHints, visibleHints, firstLetterHint } = useHints(quizId, Number.parseInt(questionId));
 
 	const navigation = useQuestionNavigation(quizId, questionId);
@@ -16,6 +17,18 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const resultState = useResultState();
 
 	const quizState = getQuizState(quizId);
+	const nextQuestionId = useMemo(() => {
+		return QuizUtils.getNextQuestionId(quizState, Number.parseInt(questionId));
+	}, [questionId, quizState]);
+
+
+	const navigateToNextQuestion = useCallback(() => {
+		if(nextQuestionId) {
+			navigation.navigateToQuestionFromQuestion(nextQuestionId.toString());
+		}
+	},[nextQuestionId, navigation]);
+	console.warn({ nextQuestionId })
+
 	const question = quizState?.questions.find(
 		(q) => q.id === Number.parseInt(questionId),
 	);
@@ -33,12 +46,12 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	});
 
 
-	useState(() => {
+	useEffect(() => {
 		if (isSolved) {
 			resultState.setShowResult(true);
 			resultState.setIsCorrect(true);
 		}
-	});
+	}, [isSolved, resultState]);
 
 	const headerText = useMemo(() => {
 		if (isSolved && question?.answer) {
@@ -56,7 +69,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 
 		quizState,
 		question,
-		isSolved,
 		hasVisibleHints,
 		showInput,
 		headerText,
@@ -66,9 +78,10 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		...resultState,
 		...navigation,
 
-
+navigateToNextQuestion,
 		handleSubmit,
 		showResultReaction,
-		visibleHints
+		visibleHints,
+		isSolved
 	};
 }
