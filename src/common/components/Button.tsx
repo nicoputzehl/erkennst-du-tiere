@@ -25,7 +25,7 @@ const Button = ({
 		const colorScheme = useColorScheme();
 		const isDark = colorScheme === "dark";
 
-		const buttonColor = isDark ? Colors.dark.buttonWarning : Colors.light.buttonWarning;
+		const buttonColor = isDark ? Colors.dark.buttonPrimary : Colors.light.buttonPrimary;
 	return (
 		<TouchableOpacity
 			style={[styles.button, disabled && styles.disabledButton, style, { backgroundColor: buttonColor }]}

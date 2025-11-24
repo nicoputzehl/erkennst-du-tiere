@@ -4,14 +4,13 @@ import { WikipediaLink } from "@/src/quiz/screens/Question/components/WikipediaL
 import type { Question } from "@/src/quiz/types";
 import { StyleSheet, View } from "react-native";
 import { DelayedLottie } from "./DelayedLottie";
-import type { PropsWithChildren } from "react";
 
 export interface SolvedProps {
 	question: Question;
 	justSolved: boolean;
 }
 
-const Solved = ({ question, justSolved: statusChanged, children }: SolvedProps & PropsWithChildren) => {
+const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 	const wikipediaSlug = question.wikipediaName || question.answer;
 
 	return (
@@ -19,11 +18,7 @@ const Solved = ({ question, justSolved: statusChanged, children }: SolvedProps &
 			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
 				{question.funFact && <FunFactSection funFact={question.funFact} />}
-
-				<View style={styles.bottomContainer}>
 					<WikipediaLink slug={wikipediaSlug} />
-					{children}
-				</View>
 			</View>
 		</View>
 	);
@@ -52,11 +47,7 @@ export default Solved;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "space-between",
 		position: "relative",
-	},
-	content: {
-		flex: 1,
 	},
 	funFact: {
 		fontSize: 20,
@@ -65,6 +56,10 @@ const styles = StyleSheet.create({
 	},
 	funFactHeader: {
 		marginBottom: 10,
+	},
+	content: {
+		justifyContent: "flex-start",
+		flex: 1,
 	},
 	bottomContainer: {
 		flex: 1,

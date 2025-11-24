@@ -123,9 +123,8 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 					</View>
 					{isSolved && (
 						<View style={styles.resultContainer}>
-							<Solved question={question} justSolved={statusChanged} >
+							<Solved question={question} justSolved={statusChanged} />
 								<Button text="weiter" onPress={navigateToNextQuestion} />
-							</Solved>
 						</View>
 					)}
 					{showInput && (
