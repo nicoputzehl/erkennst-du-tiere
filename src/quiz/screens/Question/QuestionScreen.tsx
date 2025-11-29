@@ -14,6 +14,7 @@ import { useQuestionScreen } from "./hooks/useQuestionScreen";
 import { HintPatch } from "./components/HintPatch";
 import { QuestionImage } from "./components/QuestionImage";
 import Button from "@/src/common/components/Button";
+import { GestureHandler } from "@/src/common/components/GestureHandler";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -51,6 +52,13 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
+const handleSwipeLeft = () => {
+	if (navigateToNextQuestion && isSolved) {
+		navigateToNextQuestion();
+	}
+}
+
+
 	const headerActions = useMemo(() => {
 		const actions = [];
 
@@ -87,59 +95,62 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	}
 
 	return (
-		<ThemedView gradientType="primary" style={{ flex: 1 }}>
-			<Header
-				showBackButton={false}
-				title={headerText}
-				rightSlot={
-					<View style={styles.headerActions}>
-						{headerActions.map((action) => (
-							<TouchableOpacity
-								key={action.key}
-								onPress={action.onPress}
-								style={styles.actionButton}
-								accessibilityHint={action.accessibilityHint}
-							>
-								{action.icon}
-							</TouchableOpacity>
-						))}
-					</View>
-				}
-			/>
-			<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
-			{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
-			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
-				style={{ flex: 1 }}
-			>
-				<View style={{ flex: 1, justifyContent: "space-between" }}>
-					<View style={styles.imageWrapper}>
-						<QuestionImage
-							question={question}
-						/>
-
-						<HintPatch hints={visibleHints} />
-
-					</View>
-					{isSolved && (
-						<View style={styles.resultContainer}>
-							<Solved question={question} justSolved={statusChanged} />
-								<Button text="weiter" onPress={navigateToNextQuestion} />
+		<GestureHandler onSwipeLeft={handleSwipeLeft} onSwipeUp={handleBack}>
+			<ThemedView
+				gradientType="primary" style={{ flex: 1 }}>
+				<Header
+					showBackButton={false}
+					title={headerText}
+					rightSlot={
+						<View style={styles.headerActions}>
+							{headerActions.map((action) => (
+								<TouchableOpacity
+									key={action.key}
+									onPress={action.onPress}
+									style={styles.actionButton}
+									accessibilityHint={action.accessibilityHint}
+								>
+									{action.icon}
+								</TouchableOpacity>
+							))}
 						</View>
-					)}
-					{showInput && (
-						<QuestionInput
-							value={answer}
-							onChangeText={handleChangeAnswer}
-							onSubmit={handleSubmit}
-							onClear={clearAnswer}
-							isSubmitting={isSubmitting}
-							hasError={showResult && !isCorrect}
-						/>
-					)}
-				</View>
-			</KeyboardAvoidingView>
-		</ThemedView>
+					}
+				/>
+				<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
+				{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
+				<KeyboardAvoidingView
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
+					style={{ flex: 1 }}
+				>
+					<View style={{ flex: 1, justifyContent: "space-between" }}>
+						<View style={styles.imageWrapper}>
+							<QuestionImage
+								question={question}
+							/>
+
+							<HintPatch hints={visibleHints} />
+
+						</View>
+						{isSolved && (
+							<View style={styles.resultContainer}>
+								<Solved question={question} justSolved={statusChanged} />
+								<Button text="weiter" onPress={navigateToNextQuestion} />
+							</View>
+						)}
+						{showInput && (
+							<QuestionInput
+								value={answer}
+								onChangeText={handleChangeAnswer}
+								onSubmit={handleSubmit}
+								onClear={clearAnswer}
+								isSubmitting={isSubmitting}
+								hasError={showResult && !isCorrect}
+							/>
+						)}
+					</View>
+				</KeyboardAvoidingView>
+			</ThemedView>
+		</GestureHandler>
 	);
 };
 
