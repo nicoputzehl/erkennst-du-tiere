@@ -24,7 +24,7 @@ export const HintPatch: React.FC<HintPatchProps> = ({
   } else if (hasFirstletterHint) {
     hintText = `Hinweis: Erster Buchstabe ist ${firstletter.value}`;
   } else if (hasLettercountHint) {
-    hintText = `Hinweis: ${lettercount.value} Buchstaben`;
+    hintText = `Hinweis: ${lettercount.value} Buchstaben `;
   } else {
     return null;
   }
