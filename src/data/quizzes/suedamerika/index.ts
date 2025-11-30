@@ -9,7 +9,7 @@ const alpaka: QuestionBase = {
     unsolvedImageUrl: require("./alpaka_unsolved.webp"),
   },
   funFact:
-    "Dieses domestizierte Tier wurde hauptsächlich wegen seiner extrem weichen, hypoallergenen Wolle gezüchtet und nicht primär als Lasttier.",
+    "...dieses domestizierte Tier hauptsächlich wegen seiner extrem weichen, \"hypoallergenen Wolle\" gezüchtet wurde und nicht primär als Lasttier?",
   autoFreeHints: [
     {
       id: "alpaka_h1",
@@ -61,7 +61,7 @@ const piranha: QuestionBase = {
     unsolvedImageUrl: require("./piranha_unsolved.webp"),
   },
   funFact:
-    "Trotz ihres furchteinflößenden Rufs sind viele Arten Allesfresser oder reine Pflanzenfresser. Ihr schlechter Ruf basiert oft auf übertriebenen Geschichten.",
+    "...trotz ihres furchteinflößenden Rufs viele Piranha-Arten Allesfresser oder reine Pflanzenfresser sind und ihr schlechter Ruf oft auf übertriebenen Geschichten basiert?",
   autoFreeHints: [
     {
       id: "piranha_h1",
@@ -97,7 +97,7 @@ const piranha: QuestionBase = {
       id: "saubermann",
       type: HintType.CUSTOM,
       title: "Die Aufgabe",
-      content: "Sie fungieren als eine Art 'Gesundheitspolizei', indem sie Aas und kranke Tiere fressen und so die Ausbreitung von Krankheiten in den Flüssen verhindern.",
+      content: "Sie fungieren als eine Art \"Gesundheitspolizei\", indem sie Aas und kranke Tiere fressen und so die Ausbreitung von Krankheiten in den Flüssen verhindern.",
       cost: 1,
     }
   ]
@@ -112,7 +112,7 @@ const jaguar: QuestionBase = {
     unsolvedImageUrl: require("./jaguar_unsolved.webp"),
   },
   funFact:
-    "Sein Name kommt von einem indigenen Wort, das 'der, der im Fliegen tötet' bedeutet. Er hat das stärkste Gebiss aller Großkatzen, mit dem er sogar Schildkrötenpanzer knacken kann.",
+    "...sein Name von einem indigenen Wort kommt, das \"der, der im Fliegen tötet\" bedeutet, und er das stärkste Gebiss aller Großkatzen hat, mit dem er sogar Schildkrötenpanzer knacken kann?",
   autoFreeHints: [
     {
       id: "jaguar_h1",
@@ -161,10 +161,10 @@ const lama: QuestionBase = {
   wikipediaName: "Lama_(Kamel)",
   images: {
     imageUrl: require("./lama.webp"),
-    unsolvedImageUrl: require("./lama_unsolved.webp"),
+    unsolvedImageUrl: require("./lama.webp"),
   },
   funFact:
-    "Es wurde in den Anden domestiziert und dient seit Jahrtausenden als wichtiges Lasttier für die Inka und ihre Nachfahren.",
+    "...das Lama in den Anden domestiziert wurde und seit Jahrtausenden als wichtiges Lasttier für die Inka und ihre Nachfahren dient?",
   autoFreeHints: [
     {
       id: "lama_h1",
@@ -175,7 +175,7 @@ const lama: QuestionBase = {
     {
       id: "lama_h2",
       type: HintType.AUTO_FREE,
-      content: "Seine Ohren sind lang und leicht nach innen gebogen ('Bananenohren'), was es von seinem kleineren Verwandten unterscheidet.",
+      content: "Seine Ohren sind lang und leicht nach innen gebogen (\"Bananenohren\"), was es von seinem kleineren Verwandten unterscheidet.",
       triggerAfterAttempts: 6
     }
   ],
@@ -215,7 +215,7 @@ const capybara: QuestionBase = {
   },
   alternativeAnswers: ["Wasserschwein"],
   funFact:
-    "Es ist das größte Nagetier der Welt. Sein Name bedeutet in der Tupi-Sprache der Ureinwohner 'Herr der Gräser'.",
+    "...das Capybara das größte Nagetier der Welt ist und sein Name in der Tupi-Sprache der Ureinwohner \"Herr der Gräser\" bedeutet?",
   autoFreeHints: [
     {
       id: "capybara_h1",
@@ -226,7 +226,7 @@ const capybara: QuestionBase = {
     {
       id: "capybara_h2",
       type: HintType.AUTO_FREE,
-      content: "Es wird oft liebevoll als 'Gras-Pferd' bezeichnet und ist dafür bekannt, mit fast allen anderen Tierarten friedlich zu koexistieren.",
+      content: "Es wird oft liebevoll als \"Gras-Pferd\" bezeichnet und ist dafür bekannt, mit fast allen anderen Tierarten friedlich zu koexistieren.",
       triggerAfterAttempts: 6
     }
   ],
@@ -266,7 +266,7 @@ const kondor: QuestionBase = {
   },
   alternativeAnswers: ["Andenkondor", "Kondor"],
   funFact:
-    "Er hat mit über 3 Metern die größte Flügelspannweite aller Landvögel der Welt und nutzt die Thermik, um in großen Höhen zu gleiten.",
+    "...der Kondor mit über 3 Metern die größte Flügelspannweite aller Landvögel der Welt hat und die Thermik nutzt, um in großen Höhen zu gleiten?",
   autoFreeHints: [
     {
       id: "kondor_h1",
@@ -317,7 +317,7 @@ const nandu: QuestionBase = {
   },
   alternativeAnswers: ["Großer Nandu"],
   funFact:
-    "Obwohl er flugunfähig ist, besitzt er die größten Flügel aller Laufvögel, die er zur Balance und als Ruder beim schnellen Laufen (bis zu 60 km/h) nutzt.",
+    "...obwohl der Nandu flugunfähig ist, er die größten Flügel aller Laufvögel besitzt, die er zur Balance und als Ruder beim schnellen Laufen (bis zu 60 km/h) nutzt?",
   autoFreeHints: [
     {
       id: "nandu_h1",
@@ -367,7 +367,7 @@ const schopfkarakara: QuestionBase = {
     imageUrl: require("./schopfkarakara.webp"),
   },
   funFact:
-    "Er verbringt mehr Zeit zu Fuß am Boden als andere Greifvögel und wird manchmal als 'wandernder Falke' bezeichnet. Er ist sowohl Aasfresser als auch aktiver Jäger.",
+    "...der Schopfkarakara mehr Zeit zu Fuß am Boden verbringt als andere Greifvögel, manchmal als \"wandernder Falke\" bezeichnet wird und sowohl Aasfresser als auch aktiver Jäger ist?",
   autoFreeHints: [
     {
       id: "sk_h1",

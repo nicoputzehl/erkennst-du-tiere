@@ -9,24 +9,24 @@ const koala: QuestionBase = {
     unsolvedImageUrl: require("./koala_unsolved.webp"),
   },
   alternativeAnswers: ["Beutelbär", "Koalabär"],
-  funFact: "Der Koala schläft bis zu 20 Stunden am Tag, nicht etwa, weil er faul ist, sondern weil Eukalyptusblätter sehr faserig und giftig sind und ihre Verdauung enorme Energie kostet.",
+  funFact: "...der Koala bis zu 20 Stunden am Tag schläft, weil Eukalyptusblätter sehr faserig und giftig sind und ihre Verdauung enorme Energie kostet?",
   autoFreeHints: [
     {
       id: "koala_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name stammt aus einer Aborigine-Sprache und bedeutet sinngemäß 'trinkt nicht' (obwohl sie Wasser trinken, wenn nötig).",
+      content: "Sein Name stammt aus einer Aborigine-Sprache und bedeutet sinngemäß \"trinkt nicht\" (obwohl sie Wasser trinken, wenn nötig).",
       triggerAfterAttempts: 3
     },
     {
       id: "koala_h2",
       type: HintType.AUTO_FREE,
-      content: "Trotz seines Aussehens ist er kein Bär, sondern ein **Beuteltier**.",
+      content: "Trotz seines Aussehens ist er kein Bär, sondern ein Beuteltier.",
       triggerAfterAttempts: 6
     },
     {
       id: "koala_h3",
       type: HintType.AUTO_FREE,
-      content: "Wie menschliche Fingerabdrücke sind auch seine **Fingerabdrücke** einzigartig.",
+      content: "Wie menschliche Fingerabdrücke sind auch seine Fingerabdrücke einzigartig.",
       triggerAfterAttempts: 9
     }
   ],
@@ -58,7 +58,7 @@ const koala: QuestionBase = {
       id: "nachwuchs",
       type: HintType.CUSTOM,
       title: "Junge",
-      content: "Das Neugeborene ('Joey') verbringt die ersten sechs Monate im Beutel der Mutter.",
+      content: "Das Neugeborene (\"Joey\") verbringt die ersten sechs Monate im Beutel der Mutter.",
       cost: 1,
     }
   ]
@@ -72,7 +72,7 @@ const kaenguru: QuestionBase = {
     imageUrl: require("./kaenguru.webp"),
     unsolvedImageUrl: require("./kaenguru_unsolved.webp"),
   },
-  funFact: "Kängurus können sich nicht rückwärts bewegen. Das verhindert ihre Muskulatur und ihr langer, massiver Schwanz.",
+  funFact: "...Kängurus sich nicht rückwärts bewegen können, weil ihre Muskulatur und ihr langer, massiver Schwanz das verhindert?",
   autoFreeHints: [
     {
       id: "kaenguru_h1",
@@ -121,7 +121,7 @@ const kaenguru: QuestionBase = {
       id: "gruppe",
       type: HintType.CUSTOM,
       title: "Sozialleben",
-      content: "Kängurus leben in Gruppen, die 'Mobs' genannt werden.",
+      content: "Kängurus leben in Gruppen, die \"Mobs\" genannt werden.",
       cost: 1,
     }
   ]
@@ -135,7 +135,7 @@ const quokka: QuestionBase = {
     imageUrl: require("./quokka.webp"),
   },
   alternativeAnswers: ["Kurzschwanzkänguru"],
-  funFact: "Das Quokka ist berühmt für sein scheinbar 'lächelndes' Gesicht, das es zu einem der beliebtesten Fotomotive der Welt macht.",
+  funFact: "...das Quokka für sein scheinbar \"lächelndes\" Gesicht berühmt ist, was es zu einem der beliebtesten Fotomotive der Welt macht?",
   autoFreeHints: [
     {
       id: "quokka_h1",
@@ -197,7 +197,7 @@ const wombat: QuestionBase = {
   images: {
     imageUrl: require("./wombat.webp"),
   },
-  funFact: "Der Wombat ist das einzige Tier der Welt, das **würfelförmigen Kot** produziert. Wissenschaftler vermuten, dass dies dazu dient, Kot als Markierung auf erhöhten Steinen zu stapeln.",
+  funFact: "...der Wombat das einzige Tier der Welt ist, das \"würfelförmigen Kot\" produziert, um damit Markierungen auf erhöhten Steinen zu stapeln?",
   autoFreeHints: [
     {
       id: "wombat_h1",
@@ -214,7 +214,7 @@ const wombat: QuestionBase = {
     {
       id: "wombat_h3",
       type: HintType.AUTO_FREE,
-      content: "Sein Beutel ist **nach hinten** geöffnet, damit beim Graben keine Erde hineinfällt.",
+      content: "Sein Beutel ist nach hinten geöffnet, damit beim Graben keine Erde hineinfällt.",
       triggerAfterAttempts: 9
     }
   ],
@@ -259,7 +259,7 @@ const dingo: QuestionBase = {
   images: {
     imageUrl: require("./dingo.webp"),
   },
-  funFact: "Dingos bellen nicht wie Haushunde, sondern kommunizieren hauptsächlich durch **Heulen**.",
+  funFact: "...Dingos nicht wie Haushunde bellen, sondern hauptsächlich durch \"Heulen\" kommunizieren?",
   autoFreeHints: [
     {
       id: "dingo_h1",
@@ -322,7 +322,7 @@ const emu: QuestionBase = {
     imageUrl: require("./emu.webp"),
   },
   alternativeAnswers: ["Großer Emu"],
-  funFact: "Der Emu ist der **zweitgrößte** lebende Vogel der Welt (nach dem Strauß) und kann im Sprint Geschwindigkeiten von bis zu 50 km/h erreichen.",
+  funFact: "...der Emu der \"zweitgrößte\" lebende Vogel der Welt (nach dem Strauß) ist und im Sprint Geschwindigkeiten von bis zu 50 km/h erreichen kann?",
   autoFreeHints: [
     {
       id: "emu_h1",
@@ -384,7 +384,7 @@ const wallaby: QuestionBase = {
   images: {
     imageUrl: require("./wallaby.webp"),
   },
-  funFact: "Der Name 'Wallaby' ist keine biologische Klassifikation, sondern ein Sammelbegriff für jede Art von Känguru, die **deutlich kleiner** als die großen Kängurus ist.",
+  funFact: "...der Name \"Wallaby\" ein Sammelbegriff für jede Känguruart ist, die \"deutlich kleiner\" als die großen Kängurus ist, und keine biologische Klassifikation darstellt?",
   autoFreeHints: [
     {
       id: "wallaby_h1",
@@ -447,7 +447,7 @@ const kookaburra: QuestionBase = {
     imageUrl: require("./kookaburra.webp"),
   },
   alternativeAnswers: ["Jägerliest", "Lachender Hans"],
-  funFact: "Sein charakteristischer Ruf klingt wie lautes, hysterisches menschliches **Lachen**, weshalb er auch 'Lachender Hans' genannt wird.",
+  funFact: "...sein charakteristischer Ruf wie lautes, hysterisches menschliches \"Lachen\" klingt, weshalb er auch \"Lachender Hans\" genannt wird?",
   autoFreeHints: [
     {
       id: "kookaburra_h1",

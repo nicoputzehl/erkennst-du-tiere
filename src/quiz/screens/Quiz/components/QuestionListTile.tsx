@@ -53,7 +53,7 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 
 		const imageStyle = useMemo(
 			() => ({
-				width: itemWidth - 4, // Account for border
+				width: itemWidth - 4,
 				height: itemWidth - 4,
 				borderRadius: 6,
 			}),

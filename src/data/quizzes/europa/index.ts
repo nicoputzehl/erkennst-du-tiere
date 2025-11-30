@@ -8,24 +8,24 @@ const wildschwein: QuestionBase = {
     unsolvedImageUrl: require("./wildschwein_unsolved.webp"),
   },
   alternativeAnswers: ["Schwarzwild", "Schwarzkittel"],
-  funFact: "Wildschweine haben einen der besten Geruchssinne im Tierreich; er ist so gut, dass sie in der Lage sind, Trüffel und sogar Drogen unter der Erde zu finden.",
+  funFact: "...Wildschweine einen der besten Geruchssinne im Tierreich haben und so gut sind, dass sie in der Lage sind, Trüffel und sogar Drogen unter der Erde zu finden?",
   autoFreeHints: [
     {
       id: "wildschwein_h1",
       type: HintType.AUTO_FREE,
-      content: "Die Jungen dieser Tiere werden 'Frischlinge' genannt und sind an ihren hellen Längsstreifen zu erkennen.",
+      content: "Die Jungen dieser Tiere werden \"Frischlinge\" genannt und sind an ihren hellen Längsstreifen zu erkennen.",
       triggerAfterAttempts: 3
     },
     {
       id: "wildschwein_h2",
       type: HintType.AUTO_FREE,
-      content: "Sie leben in Familienverbänden, die 'Rotten' genannt werden.",
+      content: "Sie leben in Familienverbänden, die \"Rotten\" genannt werden.",
       triggerAfterAttempts: 6
     },
     {
       id: "wildschwein_h3",
       type: HintType.AUTO_FREE,
-      content: "Die männlichen Tiere, 'Keiler' genannt, nutzen ihre spitzen Hauer zur Verteidigung und in Rangkämpfen.",
+      content: "Die männlichen Tiere, \"Keiler\" genannt, nutzen ihre spitzen Hauer zur Verteidigung und in Rangkämpfen.",
       triggerAfterAttempts: 9
     },
   ],
@@ -73,7 +73,7 @@ const fuchs: QuestionBase = {
   },
   alternativeAnswers: ["Rotfuchs"],
   wikipediaName: "Fuchs_(Raubtier)",
-  funFact: "Der Fuchs kann das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören und sie dann mit einem charakteristischen Sprung (dem 'Mäusesprung') fangen.",
+  funFact: "...der Fuchs das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören kann und sie dann mit einem charakteristischen Sprung, dem \"Mäusesprung\", fängt?",
   autoFreeHints: [
     {
       id: "rotfuchs_h1",
@@ -90,7 +90,7 @@ const fuchs: QuestionBase = {
     {
       id: "rotfuchs_h3",
       type: HintType.AUTO_FREE,
-      content: "Sein buschiger Schwanz ('Lunte' genannt) dient ihm als Steuerruder beim Laufen und als Wärmespeicher im Winter.",
+      content: "Sein buschiger Schwanz (\"Lunte\" genannt) dient ihm als Steuerruder beim Laufen und als Wärmespeicher im Winter.",
       triggerAfterAttempts: 9
     },
   ],
@@ -105,7 +105,7 @@ const fuchs: QuestionBase = {
     {
       id: "marderhund",
       type: HintType.CONTEXTUAL,
-      content: "Ähnliche Größe und Farbe, aber dieser trägt eine auffällige 'Gesichtsmaske' und ist eine invasive Art.",
+      content: "Ähnliche Größe und Farbe, aber dieser trägt eine auffällige \"Gesichtsmaske\" und ist eine invasive Art.",
       title: "Falsche Maske!",
       triggers: ["marderhund"]
     }
@@ -136,7 +136,7 @@ const wolf: QuestionBase = {
     imageUrl: require("./wolf.webp"),
     unsolvedImageUrl: require("./wolf_unsolved.webp"),
   },
-  funFact: "Wölfe sind sehr ausdauernd: Auf der Suche nach Beute legen sie durchschnittlich 40 Kilometer pro Tag zurück. Bei der Abwanderung zur Reviersuche können es sogar bis zu 70 Kilometer sein.",
+  funFact: "...Wölfe sehr ausdauernd sind und auf der Suche nach Beute durchschnittlich 40 Kilometer pro Tag zurücklegen, wobei es bei der Abwanderung zur Reviersuche sogar bis zu 70 Kilometer sein können?",
   autoFreeHints: [
     {
       id: "wolf_h1",
@@ -147,13 +147,13 @@ const wolf: QuestionBase = {
     {
       id: "wolf_h2",
       type: HintType.AUTO_FREE,
-      content: "Diese Tiere leben in streng hierarchischen Familienverbänden, den sogenannten 'Rudeln'.",
+      content: "Diese Tiere leben in streng hierarchischen Familienverbänden, den sogenannten \"Rudeln\".",
       triggerAfterAttempts: 6
     },
     {
       id: "wolf_h3",
       type: HintType.AUTO_FREE,
-      content: "Wissenschaftler bezeichnen ihn oft als 'Gesundheitspolizei', da er vorzugsweise kranke, alte oder schwache Huftiere jagt.",
+      content: "Wissenschaftler bezeichnen ihn oft als \"Gesundheitspolizei\", da er vorzugsweise kranke, alte oder schwache Huftiere jagt.",
       triggerAfterAttempts: 9
     },
   ],
@@ -208,12 +208,12 @@ const hase: QuestionBase = {
   },
   wikipediaName: "Feldhase",
   alternativeAnswers: ["Feldhase"],
-  funFact: "Bei Gefahr verharrt der Feldhase zunächst regungslos in seiner Mulde ('Sasse') und flieht erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h.",
+  funFact: "...der Feldhase bei Gefahr zunächst regungslos in seiner Mulde (\"Sasse\") verharrt und erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h flieht?",
   autoFreeHints: [
     {
       id: "feldhase_h1",
       type: HintType.AUTO_FREE,
-      content: "Seine sehr langen Ohren werden in der Jägersprache 'Löffel' genannt und haben an der Spitze einen schwarzen Fleck.",
+      content: "Seine sehr langen Ohren werden in der Jägersprache \"Löffel\" genannt und haben an der Spitze einen schwarzen Fleck.",
       triggerAfterAttempts: 3
     },
     {
@@ -272,7 +272,7 @@ const braunbaer: QuestionBase = {
     unsolvedImageUrl: require("./braunbaer_unsolved.webp"),
   },
   alternativeAnswers: ["Europäischer Braunbär"],
-  funFact: "Bei der Geburt wiegt ein Braunbärenjunges kaum mehr als eine Tafel Schokolade (ca. 100–500 Gramm) und ist blind, obwohl die Mutter selbst bis zu 400 kg wiegen kann.",
+  funFact: "...ein Braunbärenjunges bei der Geburt kaum mehr als eine Tafel Schokolade (ca. 100–500 Gramm) wiegt und blind ist, obwohl die Mutter selbst bis zu 400 kg wiegen kann?",
   autoFreeHints: [
     {
       id: "braunbaer_h1",
@@ -289,7 +289,7 @@ const braunbaer: QuestionBase = {
     {
       id: "braunbaer_h3",
       type: HintType.AUTO_FREE,
-      content: "Er hält im Winter eine 'Winterruhe', die weniger tief ist als ein echter Winterschlaf, und ernährt sich hauptsächlich von seiner angefressenen Fettschicht.",
+      content: "Er hält im Winter eine \"Winterruhe\", die weniger tief ist als ein echter Winterschlaf, und ernährt sich hauptsächlich von seiner angefressenen Fettschicht.",
       triggerAfterAttempts: 9
     },
   ],
@@ -343,7 +343,7 @@ const eichhoernchen: QuestionBase = {
     unsolvedImageUrl: require("./eichhoernchen_unsolved.webp"),
   },
   alternativeAnswers: ["Eurasisches Eichhörnchen"],
-  funFact: "Entgegen der allgemeinen Annahme vergessen Eichhörnchen jedes Jahr Tausende ihrer versteckten Nüsse. Das ist aber wichtig, da so unabsichtlich neue Bäume wachsen.",
+  funFact: "...Eichhörnchen entgegen der allgemeinen Annahme jedes Jahr Tausende ihrer versteckten Nüsse vergessen, was aber wichtig ist, da so unabsichtlich neue Bäume wachsen?",
   autoFreeHints: [
     {
       id: "eichhoernchen_h1",
@@ -360,7 +360,7 @@ const eichhoernchen: QuestionBase = {
     {
       id: "eichhoernchen_h3",
       type: HintType.AUTO_FREE,
-      content: "Sein kugelförmiges Nest aus Zweigen und Moos wird 'Kobel' genannt.",
+      content: "Sein kugelförmiges Nest aus Zweigen und Moos wird \"Kobel\" genannt.",
       triggerAfterAttempts: 9
     },
   ],
@@ -406,7 +406,7 @@ const elch: QuestionBase = {
     imageUrl: require("./elch.webp"),
     unsolvedImageUrl: require("./elch_unsolved.webp"),
   },
-  funFact: "Entgegen alter römischer Überlieferungen können Elche sehr wohl ihre Knie beugen. Sie sind außerdem hervorragende Schwimmer und können weite Strecken zurücklegen, da sie Schwimmhäute zwischen den Hufen haben.",
+  funFact: "...Elche entgegen alter römischer Überlieferungen sehr wohl ihre Knie beugen können und sie außerdem hervorragende Schwimmer sind, die dank Schwimmhäuten zwischen den Hufen weite Strecken zurücklegen können?",
   autoFreeHints: [
     {
       id: "elch_h1",
@@ -423,7 +423,7 @@ const elch: QuestionBase = {
     {
       id: "elch_h3",
       type: HintType.AUTO_FREE,
-      content: "Sein auffälligstes Merkmal ist die lange, hängende Oberlippe und der 'Bart' (der Kehlsack) unter dem Hals.",
+      content: "Sein auffälligstes Merkmal ist die lange, hängende Oberlippe und der \"Bart\" (der Kehlsack) unter dem Hals.",
       triggerAfterAttempts: 9
     },
   ],
@@ -469,7 +469,7 @@ const dachs: QuestionBase = {
     imageUrl: require("./dachs.webp"),
   },
   alternativeAnswers: ["Europäischer Dachs"],
-  funFact: "Der Bau eines Dachses kann über viele Jahrzehnte von Generationen bewohnt werden und zu einem riesigen unterirdischen Labyrinth ('Dachsburg') mit mehreren Etagen und vielen Ein- und Ausgängen werden.",
+  funFact: "...der Bau eines Dachses über viele Jahrzehnte von Generationen bewohnt werden kann und zu einem riesigen unterirdischen Labyrinth, einer sogenannten \"Dachsburg\" mit mehreren Etagen und vielen Ein- und Ausgängen, werden kann?",
   autoFreeHints: [
     {
       id: "dachs_h1",
@@ -480,7 +480,7 @@ const dachs: QuestionBase = {
     {
       id: "dachs_h2",
       type: HintType.AUTO_FREE,
-      content: "In Fabeln und Jägerkreisen wird er oft 'Grimbart' genannt.",
+      content: "In Fabeln und Jägerkreisen wird er oft \"Grimbart\" genannt.",
       triggerAfterAttempts: 6
     },
     {
@@ -511,7 +511,7 @@ const dachs: QuestionBase = {
       id: "gemeinschaft",
       type: HintType.CUSTOM,
       title: "Wohnen",
-      content: "Er lebt oft friedlich mit Füchsen zusammen im selben Bau ('Wohngemeinschaft').",
+      content: "Er lebt oft friedlich mit Füchsen zusammen im selben Bau (\"Wohngemeinschaft\").",
       cost: 1,
     },
     {

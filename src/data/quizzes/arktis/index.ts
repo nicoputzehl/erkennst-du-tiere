@@ -10,18 +10,18 @@ const eisbaer: QuestionBase = {
   },
   alternativeAnswers: ["Polarbär"],
   funFact:
-    "Obwohl sein Fell weiß erscheint, sind die einzelnen Haare transparent und innen hohl. Seine Haut darunter ist **schwarz**, um die Wärme der Sonne besser aufzunehmen.",
+    "...das Fell des Eisbären zwar weiß erscheint, die einzelnen Haare jedoch transparent und hohl sind und seine Haut darunter schwarz ist, um Sonnenwärme besser aufzunehmen?",
   autoFreeHints: [
     {
       id: "eisbaer_h1",
       type: HintType.AUTO_FREE,
-      content: "Er ist das größte Landraubtier der Welt und lebt ausschließlich in der **Arktis** (Nordpol).",
+      content: "Er ist das größte Landraubtier der Welt und lebt ausschließlich in der Arktis (Nordpol).",
       triggerAfterAttempts: 3
     },
     {
       id: "eisbaer_h2",
       type: HintType.AUTO_FREE,
-      content: "Seine Hauptnahrung sind **Robben**, die er am Packeisrand jagt.",
+      content: "Seine Hauptnahrung sind Robben, die er am Packeisrand jagt.",
       triggerAfterAttempts: 6
     }
   ],
@@ -46,7 +46,7 @@ const eisbaer: QuestionBase = {
       id: "eisbaer_schwimmen",
       type: HintType.CUSTOM,
       title: "Tatzen und Schwimmen",
-      content: "Seine riesigen, schaufelförmigen Vorderpfoten sind sein 'Motor' beim Schwimmen und helfen, sein Gewicht auf dem Eis zu verteilen.",
+      content: "Seine riesigen, schaufelförmigen Vorderpfoten sind sein \"Motor\" beim Schwimmen und helfen, sein Gewicht auf dem Eis zu verteilen.",
       cost: 1,
     }
   ]
@@ -61,7 +61,7 @@ const walross: QuestionBase = {
     unsolvedImageUrl: require("./walross_unsolved.webp"),
   },
   funFact:
-    "Die **Stoßzähne** (Hauer) tragen sowohl Männchen als auch Weibchen. Sie nutzen sie, um sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren.",
+    "...die Stoßzähne (Hauer) bei Walrossen sowohl von Männchen als auch Weibchen getragen werden und dazu dienen, sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren?",
   autoFreeHints: [
     {
       id: "walross_h1",
@@ -72,7 +72,7 @@ const walross: QuestionBase = {
     {
       id: "walross_h2",
       type: HintType.AUTO_FREE,
-      content: "Seine Hauptnahrung besteht aus **Muscheln**, die er mit seinen steifen Schnurrhaaren (Vibrissen) am Meeresboden aufspürt.",
+      content: "Seine Hauptnahrung besteht aus Muscheln, die er mit seinen steifen Schnurrhaaren (Vibrissen) am Meeresboden aufspürt.",
       triggerAfterAttempts: 6
     }
   ],
@@ -97,7 +97,7 @@ const walross: QuestionBase = {
       id: "walross_herde",
       type: HintType.CUSTOM,
       title: "Sozialverhalten",
-      content: "Er hält sich in riesigen **Herden** (bis zu hundert Tiere) am Packeisrand oder an felsigen Inseln auf.",
+      content: "Er hält sich in riesigen Herden (bis zu hundert Tiere) am Packeisrand oder an felsigen Inseln auf.",
       cost: 1,
     }
   ]
@@ -112,12 +112,12 @@ const papageientaucher: QuestionBase = {
   },
   alternativeAnswers: ["Puffin"],
   funFact:
-    "Sein leuchtend bunter Schnabel (rot, gelb, orange) und die dreieckige Form sind nur während der **Brutzeit** sichtbar. Den Rest des Jahres ist er unscheinbarer.",
+    "...der leuchtend bunte, dreieckige Schnabel (rot, gelb, orange) des Papageientauchers nur während der Brutzeit sichtbar ist und er den Rest des Jahres unscheinbarer aussieht?",
   autoFreeHints: [
     {
       id: "papageientaucher_h1",
       type: HintType.AUTO_FREE,
-      content: "Er gehört zu den Alkenvögeln und wird wegen seines Aussehens auch 'See-Papagei' genannt. Manchmal wird er auch mit kleinen Pinguinen verwechselt.",
+      content: "Er gehört zu den Alkenvögeln und wird wegen seines Aussehens auch \"See-Papagei\" genannt. Manchmal wird er auch mit kleinen Pinguinen verwechselt.",
       triggerAfterAttempts: 3
     },
     {
@@ -131,7 +131,7 @@ const papageientaucher: QuestionBase = {
     {
       id: "pinguin_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Falsche Hemisphäre! Der gesuchte lebt im Norden und **kann fliegen**.",
+      content: "Falsche Hemisphäre! Der gesuchte lebt im Norden und kann fliegen.",
       title: "Kein Pinguin!",
       triggers: ["pinguin"]
     },
@@ -162,7 +162,7 @@ const schneeeule: QuestionBase = {
     imageUrl: require("./schneeeule.webp"),
   },
   funFact:
-    "**Männliche** Tiere sind fast reinweiß, während die **Weibchen** dunkle Querstreifen und eine Wellenzeichnung im Gefieder haben.",
+    "...die männlichen Tiere fast reinweiß sind, während die Weibchen dunkle Querstreifen und eine Wellenzeichnung im Gefieder haben?",
   autoFreeHints: [
     {
       id: "schneeeule_h1",
@@ -173,7 +173,7 @@ const schneeeule: QuestionBase = {
     {
       id: "schneeeule_h2",
       type: HintType.AUTO_FREE,
-      content: "Sie ist **tagaktiv** und jagt ihre Hauptbeute, die **Lemminge**, vom Boden oder von kleinen Erhöhungen aus.",
+      content: "Sie ist tagaktiv und jagt ihre Hauptbeute, die Lemminge, vom Boden oder von kleinen Erhöhungen aus.",
       triggerAfterAttempts: 6
     }
   ],
@@ -220,7 +220,7 @@ const polarfuchs: QuestionBase = {
   },
   alternativeAnswers: ["Schneefuchs", "Eisfuchs"],
   funFact:
-    "Er hat das **wärmste Fell aller Säugetiere** und kann extreme Temperaturen bis zu $-50^\circ C$ überleben. Im Sommer ist sein Fell graubraun, im Winter strahlend weiß.",
+    "...ein Tier das wärmste Fell aller Säugetiere besitzt, extreme Temperaturen bis zu -50 °C überleben kann und sein Fell im Winter strahlend weiß ist?",
   autoFreeHints: [
     {
       id: "polarfuchs_h1",
@@ -262,7 +262,7 @@ const polarfuchs: QuestionBase = {
       id: "polarfuchs_bedrohung",
       type: HintType.CUSTOM,
       title: "Bedrohung",
-      content: "Neben der Klimaerwärmung wird er durch den **Rotfuchs** bedroht, der wegen der milderen Winter in seine Lebensräume vordringt.",
+      content: "Neben der Klimaerwärmung wird er durch den Rotfuchs bedroht, der wegen der milderen Winter in seine Lebensräume vordringt.",
       cost: 1,
     }
   ]
@@ -277,12 +277,12 @@ const rentier: QuestionBase = {
   },
   alternativeAnswers: ["Ren"],
   funFact:
-    "Es ist die einzige Hirschart, bei der **sowohl männliche als auch weibliche** Tiere ein Geweih tragen. Sie legen die weitesten Strecken aller Landsäugetiere zurück (bis zu 5000 km pro Jahr).",
+    "...diese Hirschart die einzige ist, bei der sowohl männliche als auch weibliche Tiere ein Geweih tragen und sie die weitesten Strecken aller Landsäugetiere zurücklegt (bis zu 5000 km pro Jahr)?",
   autoFreeHints: [
     {
       id: "rentier_h1",
       type: HintType.AUTO_FREE,
-      content: "Seine Hufe sind breit und scharfkantig. Sie dienen als 'Schneeschuhe' und 'Schaufeln', um unter dem Schnee nach Flechten und Moos zu graben.",
+      content: "Seine Hufe sind breit und scharfkantig. Sie dienen als \"Schneeschuhe\" und \"Schaufeln\", um unter dem Schnee nach Flechten und Moos zu graben.",
       triggerAfterAttempts: 3
     },
     {
@@ -328,7 +328,7 @@ const polarwolf: QuestionBase = {
   },
   alternativeAnswers: ["Weißwolf", "Arktischer Wolf"],
   funFact:
-    "Er lebt in den rauesten Regionen der Arktis, wo er in Rudeln von bis zu 30 Tieren **Rentiere** und **Moschusochsen** jagt. Er hat ein sehr dichtes Unterfell.",
+    "...dieses Tier in den rauesten Regionen der Arktis lebt, in Rudeln von bis zu 30 Tieren Rentiere und Moschusochsen jagt und ein sehr dichtes Unterfell besitzt?",
   autoFreeHints: [
     {
       id: "polarwolf_h1",
@@ -384,12 +384,12 @@ const schneehase: QuestionBase = {
     imageUrl: require("./schneehase.webp"),
   },
   funFact:
-    "Er ist der einzige Hase, dessen Fell sich im Winter komplett **weiß** färbt, nur die **Spitzen seiner Ohren** bleiben schwarz. Im Sommer ist er graubraun.",
+    "...dieser Hase der einzige ist, dessen Fell sich im Winter komplett weiß färbt, während nur die Spitzen seiner Ohren schwarz bleiben, und er im Sommer graubraun ist?",
   autoFreeHints: [
     {
       id: "schneehase_h1",
       type: HintType.AUTO_FREE,
-      content: "Seine Hinterpfoten sind stark behaart und sehr spreizbar – eine perfekte 'Schneeschuh-Funktion'.",
+      content: "Seine Hinterpfoten sind stark behaart und sehr spreizbar – eine perfekte \"Schneeschuh-Funktion\".",
       triggerAfterAttempts: 3
     },
     {

@@ -5,9 +5,10 @@ import { useQuizStore } from "../Store";
 
 export function useQuiz() {
 	const quizzesRecord = useQuizStore((state) => state.quizzes);
-	const quizStatesRecord = useQuizStore((state) => state.quizStates);
+	const quizStates = useQuizStore((state) => state.quizStates);
 	const quizConfigsRecord = useQuizStore((state) => state.quizConfigs);
 	const isQuizDataLoaded = useQuizStore((state) => state.isQuizDataLoaded);
+	const currentQuizId = useQuizStore((state) => state.currentQuizId);
 
 	const quizzes = useMemo(() => {
 		const quizArray = Object.values(quizzesRecord);
@@ -28,12 +29,11 @@ export function useQuiz() {
 	const getQuizState = useMemo(
 		() =>
 			(id: string): QuizState | undefined => {
-				return quizStatesRecord[id];
+				return quizStates[id];
 			},
-		[quizStatesRecord],
+		[quizStates],
 	);
 
-	const currentQuizId = useQuizStore((state) => state.currentQuizId);
 	const currentQuizState = useQuizStore((state) =>
 		state.currentQuizId ? state.quizStates[state.currentQuizId] : null,
 	);
@@ -66,12 +66,12 @@ export function useQuiz() {
 	const isQuizCompleted = useMemo(
 		() =>
 			(quizId: string): boolean => {
-				const state = quizStatesRecord[quizId];
+				const state = quizStates[quizId];
 				return state
 					? state.completedQuestions === state.questions.length
 					: false;
 			},
-		[quizStatesRecord],
+		[quizStates],
 	);
 
 	const getUnlockDescription = useMemo(
@@ -85,7 +85,7 @@ export function useQuiz() {
 
 	const getStatistics = useMemo(
 		() => () => {
-			const allStates = Object.values(quizStatesRecord);
+			const allStates = Object.values(quizStates);
 			const totalQuizzes = allStates.length;
 			const completedQuizzes = allStates.filter(
 				(quiz) => quiz.completedQuestions === quiz.questions.length,
@@ -111,7 +111,7 @@ export function useQuiz() {
 				completionPercentage,
 			};
 		},
-		[quizStatesRecord],
+		[quizStates],
 	);
 
 	return {

@@ -10,7 +10,7 @@ const koenigskobra: QuestionBase = {
   },
   alternativeAnswers: ["Kobra"],
   funFact:
-    "Sie ist die längste Giftschlange der Welt und die einzige, die ein richtiges Nest für ihre Eier baut und es bis zum Schlupf verteidigt.",
+    "...diese Schlange die längste Giftschlange der Welt und die einzige ist, die ein richtiges Nest für ihre Eier baut und es bis zum Schlupf verteidigt?",
   autoFreeHints: [
     {
       id: "kk_h1",
@@ -21,7 +21,7 @@ const koenigskobra: QuestionBase = {
     {
       id: "kk_h2",
       type: HintType.AUTO_FREE,
-      content: "Ihre Hauptbeute sind andere Schlangen, daher ihr wissenschaftlicher Name 'Ophiophagus hannah' (Schlangenfresser).",
+      content: "Ihre Hauptbeute sind andere Schlangen, daher ihr wissenschaftlicher Name \"Ophiophagus hannah\" (Schlangenfresser).",
       triggerAfterAttempts: 6
     }
   ],
@@ -62,7 +62,7 @@ const grosser_panda: QuestionBase = {
   },
   alternativeAnswers: ["Panda", "Riesenpanda", "Pandabär"],
   funFact:
-    "Obwohl er zur Ordnung der Raubtiere gehört, besteht seine Nahrung zu 99% aus Bambus. Er muss täglich bis zu 40 kg davon fressen, um satt zu werden.",
+    "...dieses Tier, obwohl es zur Ordnung der Raubtiere gehört, sich zu 99% von Bambus ernährt und täglich bis zu 40 Kilogramm davon fressen muss, um satt zu werden?",
   autoFreeHints: [
     {
       id: "gp_h1",
@@ -97,7 +97,7 @@ const grosser_panda: QuestionBase = {
     {
       id: "finger",
       type: HintType.CUSTOM,
-      title: "Sechster 'Finger'",
+      title: "Sechster \"Finger\"",
       content: "Er hat einen verlängerten Handwurzelknochen, der wie ein sechster Finger funktioniert und ihm beim Halten von Bambus hilft.",
       cost: 1,
     }
@@ -114,7 +114,7 @@ const tiger: QuestionBase = {
   },
   alternativeAnswers: ["Bengal-Tiger", "Indischer Tiger", "Königstiger"],
   funFact:
-    "Er ist die größte lebende Katzenart der Welt. Jeder Tiger hat ein einzigartiges Streifenmuster, vergleichbar mit menschlichen Fingerabdrücken.",
+    "...der Tiger die größte lebende Katzenart der Welt ist und jeder Tiger ein einzigartiges Streifenmuster hat, das mit menschlichen Fingerabdrücken vergleichbar ist?",
   autoFreeHints: [
     {
       id: "kt_h1",
@@ -159,14 +159,14 @@ const tiger: QuestionBase = {
 const orang_utan: QuestionBase = {
   id: 5,
   answer: "Orang-Utan",
-  title: "Der 'Waldmensch'",
+  title: "Der \"Waldmensch\"",
   images: {
     imageUrl: require("./orang_utan.webp"),
     unsolvedImageUrl: require("./orang_utan_unsolved.webp"),
   },
   alternativeAnswers: ["Orangutan"],
   funFact:
-    "Sein Name stammt aus dem Malaiischen und bedeutet 'Waldmensch'. Er ist der größte Baumbewohner im Tierreich und verbringt fast sein gesamtes Leben in den Bäumen.",
+    "...sein Name aus dem Malaiischen stammt und \"Waldmensch\" bedeutet, und dieses Tier der größte Baumbewohner im Tierreich ist, der fast sein gesamtes Leben in den Bäumen verbringt?",
   autoFreeHints: [
     {
       id: "ou_h1",
@@ -219,7 +219,7 @@ const pfau: QuestionBase = {
   },
   alternativeAnswers: ["Blauer Pfau", "Asiatischer Pfau"],
   funFact:
-    "Die beeindruckende 'Schleppe' des Männchens besteht nicht aus Schwanzfedern, sondern aus verlängerten Deckfedern. Das Radschlagen dient der Balz.",
+    "...die beeindruckende \"Schleppe\" des männlichen Pfaus nicht aus Schwanzfedern, sondern aus verlängerten Deckfedern besteht und das Radschlagen der Balz dient?",
   autoFreeHints: [
     {
       id: "pfau_h1",
@@ -238,7 +238,7 @@ const pfau: QuestionBase = {
     {
       id: "truthahn",
       type: HintType.CONTEXTUAL,
-      content: "Falscher Kontinent! Und die gesuchte Art ist für die schillernden 'Augen' auf den Federn bekannt.",
+      content: "Falscher Kontinent! Und die gesuchte Art ist für die schillernden \"Augen\" auf den Federn bekannt.",
       title: "Zu amerikanisch!",
       triggers: ["truthahn"]
     },
@@ -270,7 +270,7 @@ const asiatischer_elefant: QuestionBase = {
   },
   alternativeAnswers: ["Indischer Elefant"],
   funFact:
-    "Er ist das größte Landsäugetier Asiens. Im Gegensatz zu seinem afrikanischen Verwandten hat er kleinere Ohren, die eher dreieckig geformt sind.",
+    "...dieses Tier das größte Landsäugetier Asiens ist und im Gegensatz zu seinem afrikanischen Verwandten kleinere, eher dreieckig geformte Ohren hat?",
   autoFreeHints: [
     {
       id: "ae_h1",
@@ -328,7 +328,7 @@ const roter_panda: QuestionBase = {
   },
   alternativeAnswers: ["Kleiner Panda"],
   funFact:
-    "Obwohl er den Namen trägt, ist er nur entfernt mit dem Großen Panda verwandt und gehört zur Familie der Kleinbären. Er verbringt den Großteil des Tages schlafend in Bäumen.",
+    "...dieses Tier, obwohl es den Namen trägt, nur entfernt mit dem Großen Panda verwandt ist und zur Familie der Kleinbären gehört und den Großteil des Tages schlafend in Bäumen verbringt?",
   autoFreeHints: [
     {
       id: "rp_h1",
@@ -363,8 +363,8 @@ const roter_panda: QuestionBase = {
     {
       id: "finger_2",
       type: HintType.CUSTOM,
-      title: "Sechster 'Finger'",
-      content: "Auch er hat einen 'falschen Daumen' (verlängerter Handwurzelknochen), um Bambus besser greifen zu können.",
+      title: "Sechster \"Finger\"",
+      content: "Auch er hat einen \"falschen Daumen\" (verlängerter Handwurzelknochen), um Bambus besser greifen zu können.",
       cost: 1,
     }
   ]
@@ -380,7 +380,7 @@ const python: QuestionBase = {
   },
   alternativeAnswers: ["Tigerpython"],
   funFact:
-    "Er zählt zu den größten Schlangen der Welt und kann bis zu 5 Meter lang werden. Er tötet seine Beute durch Umschlingen und Ersticken.",
+    "...diese Schlange zu den größten Schlangen der Welt zählt, bis zu fünf Meter lang werden kann und ihre Beute durch Umschlingen und Ersticken tötet?",
   autoFreeHints: [
     {
       id: "tp_h1",
@@ -391,7 +391,7 @@ const python: QuestionBase = {
     {
       id: "tp_h2",
       type: HintType.AUTO_FREE,
-      content: "Das Weibchen legt bis zu 100 Eier in eine Grube und 'bebrütet' sie, indem es sich um das Gelege wickelt und Muskelzittern erzeugt, um die Temperatur zu erhöhen.",
+      content: "Das Weibchen legt bis zu 100 Eier in eine Grube und \"bebrütet\" sie, indem es sich um das Gelege wickelt und Muskelzittern erzeugt, um die Temperatur zu erhöhen.",
       triggerAfterAttempts: 6
     }
   ],

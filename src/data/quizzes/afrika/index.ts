@@ -5,7 +5,7 @@ const afrikanischer_elefant: QuestionBase = {
   answer: "Elefant",
   title: "Der größte Landriese",
   funFact:
-    "Afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden - so kommunizieren Herden über weite Distanzen.",
+    "...afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden, um so über weite Distanzen zu kommunizieren?",
   images: {
     imageUrl: require("./afrikanischer-elefant.webp"),
     unsolvedImageUrl: require("./afrikanischer-elefant_unsolved.webp"),
@@ -52,7 +52,7 @@ const afrikanischer_elefant: QuestionBase = {
       id: "ohren",
       type: HintType.CUSTOM,
       title: "Körperteile",
-      content: "Seine großen Ohren dienen als effektive 'Klimaanlage' zur Abkühlung in der Hitze.",
+      content: "Seine großen Ohren dienen als effektive \"Klimaanlage\" zur Abkühlung in der Hitze.",
       cost: 1,
     },
     {
@@ -75,7 +75,7 @@ const flusspferd: QuestionBase = {
   },
   alternativeAnswers: ["Nilpferd", "Hippo", "Hippopotamus"],
   funFact:
-    "Flusspferde näher mit Walen als mit anderen Landtieren verwandt sind - beide stammen von denselben urzeitlichen Meeresvorfahren ab.",
+    "...Flusspferde näher mit Walen als mit anderen Landtieren verwandt sind, weil beide von denselben urzeitlichen Meeresvorfahren abstammen?",
   autoFreeHints: [
     {
       id: "fpferd_h1",
@@ -86,7 +86,7 @@ const flusspferd: QuestionBase = {
     {
       id: "fpferd_h2",
       type: HintType.AUTO_FREE,
-      content: "Es sondert ein rötliches, öliges Sekret ab, das es vor Sonnenbrand schützt und manchmal fälschlicherweise als 'Blutschweiß' bezeichnet wird.",
+      content: "Es sondert ein rötliches, öliges Sekret ab, das es vor Sonnenbrand schützt und manchmal fälschlicherweise als \"Blutschweiß\" bezeichnet wird.",
       triggerAfterAttempts: 5,
     },
     {
@@ -139,7 +139,7 @@ const gepard: QuestionBase = {
     unsolvedImageUrl: require("./gepard_unsolved.webp"),
   },
   alternativeAnswers: ["Cheetah"],
-  funFact: "Der Gepard ist das schnellste Landtier der Welt und kann in weniger als drei Sekunden von null auf über 100 km/h beschleunigen.",
+  funFact: "...der Gepard das schnellste Landtier der Welt ist und in weniger als drei Sekunden von null auf über 100 km/h beschleunigen kann?",
   autoFreeHints: [
     {
       id: "gepard_h1",
@@ -150,7 +150,7 @@ const gepard: QuestionBase = {
     {
       id: "gepard_h2",
       type: HintType.AUTO_FREE,
-      content: "Auffällig sind die schwarzen 'Tränenstreifen', die von den Augenwinkeln zu den Mundwinkeln verlaufen.",
+      content: "Auffällig sind die schwarzen \"Tränenstreifen\", die von den Augenwinkeln zu den Mundwinkeln verlaufen.",
       triggerAfterAttempts: 6
     },
     {
@@ -199,7 +199,7 @@ const giraffe: QuestionBase = {
   answer: "Giraffe",
   title: "Hallo da unten",
   funFact:
-    "Giraffen nur 7 Halswirbel haben - genau so viele wie Menschen, obwohl ihr Hals 2 Meter lang ist!",
+    "...Giraffen genau wie Menschen nur sieben Halswirbel haben, obwohl ihr Hals bis zu zwei Meter lang ist?",
   images: {
     imageUrl: require("./giraffe.webp"),
     unsolvedImageUrl: require("./giraffe_unsolved.webp"),
@@ -263,7 +263,7 @@ const leopard: QuestionBase = {
   answer: "Leopard",
   title: "Ein sehr beliebtes Muster",
   funFact:
-    "Leoparden Beute hochziehen können, die doppelt so schwer ist wie sie selbst - eine 90kg-Antilope 6 Meter hoch auf einen Baum!",
+    "...Leoparden Beute, die doppelt so schwer ist wie sie selbst, zum Schutz vor Aasfressern bis zu sechs Meter hoch auf einen Baum ziehen können?",
   images: {
     imageUrl: require("./leopard.webp"),
     unsolvedImageUrl: require("./leopard_unsolved.webp"),
@@ -318,7 +318,7 @@ const loewe: QuestionBase = {
   id: 6,
   answer: "Löwe",
   title: "König der Tiere",
-  funFact: "Löwen die einzigen Katzen sind, die in Rudeln leben - alle anderen Großkatzen sind Einzelgänger!",
+  funFact: "...Löwen die einzigen Katzen sind, die in Rudeln leben, während alle anderen Großkatzen Einzelgänger sind?",
   images: {
     imageUrl: require("./loewe.webp"),
     unsolvedImageUrl: require("./loewe_unsolved.webp"),
@@ -387,7 +387,7 @@ const nashorn: QuestionBase = {
   },
   alternativeAnswers: ["Breitmaulnashorn", "Spitzmaulnashorn"],
   funFact:
-    "Das Horn des Nashorns besteht nicht aus Knochen, sondern aus Keratin – demselben Material, aus dem unsere Haare und Fingernägel bestehen.",
+    "...das Horn des Nashorns nicht aus Knochen, sondern aus Keratin besteht, also aus demselben Material wie unsere Haare und Fingernägel?",
   autoFreeHints: [
     {
       id: "nashorn_h1",
@@ -447,7 +447,7 @@ const zebra: QuestionBase = {
   answer: "Zebra",
   title: "Das ist leicht",
   funFact:
-    "Alle Zebras ein einzigartiges Streifenmuster haben - wie ein Fingerabdruck ist kein Zebra dem anderen gleich!",
+    "...jedes Zebra ein einzigartiges Streifenmuster besitzt und kein Zebra dem anderen gleicht, ähnlich wie bei einem menschlichen Fingerabdruck?",
   images: {
     imageUrl: require("./zebra.webp"),
     unsolvedImageUrl: require("./zebra_unsolved.webp"),

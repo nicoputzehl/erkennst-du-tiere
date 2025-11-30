@@ -7,12 +7,12 @@ const triceratops: QuestionBase = {
   images: {
     imageUrl: require("./triceratops.webp"),
   },
-  funFact: "Der Schädel eines ausgewachsenen Triceratops ist einer der größten aller Landtiere, die jemals gelebt haben, und konnte eine Länge von bis zu 2,5 Metern erreichen!",
+  funFact: "...der Schädel eines ausgewachsenen Triceratops einer der größten aller Landtiere ist, die jemals gelebt haben, und bis zu 2,5 Meter lang werden konnte?",
   autoFreeHints: [
     {
       id: "triceratops_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name bedeutet 'Dreihorngesicht'.",
+      content: "Sein Name bedeutet \"Dreihorngesicht\".",
       triggerAfterAttempts: 3
     },
     {
@@ -33,7 +33,7 @@ const triceratops: QuestionBase = {
       id: "protoceratops",
       type: HintType.CONTEXTUAL,
       content: "Ein entfernter Verwandter ohne die markanten langen Hörner. Der gesuchte war viel größer!",
-      title: "Fast! Aber nicht 'der Erste'",
+      title: "Fast! Aber nicht \"der Erste\"",
       triggers: ["protoceratops"]
     },
     {
@@ -46,8 +46,8 @@ const triceratops: QuestionBase = {
     {
       id: "styracosaurus",
       type: HintType.CONTEXTUAL,
-      content: "Falsche Unterfamilie (Centrosaurinae). Dieser hatte eine markante 'Dornenkrone' am Nackenschild.",
-      title: "Falsche 'Horngesichter'-Familie!",
+      content: "Falsche Unterfamilie (Centrosaurinae). Dieser hatte eine markante \"Dornenkrone\" am Nackenschild.",
+      title: "Falsche \"Horngesichter\"-Familie!",
       triggers: ["styracosaurus"]
     }
   ]
@@ -61,12 +61,12 @@ const brachiosaurus: QuestionBase = {
     imageUrl: require("./brachiosaurus.webp"),
   },
   alternativeAnswers: ["Armechse"],
-  funFact: "Der Brachiosaurus musste aufgrund seines langen Halses und der Distanz zum Gehirn ein riesiges Herz (geschätzt bis zu 400 kg) besitzen, um das Blut zum Kopf pumpen zu können.",
+  funFact: "...der Brachiosaurus aufgrund seines langen Halses und der Distanz zum Gehirn ein riesiges Herz (geschätzt bis zu 400 kg) besitzen musste, um das Blut zum Kopf pumpen zu können?",
   autoFreeHints: [
     {
       id: "brachiosaurus_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name bedeutet 'Armechse' und bezieht sich auf die Tatsache, dass seine Vorderbeine länger als seine Hinterbeine waren.",
+      content: "Sein Name bedeutet \"Armechse\" und bezieht sich auf die Tatsache, dass seine Vorderbeine länger als seine Hinterbeine waren.",
       triggerAfterAttempts: 3
     },
     {
@@ -94,7 +94,7 @@ const brachiosaurus: QuestionBase = {
       id: "apatosaurus",
       type: HintType.CONTEXTUAL,
       content: "Enger Verwandter, aber die Vorder- und Hinterbeine waren fast gleich lang – der gesuchte war vorne deutlich höher.",
-      title: "Der 'Donnerechse' zu ähnlich!",
+      title: "Der \"Donnerechse\" zu ähnlich!",
       triggers: ["apatosaurus", "brontosaurus"]
     },
     {
@@ -115,7 +115,7 @@ const stegosaurus: QuestionBase = {
     imageUrl: require("./stegosaurus.webp"),
   },
   alternativeAnswers: ["Plattenechse"],
-  funFact: "Trotz seiner enormen Größe (bis zu 9 Meter lang) besaß der Stegosaurus eines der kleinsten Gehirne aller Dinosaurier – nicht größer als eine Walnuss!",
+  funFact: "...der Stegosaurus trotz seiner enormen Größe (bis zu 9 Meter lang) eines der kleinsten Gehirne aller Dinosaurier besaß – nicht größer als eine Walnuss?",
   autoFreeHints: [
     {
       id: "stegosaurus_h1",
@@ -132,7 +132,7 @@ const stegosaurus: QuestionBase = {
     {
       id: "stegosaurus_h3",
       type: HintType.AUTO_FREE,
-      content: "Seine Hauptverteidigungswaffe war ein Schwanz mit vier langen, spitzen Stacheln, bekannt als 'Thagomizer'.",
+      content: "Seine Hauptverteidigungswaffe war ein Schwanz mit vier langen, spitzen Stacheln, bekannt als \"Thagomizer\".",
       triggerAfterAttempts: 9
     },
   ],
@@ -141,7 +141,7 @@ const stegosaurus: QuestionBase = {
       id: "kentrosaurus",
       type: HintType.CONTEXTUAL,
       content: "Auch ein Plattenechsen-Dino (Stegosaurier), aber viel kleiner und hatte die Stacheln fast über den gesamten Rücken und Schwanz verteilt.",
-      title: "Der 'kleine Bruder'!",
+      title: "Der \"kleine Bruder\"!",
       triggers: ["kentrosaurus"]
     },
     {
@@ -169,12 +169,12 @@ const velociraptor: QuestionBase = {
     imageUrl: require("./velociraptor.webp"),
   },
   alternativeAnswers: ["Dachechse", "Raptor"],
-  funFact: "Entgegen der Darstellung in Filmen war der Velociraptor tatsächlich nur etwa so groß wie ein Truthahn und sein Körper war mit Federn bedeckt.",
+  funFact: "...der Velociraptor entgegen der Darstellung in Filmen tatsächlich nur etwa so groß wie ein Truthahn war und sein Körper mit Federn bedeckt war?",
   autoFreeHints: [
     {
       id: "velociraptor_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name bedeutet 'schneller Räuber'.",
+      content: "Sein Name bedeutet \"schneller Räuber\".",
       triggerAfterAttempts: 3
     },
     {
@@ -223,12 +223,12 @@ const tyrannosaurus: QuestionBase = {
     imageUrl: require("./tyrannosaurus.webp"),
   },
   alternativeAnswers: ["T-Rex", "Tyrannosaurus Rex"],
-  funFact: "Der T-Rex hatte den stärksten Biss aller Landtiere, der so kräftig war, dass er die Knochen seiner Beute zertrümmern konnte.",
+  funFact: "...der T-Rex den stärksten Biss aller Landtiere hatte, der so kräftig war, dass er die Knochen seiner Beute zertrümmern konnte?",
   autoFreeHints: [
     {
       id: "tyrannosaurus_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name bedeutet 'König der Tyrannenechsen'.",
+      content: "Sein Name bedeutet \"König der Tyrannenechsen\".",
       triggerAfterAttempts: 3
     },
     {
@@ -277,12 +277,12 @@ const parasaurolophus: QuestionBase = {
     imageUrl: require("./parasaurolophus.webp"),
   },
   alternativeAnswers: ["Entenschnabel-Dinosaurier"],
-  funFact: "Sein langer, röhrenförmiger Knochenkamm auf dem Kopf diente wahrscheinlich als Resonanzkörper, um laute, tiefe Töne zur Kommunikation zu erzeugen.",
+  funFact: "...sein langer, röhrenförmiger Knochenkamm auf dem Kopf wahrscheinlich als Resonanzkörper diente, um laute, tiefe Töne zur Kommunikation zu erzeugen?",
   autoFreeHints: [
     {
       id: "parasaurolophus_h1",
       type: HintType.AUTO_FREE,
-      content: "Er gehört zu den Hadrosauriern, oft als 'Entenschnabel-Dinosaurier' bezeichnet.",
+      content: "Er gehört zu den Hadrosauriern, oft als \"Entenschnabel-Dinosaurier\" bezeichnet.",
       triggerAfterAttempts: 3
     },
     {
@@ -331,7 +331,7 @@ const pteosaurus: QuestionBase = {
     imageUrl: require("./pteranodon.webp"),
   },
   alternativeAnswers: ["Flugsaurier", "Pterodactylus"],
-  funFact: "Obwohl sie oft als 'Flugsaurier' bezeichnet werden, waren Pterosaurier **keine** Dinosaurier, sondern gehörten zu einer eigenen Gruppe fliegender Reptilien.",
+  funFact: "...Pterosaurier, obwohl sie oft als \"Flugsaurier\" bezeichnet werden, \"keine\" Dinosaurier waren, sondern zu einer eigenen Gruppe fliegender Reptilien gehörten?",
   autoFreeHints: [
     {
       id: "pteranodon_h1",
@@ -385,12 +385,12 @@ const ichthyosaurus: QuestionBase = {
     imageUrl: require("./ichthyosaurus.webp"),
   },
   alternativeAnswers: ["Fisch-Echse"],
-  funFact: "Da es sich um Reptilien handelte, die im Wasser lebten, mussten sie zum Atmen an die Oberfläche kommen. Man nimmt an, dass sie ihre Jungen lebend zur Welt brachten.",
+  funFact: "...diese im Wasser lebenden Reptilien zum Atmen an die Oberfläche kommen mussten und man annimmt, dass sie ihre Jungen lebend zur Welt brachten?",
   autoFreeHints: [
     {
       id: "ichthyosaurus_h1",
       type: HintType.AUTO_FREE,
-      content: "Sein Name bedeutet 'Fisch-Echse'.",
+      content: "Sein Name bedeutet \"Fisch-Echse\".",
       triggerAfterAttempts: 3
     },
     {
@@ -411,7 +411,7 @@ const ichthyosaurus: QuestionBase = {
       id: "plesiosaurus",
       type: HintType.CONTEXTUAL,
       content: "Falsche Körperform! Dieser hatte einen sehr langen Hals und vier paddelförmige Flossen.",
-      title: "Der 'Lange Hals'!",
+      title: "Der \"Lange Hals\"!",
       triggers: ["plesiosaurus"]
     },
     {
