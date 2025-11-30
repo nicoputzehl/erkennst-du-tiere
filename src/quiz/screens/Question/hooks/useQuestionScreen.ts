@@ -7,6 +7,9 @@ import { useAnswerState } from "./useAnswerState";
 import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
 import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
+import type { ButtonProps } from "@/src/common/components/Button";
+
+
 
 export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();
@@ -22,16 +25,32 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	}, [questionId, quizState]);
 
 
-	const navigateToNextQuestion = useCallback(() => {
-		if(nextQuestionId) {
+	const continueNavigation = useCallback(() => {
+		if (nextQuestionId) {
 			navigation.navigateToQuestionFromQuestion(nextQuestionId.toString());
+		} else {
+			navigation.handleBack();
 		}
-	},[nextQuestionId, navigation]);
-	console.warn({ nextQuestionId })
+	}, [nextQuestionId, navigation]);
+
+
+	const continueButtonText = useMemo(() => {
+		if (nextQuestionId) {
+			return "Weiter";
+		}
+		return "Zur Quizübersicht";
+	}, [nextQuestionId]);
+
+
+	const continueButtonProps: ButtonProps = useMemo(() => ({
+		onPress: continueNavigation,
+		text: continueButtonText
+	}), [continueButtonText, continueNavigation]);
 
 	const question = quizState?.questions.find(
 		(q) => q.id === Number.parseInt(questionId),
 	);
+
 
 	const isSolved = question?.status === QuestionStatus.SOLVED;
 	const showInput = useMemo(() => !isSolved, [isSolved]);
@@ -78,10 +97,11 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		...resultState,
 		...navigation,
 
-navigateToNextQuestion,
+		navigateToNextQuestion: continueNavigation,
 		handleSubmit,
 		showResultReaction,
 		visibleHints,
-		isSolved
+		isSolved,
+		continueButtonProps
 	};
 }

@@ -10,7 +10,7 @@ import { ThemedText } from "./ThemedText";
 import { useColorScheme } from "../hooks/useColorScheme.web";
 import { Colors } from "../constants/Colors";
 
-interface ButtonProps extends TouchableOpacityProps {
+export interface ButtonProps extends TouchableOpacityProps {
 	text: string;
 	buttonStyle?: StyleProp<TextStyle>;
 }
@@ -22,10 +22,10 @@ const Button = ({
 	buttonStyle,
 	style,
 }: ButtonProps) => {
-		const colorScheme = useColorScheme();
-		const isDark = colorScheme === "dark";
+	const colorScheme = useColorScheme();
+	const isDark = colorScheme === "dark";
 
-		const buttonColor = isDark ? Colors.dark.buttonPrimary : Colors.light.buttonPrimary;
+	const buttonColor = isDark ? Colors.dark.buttonPrimary : Colors.light.buttonPrimary;
 	return (
 		<TouchableOpacity
 			style={[styles.button, disabled && styles.disabledButton, style, { backgroundColor: buttonColor }]}
