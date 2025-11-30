@@ -8,8 +8,8 @@ import { ProgressSection } from "./components/ProgressSection/ProgressSection";
 import { StartItem } from "./components/StartItem/StartItem";
 import { getQuizCardStyles } from "./getQuizCardStyle";
 
-import type { QuizCardViewProps } from "./QuizCard.types";
 import { styles } from "./QuizCard.styles";
+import type { QuizCardViewProps } from "./QuizCard.types";
 
 export const QuizCardContent = memo(
 	({
@@ -29,18 +29,29 @@ export const QuizCardContent = memo(
 			}
 		}, [variant, onPress, quiz.id]);
 
-		const descriptionText = useMemo(() => variant === "locked" ? unlockProgress?.condition?.description : quiz.description, [unlockProgress?.condition?.description, quiz.description, variant])
+		const descriptionText = useMemo(
+			() =>
+				variant === "locked"
+					? unlockProgress?.condition?.description
+					: quiz.description,
+			[unlockProgress?.condition?.description, quiz.description, variant],
+		);
 
 		const innerContent = (
 			<View style={styles.quizCardInner}>
 				<StartItem variant={variant} quiz={quiz} />
 				<View style={styles.quizCardContent}>
 					<View>
-
 						<ThemedText style={styles.quizTitle} numberOfLines={2}>
 							{quiz.title}
 						</ThemedText>
-						<ThemedText lightColor="red" darkColor="red" style={styles.description}>{descriptionText}</ThemedText>
+						<ThemedText
+							lightColor="red"
+							darkColor="red"
+							style={styles.description}
+						>
+							{descriptionText}
+						</ThemedText>
 					</View>
 					<ProgressSection
 						variant={variant}

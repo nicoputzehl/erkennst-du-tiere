@@ -15,7 +15,8 @@ import {
 } from "react-native";
 
 export function SettingsScreen() {
-	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } = useQuiz();
+	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } =
+		useQuiz();
 	const { showSuccess, showError } = useUI();
 	const statistics = useQuizStatistics();
 

@@ -1,12 +1,18 @@
 import { BorderRadius, Shadows } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
+import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
+import type { Question } from "@/src/quiz/types";
 import { Image } from "expo-image";
 import type React from "react";
 import { memo, useState } from "react";
-import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react-native";
+import {
+	ActivityIndicator,
+	Animated,
+	Dimensions,
+	StyleSheet,
+	View,
+} from "react-native";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
-import type { Question } from "@/src/quiz/types";
-import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
 
 interface QuestionImageProps {
 	question: Question;
@@ -40,7 +46,10 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 				)}
 				<Image
 					source={getImageUrl(ImageType.IMG)}
-					style={[styles.image, !!getImageUrl(ImageType.THUMBNAIL) && styles.fullImageOverlay]}
+					style={[
+						styles.image,
+						!!getImageUrl(ImageType.THUMBNAIL) && styles.fullImageOverlay,
+					]}
 					contentFit="cover"
 					cachePolicy="memory-disk"
 					transition={getImageUrl(ImageType.THUMBNAIL) ? 400 : 300}
@@ -63,9 +72,7 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 		);
 	},
 	(prevProps, nextProps) => {
-		return (
-			prevProps.question === nextProps.question
-		);
+		return prevProps.question === nextProps.question;
 	},
 );
 
@@ -109,6 +116,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 16,
 		width: "100%",
-		gap: 16
+		gap: 16,
 	},
 });

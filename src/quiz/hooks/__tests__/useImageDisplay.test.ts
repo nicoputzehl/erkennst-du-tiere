@@ -159,7 +159,10 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
+			const { shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(shouldShowUnsolvedImage).toBe(true);
 		});
@@ -175,7 +178,10 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
+			const { shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(shouldShowUnsolvedImage).toBe(true);
 		});
@@ -191,7 +197,10 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
+			const { shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -207,7 +216,10 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
+			const { shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -215,7 +227,10 @@ describe("useImageDisplay Hook", () => {
 		it("should return false for default test question (no unsolved images)", () => {
 			const question = createTestQuizQuestion(); // Standard TestQuestion
 
-			const { shouldShowUnsolvedImage } = useImageDisplay(question.images, question.status);
+			const { shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(shouldShowUnsolvedImage).toBe(false);
 		});
@@ -286,7 +301,10 @@ describe("useImageDisplay Hook", () => {
 				const question = createTestQuizQuestion({ status });
 
 				expect(() => {
-					const { getImageUrl } = useImageDisplay(question.images, question.status);
+					const { getImageUrl } = useImageDisplay(
+						question.images,
+						question.status,
+					);
 					getImageUrl(ImageType.IMG);
 					getImageUrl(ImageType.THUMBNAIL);
 				}).not.toThrow();
@@ -301,8 +319,10 @@ describe("useImageDisplay Hook", () => {
 				},
 			});
 
-			const { getImageUrl, shouldShowUnsolvedImage } =
-				useImageDisplay(question.images, question.status);
+			const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			expect(getImageUrl(ImageType.IMG)).toBe(MINMAL);
 			expect(getImageUrl(ImageType.THUMBNAIL)).toBe(MINMAL); // Fallback
@@ -352,8 +372,10 @@ describe("useImageDisplay Hook", () => {
 		it("should work with default test question setup", () => {
 			const question = createTestQuizQuestion();
 
-			const { getImageUrl, shouldShowUnsolvedImage } =
-				useImageDisplay(question.images, question.status);
+			const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(
+				question.images,
+				question.status,
+			);
 
 			// Test default behavior
 			expect(shouldShowUnsolvedImage).toBe(false);
@@ -371,8 +393,14 @@ describe("useImageDisplay Hook", () => {
 				status: QuestionStatus.SOLVED,
 			});
 
-			const activeResult = useImageDisplay(activeQuestion.images, activeQuestion.status);
-			const solvedResult = useImageDisplay(solvedQuestion.images, solvedQuestion.status);
+			const activeResult = useImageDisplay(
+				activeQuestion.images,
+				activeQuestion.status,
+			);
+			const solvedResult = useImageDisplay(
+				solvedQuestion.images,
+				solvedQuestion.status,
+			);
 
 			expect(activeResult.shouldShowUnsolvedImage).toBe(false); // keine unsolved images in default
 			expect(solvedResult.shouldShowUnsolvedImage).toBe(false);
@@ -394,7 +422,8 @@ describe("useImageDisplay Hook", () => {
 			});
 
 			const { getImageUrl, shouldShowUnsolvedImage } = useImageDisplay(
-				questionWithUnsolvedImages.images, questionWithUnsolvedImages.status
+				questionWithUnsolvedImages.images,
+				questionWithUnsolvedImages.status,
 			);
 
 			expect(shouldShowUnsolvedImage).toBe(true);

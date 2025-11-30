@@ -1,20 +1,26 @@
+import Button from "@/src/common/components/Button";
 import { ErrorComponent } from "@/src/common/components/ErrorComponent";
+import { GestureHandler } from "@/src/common/components/GestureHandler";
 import Header from "@/src/common/components/Header";
 import { LoadingComponent } from "@/src/common/components/LoadingComponent";
 import { ThemedView } from "@/src/common/components/ThemedView";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useCallback, useMemo } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+	KeyboardAvoidingView,
+	Platform,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import Hint from "./components/Hint";
+import { HintPatch } from "./components/HintPatch";
+import { QuestionImage } from "./components/QuestionImage";
 import { QuestionInput } from "./components/QuestionInput";
 import ResultReaction from "./components/ResultReaction";
 import Solved from "./components/Solved";
 import { useQuestionScreen } from "./hooks/useQuestionScreen";
-import { HintPatch } from "./components/HintPatch";
-import { QuestionImage } from "./components/QuestionImage";
-import Button from "@/src/common/components/Button";
-import { GestureHandler } from "@/src/common/components/GestureHandler";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -48,7 +54,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		visibleHints,
 		isSolved,
 		navigateToNextQuestion,
-		continueButtonProps
+		continueButtonProps,
 	} = useQuestionScreen(quizId || "", questionId || "");
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
@@ -57,8 +63,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		if (navigateToNextQuestion && isSolved) {
 			navigateToNextQuestion();
 		}
-	}, [isSolved, navigateToNextQuestion])
-
+	}, [isSolved, navigateToNextQuestion]);
 
 	const headerActions = useMemo(() => {
 		const actions = [];
@@ -82,7 +87,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		return actions;
 	}, [hasVisibleHints, handleBack, iconColor, navigateToHintsModal]);
 
-
 	if (!quizId || !questionId) {
 		return <ErrorComponent message="Quiz oder Frage-ID fehlt" />;
 	}
@@ -97,8 +101,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	return (
 		<GestureHandler onSwipeLeft={handleSwipeLeft} onSwipeUp={handleBack}>
-			<ThemedView
-				gradientType="primary" style={{ flex: 1 }}>
+			<ThemedView gradientType="primary" style={{ flex: 1 }}>
 				<Header
 					showBackButton={false}
 					title={headerText}
@@ -125,12 +128,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 				>
 					<View style={{ flex: 1, justifyContent: "space-between" }}>
 						<View style={styles.imageWrapper}>
-							<QuestionImage
-								question={question}
-							/>
+							<QuestionImage question={question} />
 
 							<HintPatch hints={visibleHints} />
-
 						</View>
 						{isSolved && (
 							<View style={styles.resultContainer}>
@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 16,
 		width: "100%",
-		gap: 16
+		gap: 16,
 	},
 });

@@ -35,4 +35,3 @@ export const HintsReceived = ({ hints }: HintsReceivedProps) => {
 		</View>
 	);
 };
-

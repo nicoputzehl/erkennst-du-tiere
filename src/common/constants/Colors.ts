@@ -17,7 +17,7 @@ const darkThemeErrorRed = "#E57373"; // Dark theme specific error red
 const dawnOrange = "#FFC266";
 const darkOrange = "#FF9800"; // Light theme warning/new
 const darkThemeWarningOrange = "#FFB74D"; // Dark theme specific warning/new
-const darkOrangeWithTransparency = "#ff990020"
+const darkOrangeWithTransparency = "#ff990020";
 const darkThemeWarningOrangeWithTransparency = "#FFB74D20"; // Dark theme specific warning/new
 // Yellows
 const citrus = "#FFF2A1";
@@ -49,103 +49,102 @@ const tintColorLight = primaryBlue;
 const tintColorDark = darkThemePrimaryBlue;
 
 export const Colors = {
-  light: {
-    // Grayscale
-    text: white,
-    background: white,
+	light: {
+		// Grayscale
+		text: white,
+		background: white,
 
-    tabIconDefault: mediumGrey,
-    textOnButton: white,
-    textPlaceholder: darkGrey,
-    buttonDisabled: grey,
-    shadow: black,
+		tabIconDefault: mediumGrey,
+		textOnButton: white,
+		textPlaceholder: darkGrey,
+		buttonDisabled: grey,
+		shadow: black,
 
-    // Reds
-    accent: strawberry,
-    error: darkRed,
-    incorrect: lightRed,
-    buttonError: lightRed,
+		// Reds
+		accent: strawberry,
+		error: darkRed,
+		incorrect: lightRed,
+		buttonError: lightRed,
 
-    // Oranges
-    warning: darkOrange,
-    new: darkOrange,
-    buttonWarning: darkOrangeWithTransparency,
+		// Oranges
+		warning: darkOrange,
+		new: darkOrange,
+		buttonWarning: darkOrangeWithTransparency,
 
-    // Yellows
-    lightAccent: citrus,
+		// Yellows
+		lightAccent: citrus,
 
-    // Greens
-    correct: lightGreen,
-    buttonSuccess: lightGreen,
+		// Greens
+		correct: lightGreen,
+		buttonSuccess: lightGreen,
 
-    // Blues
-    tint: tintColorLight,
-    primary: primaryBlue,
-    buttonPrimary: primaryBlue,
-    tabIconSelected: tintColorLight,
-    success: successBlue,
-    info: infoBlue,
-    borderActive: primaryBlue,
+		// Blues
+		tint: tintColorLight,
+		primary: primaryBlue,
+		buttonPrimary: primaryBlue,
+		tabIconSelected: tintColorLight,
+		success: successBlue,
+		info: infoBlue,
+		borderActive: primaryBlue,
 
-    // Other
-    tintOnGradient: graphite,
-    textSecondary: "#6c757d", // You might want to define this as a variable if it's reused.
-    border: "rgba(0, 0, 0, 0.1)", // You might want to define this as a variable if it's reused.
-    cardBackground: lightGrey,
-    cardBorder: "rgba(0, 0, 0, 0.1)", // You might want to define this as a variable if it's reused.
-    containerBackground: "rgba(255, 255, 255, 0.1)", // You might want to define this as a variable if it's reused.
-    locked: "#6c757d", // You might want to define this as a variable if it's reused.
+		// Other
+		tintOnGradient: graphite,
+		textSecondary: "#6c757d", // You might want to define this as a variable if it's reused.
+		border: "rgba(0, 0, 0, 0.1)", // You might want to define this as a variable if it's reused.
+		cardBackground: lightGrey,
+		cardBorder: "rgba(0, 0, 0, 0.1)", // You might want to define this as a variable if it's reused.
+		containerBackground: "rgba(255, 255, 255, 0.1)", // You might want to define this as a variable if it's reused.
+		locked: "#6c757d", // You might want to define this as a variable if it's reused.
 
-    // HEADER
-    icon: "#fff",
+		// HEADER
+		icon: "#fff",
+	},
+	dark: {
+		// Grayscale
+		text: darkText,
+		background: darkBackground,
+		icon: darkIcon,
+		tabIconDefault: darkTabIconDefault,
+		textOnButton: white, // Assuming white text on buttons in dark mode
+		textPlaceholder: darkTextPlaceholder,
+		buttonDisabled: darkButtonDisabled,
+		shadow: black, // Assuming black shadow for now
 
-  },
-  dark: {
-    // Grayscale
-    text: darkText,
-    background: darkBackground,
-    icon: darkIcon,
-    tabIconDefault: darkTabIconDefault,
-    textOnButton: white, // Assuming white text on buttons in dark mode
-    textPlaceholder: darkTextPlaceholder,
-    buttonDisabled: darkButtonDisabled,
-    shadow: black, // Assuming black shadow for now
+		// Reds
+		error: darkThemeErrorRed,
+		incorrect: darkThemeErrorRed,
+		buttonError: darkThemeErrorRed,
 
-    // Reds
-    error: darkThemeErrorRed,
-    incorrect: darkThemeErrorRed,
-    buttonError: darkThemeErrorRed,
+		// Oranges
+		accent: dawnOrange, // Assuming accent is dawnOrange in dark mode
+		warning: darkThemeWarningOrange,
+		new: darkThemeWarningOrange,
+		buttonWarning: darkThemeWarningOrangeWithTransparency,
 
-    // Oranges
-    accent: dawnOrange, // Assuming accent is dawnOrange in dark mode
-    warning: darkThemeWarningOrange,
-    new: darkThemeWarningOrange,
-    buttonWarning: darkThemeWarningOrangeWithTransparency,
+		// Yellows
+		lightAccent: citrus, // Assuming lightAccent is citrus in dark mode
 
-    // Yellows
-    lightAccent: citrus, // Assuming lightAccent is citrus in dark mode
+		// Greens
+		success: darkThemeSuccessGreen,
+		correct: darkThemeSuccessGreen,
+		buttonSuccess: darkThemeSuccessGreen,
 
-    // Greens
-    success: darkThemeSuccessGreen,
-    correct: darkThemeSuccessGreen,
-    buttonSuccess: darkThemeSuccessGreen,
+		// Blues
+		tint: tintColorDark,
+		primary: darkThemePrimaryBlue,
+		info: darkThemePrimaryBlue,
+		tabIconSelected: tintColorDark,
+		buttonPrimary: darkThemePrimaryBlue,
+		borderActive: darkThemePrimaryBlue,
 
-    // Blues
-    tint: tintColorDark,
-    primary: darkThemePrimaryBlue,
-    info: darkThemePrimaryBlue,
-    tabIconSelected: tintColorDark,
-    buttonPrimary: darkThemePrimaryBlue,
-    borderActive: darkThemePrimaryBlue,
-
-    // Other
-    tintOnGradient: lightGrey, // Using lightGrey for tintOnGradient in dark mode
-    textPrimary: darkText, // Assuming primary text is the same as general text
-    textSecondary: darkTabIconDefault, // Assuming secondary text is the same as default tab icon color
-    border: transparentBorderDark,
-    cardBackground: darkCardBackground,
-    cardBorder: transparentBorderDark,
-    containerBackground: transparentContainerDark,
-    locked: darkTabIconDefault, // Assuming locked status uses default tab icon color
-  },
+		// Other
+		tintOnGradient: lightGrey, // Using lightGrey for tintOnGradient in dark mode
+		textPrimary: darkText, // Assuming primary text is the same as general text
+		textSecondary: darkTabIconDefault, // Assuming secondary text is the same as default tab icon color
+		border: transparentBorderDark,
+		cardBackground: darkCardBackground,
+		cardBorder: transparentBorderDark,
+		containerBackground: transparentContainerDark,
+		locked: darkTabIconDefault, // Assuming locked status uses default tab icon color
+	},
 };

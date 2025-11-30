@@ -9,9 +9,8 @@ interface PointsDisplayProps {
 
 export const PointsDisplay: React.FC<PointsDisplayProps> = ({
 	compact = false,
-	pointsBalance
+	pointsBalance,
 }) => {
-
 	const textColor = useThemeColor({}, "text");
 
 	return (

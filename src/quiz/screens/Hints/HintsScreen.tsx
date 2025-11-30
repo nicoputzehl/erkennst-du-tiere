@@ -4,9 +4,9 @@ import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useHints } from "../../store/hooks/useHints";
 import { HintsContent } from "./components/HintsContent";
 import { PointsDisplay } from "./components/PointsDisplay";
-import { useHints } from "../../store/hooks/useHints";
 
 interface HintsScreenProps {
 	quizId: string;
@@ -17,7 +17,6 @@ export const HintsScreen: React.FC<HintsScreenProps> = ({
 	quizId,
 	questionId,
 }) => {
-
 	const { pointsBalance } = useHints(quizId, Number.parseInt(questionId));
 
 	const handleClose = () => {
@@ -25,7 +24,6 @@ export const HintsScreen: React.FC<HintsScreenProps> = ({
 	};
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
-
 
 	return (
 		<ThemedView gradientType="primary" style={styles.container}>

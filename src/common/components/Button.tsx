@@ -6,9 +6,9 @@ import {
 	TouchableOpacity,
 	type TouchableOpacityProps,
 } from "react-native";
-import { ThemedText } from "./ThemedText";
-import { useColorScheme } from "../hooks/useColorScheme.web";
 import { Colors } from "../constants/Colors";
+import { useColorScheme } from "../hooks/useColorScheme.web";
+import { ThemedText } from "./ThemedText";
 
 export interface ButtonProps extends TouchableOpacityProps {
 	text: string;
@@ -25,10 +25,17 @@ const Button = ({
 	const colorScheme = useColorScheme();
 	const isDark = colorScheme === "dark";
 
-	const buttonColor = isDark ? Colors.dark.buttonPrimary : Colors.light.buttonPrimary;
+	const buttonColor = isDark
+		? Colors.dark.buttonPrimary
+		: Colors.light.buttonPrimary;
 	return (
 		<TouchableOpacity
-			style={[styles.button, disabled && styles.disabledButton, style, { backgroundColor: buttonColor }]}
+			style={[
+				styles.button,
+				disabled && styles.disabledButton,
+				style,
+				{ backgroundColor: buttonColor },
+			]}
 			onPress={onPress}
 			disabled={disabled}
 			activeOpacity={0.8}

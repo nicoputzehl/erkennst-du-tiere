@@ -1,20 +1,21 @@
-import {
-	createTestQuestion,
-	createTestQuiz,
-} from "../../../testing/testUtils";
+import { createTestQuestion, createTestQuiz } from "../../../testing/testUtils";
 import { QuestionStatus, type UnlockCondition } from "../../../types";
 import {
 	calculateInitialQuestionStatus,
+	createPlaythroughUnlockCondition,
+	createProgressUnlockCondition,
 	createQuizConfig,
 	createQuizState,
-	createPlaythroughUnlockCondition,
-	createProgressUnlockCondition
 } from "../factories";
 
 describe("Quiz Creation Utilities", () => {
 	describe("createQuizConfig", () => {
 		it("creates a basic quiz config with default values", () => {
-			const quiz = createTestQuiz({ id: "test-quiz", title: "My Quiz", description: "Beschreibung" });
+			const quiz = createTestQuiz({
+				id: "test-quiz",
+				title: "My Quiz",
+				description: "Beschreibung",
+			});
 			const config = createQuizConfig(quiz);
 
 			expect(config.id).toBe("test-quiz");
@@ -73,7 +74,6 @@ describe("Quiz Creation Utilities", () => {
 	});
 
 	describe("createUnlockCondition", () => {
-
 		describe("createPlaythroughUnlockCondition", () => {
 			it("creates an playthrough unlock condition with a default description", () => {
 				const condition = createPlaythroughUnlockCondition("required-1");
@@ -84,12 +84,14 @@ describe("Quiz Creation Utilities", () => {
 			});
 			it("creates an playthrough unlock condition with a custom description", () => {
 				const customDesc = "You need to finish the first challenge!";
-				const condition = createPlaythroughUnlockCondition("challenge-1", customDesc);
+				const condition = createPlaythroughUnlockCondition(
+					"challenge-1",
+					customDesc,
+				);
 				expect(condition.requiredQuizId).toBe("challenge-1");
 				expect(condition.description).toBe(customDesc);
 			});
-
-		})
+		});
 		describe("createProgressUnlockCondition", () => {
 			it("creates an progress unlock condition with a default description", () => {
 				const condition = createProgressUnlockCondition("required-1", 3);
@@ -100,13 +102,15 @@ describe("Quiz Creation Utilities", () => {
 			});
 			it("creates an progress unlock condition with a custom description", () => {
 				const customDesc = "You need to finish the first challenge!";
-				const condition = createProgressUnlockCondition("challenge-1", 3, customDesc);
+				const condition = createProgressUnlockCondition(
+					"challenge-1",
+					3,
+					customDesc,
+				);
 				expect(condition.requiredQuizId).toBe("challenge-1");
 				expect(condition.description).toBe(customDesc);
 			});
-
-		})
-
+		});
 	});
 
 	describe("calculateInitialQuestionStatus", () => {

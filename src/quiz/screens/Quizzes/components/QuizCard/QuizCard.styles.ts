@@ -72,7 +72,6 @@ export const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 
-
 	activeProgressContainer: {
 		...CommonStyles.rowSpaceBetween,
 	},

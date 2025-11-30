@@ -1,41 +1,34 @@
-import { generateAllHints, generateStandardHints } from "./standard";
 import { generateHintContent, getTriggeredContent } from "./generation";
+import { generateAllHints, generateStandardHints } from "./standard";
 
 import {
-  calculatePointsForCorrectAnswer,
-  createPointTransaction,
-  getInitialUserPoints,
+	calculatePointsForCorrectAnswer,
+	createPointTransaction,
+	getInitialUserPoints,
 } from "./points";
 
-import {
-  checkForContextualHints,
-  checkTriggeredHints,
-} from "./triggering";
+import { checkForContextualHints, checkTriggeredHints } from "./triggering";
 
-import {
-  canUseHint,
-  isAutoFreeHint,
-  isContextualHint,
-} from "./validation";
+import { canUseHint, isAutoFreeHint, isContextualHint } from "./validation";
 
 export const HintUtils = {
-  generateAllHints,
-  generateStandardHints,
-  generateHintContent,
-  getTriggeredContent,
-  
-  // Validation
-  canUseHint,
+	generateAllHints,
+	generateStandardHints,
+	generateHintContent,
+	getTriggeredContent,
 
-  // Triggering
-  checkForContextualHints,
-  checkTriggeredHints,
+	// Validation
+	canUseHint,
 
-  // Points
-  calculatePointsForCorrectAnswer,
-  createPointTransaction,
-  getInitialUserPoints,
+	// Triggering
+	checkForContextualHints,
+	checkTriggeredHints,
 
-  isContextualHint,
-  isAutoFreeHint,
+	// Points
+	calculatePointsForCorrectAnswer,
+	createPointTransaction,
+	getInitialUserPoints,
+
+	isContextualHint,
+	isAutoFreeHint,
 } as const;

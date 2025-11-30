@@ -4,8 +4,17 @@ import {
 } from "../../../testing/testUtils";
 import { type Question, QuestionStatus } from "../../../types";
 import { isAnswerCorrect } from "../answerComparison";
-import { findNextInactiveQuestionIndex, calculateNewQuestionsAfterCorrectAnswer, calculateAnswerResult, sortQuestionsByIds, findNextUnsolvedQuestionForward, findNextUnsolvedQuestionBackward, findFirstUnsolvedQuestion, getNextActiveQuestionId } from "../progression";
-
+import {
+	calculateAnswerResult,
+	calculateNewQuestionsAfterCorrectAnswer,
+	findFirstUnsolvedQuestion,
+	findNextInactiveQuestionIndex,
+	findNextUnsolvedQuestionBackward,
+	findNextUnsolvedQuestionForward,
+	getNextActiveQuestionId,
+	getNextQuestionId,
+	sortQuestionsByIds,
+} from "../progression";
 
 jest.mock("../answerComparison", () => ({
 	isAnswerCorrect: jest.fn(), // Exportiere eine Mock-Funktion für isAnswerCorrect
@@ -403,6 +412,54 @@ describe("Quiz Progression Utilities", () => {
 				.build();
 			expect(getNextActiveQuestionId(state, 1)).toBeNull();
 			expect(getNextActiveQuestionId(state)).toBeNull(); // No current ID
+		});
+	});
+
+	// ---
+
+	describe("getNextQuestionId", () => {
+		it("returns null if state is undefined", () => {
+			expect(getNextQuestionId(undefined, 1)).toBeNull();
+		});
+
+		it("returns null if state is empty (no questions)", () => {
+			const state = quizStateBuilder().withQuestions(0).build();
+			expect(getNextQuestionId(state, 1)).toBeNull();
+		});
+
+		it("returns the first question ID if currentQuestionId is undefined", () => {
+			const state = quizStateBuilder().withQuestions(3).build();
+			expect(getNextQuestionId(state, undefined)).toBe(1);
+		});
+
+		it("returns the next question ID in sequence", () => {
+			const state = quizStateBuilder().withQuestions(5).build();
+			expect(getNextQuestionId(state, 1)).toBe(2);
+			expect(getNextQuestionId(state, 2)).toBe(3);
+			expect(getNextQuestionId(state, 3)).toBe(4);
+			expect(getNextQuestionId(state, 4)).toBe(5);
+		});
+
+		it("returns null if currentQuestionId is the last question", () => {
+			const state = quizStateBuilder().withQuestions(3).build();
+			expect(getNextQuestionId(state, 3)).toBeNull();
+		});
+
+		it("returns null if currentQuestionId is not found", () => {
+			const state = quizStateBuilder().withQuestions(3).build();
+			expect(getNextQuestionId(state, 999)).toBeNull();
+		});
+
+		it("correctly handles unsorted questions", () => {
+			const state = quizStateBuilder().withQuestions(3).build();
+			// Manually reorder questions to verify sorting works
+			state.questions = [
+				createTestQuizQuestion({ id: 3 }),
+				createTestQuizQuestion({ id: 1 }),
+				createTestQuizQuestion({ id: 2 }),
+			];
+			expect(getNextQuestionId(state, 1)).toBe(2);
+			expect(getNextQuestionId(state, 2)).toBe(3);
 		});
 	});
 });

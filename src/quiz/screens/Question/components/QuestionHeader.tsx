@@ -68,9 +68,7 @@ export const QuestionHeader: React.FC<QuestionHeaderProps> = ({
 	return (
 		<Header
 			title={title}
-
 			rightSlot={<HeaderActionsRenderer actions={actions} />}
-
 			titleType={titleType}
 		/>
 	);

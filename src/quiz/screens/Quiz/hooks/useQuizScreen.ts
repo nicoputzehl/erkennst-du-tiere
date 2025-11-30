@@ -54,13 +54,16 @@ export function useQuizScreen(quizId: string | null) {
 		}
 	}, [quizId, getQuizState]);
 
-	const handleQuestionClick = useCallback((questionId: string) => {
-		if (quizId) {
-			NavigationService.toQuestion(quizId, questionId);
-		}
-	},[quizId]);
+	const handleQuestionClick = useCallback(
+		(questionId: string) => {
+			if (quizId) {
+				NavigationService.toQuestion(quizId, questionId);
+			}
+		},
+		[quizId],
+	);
 
-	const navigateBack = useCallback(() => NavigationService.back() ,[]);
+	const navigateBack = useCallback(() => NavigationService.back(), []);
 
 	return {
 		quizState,

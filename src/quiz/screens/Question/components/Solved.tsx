@@ -18,7 +18,7 @@ const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
 				{question.funFact && <FunFactSection funFact={question.funFact} />}
-					<WikipediaLink slug={wikipediaSlug} />
+				<WikipediaLink slug={wikipediaSlug} />
 			</View>
 		</View>
 	);
@@ -40,7 +40,6 @@ const FunFactSection = ({ funFact }: { funFact: string }) => {
 		</View>
 	);
 };
-
 
 export default Solved;
 

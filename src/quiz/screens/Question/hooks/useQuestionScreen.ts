@@ -1,3 +1,4 @@
+import type { ButtonProps } from "@/src/common/components/Button";
 import { QuizUtils } from "@/src/quiz/domain/quiz";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
@@ -7,13 +8,13 @@ import { useAnswerState } from "./useAnswerState";
 import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
 import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
-import type { ButtonProps } from "@/src/common/components/Button";
-
-
 
 export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();
-	const { hasVisibleHints, visibleHints, firstLetterHint } = useHints(quizId, Number.parseInt(questionId));
+	const { hasVisibleHints, visibleHints, firstLetterHint } = useHints(
+		quizId,
+		Number.parseInt(questionId),
+	);
 
 	const navigation = useQuestionNavigation(quizId, questionId);
 	const answerState = useAnswerState(firstLetterHint?.value || "");
@@ -24,7 +25,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		return QuizUtils.getNextQuestionId(quizState, Number.parseInt(questionId));
 	}, [questionId, quizState]);
 
-
 	const continueNavigation = useCallback(() => {
 		if (nextQuestionId) {
 			navigation.navigateToQuestionFromQuestion(nextQuestionId.toString());
@@ -33,7 +33,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		}
 	}, [nextQuestionId, navigation]);
 
-
 	const continueButtonText = useMemo(() => {
 		if (nextQuestionId) {
 			return "Weiter";
@@ -41,20 +40,20 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		return "Zur Quizübersicht";
 	}, [nextQuestionId]);
 
-
-	const continueButtonProps: ButtonProps = useMemo(() => ({
-		onPress: continueNavigation,
-		text: continueButtonText
-	}), [continueButtonText, continueNavigation]);
+	const continueButtonProps: ButtonProps = useMemo(
+		() => ({
+			onPress: continueNavigation,
+			text: continueButtonText,
+		}),
+		[continueButtonText, continueNavigation],
+	);
 
 	const question = quizState?.questions.find(
 		(q) => q.id === Number.parseInt(questionId),
 	);
 
-
 	const isSolved = question?.status === QuestionStatus.SOLVED;
 	const showInput = useMemo(() => !isSolved, [isSolved]);
-
 
 	const { handleSubmit } = useQuestionBusinessLogic({
 		quizId,
@@ -63,7 +62,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		answerState,
 		resultState,
 	});
-
 
 	useEffect(() => {
 		if (isSolved) {
@@ -85,13 +83,11 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		!resultState.showHint;
 
 	return {
-
 		quizState,
 		question,
 		hasVisibleHints,
 		showInput,
 		headerText,
-
 
 		...answerState,
 		...resultState,
@@ -102,6 +98,6 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 		showResultReaction,
 		visibleHints,
 		isSolved,
-		continueButtonProps
+		continueButtonProps,
 	};
 }

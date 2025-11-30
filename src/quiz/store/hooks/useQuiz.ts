@@ -46,7 +46,9 @@ export function useQuiz() {
 	const resetQuizState = useQuizStore((state) => state.resetQuizState);
 	const answerQuestion = useQuizStore((state) => state.answerQuestion);
 	const setCurrentQuiz = useQuizStore((state) => state.setCurrentQuiz);
-	const solveAllQuizQuestions = useQuizStore((state) => state.solveAllQuizQuestions);
+	const solveAllQuizQuestions = useQuizStore(
+		(state) => state.solveAllQuizQuestions,
+	);
 	const getQuizProgress = useQuizStore((state) => state.getQuizProgress);
 	const getQuizProgressString = useQuizStore(
 		(state) => state.getQuizProgressString,

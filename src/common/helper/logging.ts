@@ -1,13 +1,12 @@
-const LOGGING_ENABLED = process.env.EXPO_PUBLIC_LOGGING_ENABLED === 'true';
+const LOGGING_ENABLED = process.env.EXPO_PUBLIC_LOGGING_ENABLED === "true";
 
 /**
  * @typedef {'log' | 'warn' | 'error' | 'info' | 'debug'} LogType
  * @typedef {{ type?: LogType }} LogOptions
  */
 // Exportiere die Typen, wenn du sie anderswo benötigst
-export type LogType = 'log' | 'warn' | 'error' | 'info' | 'debug';
+export type LogType = "log" | "warn" | "error" | "info" | "debug";
 export type LogOptions = { type?: LogType };
-
 
 // 3. KORRIGIERTE LOGGING-FUNKTION
 /**
@@ -18,35 +17,41 @@ export type LogOptions = { type?: LogType };
  * @param {LogOptions} [options] - Optionales Objekt mit dem Log-Typ ({type: 'warn'}).
  */
 export const log = (message: any, ...optionalParams: any[]) => {
-  console.warn('LOGGING_ENABLED', LOGGING_ENABLED);
-  if (!LOGGING_ENABLED) {
-    return;
-  }
+	console.warn("LOGGING_ENABLED", LOGGING_ENABLED);
+	if (!LOGGING_ENABLED) {
+		return;
+	}
 
-  let logOptions: LogOptions = {};
-  const paramsToLog = [message, ...optionalParams];
-  
-  const lastParam = paramsToLog[paramsToLog.length - 1];
+	let logOptions: LogOptions = {};
+	const paramsToLog = [message, ...optionalParams];
 
-  if (
-    typeof lastParam === 'object' &&
-    lastParam !== null &&
-    (lastParam.type === 'warn' || lastParam.type === 'error' || lastParam.type === 'info' || lastParam.type === 'debug')
-  ) {
-    logOptions = lastParam;
-    paramsToLog.pop();
-  }
+	const lastParam = paramsToLog[paramsToLog.length - 1];
 
-  const type = logOptions.type || 'log'; 
-  const consoleMethod = console[type as LogType] || console.log;
+	if (
+		typeof lastParam === "object" &&
+		lastParam !== null &&
+		(lastParam.type === "warn" ||
+			lastParam.type === "error" ||
+			lastParam.type === "info" ||
+			lastParam.type === "debug")
+	) {
+		logOptions = lastParam;
+		paramsToLog.pop();
+	}
 
-  if (type === 'log' || type === 'debug') {
-      paramsToLog.unshift('[DEBUG_LOG]');
-  }
+	const type = logOptions.type || "log";
+	const consoleMethod = console[type as LogType] || console.log;
 
-  consoleMethod(...paramsToLog);
+	if (type === "log" || type === "debug") {
+		paramsToLog.unshift("[DEBUG_LOG]");
+	}
+
+	consoleMethod(...paramsToLog);
 };
 
-export const logWarn = (...args: [any, any, any]) => log(...args, { type: 'warn' });
-export const logError = (...args: [any, any, any]) => log(...args, { type: 'error' });
-export const logDebug = (...args: [any, any, any]) => log(...args, { type: 'debug' });
+export const logWarn = (...args: [any, any, any]) =>
+	log(...args, { type: "warn" });
+export const logError = (...args: [any, any, any]) =>
+	log(...args, { type: "error" });
+export const logDebug = (...args: [any, any, any]) =>
+	log(...args, { type: "debug" });

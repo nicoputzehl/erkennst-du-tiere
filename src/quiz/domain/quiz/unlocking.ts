@@ -1,5 +1,11 @@
 import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
-import { type MultiplePlaythroughCondition, type ProgressCondition, isMultiplePlaythroughCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
+import {
+	type MultiplePlaythroughCondition,
+	type ProgressCondition,
+	isMultiplePlaythroughCondition,
+	isQuizPlaythroughCondition,
+	isQuizProgressCondition,
+} from "../../types/unlock";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
 
 export const checkUnlockCondition = (
@@ -14,7 +20,7 @@ export const checkUnlockCondition = (
 		return checkProgressCondition(condition, quizStates);
 	}
 
-	if(isMultiplePlaythroughCondition(condition)) {
+	if (isMultiplePlaythroughCondition(condition)) {
 		return checkMultiplePlaythroughCondition(condition, quizStates);
 	}
 	return {
@@ -29,9 +35,7 @@ const checkPlaythroughCondition = (
 ): { isMet: boolean; progress: number } => {
 	const quizState = quizStates[quizId];
 
-	const isRequiredQuizCompleted = quizState
-		? isCompleted(quizState)
-		: false;
+	const isRequiredQuizCompleted = quizState ? isCompleted(quizState) : false;
 	return {
 		isMet: isRequiredQuizCompleted,
 		progress: isRequiredQuizCompleted ? 100 : 0,
@@ -43,14 +47,16 @@ const checkMultiplePlaythroughCondition = (
 	quizStates: Record<string, QuizState>,
 ): { isMet: boolean; progress: number } => {
 	const results = condition.requiredQuizId.map((quizId) =>
-		checkPlaythroughCondition(quizId, quizStates)
+		checkPlaythroughCondition(quizId, quizStates),
 	);
 	const isMet = results.every((result) => result.isMet);
-	const totalProgress = results.reduce((acc, result) => acc + result.progress, 0);
+	const totalProgress = results.reduce(
+		(acc, result) => acc + result.progress,
+		0,
+	);
 	const progress = isMet ? totalProgress / condition.requiredQuizId.length : 0;
 	return { isMet, progress };
 };
-
 
 const checkProgressCondition = (
 	condition: ProgressCondition,
@@ -58,16 +64,25 @@ const checkProgressCondition = (
 ): { isMet: boolean; progress: number } => {
 	const { requiredQuestionsSolved, requiredQuizId } = condition;
 	const quizState = quizStates[requiredQuizId];
-	console.log("[checkProgressCondition] requiredQuestionsSolved", requiredQuestionsSolved);
-	console.log("[checkProgressCondition]  completedQuestions", quizState.completedQuestions);
+	console.log(
+		"[checkProgressCondition] requiredQuestionsSolved",
+		requiredQuestionsSolved,
+	);
+	console.log(
+		"[checkProgressCondition]  completedQuestions",
+		quizState.completedQuestions,
+	);
 	const isMet = quizState.completedQuestions >= requiredQuestionsSolved;
 
-	const progress = isMet ? 100 : calculateCompletionPercentage(requiredQuestionsSolved, quizState.completedQuestions);
-	console.log("checkProgressCondition",{ isMet, progress });
+	const progress = isMet
+		? 100
+		: calculateCompletionPercentage(
+				requiredQuestionsSolved,
+				quizState.completedQuestions,
+			);
+	console.log("checkProgressCondition", { isMet, progress });
 	return { isMet, progress };
-}
-
-
+};
 
 export const canUnlockQuiz = (
 	config: QuizConfig,
@@ -87,11 +102,13 @@ export const isQuizUnlocked = (
 ): boolean => {
 	if (!config || !config.initiallyLocked) return true;
 	if (!config.unlockCondition) return true;
-	const isUnlocked = checkUnlockCondition(config.unlockCondition, quizStates).isMet;
+	const isUnlocked = checkUnlockCondition(
+		config.unlockCondition,
+		quizStates,
+	).isMet;
 
 	return isUnlocked;
 };
-
 
 export const getUnlockProgress = (
 	config: QuizConfig | undefined,
@@ -101,11 +118,13 @@ export const getUnlockProgress = (
 		return { condition: null, progress: 100, isMet: true };
 	}
 
-	const { isMet, progress } = checkUnlockCondition(config.unlockCondition, quizStates);
+	const { isMet, progress } = checkUnlockCondition(
+		config.unlockCondition,
+		quizStates,
+	);
 	return {
 		condition: config.unlockCondition,
 		progress,
 		isMet,
 	};
 };
-

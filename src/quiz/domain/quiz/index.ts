@@ -1,13 +1,17 @@
 import { isAnswerCorrect } from "./answerComparison";
 import {
-	createQuizConfig,
-	createQuizState,
+	createMultiplePlaythroughUnlockCondition,
 	// createUnlockCondition,
 	createPlaythroughUnlockCondition,
 	createProgressUnlockCondition,
-	createMultiplePlaythroughUnlockCondition
+	createQuizConfig,
+	createQuizState,
 } from "./factories";
-import { calculateAnswerResult, getNextActiveQuestionId, getNextQuestionId } from "./progression";
+import {
+	calculateAnswerResult,
+	getNextActiveQuestionId,
+	getNextQuestionId,
+} from "./progression";
 import {
 	calculateCompletionPercentage,
 	countCompletedQuestions,
@@ -16,7 +20,7 @@ import {
 	countTotalQuizzes,
 	isCompleted,
 } from "./statistics";
-import { isQuizUnlocked, getUnlockProgress } from "./unlocking";
+import { getUnlockProgress, isQuizUnlocked } from "./unlocking";
 
 export const QuizUtils = {
 	// Quiz Creation
@@ -34,7 +38,6 @@ export const QuizUtils = {
 	isQuizUnlocked,
 	getUnlockProgress,
 	getNextQuestionId,
-
 
 	// Statistics
 	countTotalQuizzes,

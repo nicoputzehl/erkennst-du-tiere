@@ -1,7 +1,7 @@
 import { useHints } from "@/src/quiz/store/hooks/useHints";
 import { ScrollView, StyleSheet } from "react-native";
 import { HintsAvailable } from "./HintsAvailable";
-import { HintsReceived }from "./HintsReceived";
+import { HintsReceived } from "./HintsReceived";
 
 interface HintsContentProps {
 	quizId: string;

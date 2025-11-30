@@ -3,12 +3,12 @@ import { ThemedView } from "@/src/common/components/ThemedView";
 import { FontSizes } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useCallback } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { NavigationService } from "../../services/NavigationService";
 import type { Quiz } from "../../types";
 import { QuizGrid } from "./components/QuizGrid";
 import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
-import { useCallback } from "react";
-import { NavigationService } from "../../services/NavigationService";
 
 type QuizzesProps = {
 	quizzes: Quiz[];
@@ -19,7 +19,10 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 
 	const iconColor = useThemeColor({}, "icon");
 
-	const handleNavigateToSettings = useCallback(() => NavigationService.toSettings(), []);
+	const handleNavigateToSettings = useCallback(
+		() => NavigationService.toSettings(),
+		[],
+	);
 
 	const renderContent = () => (
 		<ScrollView
@@ -44,11 +47,7 @@ export default function QuizzesScreen({ quizzes }: QuizzesProps) {
 						accessibilityLabel="Einstellungen öffnen"
 						accessibilityRole="button"
 					>
-						<FontAwesome6
-							name="gear"
-							size={FontSizes.xxl}
-							color={iconColor}
-						/>
+						<FontAwesome6 name="gear" size={FontSizes.xxl} color={iconColor} />
 					</TouchableOpacity>
 				}
 			/>

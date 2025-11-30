@@ -9,7 +9,6 @@ import {
 import { HintUtils } from "../domain/hints";
 import type { UserPointsState } from "../types/hint";
 
-
 import { type HintSlice, createHintSlice } from "./slices/Hint";
 import { type QuizSlice, createQuizSlice } from "./slices/Quiz";
 import { type UISlice, createUISlice } from "./slices/UI";

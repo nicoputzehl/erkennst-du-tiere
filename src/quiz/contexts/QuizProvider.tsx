@@ -1,4 +1,5 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
+import { newAnmilQuizConfig } from "@/src/data";
 import React, { type ReactNode, useEffect, useRef } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
@@ -6,7 +7,6 @@ import {
 	registerQuizzes,
 } from "../initialization/registerQuizzes";
 import { useQuizStore } from "../store/Store";
-import { newAnmilQuizConfig } from "@/src/data";
 
 interface QuizProviderProps {
 	children: ReactNode;

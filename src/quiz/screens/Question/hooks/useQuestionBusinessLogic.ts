@@ -37,7 +37,6 @@ export const useQuestionBusinessLogic = ({
 		handleWrongAnswer,
 		markContextualHintAsShown,
 		handleActivateAutoFreeHint,
-
 	} = useHints(quizId, Number.parseInt(questionId));
 
 	const handleCorrectAnswer = useCallback(
