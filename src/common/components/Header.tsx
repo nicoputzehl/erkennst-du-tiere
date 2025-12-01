@@ -29,14 +29,12 @@ const Header = ({
 	const textColor = useThemeColor({}, "tintOnGradient");
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
-	// Bestimme das Layout basierend auf den vorhandenen Props
 	const getLayoutConfig = () => {
 		const hasTitle = !!title;
 		const hasLeftSlot = !!leftSlot || showBackButton;
 		const hasRightSlot = !!rightSlot;
 
 		if (hasTitle && hasLeftSlot && hasRightSlot) {
-			// title, rightSlot und leftSlot vorhanden: 20%, 60%, 20% - justify center
 			return {
 				justifyContent: "center" as const,
 				leftWidth: "20%" as const,
@@ -45,7 +43,6 @@ const Header = ({
 			};
 		}
 		if (!hasTitle && hasLeftSlot && hasRightSlot) {
-			// kein title, beide slots: 40%, 40% - space-between
 			return {
 				justifyContent: "space-between" as const,
 				leftWidth: "40%" as const,
@@ -54,7 +51,6 @@ const Header = ({
 			};
 		}
 		if (hasLeftSlot && hasTitle && !hasRightSlot) {
-			// nur leftSlot und title: 20%, 60% - flex-start
 			return {
 				justifyContent: "flex-start" as const,
 				leftWidth: "20%" as const,
@@ -63,7 +59,6 @@ const Header = ({
 			};
 		}
 		if (!hasLeftSlot && hasTitle && hasRightSlot) {
-			// nur rightSlot und title: 60%, 20% - flex-end
 			return {
 				justifyContent: "flex-end" as const,
 				leftWidth: undefined,
@@ -72,7 +67,6 @@ const Header = ({
 			};
 		}
 		if (hasLeftSlot && !hasTitle && !hasRightSlot) {
-			// nur leftSlot: 40% - flex-start
 			return {
 				justifyContent: "flex-start" as const,
 				leftWidth: "40%" as const,
@@ -81,7 +75,6 @@ const Header = ({
 			};
 		}
 		if (!hasLeftSlot && !hasTitle && hasRightSlot) {
-			// nur rightSlot: 40% - flex-end
 			return {
 				justifyContent: "flex-end" as const,
 				leftWidth: undefined,
@@ -90,7 +83,6 @@ const Header = ({
 			};
 		}
 		if (!hasLeftSlot && hasTitle && !hasRightSlot) {
-			// nur title: center
 			return {
 				justifyContent: "center" as const,
 				leftWidth: undefined,
@@ -99,7 +91,6 @@ const Header = ({
 			};
 		}
 
-		// Fallback
 		return {
 			justifyContent: "center" as const,
 			leftWidth: undefined,
@@ -138,7 +129,6 @@ const Header = ({
 
 	const dynamicStyles = createDynamicStyles();
 
-	// Bestimme den Inhalt des linken Slots
 	const getLeftSlotContent = () => {
 		if (showBackButton && onBackPress) {
 			return (
@@ -194,6 +184,7 @@ const styles = StyleSheet.create({
 	},
 	headerTitle: {
 		textAlign: "center",
+		fontSize: 28,
 	},
 	slot: {
 		justifyContent: "center",
