@@ -126,14 +126,16 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 								question={question}
 							/>
 
-							<HintPatch hints={visibleHints} />
 						</View>
-						{isSolved && (
+						{isSolved ? (
 							<View style={styles.resultContainer}>
-								<Solved question={question} justSolved={statusChanged} />
-								<Button {...continueButtonProps} />
+							<Solved question={question} justSolved={statusChanged} />
+							<Button {...continueButtonProps} />
 							</View>
-						)}
+						):
+						
+						<HintPatch hints={visibleHints} />
+						}
 						{showInput && (
 							<QuestionInput
 								value={answer}
