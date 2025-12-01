@@ -52,13 +52,11 @@ export const GestureHandler = ({
           if (dx > 0) {
             const threshold = rightThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              console.log("Swiped right");
               handlersRef.current.onSwipeRight?.();
             }
           } else {
             const threshold = leftThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              console.warn("Swiped left");
               handlersRef.current.onSwipeLeft?.();
             }
           }
