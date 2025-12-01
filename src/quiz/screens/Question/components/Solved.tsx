@@ -18,7 +18,10 @@ const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
 			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
 				{question.funFact && <FunFactSection funFact={question.funFact} />}
+				<View style={{ flexDirection: "row", alignSelf: "flex-start" }} >
+
 					<WikipediaLink slug={wikipediaSlug} />
+				</View>
 			</View>
 		</View>
 	);
