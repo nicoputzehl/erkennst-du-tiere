@@ -56,10 +56,10 @@ const afrikanischer_elefant: QuestionBase = {
       cost: 1,
     },
     {
-      id: "rüssel",
+      id: "nase",
       type: HintType.CUSTOM,
-      title: "Rüssel",
-      content: "Der Rüssel dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
+      title: "Nase",
+      content: "Die \"Nase\" dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
       cost: 1,
     }
   ]
