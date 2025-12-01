@@ -177,7 +177,7 @@ const quokka: QuestionBase = {
       id: "schutz",
       type: HintType.CUSTOM,
       title: "Gesetz",
-      content: "Es ist strengstens verboten, Quokkas auf Rottnest Island zu füttern oder zu berühren.",
+      content: "Es ist strengstens verboten, diese Tiere auf Rottnest Island zu füttern oder zu berühren.",
       cost: 1,
     },
     {
@@ -301,7 +301,7 @@ const dingo: QuestionBase = {
       id: "gefaehrdet",
       type: HintType.CUSTOM,
       title: "Status",
-      content: "Der Bestand reiner Dingos ist durch die Vermischung mit Haushunden stark gefährdet.",
+      content: "Der Bestand dieser Art ist durch die Vermischung mit Haushunden stark gefährdet.",
       cost: 1,
     },
     {

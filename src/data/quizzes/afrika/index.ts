@@ -56,10 +56,10 @@ const afrikanischer_elefant: QuestionBase = {
       cost: 1,
     },
     {
-      id: "rüssel",
+      id: "nase",
       type: HintType.CUSTOM,
-      title: "Rüssel",
-      content: "Der Rüssel dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
+      title: "Nase",
+      content: "Die \"Nase\" dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
       cost: 1,
     }
   ]
@@ -171,8 +171,8 @@ const gepard: QuestionBase = {
     {
       id: "serval",
       type: HintType.CONTEXTUAL,
-      content: "Ein kleinerer, schlankerer Jäger mit sehr großen Ohren und viel längeren Beinen im Verhältnis zum Körper.",
-      title: "Zu langbeinig!",
+      content: "Ein kleinerer, schlankerer Jäger mit sehr großen Ohren.",
+      title: "Zu große Ohren!",
       triggers: ["serval"]
     }
   ],
@@ -288,6 +288,7 @@ const leopard: QuestionBase = {
     id: "jaguar",
     type: HintType.CONTEXTUAL,
     content: "Richtige Richtung! Aber lebt in Afrika, nicht Südamerika.",
+    title: "Falscher Kontinent!",
     triggers: ["jaguar"]
   }
     , {

@@ -204,8 +204,8 @@ const waschbaer: QuestionBase = {
     {
       id: "kleinbaer",
       type: HintType.CONTEXTUAL,
-      content: "Auch ein Kleinbär! Aber der gesuchte ist heute in Europa und Asien als Neozoon verbreitet.",
-      title: "Falscher Kontinent!",
+      content: "Zu marderartig! Der gesuchte ist deutlich kräftiger gebaut, hat einen Ringelschwanz und ist sehr geschickt mit den Pfoten.",
+      title: "Falscher Kleinbär!",
       triggers: ["marder"]
     }
   ],
@@ -380,7 +380,7 @@ const kojote: QuestionBase = {
       type: HintType.CONTEXTUAL,
       content: "Sehr knapp, aber anderer Kontinent.",
       title: "Zu klein!",
-      triggers: ["fuchs"]
+      triggers: ["schakal"]
     },
   ],
   customHints: [
@@ -455,11 +455,11 @@ const kanadagans: QuestionBase = {
 const nordamerikaTiere: QuestionBase[] = [
   weisskopfseeadler,
   stinktier,
-  klapperschlange,
   waschbaer,
   grizzly,
   bison,
   kojote,
+  klapperschlange,
   kanadagans,
 ];
 

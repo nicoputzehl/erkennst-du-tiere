@@ -313,7 +313,7 @@ const rentier: QuestionBase = {
       id: "rentier_geräusche",
       type: HintType.CUSTOM,
       title: "Geh-Geräusche",
-      content: "Beim Gehen machen Rentiere charakteristische Klickgeräusche. Diese stammen von einer Sehne in den Hinterbeinen.",
+      content: "Beim Gehen machen diese Tiere charakteristische Klickgeräusche. Diese stammen von einer Sehne in den Hinterbeinen.",
       cost: 1,
     }
   ]

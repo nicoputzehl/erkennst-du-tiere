@@ -410,14 +410,14 @@ const greif: QuestionBase = {
 };
 
 const fabelwesen: QuestionBase[] = [
+  einhorn,
   drache,
-  basilisk,
+  greif,
+  pegasos,
   mantikor,
   hippokamp,
-  pegasos,
-  einhorn,
   phoenex,
-  greif,
+  basilisk,
 ];
 
 export const fabelwesenQuiz: Quiz = {
