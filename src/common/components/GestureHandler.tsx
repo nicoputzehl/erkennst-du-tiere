@@ -1,18 +1,14 @@
-import { type PropsWithChildren, useRef } from "react";
+import { type PropsWithChildren, useRef, useEffect } from "react";
 import { View, PanResponder } from "react-native";
 
 interface GestureHandlerProps extends PropsWithChildren {
-  // optionale Handler ohne Parameter
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
   onSwipeUp?: () => void;
   onSwipeDown?: () => void;
 
-  // optionale Schwellwerte
   dxThreshold?: number;
   dyThreshold?: number;
-
-  // individuelle Schwellwerte pro Richtung
   leftThreshold?: number;
   rightThreshold?: number;
   upThreshold?: number;
@@ -32,14 +28,23 @@ export const GestureHandler = ({
   upThreshold,
   downThreshold,
 }: GestureHandlerProps) => {
+  const handlersRef = useRef({
+    onSwipeLeft,
+    onSwipeRight,
+    onSwipeUp,
+    onSwipeDown,
+  });
+
+  useEffect(() => {
+    handlersRef.current = { onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown };
+  }, [onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown]);
+
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return (
-          Math.abs(gestureState.dx) > dxThreshold ||
-          Math.abs(gestureState.dy) > dyThreshold
-        );
-      },
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dx) > dxThreshold ||
+        Math.abs(gestureState.dy) > dyThreshold,
+
       onPanResponderRelease: (_, gestureState) => {
         const { dx, dy } = gestureState;
 
@@ -47,24 +52,26 @@ export const GestureHandler = ({
           if (dx > 0) {
             const threshold = rightThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              onSwipeRight?.();
+              console.log("Swiped right");
+              handlersRef.current.onSwipeRight?.();
             }
           } else {
             const threshold = leftThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              onSwipeLeft?.();
+              console.warn("Swiped left");
+              handlersRef.current.onSwipeLeft?.();
             }
           }
         } else {
           if (dy > 0) {
             const threshold = downThreshold ?? dyThreshold;
             if (Math.abs(dy) > threshold) {
-              onSwipeDown?.();
+              handlersRef.current.onSwipeDown?.();
             }
           } else {
             const threshold = upThreshold ?? dyThreshold;
             if (Math.abs(dy) > threshold) {
-              onSwipeUp?.();
+              handlersRef.current.onSwipeUp?.();
             }
           }
         }
@@ -72,9 +79,5 @@ export const GestureHandler = ({
     })
   ).current;
 
-  return (
-    <View style={{ flex: 1 }} {...panResponder.panHandlers}>
-      {children}
-    </View>
-  );
+  return <View style={{ flex: 1 }} {...panResponder.panHandlers}>{children}</View>;
 };

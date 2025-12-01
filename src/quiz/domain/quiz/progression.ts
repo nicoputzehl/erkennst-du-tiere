@@ -11,9 +11,8 @@ export const calculateNewQuestionsAfterCorrectAnswer = (
 	questions: Question[],
 	questionIndex: number,
 ): Question[] => {
-	// Füge diese Prüfung am Anfang hinzu
 	if (questionIndex < 0 || questionIndex >= questions.length) {
-		return [...questions]; // Gib eine Kopie des Original-Arrays zurück, um Unveränderlichkeit zu gewährleisten
+		return [...questions];
 	}
 
 	const newQuestions = questions.map((q, index) => {
