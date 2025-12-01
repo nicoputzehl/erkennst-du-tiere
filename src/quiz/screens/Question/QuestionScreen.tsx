@@ -114,12 +114,12 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 						</View>
 					}
 				/>
-				<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 				{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={{ flex: 1 }}
 				>
+					<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 					<View style={{ flex: 1, justifyContent: "space-between" }}>
 						<View style={styles.imageWrapper}>
 							<QuestionImage
@@ -127,7 +127,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 							/>
 
 							<HintPatch hints={visibleHints} />
-
 						</View>
 						{isSolved && (
 							<View style={styles.resultContainer}>
