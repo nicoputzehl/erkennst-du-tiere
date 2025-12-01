@@ -2,7 +2,7 @@ import { BorderRadius, Shadows } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { Image } from "expo-image";
 import type React from "react";
-import { memo, useState } from "react";
+import {  type PropsWithChildren, useState } from "react";
 import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react-native";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import type { Question } from "@/src/quiz/types";
@@ -12,8 +12,8 @@ interface QuestionImageProps {
 	question: Question;
 }
 
-export const QuestionImage: React.FC<QuestionImageProps> = memo(
-	({ question }) => {
+export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> = 
+	({ question, children }) => {
 		const [isLoading, setIsLoading] = useState(true);
 		const { getImageUrl } = useImageDisplay(question.images, question.status);
 
@@ -59,15 +59,13 @@ export const QuestionImage: React.FC<QuestionImageProps> = memo(
 					allowDownscaling={true}
 					recyclingKey={getImageUrl(ImageType.IMG).toString()}
 				/>
+				<View style={styles.childContainer}>
+
+					{children}
+				</View>
 			</Animated.View>
 		);
-	},
-	(prevProps, nextProps) => {
-		return (
-			prevProps.question === nextProps.question
-		);
-	},
-);
+	}
 
 QuestionImage.displayName = "QuestionImage";
 
@@ -77,6 +75,16 @@ const styles = StyleSheet.create({
 		borderRadius: BorderRadius.md,
 		overflow: "hidden",
 		position: "relative",
+	
+	},
+	childContainer: {
+		// flex: 1,
+		position: "absolute",
+		bottom: 0,
+		width: "100%",
+// backgroundColor: "white",
+		padding: 8,
+		justifyContent: "flex-end",
 	},
 	image: {
 		height: "100%",
