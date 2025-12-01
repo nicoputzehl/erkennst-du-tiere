@@ -4,7 +4,7 @@ import { LoadingComponent } from "@/src/common/components/LoadingComponent";
 import { ThemedView } from "@/src/common/components/ThemedView";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useCallback, useMemo } from "react";
+import {  useMemo } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import Hint from "./components/Hint";
 import { QuestionInput } from "./components/QuestionInput";
@@ -53,13 +53,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
 	const iconColor = useThemeColor({}, "tintOnGradient");
 
-	const handleSwipeLeft = useCallback(() => {
-		if (navigateToNextQuestion && isSolved) {
-			navigateToNextQuestion();
-		}
-	}, [isSolved, navigateToNextQuestion])
-
-
 	const headerActions = useMemo(() => {
 		const actions = [];
 
@@ -96,7 +89,11 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	}
 
 	return (
-		<GestureHandler onSwipeLeft={handleSwipeLeft} onSwipeUp={handleBack}>
+		<GestureHandler onSwipeLeft={() => {
+			if (navigateToNextQuestion && isSolved) {
+				navigateToNextQuestion();
+			}
+		}} onSwipeUp={handleBack}>
 			<ThemedView
 				gradientType="primary" style={{ flex: 1 }}>
 				<Header

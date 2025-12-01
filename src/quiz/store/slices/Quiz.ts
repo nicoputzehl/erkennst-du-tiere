@@ -212,7 +212,7 @@ solveAllQuizQuestions(quizId: string) {
     // Check completion
     const completed = QuizUtils.isCompleted(result.newState);
     if (completed) {
-      showToast(`🎉 Quiz "${result.newState.title}" completed!`, "success", 4000);
+      showToast(`🎉 Du hast das  Quiz "${result.newState.title}" durchgespielt!`, "success", 4000);
     }
 
     // Check for unlocks (integrated unlock logic)
