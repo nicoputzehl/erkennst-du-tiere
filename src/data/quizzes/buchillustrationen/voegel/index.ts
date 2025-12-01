@@ -85,8 +85,8 @@ const bienenfresser: QuestionBase = {
     {
       id: "racke_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Gleiche Familie (Rackenvögel), aber der gesuchte ist noch bunter und hat einen anderen Speiseplan.",
-      title: "Falscher Kontinent!",
+      content: "Gleiche Familie (Rackenvögel), aber der gesuchte frisst Bienen und Wespen und legt lange Bruthöhlen in Steilwände an.",
+      title: "Falsche Nische!",
       triggers: ["racke"]
     }
   ],

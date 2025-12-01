@@ -343,7 +343,7 @@ const goldkroete: QuestionBase = {
       type: HintType.CONTEXTUAL,
       content: "Aber die Lösung ist etwas genauer.",
       title: "Nicht falsch",
-      triggers: ["kröter"]
+      triggers: ["kröte"]
     }
   ],
   customHints: [

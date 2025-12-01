@@ -171,8 +171,8 @@ const gepard: QuestionBase = {
     {
       id: "serval",
       type: HintType.CONTEXTUAL,
-      content: "Ein kleinerer, schlankerer Jäger mit sehr großen Ohren und viel längeren Beinen im Verhältnis zum Körper.",
-      title: "Zu langbeinig!",
+      content: "Ein kleinerer, schlankerer Jäger mit sehr großen Ohren.",
+      title: "Zu große Ohren!",
       triggers: ["serval"]
     }
   ],
@@ -288,6 +288,7 @@ const leopard: QuestionBase = {
     id: "jaguar",
     type: HintType.CONTEXTUAL,
     content: "Richtige Richtung! Aber lebt in Afrika, nicht Südamerika.",
+    title: "Falscher Kontinent!",
     triggers: ["jaguar"]
   }
     , {
