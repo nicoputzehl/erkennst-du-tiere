@@ -410,13 +410,13 @@ const schopfkarakara: QuestionBase = {
 };
 
 const tiereDerAnden: QuestionBase[] = [
+  lama,
   alpaka,
+  capybara,
+  nandu,
   piranha,
   jaguar,
-  lama,
-  capybara,
   kondor,
-  nandu,
   schopfkarakara,
 ];
 

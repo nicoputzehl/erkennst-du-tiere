@@ -455,11 +455,11 @@ const kanadagans: QuestionBase = {
 const nordamerikaTiere: QuestionBase[] = [
   weisskopfseeadler,
   stinktier,
-  klapperschlange,
   waschbaer,
   grizzly,
   bison,
   kojote,
+  klapperschlange,
   kanadagans,
 ];
 
