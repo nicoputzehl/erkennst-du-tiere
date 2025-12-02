@@ -540,5 +540,5 @@ export const europaQuiz: Quiz = {
   title: "Europa",
   questions: tiereEuropas,
   titleImage: require("./wolf.webp"),
-  description: "Entdecke die heimische Tierwelt Europas mit diesem Quiz.",
+  description: "Entdecke die heimische Tierwelt Europas.",
 };

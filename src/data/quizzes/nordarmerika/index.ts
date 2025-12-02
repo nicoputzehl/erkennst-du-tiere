@@ -468,5 +468,5 @@ export const nordamerikaQuiz: Quiz = {
   title: "Nordamerika",
   questions: nordamerikaTiere,
   titleImage: require("./bison.webp"),
-  description: "Entdecke die Tierwelt Nordamerikas mit diesem Quiz.",
+  description: "Entdecke die Tierwelt Nordamerikas.",
 };
