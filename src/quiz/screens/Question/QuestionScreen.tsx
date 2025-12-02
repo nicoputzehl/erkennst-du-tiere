@@ -120,7 +120,6 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={{ flex: 1 }}
 				>
-					<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 					<View style={{ flex: 1, justifyContent: "space-between" }}>
 						<View style={styles.imageWrapper}>
 							<QuestionImage
@@ -132,6 +131,8 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 							</QuestionImage>
 
 						</View>
+						<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
+
 						{isSolved ? (
 							<View style={styles.resultContainer}>
 								<Solved question={question} />
