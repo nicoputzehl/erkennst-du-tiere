@@ -24,7 +24,7 @@ const getProgressColor = (percentage: number): string => {
 	if (percentage <= 25) return "#FFF2A1";
 	if (percentage <= 50) return "#FFD100";
 	if (percentage <= 75) return "#FFBF40";
-	if (percentage < 100) return "#FFA826";
+	if (percentage <= 100) return "#FFA826";
 	return "#131E2D";
 };
 
