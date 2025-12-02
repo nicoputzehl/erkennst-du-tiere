@@ -687,5 +687,5 @@ export const dinosaurierQuiz: Quiz = {
   title: "Dinosaurier",
   questions: dinosaurier,
   titleImage: require("./tyrannosaurus.webp"),
-  description: "Teste dein Wissen über die Giganten der Urzeit.",
+  description: "Die Giganten der Urzeit.",
 };

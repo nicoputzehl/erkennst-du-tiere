@@ -418,5 +418,5 @@ export const vogelIllustrationenQuiz: Quiz = {
   title: "Vögel",
   questions: heimischeVoegel,
   titleImage: require("./star.webp"),
-  description: "Teste dein Wissen über die gefiederte Vielfalt in unseren Breitengraden.",
+  description: "Gefiederte Vielfalt. Der Sound direkt vor deiner Tür.",
 };

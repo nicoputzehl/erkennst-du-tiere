@@ -438,5 +438,5 @@ export const asienQuiz: Quiz = {
   title: "Asien",
   questions: tiereAsiens,
   titleImage: require("./koenigstiger.webp"),
-  description: "Entdecke die faszinierende Tierwelt Asiens.",
+  description: "Von Taiga bis Dschungel. Die wilde Seite des größten Kontinents.",
 };

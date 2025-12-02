@@ -523,5 +523,5 @@ export const afrikaQuiz: Quiz = {
   title: "Afrika",
   questions: tiereAfrikas,
   titleImage: require("./loewe.webp"),
-  description: "Erkunde die majestätische Tierwelt Afrikas.",
+  description: "Big Five. Die wilde Hitze der Savanne.",
 };

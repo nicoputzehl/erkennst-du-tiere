@@ -373,5 +373,5 @@ export const ausgestorbeneTiereQuiz: Quiz = {
   title: "Ausgestorben",
   questions: ausgestorbeneTiere,
   titleImage: require("./mammut.webp"),
-  description: "Erinnere dich an die Tiere, die nicht mehr unter uns sind.",
+  description: "Die Spezies, die es nicht geschafft haben. Eine Zeitreise in die Vergangenheit.",
 };
