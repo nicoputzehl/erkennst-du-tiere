@@ -22,7 +22,6 @@ export const QuestionListTile: React.FC<QuestionListTileProps> = memo(
 		const isSolved = item.status === QuestionStatus.SOLVED;
 		const isInactive = item.status === "inactive";
 
-		// Theme-basierte Farben
 		const iconColor = useThemeColor({}, "icon");
 
 		const cardStyle = useMemo(() => {
@@ -137,11 +136,11 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		overflow: "hidden",
 		boxShadow: Shadows.boxShadow,
+
 	},
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 12,
 	},
 	iconOverlay: {
 		position: "absolute",
