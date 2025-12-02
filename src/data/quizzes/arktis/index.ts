@@ -195,8 +195,8 @@ const schneeeule: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["eule"]
     }
   ],
@@ -252,8 +252,8 @@ const polarfuchs: QuestionBase = {
     }, {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["fuchs"]
     }
   ],
@@ -360,8 +360,8 @@ const polarwolf: QuestionBase = {
     },    {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["wolf"]
     }
   ],

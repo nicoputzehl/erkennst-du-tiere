@@ -34,7 +34,7 @@ const stachelschwein: QuestionBase = {
 //      id: "pinguin",
 //      triggers: ["pinguin"],
 //      content: "Etwas genauer wird gesucht.",
-//      title: "Nicht falsch",
+//      title: "Nicht ganz",
 //      type: HintType.CONTEXTUAL
 //    },
 //    {
@@ -145,7 +145,7 @@ const wuestenrennmaus: QuestionBase = {
       id: "maus",
       triggers: ["maus"],
       content: "WO und WIE?",
-      title: "Nicht falsch,",
+      title: "Nicht ganz,",
       type: HintType.CONTEXTUAL
     },
   ]

@@ -44,8 +44,8 @@ const weisskopfseeadler: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["adler"]
     }
   ],
@@ -269,8 +269,8 @@ const grizzly: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["bär"]
     }
   ],
@@ -436,8 +436,8 @@ const kanadagans: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["gans"]
     }
   ],
