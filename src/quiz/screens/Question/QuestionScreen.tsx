@@ -59,7 +59,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		if (hasVisibleHints) {
 			actions.push({
 				key: "hints",
-				icon: <FontAwesome6 name="lightbulb" size={24} color="gold" />,
+				icon: <FontAwesome6 name="lightbulb" size={24} color="white" />,
 				onPress: navigateToHintsModal,
 				accessibilityHint: "Öffnet die Seite mit den Hinweisen",
 			});
