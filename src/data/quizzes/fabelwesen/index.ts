@@ -422,7 +422,7 @@ const fabelwesen: QuestionBase[] = [
 
 export const fabelwesenQuiz: Quiz = {
   id: "fabelwesen",
-  title: "Fabelwesen und Mythen",
+  title: "Mythisch",
   questions: fabelwesen,
   titleImage: require("./drache.webp"),
   description: "Erkunde eine Welt voller mythischer Kreaturen."

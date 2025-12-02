@@ -370,7 +370,7 @@ const ausgestorbeneTiere: QuestionBase[] = [
 
 export const ausgestorbeneTiereQuiz: Quiz = {
   id: "ausgestorbeneTiere",
-  title: "Ausgestorbene Tiere",
+  title: "Ausgestorben",
   questions: ausgestorbeneTiere,
   titleImage: require("./mammut.webp"),
   description: "Erinnere dich an die Tiere, die nicht mehr unter uns sind.",

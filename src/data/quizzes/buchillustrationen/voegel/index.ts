@@ -415,7 +415,7 @@ const heimischeVoegel: QuestionBase[] = [
 
 export const vogelIllustrationenQuiz: Quiz = {
   id: "vogelIllustrationen",
-  title: "Vögel - Illustrationen",
+  title: "Vögel",
   questions: heimischeVoegel,
   titleImage: require("./star.webp"),
   description: "Teste dein Wissen über die gefiederte Vielfalt in unseren Breitengraden.",

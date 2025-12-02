@@ -51,7 +51,7 @@ const klapperschlange: QuestionBase = {
   id: 3,
   title: "Giftig",
   answer: "Klapperschlange",
-  funFact: "das charakteristische Rasseln einer Klapperschlange nicht durch das Schütteln des Schwanzes selbst, sondern durch trockene, hohle Hornringe am Schwanzende erzeugt wird und man ihr Alter nicht einfach an der Anzahl der Ringe ablesen kann, weil alte Ringe abbrechen können?",
+  funFact: "Klapperschlangen ihr charakteristisches Rasseln mit hohlen Hornringen am Schwanzende erzeugen, deren Anzahl nicht das wahre Alter verrät, weil sie mit der Zeit abbrechen können?",
   images: {
     imageUrl: require("./klapperschlange.webp"),
   },
