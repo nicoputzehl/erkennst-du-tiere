@@ -15,6 +15,7 @@ import { HintPatch } from "./components/HintPatch";
 import { QuestionImage } from "./components/QuestionImage";
 import Button from "@/src/common/components/Button";
 import { GestureHandler } from "@/src/common/components/GestureHandler";
+import { DelayedLottie } from "./components/DelayedLottie";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -114,7 +115,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 						</View>
 					}
 				/>
-				{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
+
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={{ flex: 1 }}
@@ -125,13 +126,15 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 							<QuestionImage
 								question={question}
 							>
+								{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
+								<DelayedLottie shouldPlay={statusChanged} delay={500} />
 								{!isSolved && <HintPatch hints={visibleHints} />}
 							</QuestionImage>
 
 						</View>
 						{isSolved ? (
 							<View style={styles.resultContainer}>
-								<Solved question={question} justSolved={statusChanged} />
+								<Solved question={question} />
 								<Button {...continueButtonProps} />
 							</View>
 						) :
