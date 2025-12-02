@@ -5,7 +5,7 @@ const afrikanischer_elefant: QuestionBase = {
   answer: "Elefant",
   title: "Der größte Landriese",
   funFact:
-    "...afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden, um so über weite Distanzen zu kommunizieren?",
+    "afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden, um so über weite Distanzen zu kommunizieren?",
   images: {
     imageUrl: require("./afrikanischer-elefant.webp"),
     unsolvedImageUrl: require("./afrikanischer-elefant_unsolved.webp"),
@@ -75,7 +75,7 @@ const flusspferd: QuestionBase = {
   },
   alternativeAnswers: ["Nilpferd", "Hippo", "Hippopotamus"],
   funFact:
-    "...Flusspferde näher mit Walen als mit anderen Landtieren verwandt sind, weil beide von denselben urzeitlichen Meeresvorfahren abstammen?",
+    "Flusspferde näher mit Walen als mit anderen Landtieren verwandt sind, weil beide von denselben urzeitlichen Meeresvorfahren abstammen?",
   autoFreeHints: [
     {
       id: "fpferd_h1",
@@ -139,7 +139,7 @@ const gepard: QuestionBase = {
     unsolvedImageUrl: require("./gepard_unsolved.webp"),
   },
   alternativeAnswers: ["Cheetah"],
-  funFact: "...der Gepard das schnellste Landtier der Welt ist und in weniger als drei Sekunden von null auf über 100 km/h beschleunigen kann?",
+  funFact: "der Gepard das schnellste Landtier der Welt ist und in weniger als drei Sekunden von null auf über 100 km/h beschleunigen kann?",
   autoFreeHints: [
     {
       id: "gepard_h1",
@@ -199,7 +199,7 @@ const giraffe: QuestionBase = {
   answer: "Giraffe",
   title: "Hallo da unten",
   funFact:
-    "...Giraffen genau wie Menschen nur sieben Halswirbel haben, obwohl ihr Hals bis zu zwei Meter lang ist?",
+    "Giraffen genau wie Menschen nur sieben Halswirbel haben, obwohl ihr Hals bis zu zwei Meter lang ist?",
   images: {
     imageUrl: require("./giraffe.webp"),
     unsolvedImageUrl: require("./giraffe_unsolved.webp"),
@@ -263,7 +263,7 @@ const leopard: QuestionBase = {
   answer: "Leopard",
   title: "Ein sehr beliebtes Muster",
   funFact:
-    "...Leoparden Beute, die doppelt so schwer ist wie sie selbst, zum Schutz vor Aasfressern bis zu sechs Meter hoch auf einen Baum ziehen können?",
+    "Leoparden Beute, die doppelt so schwer ist wie sie selbst, zum Schutz vor Aasfressern bis zu sechs Meter hoch auf einen Baum ziehen können?",
   images: {
     imageUrl: require("./leopard.webp"),
     unsolvedImageUrl: require("./leopard_unsolved.webp"),
@@ -319,7 +319,7 @@ const loewe: QuestionBase = {
   id: 6,
   answer: "Löwe",
   title: "König der Tiere",
-  funFact: "...Löwen die einzigen Katzen sind, die in Rudeln leben, während alle anderen Großkatzen Einzelgänger sind?",
+  funFact: "Löwen die einzigen Katzen sind, die in Rudeln leben, während alle anderen Großkatzen Einzelgänger sind?",
   images: {
     imageUrl: require("./loewe.webp"),
     unsolvedImageUrl: require("./loewe_unsolved.webp"),
@@ -388,7 +388,7 @@ const nashorn: QuestionBase = {
   },
   alternativeAnswers: ["Breitmaulnashorn", "Spitzmaulnashorn"],
   funFact:
-    "...das Horn des Nashorns nicht aus Knochen, sondern aus Keratin besteht, also aus demselben Material wie unsere Haare und Fingernägel?",
+    "das Horn des Nashorns nicht aus Knochen, sondern aus Keratin besteht, also aus demselben Material wie unsere Haare und Fingernägel?",
   autoFreeHints: [
     {
       id: "nashorn_h1",
@@ -448,7 +448,7 @@ const zebra: QuestionBase = {
   answer: "Zebra",
   title: "Das ist leicht",
   funFact:
-    "...jedes Zebra ein einzigartiges Streifenmuster besitzt und kein Zebra dem anderen gleicht, ähnlich wie bei einem menschlichen Fingerabdruck?",
+    "jedes Zebra ein einzigartiges Streifenmuster besitzt und kein Zebra dem anderen gleicht, ähnlich wie bei einem menschlichen Fingerabdruck?",
   images: {
     imageUrl: require("./zebra.webp"),
     unsolvedImageUrl: require("./zebra_unsolved.webp"),

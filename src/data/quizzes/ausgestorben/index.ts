@@ -9,7 +9,7 @@ const dodo: QuestionBase = {
   },
   alternativeAnswers: ["Dudu", "Dronte", "Doudo"],
   funFact:
-    "...er zu einem berühmten Symbol für das von Menschen verursachte Artensterben wurde und die Art nur etwa 100 Jahre nach ihrer Entdeckung (ca. 1690) ausgerottet wurde?",
+    "er zu einem berühmten Symbol für das von Menschen verursachte Artensterben wurde und die Art nur etwa 100 Jahre nach ihrer Entdeckung (ca. 1690) ausgerottet wurde?",
   autoFreeHints: [
     {
       id: "dodo_h1",
@@ -52,7 +52,7 @@ const quagga: QuestionBase = {
     imageUrl: require("./quagga.webp"),
   },
   funFact:
-    "...sein Name sich von dem Laut ableitet, den das Tier angeblich von sich gab, und es sich um eine ausgestorbene \"Unterart des Steppenzebras\" handelt?",
+    "sein Name sich von dem Laut ableitet, den das Tier angeblich von sich gab, und es sich um eine ausgestorbene \"Unterart des Steppenzebras\" handelt?",
   autoFreeHints: [
     {
       id: "quagga_h1",
@@ -96,7 +96,7 @@ const trilobit: QuestionBase = {
   },
   alternativeAnswers: ["Trilobite"],
   funFact:
-    "...der Name \"Drei Lappen\" bedeutet und sich auf die dreifache Längsgliederung seines Körpers (Kopf-, Rumpf- und Schwanzschild) bezieht?",
+    "der Name \"Drei Lappen\" bedeutet und sich auf die dreifache Längsgliederung seines Körpers (Kopf-, Rumpf- und Schwanzschild) bezieht?",
   autoFreeHints: [
     {
       id: "trilobit_h1",
@@ -140,7 +140,7 @@ const saebelzahnkatze: QuestionBase = {
   },
   alternativeAnswers: ["Säbelzahntiger", "Smilodon"],
   funFact:
-    "...die bekannteste Gattung \"Smilodon\" ist und diese Katze ihr Maul bis zu 120 Grad weit öffnen konnte, damit die riesigen Zähne zum Einsatz kamen?",
+    "die bekannteste Gattung \"Smilodon\" ist und diese Katze ihr Maul bis zu 120 Grad weit öffnen konnte, damit die riesigen Zähne zum Einsatz kamen?",
   autoFreeHints: [
     {
       id: "saebelzahnkatze_h1",
@@ -184,7 +184,7 @@ const mammut: QuestionBase = {
     imageUrl: require("./mammut.webp"),
   },
   funFact:
-    "...die letzten Wollhaarmammuts auf der Wrangelinsel im Arktischen Ozean noch lebten, als die \"Pyramiden von Gizeh\" gebaut wurden (ca. 2500 v. Chr.)?",
+    "die letzten Wollhaarmammuts auf der Wrangelinsel im Arktischen Ozean noch lebten, als die \"Pyramiden von Gizeh\" gebaut wurden (ca. 2500 v. Chr.)?",
   autoFreeHints: [
     {
       id: "mammut_h1",
@@ -228,7 +228,7 @@ const beutelwolf: QuestionBase = {
   },
   alternativeAnswers: ["Tasmanischer Tiger", "Tasmanischer Wolf", "Beuteltiger"],
   funFact:
-    "...dieses Tier trotz seines Aussehens kein Wolf oder Tiger, sondern das größte fleischfressende \"Beuteltier\" der Neuzeit war und es sein Maul bis zu 90 Grad aufklappen konnte?",
+    "dieses Tier trotz seines Aussehens kein Wolf oder Tiger, sondern das größte fleischfressende \"Beuteltier\" der Neuzeit war und es sein Maul bis zu 90 Grad aufklappen konnte?",
   autoFreeHints: [
     {
       id: "beutelwolf_h1",
@@ -272,7 +272,7 @@ const elefantenVogel: QuestionBase = {
   },
   alternativeAnswers: ["Madagaskar-Strauß", "Vorompatras"],
   funFact:
-    "...dieser Vogel als der \"größte Vogel der Weltgeschichte\" gilt, bis zu drei Meter groß war und bis zu 500 Kilogramm wog?",
+    "dieser Vogel als der \"größte Vogel der Weltgeschichte\" gilt, bis zu drei Meter groß war und bis zu 500 Kilogramm wog?",
   autoFreeHints: [
     {
       id: "elefantenvogel_h1",
@@ -315,7 +315,7 @@ const goldkroete: QuestionBase = {
     imageUrl: require("./goldkroete.webp"),
   },
   funFact:
-    "...diese Art erst \"Mitte der 1960er-Jahre\" entdeckt und nur 20 Jahre später letztmalig gesichtet wurde und heute ein Symbol für das globale Amphibiensterben ist?",
+    "diese Art erst \"Mitte der 1960er-Jahre\" entdeckt und nur 20 Jahre später letztmalig gesichtet wurde und heute ein Symbol für das globale Amphibiensterben ist?",
   autoFreeHints: [
     {
       id: "goldkroete_h1",

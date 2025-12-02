@@ -32,7 +32,7 @@ const FunFactSection = ({ funFact }: { funFact: string }) => {
 				style={[styles.funFactHeader, { color: textColor }]}
 				type="title"
 			>
-				Wusstest du das ...
+				Wusstest du, dass ...
 			</ThemedText>
 			<ThemedText style={[styles.funFact, { color: textColor }]}>
 				{funFact}

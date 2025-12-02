@@ -42,7 +42,7 @@ export default Button;
 
 const styles = StyleSheet.create({
 	button: {
-		borderColor: "#000",
+		borderColor: Colors.light.border,
 		borderWidth: 1,
 		paddingVertical: 14,
 		paddingHorizontal: 24,

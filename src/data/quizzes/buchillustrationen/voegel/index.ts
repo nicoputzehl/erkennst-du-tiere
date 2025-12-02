@@ -8,7 +8,7 @@ const haubenmeise: QuestionBase = {
     imageUrl: require("./haubenmeise.webp"),
   },
   funFact:
-    "...sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
+    "sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
   autoFreeHints: [
     {
       id: "haubenmeise_h1",
@@ -59,7 +59,7 @@ const bienenfresser: QuestionBase = {
     imageUrl: require("./bienenfresser.webp"),
   },
   funFact:
-    "...er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
+    "er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
   autoFreeHints: [
     {
       id: "bienenfresser_h1",
@@ -109,7 +109,7 @@ const eichelhaeher: QuestionBase = {
     imageUrl: require("./eichelhaeher.webp"),
   },
   funFact:
-    "...dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
+    "dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
   autoFreeHints: [
     {
       id: "eichelhaeher_h1",
@@ -159,7 +159,7 @@ const raubwuerger: QuestionBase = {
     imageUrl: require("./raubwuerger.webp"),
   },
   funFact:
-    "...dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
+    "dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
   autoFreeHints: [
     {
       id: "raubwuerger_h1",
@@ -210,7 +210,7 @@ const gruenspecht: QuestionBase = {
   },
   alternativeAnswers: ["Grasspecht", "Erdspecht"],
   funFact:
-    "...sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
+    "sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
   autoFreeHints: [
     {
       id: "gruenspecht_h1",
@@ -260,7 +260,7 @@ const wespenbussard: QuestionBase = {
     imageUrl: require("./wespenbussard.webp"),
   },
   funFact:
-    "...er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
+    "er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
   autoFreeHints: [
     {
       id: "wespenbussard_h1",
@@ -310,7 +310,7 @@ const rotkopfwuerger: QuestionBase = {
     imageUrl: require("./rotkopfwuerger.webp"),
   },
   funFact:
-    "...dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
+    "dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
   autoFreeHints: [
     {
       id: "rotkopfwuerger_h1",
@@ -360,7 +360,7 @@ const star: QuestionBase = {
     imageUrl: require("./star.webp"),
   },
   funFact:
-    "...sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
+    "sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
   autoFreeHints: [
     {
       id: "star_h1",

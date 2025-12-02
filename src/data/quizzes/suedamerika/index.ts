@@ -9,7 +9,7 @@ const alpaka: QuestionBase = {
     unsolvedImageUrl: require("./alpaka_unsolved.webp"),
   },
   funFact:
-    "...dieses domestizierte Tier hauptsächlich wegen seiner extrem weichen, \"hypoallergenen Wolle\" gezüchtet wurde und nicht primär als Lasttier?",
+    "dieses domestizierte Tier hauptsächlich wegen seiner extrem weichen, \"hypoallergenen Wolle\" gezüchtet wurde und nicht primär als Lasttier?",
   autoFreeHints: [
     {
       id: "alpaka_h1",
@@ -61,7 +61,7 @@ const piranha: QuestionBase = {
     unsolvedImageUrl: require("./piranha_unsolved.webp"),
   },
   funFact:
-    "...trotz ihres furchteinflößenden Rufs viele Piranha-Arten Allesfresser oder reine Pflanzenfresser sind und ihr schlechter Ruf oft auf übertriebenen Geschichten basiert?",
+    "trotz ihres furchteinflößenden Rufs viele Piranha-Arten Allesfresser oder reine Pflanzenfresser sind und ihr schlechter Ruf oft auf übertriebenen Geschichten basiert?",
   autoFreeHints: [
     {
       id: "piranha_h1",
@@ -112,7 +112,7 @@ const jaguar: QuestionBase = {
     unsolvedImageUrl: require("./jaguar_unsolved.webp"),
   },
   funFact:
-    "...sein Name von einem indigenen Wort kommt, das \"der, der im Fliegen tötet\" bedeutet, und er das stärkste Gebiss aller Großkatzen hat, mit dem er sogar Schildkrötenpanzer knacken kann?",
+    "sein Name von einem indigenen Wort kommt, das \"der, der im Fliegen tötet\" bedeutet, und er das stärkste Gebiss aller Großkatzen hat, mit dem er sogar Schildkrötenpanzer knacken kann?",
   autoFreeHints: [
     {
       id: "jaguar_h1",
@@ -164,7 +164,7 @@ const lama: QuestionBase = {
     unsolvedImageUrl: require("./lama.webp"),
   },
   funFact:
-    "...das Lama in den Anden domestiziert wurde und seit Jahrtausenden als wichtiges Lasttier für die Inka und ihre Nachfahren dient?",
+    "das Lama in den Anden domestiziert wurde und seit Jahrtausenden als wichtiges Lasttier für die Inka und ihre Nachfahren dient?",
   autoFreeHints: [
     {
       id: "lama_h1",
@@ -215,7 +215,7 @@ const capybara: QuestionBase = {
   },
   alternativeAnswers: ["Wasserschwein"],
   funFact:
-    "...das Capybara das größte Nagetier der Welt ist und sein Name in der Tupi-Sprache der Ureinwohner \"Herr der Gräser\" bedeutet?",
+    "das Capybara das größte Nagetier der Welt ist und sein Name in der Tupi-Sprache der Ureinwohner \"Herr der Gräser\" bedeutet?",
   autoFreeHints: [
     {
       id: "capybara_h1",
@@ -266,7 +266,7 @@ const kondor: QuestionBase = {
   },
   alternativeAnswers: ["Andenkondor", "Kondor"],
   funFact:
-    "...der Kondor mit über 3 Metern die größte Flügelspannweite aller Landvögel der Welt hat und die Thermik nutzt, um in großen Höhen zu gleiten?",
+    "der Kondor mit über 3 Metern die größte Flügelspannweite aller Landvögel der Welt hat und die Thermik nutzt, um in großen Höhen zu gleiten?",
   autoFreeHints: [
     {
       id: "kondor_h1",
@@ -317,7 +317,7 @@ const nandu: QuestionBase = {
   },
   alternativeAnswers: ["Großer Nandu"],
   funFact:
-    "...obwohl der Nandu flugunfähig ist, er die größten Flügel aller Laufvögel besitzt, die er zur Balance und als Ruder beim schnellen Laufen (bis zu 60 km/h) nutzt?",
+    "obwohl der Nandu flugunfähig ist, er die größten Flügel aller Laufvögel besitzt, die er zur Balance und als Ruder beim schnellen Laufen (bis zu 60 km/h) nutzt?",
   autoFreeHints: [
     {
       id: "nandu_h1",
@@ -367,7 +367,7 @@ const schopfkarakara: QuestionBase = {
     imageUrl: require("./schopfkarakara.webp"),
   },
   funFact:
-    "...der Schopfkarakara mehr Zeit zu Fuß am Boden verbringt als andere Greifvögel, manchmal als \"wandernder Falke\" bezeichnet wird und sowohl Aasfresser als auch aktiver Jäger ist?",
+    "der Schopfkarakara mehr Zeit zu Fuß am Boden verbringt als andere Greifvögel, manchmal als \"wandernder Falke\" bezeichnet wird und sowohl Aasfresser als auch aktiver Jäger ist?",
   autoFreeHints: [
     {
       id: "sk_h1",

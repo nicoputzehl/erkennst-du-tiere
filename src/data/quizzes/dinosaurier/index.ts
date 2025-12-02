@@ -7,7 +7,7 @@ const triceratops: QuestionBase = {
   images: {
     imageUrl: require("./triceratops.webp"),
   },
-  funFact: "...der Schädel eines ausgewachsenen Triceratops einer der größten aller Landtiere ist, die jemals gelebt haben, und bis zu 2,5 Meter lang werden konnte?",
+  funFact: "der Schädel eines ausgewachsenen Triceratops einer der größten aller Landtiere ist, die jemals gelebt haben, und bis zu 2,5 Meter lang werden konnte?",
   autoFreeHints: [
     {
       id: "triceratops_h1",
@@ -91,7 +91,7 @@ const brachiosaurus: QuestionBase = {
     imageUrl: require("./brachiosaurus.webp"),
   },
   alternativeAnswers: ["Armechse"],
-  funFact: "...der Brachiosaurus aufgrund seines langen Halses und der Distanz zum Gehirn ein riesiges Herz (geschätzt bis zu 400 kg) besitzen musste, um das Blut zum Kopf pumpen zu können?",
+  funFact: "der Brachiosaurus aufgrund seines langen Halses und der Distanz zum Gehirn ein riesiges Herz (geschätzt bis zu 400 kg) besitzen musste, um das Blut zum Kopf pumpen zu können?",
   autoFreeHints: [
     {
       id: "brachiosaurus_h1",
@@ -175,7 +175,7 @@ const stegosaurus: QuestionBase = {
     imageUrl: require("./stegosaurus.webp"),
   },
   alternativeAnswers: ["Plattenechse"],
-  funFact: "...der Stegosaurus trotz seiner enormen Größe (bis zu 9 Meter lang) eines der kleinsten Gehirne aller Dinosaurier besaß – nicht größer als eine Walnuss?",
+  funFact: "der Stegosaurus trotz seiner enormen Größe (bis zu 9 Meter lang) eines der kleinsten Gehirne aller Dinosaurier besaß – nicht größer als eine Walnuss?",
   autoFreeHints: [
     {
       id: "stegosaurus_h1",
@@ -259,7 +259,7 @@ const velociraptor: QuestionBase = {
     imageUrl: require("./velociraptor.webp"),
   },
   alternativeAnswers: ["Dachechse", "Raptor"],
-  funFact: "...der Velociraptor entgegen der Darstellung in Filmen tatsächlich nur etwa so groß wie ein Truthahn war und sein Körper mit Federn bedeckt war?",
+  funFact: "der Velociraptor entgegen der Darstellung in Filmen tatsächlich nur etwa so groß wie ein Truthahn war und sein Körper mit Federn bedeckt war?",
   autoFreeHints: [
     {
       id: "velociraptor_h1",
@@ -343,7 +343,7 @@ const tyrannosaurus: QuestionBase = {
     imageUrl: require("./tyrannosaurus.webp"),
   },
   alternativeAnswers: ["T-Rex", "Tyrannosaurus Rex"],
-  funFact: "...der T-Rex den stärksten Biss aller Landtiere hatte, der so kräftig war, dass er die Knochen seiner Beute zertrümmern konnte?",
+  funFact: "der T-Rex den stärksten Biss aller Landtiere hatte, der so kräftig war, dass er die Knochen seiner Beute zertrümmern konnte?",
   autoFreeHints: [
     {
       id: "tyrannosaurus_h1",
@@ -427,7 +427,7 @@ const parasaurolophus: QuestionBase = {
     imageUrl: require("./parasaurolophus.webp"),
   },
   alternativeAnswers: ["Entenschnabel-Dinosaurier"],
-  funFact: "...sein langer, röhrenförmiger Knochenkamm auf dem Kopf wahrscheinlich als Resonanzkörper diente, um laute, tiefe Töne zur Kommunikation zu erzeugen?",
+  funFact: "sein langer, röhrenförmiger Knochenkamm auf dem Kopf wahrscheinlich als Resonanzkörper diente, um laute, tiefe Töne zur Kommunikation zu erzeugen?",
   autoFreeHints: [
     {
       id: "parasaurolophus_h1",
@@ -511,7 +511,7 @@ const pteosaurus: QuestionBase = {
     imageUrl: require("./pteranodon.webp"),
   },
   alternativeAnswers: ["Flugsaurier", "Pterodactylus"],
-  funFact: "...Pterosaurier, obwohl sie oft als \"Flugsaurier\" bezeichnet werden, \"keine\" Dinosaurier waren, sondern zu einer eigenen Gruppe fliegender Reptilien gehörten?",
+  funFact: "Pterosaurier, obwohl sie oft als \"Flugsaurier\" bezeichnet werden, \"keine\" Dinosaurier waren, sondern zu einer eigenen Gruppe fliegender Reptilien gehörten?",
   autoFreeHints: [
     {
       id: "pteranodon_h1",
@@ -595,7 +595,7 @@ const ichthyosaurus: QuestionBase = {
     imageUrl: require("./ichthyosaurus.webp"),
   },
   alternativeAnswers: ["Fisch-Echse"],
-  funFact: "...diese im Wasser lebenden Reptilien zum Atmen an die Oberfläche kommen mussten und man annimmt, dass sie ihre Jungen lebend zur Welt brachten?",
+  funFact: "diese im Wasser lebenden Reptilien zum Atmen an die Oberfläche kommen mussten und man annimmt, dass sie ihre Jungen lebend zur Welt brachten?",
   autoFreeHints: [
     {
       id: "ichthyosaurus_h1",

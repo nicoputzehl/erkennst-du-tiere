@@ -9,7 +9,7 @@ const drache: QuestionBase = {
     imageUrl: require("./drache.webp"),
   },
   funFact:
-    "...der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
+    "der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
   autoFreeHints: [
     {
       id: "drache_h1",
@@ -60,7 +60,7 @@ const basilisk: QuestionBase = {
     imageUrl: require("./basilisk.webp"),
   },
   funFact:
-    "...der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
+    "der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
   autoFreeHints: [
     {
       id: "basilisk_h1",
@@ -111,7 +111,7 @@ const mantikor: QuestionBase = {
   },
   alternativeAnswers: ["Manticor", "Manticore", "Manticora", "Marticora"],
   funFact:
-    "...sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
+    "sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
   autoFreeHints: [
     {
       id: "mantikor_h1",
@@ -162,7 +162,7 @@ const hippokamp: QuestionBase = {
   },
   alternativeAnswers: ["Seepferd", "Hippocamp"],
   funFact:
-    "...der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
+    "der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
   autoFreeHints: [
     {
       id: "hippokamp_h1",
@@ -214,7 +214,7 @@ const pegasos: QuestionBase = {
   alternativeAnswers: ["Pegasus"],
   wikipediaName: "Pegasos_(Mythologie)",
   funFact:
-    "...Pegasos das Kind des Meeresgottes Poseidon und der Gorgone Medusa war und ihrem Nacken entsprang, als Perseus sie enthauptete?",
+    "Pegasos das Kind des Meeresgottes Poseidon und der Gorgone Medusa war und ihrem Nacken entsprang, als Perseus sie enthauptete?",
   autoFreeHints: [
     {
       id: "pegasos_h1",
@@ -265,7 +265,7 @@ const einhorn: QuestionBase = {
   },
   alternativeAnswers: ["Unicorn"],
   funFact:
-    "...das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
+    "das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
   autoFreeHints: [
     {
       id: "einhorn_h1",
@@ -317,7 +317,7 @@ const phoenex: QuestionBase = {
   },
   alternativeAnswers: ["Phoenix"],
   funFact:
-    "...der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
+    "der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
   autoFreeHints: [
     {
       id: "phoenex_h1",
@@ -367,7 +367,7 @@ const greif: QuestionBase = {
     imageUrl: require("./greif.webp"),
   },
   funFact:
-    "...der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
+    "der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
   autoFreeHints: [
     {
       id: "greif_h1",
