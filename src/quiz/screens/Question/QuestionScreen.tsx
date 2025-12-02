@@ -93,7 +93,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 			if (navigateToNextQuestion && isSolved) {
 				navigateToNextQuestion();
 			}
-		}} onSwipeUp={handleBack}>
+		}} >
 			<ThemedView
 				gradientType="primary" style={{ flex: 1 }}>
 				<Header
