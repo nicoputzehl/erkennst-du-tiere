@@ -18,6 +18,7 @@ export function SettingsScreen() {
 	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } = useQuiz();
 	const { showSuccess, showError } = useUI();
 	const statistics = useQuizStatistics();
+	const [counter, setCounter] = useState(0);
 
 	const [resettingQuiz, setResettingQuiz] = useState<string | null>(null);
 	const [resettingAll, setResettingAll] = useState(false);
@@ -37,6 +38,11 @@ export function SettingsScreen() {
 			setResettingQuiz(null);
 		}
 	};
+
+	const testSuccessToast = () => {
+		setCounter((prev) => prev + 1);
+		showSuccess(`Dies ist ein Erfolgstoast! (${counter + 1})`);
+	}
 
 	const handleSolveQuiz = async (quizId: string, quizTitle: string) => {
 		setResettingQuiz(quizId);
@@ -88,6 +94,17 @@ export function SettingsScreen() {
 				/>
 
 				<ScrollView style={styles.scrollView}>
+
+					<TouchableOpacity
+						style={[
+							styles.resetAllButton,
+						]}
+						onPress={testSuccessToast}
+					>
+						<ThemedText style={styles.resetAllButtonText}>
+							Test
+						</ThemedText>
+					</TouchableOpacity>
 					{/* Statistics Section */}
 					<View style={styles.section}>
 						<ThemedText style={styles.sectionTitle}>Statistiken</ThemedText>

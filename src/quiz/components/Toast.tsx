@@ -9,25 +9,40 @@ export interface ToastProps {
 	type?: "success" | "info" | "warning" | "error";
 	duration?: number;
 	onHide: () => void;
+	onFinishRemove?: () => void;
 	position?: "top" | "bottom";
+	index?: number;
 }
 
 export const Toast: React.FC<ToastProps> = ({
 	visible,
 	message,
 	type = "info",
-	duration = 3000,
+	duration = 30000,
 	onHide,
+	onFinishRemove,
 	position = "top",
+	index = 0,
 }) => {
 	const fadeAnim = useRef(new Animated.Value(0)).current;
-	const slideAnim = useRef(new Animated.Value(-100)).current;
+	const slideAnim = useRef(new Animated.Value(0)).current;
+	const indexAnim = useRef(new Animated.Value(index)).current;
+
 	const hideTimeoutRef = useRef<number | undefined>(undefined);
+
+
 
 	const hideToast = useCallback(() => {
 		console.log("[Toast] Hiding toast");
 		onHide();
 	}, [onHide]);
+
+	useEffect(() => {
+		Animated.spring(indexAnim, {
+			toValue: index,
+			useNativeDriver: true,
+		}).start();
+	}, [index, indexAnim]);
 
 	useEffect(() => {
 		if (hideTimeoutRef.current) {
@@ -60,28 +75,28 @@ export const Toast: React.FC<ToastProps> = ({
 			Animated.parallel([
 				Animated.timing(fadeAnim, {
 					toValue: 0,
-					duration: 300,
+					duration: 250,
 					useNativeDriver: true,
 				}),
 				Animated.timing(slideAnim, {
-					toValue: position === "top" ? -100 : 100,
-					duration: 300,
+					toValue: -40,
+					duration: 250,
 					useNativeDriver: true,
 				}),
-			]).start();
+			]).start(() => {
+				onFinishRemove?.();
+			});
 		}
 
-		// Cleanup timeout on unmount
+
 		return () => {
 			if (hideTimeoutRef.current) {
 				clearTimeout(hideTimeoutRef.current);
 			}
 		};
-	}, [visible, message, duration, position, fadeAnim, slideAnim, hideToast]); // Alle Dependencies
+	}, [visible, message, duration, position, fadeAnim, slideAnim, hideToast, onFinishRemove]);
 
-	if (!visible) {
-		return null;
-	}
+
 
 	const getBackgroundColor = () => {
 		switch (type) {
@@ -103,7 +118,13 @@ export const Toast: React.FC<ToastProps> = ({
 				position === "top" ? styles.topPosition : styles.bottomPosition,
 				{
 					opacity: fadeAnim,
-					transform: [{ translateY: slideAnim }],
+					// Warunm 60?
+					// Toast-Höhe  +  Margin
+					// ≈ 48–56 px   +  4–8 px
+					transform: [
+						{ translateY: Animated.multiply(indexAnim, 60) },
+						{ translateY: slideAnim },
+					],
 					backgroundColor: getBackgroundColor(),
 				},
 			]}
@@ -117,7 +138,7 @@ export const Toast: React.FC<ToastProps> = ({
 
 const styles = StyleSheet.create({
 	toastContainer: {
-		position: "absolute",
+		position: "relative",
 		left: 16,
 		right: 16,
 		borderRadius: 8,
@@ -127,6 +148,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
 		zIndex: 9999,
+		marginTop: -8,
 	},
 	topPosition: {
 		top: 50,

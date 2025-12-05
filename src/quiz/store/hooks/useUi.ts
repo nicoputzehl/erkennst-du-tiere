@@ -14,7 +14,8 @@ export function useUI() {
 	const showToast = useQuizStore((state) => state.showToast);
 	const hideToast = useQuizStore((state) => state.hideToast);
 	const addPendingUnlock = useQuizStore((state) => state.addPendingUnlock);
-
+	const removeToast = useQuizStore((state) => state.removeToast);
+	const markToastHidden = useQuizStore((state) => state.markToastHidden);
 	// Convenience methods
 	const showSuccess = useMemo(
 		() => (message: string, duration?: number) =>
@@ -79,11 +80,12 @@ export function useUI() {
 		isLoading,
 		navigationHistory,
 		pendingUnlocks,
-
 		// Actions
 		setLoading,
 		showToast,
 		hideToast,
+		removeToast,
+		markToastHidden,
 		showSuccess,
 		showError,
 		showInfo,

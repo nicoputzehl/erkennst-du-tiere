@@ -139,7 +139,7 @@ solveAllQuizQuestions(quizId: string) {
     checkForUnlocks();
 
     if (showToast) {
-      showToast(`🎉 Quiz "${newState.title}" vollständig gelöst!`, "success", 4000);
+      showToast(`🎉 Quiz "${newState.title}" vollständig gelöst!`, "success");
     }
   }
 },
@@ -212,7 +212,7 @@ solveAllQuizQuestions(quizId: string) {
     // Check completion
     const completed = QuizUtils.isCompleted(result.newState);
     if (completed) {
-      showToast(`🎉 Du hast das Quiz "${result.newState.title}" durchgespielt!`, "success", 4000);
+      showToast(`🎉 Du hast das Quiz "${result.newState.title}" durchgespielt!`, "success");
     }
 
     // Check for unlocks (integrated unlock logic)
@@ -243,7 +243,7 @@ solveAllQuizQuestions(quizId: string) {
             addPendingUnlock(quiz.id, quiz.title);
 
             setTimeout(() => {
-              showToast(`🎉 "${quiz.title}" unlocked!`, "success", 4000);
+              showToast(`🎉 "${quiz.title}" unlocked!`, "success");
             }, 300);
           }
         }
