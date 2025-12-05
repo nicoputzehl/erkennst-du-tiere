@@ -36,7 +36,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 
 	const continueButtonText = useMemo(() => {
 		if (nextQuestionId) {
-			return "Weiter";
+			return "Nächstes Tier";
 		}
 		return "Zur Quizübersicht";
 	}, [nextQuestionId]);

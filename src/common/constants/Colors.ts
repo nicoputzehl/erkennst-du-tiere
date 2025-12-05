@@ -27,7 +27,7 @@ const lightGreen = "#4CAF50"; // Light theme correct/buttonSuccess
 const darkThemeSuccessGreen = "#81C784"; // Dark theme specific success/correct green
 
 // Blues
-const primaryBlue = "#0a7ea4"; // Light theme primary/tint
+const primaryBlue = "#7A9EE8"; // Light theme primary/tint
 const infoBlue = "#2196F3"; // Light theme info
 const successBlue = "#5c7fbb"; // Light theme success
 const darkThemePrimaryBlue = "#64B5F6"; // Dark theme primary/tint/info/borderActive
@@ -81,7 +81,7 @@ export const Colors = {
     // Blues
     tint: tintColorLight,
     primary: primaryBlue,
-    buttonPrimary: primaryBlue,
+    buttonPrimary: dawnOrange,
     tabIconSelected: tintColorLight,
     success: successBlue,
     info: infoBlue,

@@ -139,21 +139,21 @@ export const getNextQuestionId = (
 	state?: QuizState,
 	currentQuestionId?: number,
 ): number | null => {
-	if(!state) return null;
-	const sorted = sortQuestionsByIds(state.questions);
+	if (!state) return null;
+	const { questions } = state;
 
-	if (sorted.length === 0) return null;
+	if (questions.length === 0) return null;
 
 
 	if (currentQuestionId === undefined) {
-		return sorted[0].id;
+		return questions[0].id;
 	}
 
-	const currentIndex = sorted.findIndex((q) => q.id === currentQuestionId);
+	const currentIndex = questions.findIndex((q) => q.id === currentQuestionId);
 
 	if (currentIndex === -1) return null;
 
-	if (currentIndex >= sorted.length - 1) return null;
+	if (currentIndex >= questions.length - 1) return null;
 
-	return sorted[currentIndex + 1].id;
+	return questions[currentIndex + 1].id;
 };

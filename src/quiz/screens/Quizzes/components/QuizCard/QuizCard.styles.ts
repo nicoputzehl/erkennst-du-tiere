@@ -49,7 +49,8 @@ export const styles = StyleSheet.create({
 		...CommonStyles.centered,
 	},
 	description: {
-		fontSize: FontSizes.xs,
+		marginTop: 4,
+		fontSize: FontSizes.sm,
 		color: "#6c757d",
 		lineHeight: FontSizes.md,
 	},

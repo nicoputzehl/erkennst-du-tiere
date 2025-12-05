@@ -42,11 +42,11 @@ export default Button;
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: "#00ffbfac",
+		borderColor: Colors.light.border,
+		borderWidth: 1,
 		paddingVertical: 14,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		// width: "70%",
 		alignItems: "center",
 		justifyContent: "center",
 		minHeight: 50,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#ccc",
 	},
 	buttonText: {
-		color: "#fff",
+		color: "#000",
 		fontWeight: "700",
 		fontSize: 16,
 		letterSpacing: 0.5,

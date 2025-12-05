@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		textAlign: "center",
 		fontWeight: "500",
+		letterSpacing: 2,
 	},
 	inputDisabled: {
 		opacity: 0.7,

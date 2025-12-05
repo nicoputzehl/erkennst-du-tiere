@@ -30,7 +30,7 @@ export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> =
 			<Animated.View
 				style={[
 					styles.imageContainer,
-					{ height: imageSize, width: imageSize }, // Breite und Höhe auf imageSize setzen für 1:1 Ratio
+					{ height: imageSize, width: imageSize },
 				]}
 			>
 				{isLoading && (
@@ -78,13 +78,12 @@ const styles = StyleSheet.create({
 	
 	},
 	childContainer: {
-		// flex: 1,
 		position: "absolute",
 		bottom: 0,
 		width: "100%",
-// backgroundColor: "white",
 		padding: 8,
 		justifyContent: "flex-end",
+		height: "100%",
 	},
 	image: {
 		height: "100%",

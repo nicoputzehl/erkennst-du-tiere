@@ -28,15 +28,15 @@ export const HintsAvailable: React.FC<HintsAvailableProps> = ({
 	const handlePurchaseHint = useCallback(
 		async (hintId: string, cost = 0) => {
 			return Alert.alert(
-				"Möchtest du den Hinweis",
-				`Der Hinweis kostet ${cost} Punkte. Du hast aktuell ${pointsBalance} Punkte.`,
+				"Hinweis freischalten?",
+				`Der Hinweis benötigt ${cost} Punkt${cost !== 1 ? "e" : ""}. Du hast aktuell ${pointsBalance} Punkte.`,
 				[
 					{
-						text: "Nein",
+						text: "Abbrechen",
 						style: "cancel",
 					},
 					{
-						text: "Ja",
+						text: "Freischalten",
 						onPress: async () => {
 							const result = await applyHint(hintId);
 							if (result.success && result.hintContent) {

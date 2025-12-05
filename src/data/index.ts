@@ -10,7 +10,7 @@ export const newAnmilQuizConfig = [
   }),
   QuizUtils.createQuizConfig(vogelIllustrationenQuiz, {
     initiallyLocked: true,
-    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("emojis", 'Schließe "Emojis" ab, um Heimirsche Vögel freizuschalten.')
+    unlockCondition: QuizUtils.createPlaythroughUnlockCondition("emojis", 'Schließe "Emojis" ab, um Vögel freizuschalten.')
   }),
   QuizUtils.createQuizConfig(australienQuiz, {
     initiallyLocked: true,

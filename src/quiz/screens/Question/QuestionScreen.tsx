@@ -15,6 +15,7 @@ import { HintPatch } from "./components/HintPatch";
 import { QuestionImage } from "./components/QuestionImage";
 import Button from "@/src/common/components/Button";
 import { GestureHandler } from "@/src/common/components/GestureHandler";
+import { DelayedLottie } from "./components/DelayedLottie";
 
 export interface QuestionScreenProps {
 	quizId: string | null;
@@ -59,7 +60,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 		if (hasVisibleHints) {
 			actions.push({
 				key: "hints",
-				icon: <FontAwesome6 name="lightbulb" size={24} color="gold" />,
+				icon: <FontAwesome6 name="lightbulb" size={24} color="white" />,
 				onPress: navigateToHintsModal,
 				accessibilityHint: "Öffnet die Seite mit den Hinweisen",
 			});
@@ -93,7 +94,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 			if (navigateToNextQuestion && isSolved) {
 				navigateToNextQuestion();
 			}
-		}} onSwipeUp={handleBack}>
+		}} >
 			<ThemedView
 				gradientType="primary" style={{ flex: 1 }}>
 				<Header
@@ -114,24 +115,27 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 						</View>
 					}
 				/>
-				{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
+
 				<KeyboardAvoidingView
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={{ flex: 1 }}
 				>
-					<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 					<View style={{ flex: 1, justifyContent: "space-between" }}>
 						<View style={styles.imageWrapper}>
 							<QuestionImage
 								question={question}
 							>
+								{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
+								<DelayedLottie shouldPlay={statusChanged} delay={500} />
 								{!isSolved && <HintPatch hints={visibleHints} />}
 							</QuestionImage>
 
 						</View>
+						<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
+
 						{isSolved ? (
 							<View style={styles.resultContainer}>
-								<Solved question={question} justSolved={statusChanged} />
+								<Solved question={question} />
 								<Button {...continueButtonProps} />
 							</View>
 						) :

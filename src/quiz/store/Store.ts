@@ -114,7 +114,7 @@ export const useQuizStore = create<QuizStore>()(
 						console.error("[QuizStore] Hydration failed", error);
 						useQuizStore
 							.getState()
-							.showToast("Fehler beim Laden der Daten!", "error", 5000);
+							.showToast("Fehler beim Laden der Daten!", "error");
 					} else {
 						console.log(
 							"[QuizStore] Hydration successful. Now performing post-hydration tasks.",

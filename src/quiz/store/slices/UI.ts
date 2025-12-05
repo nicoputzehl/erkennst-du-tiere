@@ -1,25 +1,29 @@
 import type { StateCreator } from "zustand";
 import type { QuizStore } from "../Store";
 
-interface ToastState {
+export type ToastType = "success" | "error" | "info" | "warning";
+
+export interface ToastState {
+	id: number;
 	visible: boolean;
 	message: string;
-	type: "success" | "error" | "info" | "warning";
-	duration?: number;
+	type: ToastType;
 }
 
 export interface UISlice {
 	currentQuizId: string | null;
 	isLoading: boolean;
 	loadingOperations: Set<string>;
-	toast: ToastState | null;
-	navigationHistory: string[]; // PERSISTED
+	toast: ToastState[] | null;
+	toastIdCounter: number;
+	navigationHistory: string[];
 	setLoading: (operation: string, loading: boolean) => void;
 	showToast: (
 		message: string,
 		type?: ToastState["type"],
-		duration?: number,
 	) => void;
+	removeToast: (id: number) => void;
+	markToastHidden: (id: number) => void;
 	hideToast: () => void;
 	setCurrentQuiz: (quizId: string | null) => void;
 }
@@ -27,12 +31,12 @@ export interface UISlice {
 export const createUISlice: StateCreator<QuizStore, [], [], UISlice> = (
 	set,
 	get,
-	store,
 ) => ({
 	currentQuizId: null,
 	isLoading: false,
 	loadingOperations: new Set(),
-	toast: null,
+	toast: [],
+	toastIdCounter: 0,
 	navigationHistory: [],
 	setLoading: (operation: string, loading: boolean) => {
 		set((state) => {
@@ -48,24 +52,49 @@ export const createUISlice: StateCreator<QuizStore, [], [], UISlice> = (
 			};
 		});
 	},
-	showToast: (message: string, type = "info" as const, duration = 3000) => {
-		console.log(`[UISlice] Showing ${type} toast: ${message}`);
-		set({ toast: { visible: true, message, type, duration } });
-		setTimeout(() => {
-			get().hideToast();
-		}, duration);
+	showToast: (message: string, type = "info" as const) => {
+		const { toastIdCounter } = get();
+		const newId = toastIdCounter + 1;
+
+		const newToast: ToastState = {
+			id: newId,
+			message,
+			type,
+			visible: true,
+		};
+
+		console.log(`[UISlice] Showing ${type} toast with ID ${newId}: ${message}`);
+
+		set((state) => ({
+			toast: [...(state.toast || []), newToast],
+			toastIdCounter: newId,
+		}));
 	},
 	hideToast: () => {
 		set({ toast: null });
+	},
+	markToastHidden: (id: number) => {
+		set((state) => ({
+			toast: (state.toast || []).map((toastItem) =>
+				toastItem.id === id ? { ...toastItem, visible: false } : toastItem,
+			),
+		}));
+		console.log(`[UISlice] Marking toast with ID ${id} as hidden`);
+	},
+	removeToast: (id: number) => {
+		set((state) => ({
+			toast: (state.toast || []).filter((toastItem) => toastItem.id !== id),
+		}));
+		console.log(`[UISlice] Hiding toast with ID ${id}`);
 	},
 	setCurrentQuiz: (quizId: string | null) => {
 		set((state) => ({
 			currentQuizId: quizId,
 			navigationHistory: quizId
 				? [
-						quizId,
-						...state.navigationHistory.filter((id) => id !== quizId),
-					].slice(0, 10)
+					quizId,
+					...state.navigationHistory.filter((id) => id !== quizId),
+				].slice(0, 10)
 				: state.navigationHistory,
 		}));
 	},
