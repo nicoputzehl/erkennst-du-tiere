@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { Animated, View, Text, type LayoutChangeEvent } from "react-native";
+import { Animated, View, type LayoutChangeEvent, TouchableOpacity } from "react-native";
 import type { ToastState } from "../store/slices/UI";
+import { getBackgroundColor } from "./getBackgroundColor";
+import { ThemedText } from "@/src/common/components/ThemedText";
 
 type AnimatedToastProps = {
   toast: ToastState;
@@ -21,7 +23,6 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
     height.current = e.nativeEvent.layout.height;
   };
 
-  // ENTER
   useEffect(() => {
     Animated.parallel([
       Animated.timing(opacity, {
@@ -37,9 +38,7 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
     ]).start();
   }, [opacity, translateY]);
 
-  // Start auto-hide timer -> markHidden (NOT remove)
   useEffect(() => {
-    // clear previous just to be safe
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
@@ -54,7 +53,6 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
     };
   }, [duration, markHidden, toast.id]);
 
-  // React to visible flag: when visible -> nothing, when visible becomes false -> exit animation then onRemove
   useEffect(() => {
     if (toast.visible === false) {
       console.log(`[AnimatedToast] visible=false -> animate exit id=${toast.id}`);
@@ -67,7 +65,9 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toast.visible]); // only care when visible changes
+  }, [toast.visible]);
+
+  const backgroundColor = getBackgroundColor(toast.type);
 
   return (
     <Animated.View
@@ -75,19 +75,21 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
       style={{
         opacity,
         transform: [{ translateY }],
-        marginBottom: 8, // <— das eigentliche Stacking!
+        marginBottom: 8,
       }}
     >
-      <View
-        style={{
-          backgroundColor: toast.type === "error" ? "#ff4d4d" : "#333",
-          padding: 18,
-          borderRadius: 12,
-          marginHorizontal: 20,
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 16 }}>{toast.message}</Text>
-      </View>
+      <TouchableOpacity onPress={markHidden}>
+        <View
+          style={{
+            backgroundColor,
+            padding: 18,
+            borderRadius: 12,
+            marginHorizontal: 20,
+          }}
+        >
+          <ThemedText style={{ color: "white", fontSize: 16, lineHeight: 24 }}>{toast.message}</ThemedText>
+        </View>
+      </TouchableOpacity>
     </Animated.View>
   );
 }

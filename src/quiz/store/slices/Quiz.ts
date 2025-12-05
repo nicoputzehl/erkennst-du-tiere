@@ -15,15 +15,12 @@ export interface AnswerResult {
 
 
 export interface QuizSlice {
-  // === DATEN ===
   quizzes: Record<string, Quiz>;
   quizConfigs: Record<string, QuizConfig>;
   isQuizDataLoaded: boolean;
 
-  // === ZUSTÄNDE ===
   quizStates: Record<string, QuizState>;
 
-  // === UNLOCK-STATE ===
   pendingUnlocks: {
     quizId: string;
     quizTitle: string;
@@ -31,11 +28,9 @@ export interface QuizSlice {
     shown: boolean;
   }[];
 
-  // === DATA ACTIONS ===
   registerQuiz: (config: QuizConfig) => void;
   setQuizDataLoaded: (loaded: boolean) => void;
 
-  // === STATE ACTIONS ===
   initializeQuizState: (quizId: string) => QuizState | null;
   updateQuizState: (quizId: string, newState: QuizState) => void;
   resetQuizState: (quizId: string) => QuizState | null;
@@ -43,28 +38,24 @@ export interface QuizSlice {
   answerQuestion: (quizId: string, questionId: number, answer: string) => Promise<AnswerResult>;
   solveAllQuizQuestions: (quizId: string) => void;
 
-  // === UNLOCK ACTIONS ===
   checkForUnlocks: () => Quiz[];
   isQuizUnlocked: (quizId: string) => boolean;
   getUnlockProgress: (quizId: string) => { condition: UnlockCondition | null; progress: number; isMet: boolean };
   detectMissedUnlocks: () => void;
   addPendingUnlock: (quizId: string, quizTitle: string) => void;
 
-  // === PROGRESS GETTERS ===
   getQuizProgress: (quizId: string) => number;
   getQuizProgressString: (quizId: string) => string | null;
   getNextActiveQuestion: (quizId: string, currentQuestionId?: number) => number | null;
 }
 
 export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set, get) => ({
-  // === STATE ===
   quizzes: {},
   quizConfigs: {},
   isQuizDataLoaded: false,
   quizStates: {},
   pendingUnlocks: [],
 
-  // === DATA ACTIONS ===
   registerQuiz: (config: QuizConfig) => {
     console.log(`[QuizSlice] Registering quiz: ${config.id}`);
     const quiz: Quiz = {
@@ -85,7 +76,6 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
     set({ isQuizDataLoaded: loaded });
   },
 
-  // === STATE ACTIONS ===
   initializeQuizState: (quizId: string) => {
     const { quizStates, quizzes, quizConfigs } = get();
     if (quizStates[quizId]) {
@@ -113,36 +103,36 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
     }));
   },
 
-solveAllQuizQuestions(quizId: string) {
-  const { quizStates, updateQuizState, checkForUnlocks, showToast } = get();
-  const state = quizStates[quizId];
-  if (!state?.questions?.length) return;
+  solveAllQuizQuestions(quizId: string) {
+    const { quizStates, updateQuizState, checkForUnlocks, showToast } = get();
+    const state = quizStates[quizId];
+    if (!state?.questions?.length) return;
 
 
-  const updatedQuestions = state.questions.map((question) => ({
-    ...question,
-    isCorrect: true,
-    status: QuestionStatus.SOLVED,
-    unlocked: true,
-  }));
+    const updatedQuestions = state.questions.map((question) => ({
+      ...question,
+      isCorrect: true,
+      status: QuestionStatus.SOLVED,
+      unlocked: true,
+    }));
 
-  const newState: QuizState = {
-    ...state,
-    questions: updatedQuestions,
-    completedQuestions: updatedQuestions.length,
-  };
+    const newState: QuizState = {
+      ...state,
+      questions: updatedQuestions,
+      completedQuestions: updatedQuestions.length,
+    };
 
-  updateQuizState(quizId, newState);
+    updateQuizState(quizId, newState);
 
 
-  if (updatedQuestions.length > 0 && newState.completedQuestions === updatedQuestions.length) {
-    checkForUnlocks();
+    if (updatedQuestions.length > 0 && newState.completedQuestions === updatedQuestions.length) {
+      checkForUnlocks();
 
-    if (showToast) {
-      showToast(`🎉 Quiz "${newState.title}" vollständig gelöst!`, "success");
+      if (showToast) {
+        showToast(`Glückwunsch 🎉\nDu hast das Quiz "${newState.title}" durchgespielt!`, "success");
+      }
     }
-  }
-},
+  },
 
 
   resetQuizState: (quizId: string) => {
@@ -198,10 +188,8 @@ solveAllQuizQuestions(quizId: string) {
       return { isCorrect: false, unlockedQuizzes: [], completedQuiz: false };
     }
 
-    // Update state
     updateQuizState(quizId, result.newState);
 
-    // Award points (using HintSlice)
     const question = result.newState.questions.find((q) => q.id === questionId);
     if (question) {
       const points = calculatePointsForCorrectAnswer(question);
@@ -209,13 +197,11 @@ solveAllQuizQuestions(quizId: string) {
       addPoints(transaction);
     }
 
-    // Check completion
     const completed = QuizUtils.isCompleted(result.newState);
     if (completed) {
       showToast(`🎉 Du hast das Quiz "${result.newState.title}" durchgespielt!`, "success");
     }
 
-    // Check for unlocks (integrated unlock logic)
     const unlockedQuizzes = get().checkForUnlocks();
 
     return {
@@ -227,9 +213,9 @@ solveAllQuizQuestions(quizId: string) {
     };
   },
 
-  // === UNLOCK ACTIONS ===
+
   checkForUnlocks: () => {
-    const { quizConfigs, quizStates, quizzes, showToast, addPendingUnlock } = get();
+    const { quizConfigs, quizStates, quizzes, addPendingUnlock } = get();
     const unlockedQuizzes: Quiz[] = [];
 
     for (const config of Object.values(quizConfigs)) {
@@ -241,10 +227,6 @@ solveAllQuizQuestions(quizId: string) {
           if (quiz && !get().pendingUnlocks.some((pu) => pu.quizId === quiz.id)) {
             unlockedQuizzes.push(quiz);
             addPendingUnlock(quiz.id, quiz.title);
-
-            setTimeout(() => {
-              showToast(`🎉 "${quiz.title}" unlocked!`, "success");
-            }, 300);
           }
         }
       }

@@ -18,7 +18,6 @@ export function SettingsScreen() {
 	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } = useQuiz();
 	const { showSuccess, showError } = useUI();
 	const statistics = useQuizStatistics();
-	const [counter, setCounter] = useState(0);
 
 	const [resettingQuiz, setResettingQuiz] = useState<string | null>(null);
 	const [resettingAll, setResettingAll] = useState(false);
@@ -39,17 +38,12 @@ export function SettingsScreen() {
 		}
 	};
 
-	const testSuccessToast = () => {
-		setCounter((prev) => prev + 1);
-		showSuccess(`Dies ist ein Erfolgstoast! (${counter + 1})`);
-	}
-
 	const handleSolveQuiz = async (quizId: string, quizTitle: string) => {
 		setResettingQuiz(quizId);
 
 		try {
 			solveAllQuizQuestions(quizId);
-			showSuccess(`Quiz "${quizTitle}" gelöst!`);
+			// showSuccess(`Quiz "${quizTitle}" gelöst!`);
 		} catch (error) {
 			console.error(`Error solving quiz ${quizId}:`, error);
 			showError(`Fehler beim lösen: ${error}`);
@@ -94,17 +88,6 @@ export function SettingsScreen() {
 				/>
 
 				<ScrollView style={styles.scrollView}>
-
-					<TouchableOpacity
-						style={[
-							styles.resetAllButton,
-						]}
-						onPress={testSuccessToast}
-					>
-						<ThemedText style={styles.resetAllButtonText}>
-							Test
-						</ThemedText>
-					</TouchableOpacity>
 					{/* Statistics Section */}
 					<View style={styles.section}>
 						<ThemedText style={styles.sectionTitle}>Statistiken</ThemedText>
@@ -158,50 +141,51 @@ export function SettingsScreen() {
 						</TouchableOpacity>
 
 						{quizzes.map((quiz) => (
-							<TouchableOpacity
-								key={quiz.id}
-								style={[
-									styles.quizResetButton,
-									resettingQuiz === quiz.id && styles.disabledButton,
-								]}
-								onPress={() => handleResetQuiz(quiz.id, quiz.title)}
-								disabled={resettingQuiz === quiz.id}
-							>
-								{resettingQuiz === quiz.id ? (
-									<ActivityIndicator size="small" color="#fff" />
-								) : (
-									<ThemedText style={styles.quizResetButtonText}>
-										{quiz.title} zurücksetzen
-									</ThemedText>
-								)}
-							</TouchableOpacity>
-						))}
-					</View>
+							<React.Fragment key={quiz.id}>
+								<ThemedText style={styles.quizTitle}>
+									{quiz.title}
+								</ThemedText>
 
-					{/* Playthrough Section */}
-					<View style={styles.section}>
-						<ThemedText style={styles.sectionTitle}>
-							Quiz-Fortschritte cheaten
-						</ThemedText>
+								<View style={{ flexDirection: "row", gap: 10 }}>
+									<TouchableOpacity
 
-						{quizzes.map((quiz) => (
-							<TouchableOpacity
-								key={quiz.id}
-								style={[
-									styles.quizResetButton,
-									resettingQuiz === quiz.id && styles.disabledButton,
-								]}
-								onPress={() => handleSolveQuiz(quiz.id, quiz.title)}
-								disabled={resettingQuiz === quiz.id}
-							>
-								{resettingQuiz === quiz.id ? (
-									<ActivityIndicator size="small" color="#fff" />
-								) : (
-									<ThemedText style={styles.quizResetButtonText}>
-										{quiz.title} lösen
-									</ThemedText>
-								)}
-							</TouchableOpacity>
+										style={[
+											styles.quizButton,
+											styles.resetButton,
+											resettingQuiz === quiz.id && styles.disabledButton,
+										]}
+										onPress={() => handleResetQuiz(quiz.id, quiz.title)}
+										disabled={resettingQuiz === quiz.id}
+									>
+										{resettingQuiz === quiz.id ? (
+											<ActivityIndicator size="small" color="#fff" />
+										) : (
+											<ThemedText style={styles.quizResetButtonText}>
+												zurücksetzen
+											</ThemedText>
+										)}
+									</TouchableOpacity>
+
+									<TouchableOpacity
+
+										style={[
+											styles.quizButton,
+											styles.playthroughButton,
+											resettingQuiz === quiz.id && styles.disabledButton,
+										]}
+										onPress={() => handleSolveQuiz(quiz.id, quiz.title)}
+										disabled={resettingQuiz === quiz.id}
+									>
+										{resettingQuiz === quiz.id ? (
+											<ActivityIndicator size="small" color="#fff" />
+										) : (
+											<ThemedText style={styles.quizResetButtonText}>
+												durchspielen
+											</ThemedText>
+										)}
+									</TouchableOpacity>
+								</View>
+							</React.Fragment>
 						))}
 					</View>
 
@@ -243,6 +227,11 @@ const styles = StyleSheet.create({
 		marginBottom: 16,
 		color: "#343a40",
 	},
+	quizTitle: {
+		fontSize: 16,
+		fontWeight: "600",
+		color: "#343a40",
+	},
 	statRow: {
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -259,7 +248,7 @@ const styles = StyleSheet.create({
 		color: "#495057",
 	},
 	resetAllButton: {
-		backgroundColor: "#dc3545",
+		backgroundColor: "#F44336",
 		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",
@@ -270,16 +259,23 @@ const styles = StyleSheet.create({
 		fontWeight: "600",
 		fontSize: 16,
 	},
-	quizResetButton: {
-		backgroundColor: "#6c757d",
+	quizButton: {
 		padding: 12,
 		borderRadius: 8,
 		alignItems: "center",
 		marginBottom: 8,
+		flexGrow: 1,
+	},
+	resetButton: {
+		backgroundColor: "#F44336",
+	},
+	playthroughButton: {
+		backgroundColor: "#4CAF50",
 	},
 	quizResetButtonText: {
 		color: "white",
 		fontWeight: "500",
+
 	},
 	disabledButton: {
 		opacity: 0.6,

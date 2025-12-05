@@ -1,11 +1,13 @@
 import type { StateCreator } from "zustand";
 import type { QuizStore } from "../Store";
 
+export type ToastType = "success" | "error" | "info" | "warning";
+
 export interface ToastState {
 	id: number;
 	visible: boolean;
 	message: string;
-	type: "success" | "error" | "info" | "warning";
+	type: ToastType;
 }
 
 export interface UISlice {
@@ -81,7 +83,6 @@ export const createUISlice: StateCreator<QuizStore, [], [], UISlice> = (
 	},
 	removeToast: (id: number) => {
 		set((state) => ({
-			// Filtern Sie den Toast mit der passenden ID aus dem Array
 			toast: (state.toast || []).filter((toastItem) => toastItem.id !== id),
 		}));
 		console.log(`[UISlice] Hiding toast with ID ${id}`);
