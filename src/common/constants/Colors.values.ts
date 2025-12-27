@@ -1,6 +1,7 @@
 const black = "#000";
 // Verlauf light
 const pumpkingold = "#ffa826";
+const pumpkin = "#e38901ff";
 const fronstbreeze = "#A8C5F0";
 // Für text light
 const graphite = "#333333";
@@ -36,4 +37,5 @@ export const ColorsValues = {
 	darkbluegrey,
 	citrus,
 	sunyellow,
+	pumpkin
 };
