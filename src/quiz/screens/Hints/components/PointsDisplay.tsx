@@ -1,6 +1,6 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 interface PointsDisplayProps {
 	compact?: boolean;
@@ -18,15 +18,15 @@ export const PointsDisplay: React.FC<PointsDisplayProps> = ({
 		<View
 			style={[styles.pointsDisplay, compact && styles.pointsDisplayCompact]}
 		>
-			<FontAwesome6 name="coins" size={compact ? 14 : 18} color="#FFD700" />
-			<Text
+			<ThemedText>🦧</ThemedText>
+			<ThemedText
 				style={[
 					compact ? styles.pointsTextCompact : styles.pointsTextLarge,
 					{ color: textColor },
 				]}
 			>
 				{pointsBalance}
-			</Text>
+			</ThemedText>
 		</View>
 	);
 };

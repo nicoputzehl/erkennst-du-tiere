@@ -88,7 +88,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	if (!question) {
 		return <ErrorComponent message="Frage nicht gefunden" />;
 	}
-
+	console.log("ISSST KORRREKTTT:", isCorrect);
 	return (
 		<GestureHandler onSwipeLeft={() => {
 			if (navigateToNextQuestion && isSolved) {
@@ -125,12 +125,12 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 							<QuestionImage
 								question={question}
 							>
-								{showResultReaction && <ResultReaction correctAnswer={isCorrect} />}
 								<DelayedLottie shouldPlay={statusChanged} delay={500} />
 								{!isSolved && <HintPatch hints={visibleHints} />}
 							</QuestionImage>
 
 						</View>
+						{showResultReaction && <ResultReaction />}
 						<Hint hint={hint} isVisible={showHint} onClose={resetResult} />
 
 						{isSolved ? (

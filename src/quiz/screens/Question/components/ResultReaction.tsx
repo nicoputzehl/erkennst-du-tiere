@@ -1,48 +1,59 @@
+import { ColorsValues } from "@/src/common/constants/Colors.values";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import Animated, {
 	useSharedValue,
 	useAnimatedStyle,
 	withSpring,
 	withSequence,
 	withTiming,
+	Easing,
 } from "react-native-reanimated";
 
-const ResultReaction = ({ correctAnswer }: { correctAnswer: boolean }) => {
+const ResultReaction = () => {
 	const scale = useSharedValue(0);
 	const rotation = useSharedValue(0);
-	const color = correctAnswer ? "#ffa826" : "#E04F5F";
+	const opacity = useSharedValue(0);
+
+	const color = ColorsValues.pumpkin;
 
 	useEffect(() => {
-		// Bounce-in Animation beim Mount
-		const timer = setTimeout(() => {
-			scale.value = withSequence(
-				withSpring(1.2, { damping: 8, stiffness: 100 }),
-				withSpring(1, { damping: 12, stiffness: 150 }),
-			);
+		// Einblenden
+		scale.value = withSpring(1, {
+			damping: 14,
+			stiffness: 120,
+		});
 
-			// Optionale leichte Rotation für mehr Dynamik
-			rotation.value = withSequence(
-				withTiming(-5, { duration: 100 }),
-				withTiming(5, { duration: 200 }),
-				withTiming(0, { duration: 100 }),
-			);
-		}, 300);
+		opacity.value = withTiming(1, { duration: 300 });
 
-		return () => clearTimeout(timer);
-	}, [rotation, scale]);
+		rotation.value = withSequence(
+			withTiming(-4, { duration: 120, easing: Easing.out(Easing.ease) }),
+			withTiming(4, { duration: 180, easing: Easing.inOut(Easing.ease) }),
+			withTiming(0, { duration: 120, easing: Easing.out(Easing.ease) }),
+		);
 
-	const animatedStyle = useAnimatedStyle(() => {
-		return {
-			transform: [{ scale: scale.value }, { rotate: `${rotation.value}deg` }],
-		};
-	});
+		// Nach 5 Sekunden ausblenden
+		const hideTimer = setTimeout(() => {
+			scale.value = withTiming(0.85, { duration: 250 });
+			opacity.value = withTiming(0, { duration: 250 });
+		}, 5000);
 
-	const name = correctAnswer ? "smile" : "frown";
+		return () => clearTimeout(hideTimer);
+	}, [opacity, rotation, scale]);
+
+	const animatedStyle = useAnimatedStyle(() => ({
+		opacity: opacity.value,
+		transform: [
+			{ scale: scale.value },
+			{ rotate: `${rotation.value}deg` },
+		],
+	}));
+
 	return (
 		<Animated.View style={[styles.container, animatedStyle]}>
-			<AntDesign name={name} size={40} color={color} />
+			<AntDesign name="frown" size={24} color={color} />
+			<Text>Versuch&apos;s nochmal</Text>
 		</Animated.View>
 	);
 };
@@ -51,8 +62,6 @@ export default ResultReaction;
 
 const styles = StyleSheet.create({
 	container: {
-		width: 40,
-		height: 40,
 		alignItems: "center",
 		justifyContent: "center",
 		position: "absolute",

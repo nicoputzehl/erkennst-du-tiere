@@ -82,7 +82,7 @@ export function useQuestionScreen(quizId: string, questionId: string) {
 	const showResultReaction =
 		answerState.submittedAnswer &&
 		resultState.showResult &&
-		!resultState.showHint;
+		!resultState.showHint && !resultState.isCorrect;
 
 	return {
 

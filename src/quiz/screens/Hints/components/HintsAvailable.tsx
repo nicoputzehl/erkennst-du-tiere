@@ -1,7 +1,6 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { useHints } from "@/src/quiz/store/hooks/useHints";
-import { FontAwesome6 } from "@expo/vector-icons";
 import { useCallback } from "react";
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
@@ -66,7 +65,7 @@ export const HintsAvailable: React.FC<HintsAvailableProps> = ({
 							{hint.title}
 						</ThemedText>
 						<View style={styles.hintCost}>
-							<FontAwesome6 name="coins" size={12} color="gold" />
+							<ThemedText style={styles.costText}>🦧</ThemedText>
 							<ThemedText style={styles.costText}>{hint.cost}</ThemedText>
 						</View>
 					</View>
