@@ -3,7 +3,7 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const haubenmeise: QuestionBase = {
   id: 1,
   answer: "Haubenmeise",
-  title: "Der Schopf-Träger im Nadelwald",
+  title: "Schopf-Träger",
   images: {
     imageUrl: require("./haubenmeise.webp"),
   },
@@ -53,7 +53,7 @@ const haubenmeise: QuestionBase = {
 const bienenfresser: QuestionBase = {
   id: 2,
   answer: "Bienenfresser",
-  title: "Der fliegende Edelstein",
+  title: "Fliegender Edelstein",
   wikipediaName: "Bienenfresser_(Art)",
   images: {
     imageUrl: require("./bienenfresser.webp"),
@@ -104,7 +104,7 @@ const bienenfresser: QuestionBase = {
 const eichelhaeher: QuestionBase = {
   id: 3,
   answer: "Eichelhäher",
-  title: "Der \"Polizist\" des Waldes",
+  title: "Wald-\"Polizist\"",
   images: {
     imageUrl: require("./eichelhaeher.webp"),
   },
@@ -154,7 +154,7 @@ const eichelhaeher: QuestionBase = {
 const raubwuerger: QuestionBase = {
   id: 4,
   answer: "Raubwürger",
-  title: "Der graue Räuber mit Maske",
+  title: "Räuber mit Maske",
   images: {
     imageUrl: require("./raubwuerger.webp"),
   },
@@ -204,7 +204,7 @@ const raubwuerger: QuestionBase = {
 const gruenspecht: QuestionBase = {
   id: 5,
   answer: "Grünspecht",
-  title: "Der lachende Ameisenjäger",
+  title: "Ameisenjäger",
   images: {
     imageUrl: require("./gruenspecht.webp"),
   },
@@ -255,7 +255,7 @@ const gruenspecht: QuestionBase = {
 const wespenbussard: QuestionBase = {
   id: 6,
   answer: "Wespenbussard",
-  title: "Der Honigjäger unter den Greifen",
+  title: "Honigjäger",
   images: {
     imageUrl: require("./wespenbussard.webp"),
   },
@@ -305,7 +305,7 @@ const wespenbussard: QuestionBase = {
 const rotkopfwuerger: QuestionBase = {
   id: 7,
   answer: "Rotkopfwürger",
-  title: "Der Rotkäppchen-Räuber",
+  title: "Rotkäppchen",
   images: {
     imageUrl: require("./rotkopfwuerger.webp"),
   },
@@ -355,7 +355,7 @@ const rotkopfwuerger: QuestionBase = {
 const star: QuestionBase = {
   id: 8,
   answer: "Star",
-  title: "Der Meisterimitator",
+  title: "Meisterimitator",
   images: {
     imageUrl: require("./star.webp"),
   },

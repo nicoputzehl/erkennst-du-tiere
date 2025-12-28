@@ -153,7 +153,7 @@ const wuestenrennmaus: QuestionBase = {
 
 const okapi: QuestionBase = {
   id: 8,
-  title: "Regenwaldbewohner:in",
+  title: "Kurzer Hals",
   answer: "Okapi",
   funFact: "die Zunge eines Okapis so lang ist (bis zu 30 Zentimeter), dass es sich damit sogar die Ohren putzen kann und diese perfekt dafür geeignet ist, Blätter und Knospen von Bäumen zu zupfen?",
   alternativeAnswers: ["Waldgiraffe", "Kurzhalsgiraffe"],

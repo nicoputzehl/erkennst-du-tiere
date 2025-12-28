@@ -506,7 +506,7 @@ const parasaurolophus: QuestionBase = {
 const pteosaurus: QuestionBase = {
   id: 7,
   answer: "Pteranodon",
-  title: "Der zahnlose Flieger",
+  title: "Zahnloser Flieger",
   images: {
     imageUrl: require("./pteranodon.webp"),
   },

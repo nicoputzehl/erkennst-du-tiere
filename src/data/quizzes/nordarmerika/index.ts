@@ -115,7 +115,7 @@ const stinktier: QuestionBase = {
 const klapperschlange: QuestionBase = {
   id: 3,
   answer: "Klapperschlange",
-  title: "Die vibrierende Warnung",
+  title: "Vibrierende Warnung",
   images: {
     imageUrl: require("./klapperschlange.webp"),
     unsolvedImageUrl: require("./klapperschlange_unsolved.webp"),
@@ -166,7 +166,7 @@ const klapperschlange: QuestionBase = {
 const waschbaer: QuestionBase = {
   id: 4,
   answer: "Waschbär",
-  title: "Der nächtliche Maskierte",
+  title: "Maskierter",
   images: {
     imageUrl: require("./waschbaer.webp"),
     unsolvedImageUrl: require("./waschbaer_unsolved.webp"),
@@ -223,7 +223,7 @@ const waschbaer: QuestionBase = {
 const grizzly: QuestionBase = {
   id: 5,
   answer: "Grizzly",
-  title: "Der Silbertipp-Riese",
+  title: "Silbertipp-Riese",
   images: {
     imageUrl: require("./grizzly.webp"),
   },

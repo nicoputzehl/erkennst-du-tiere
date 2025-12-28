@@ -3,7 +3,7 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const drache: QuestionBase = {
   id: 1,
   answer: "Drache",
-  title: "Der feurige Wächter",
+  title: "Feuriger Wächter",
   wikipediaName: "Drache_(Mythologie)",
   images: {
     imageUrl: require("./drache.webp"),
@@ -54,7 +54,7 @@ const drache: QuestionBase = {
 const basilisk: QuestionBase = {
   id: 2,
   answer: "Basilisk",
-  title: "Der König der Schlangen",
+  title: "Schlangen-König",
   wikipediaName: "Basilisk_(Mythologie)",
   images: {
     imageUrl: require("./basilisk.webp"),
@@ -156,7 +156,7 @@ const mantikor: QuestionBase = {
 const hippokamp: QuestionBase = {
   id: 4,
   answer: "Hippokamp",
-  title: "Das Ross des Meeresgottes",
+  title: "Meeresgott-Ross",
   images: {
     imageUrl: require("./hippokamp.webp"),
   },
@@ -207,7 +207,7 @@ const hippokamp: QuestionBase = {
 const pegasos: QuestionBase = {
   id: 5,
   answer: "Pegasos",
-  title: "Das geflügelte Dichterross",
+  title: "Glügeltes Ross",
   images: {
     imageUrl: require("./pegasos.webp"),
   },
@@ -310,7 +310,7 @@ const einhorn: QuestionBase = {
 const phoenex: QuestionBase = {
   id: 7,
   answer: "Phönix",
-  title: "Der Vogel der Auferstehung",
+  title: "Asche",
   wikipediaName: "Phönix_(Mythologie)",
   images: {
     imageUrl: require("./phoenix.webp"),
@@ -362,7 +362,7 @@ const phoenex: QuestionBase = {
 const greif: QuestionBase = {
   id: 8,
   answer: "Greif",
-  title: "Gryffindor",
+  title: "Hermines Haus",
   images: {
     imageUrl: require("./greif.webp"),
   },

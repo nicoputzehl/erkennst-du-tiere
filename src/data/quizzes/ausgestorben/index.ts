@@ -3,7 +3,7 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const dodo: QuestionBase = {
   id: 1,
   answer: "Dodo",
-  title: "Der ikonische Flugunfähige",
+  title: "Flugunfähig",
   images: {
     imageUrl: require("./dodo.webp"),
   },
@@ -47,7 +47,7 @@ const dodo: QuestionBase = {
 const quagga: QuestionBase = {
   id: 2,
   answer: "Quagga",
-  title: "Das gestreifte Halbpferd",
+  title: "Gestreiftes Halbpferd",
   images: {
     imageUrl: require("./quagga.webp"),
   },
@@ -90,7 +90,7 @@ const quagga: QuestionBase = {
 const trilobit: QuestionBase = {
   id: 3,
   answer: "Trilobit",
-  title: "Der dreilappige Urmeeresbewohner",
+  title: "Urmeeresbewohner",
   images: {
     imageUrl: require("./trilobit.webp"),
   },
@@ -134,7 +134,7 @@ const trilobit: QuestionBase = {
 const saebelzahnkatze: QuestionBase = {
   id: 4,
   answer: "Säbelzahnkatze",
-  title: "Der Prädator der Eiszeit",
+  title: "Eiszeit-Prädator",
   images: {
     imageUrl: require("./saebelzahnkatze.webp"),
   },
@@ -178,7 +178,7 @@ const saebelzahnkatze: QuestionBase = {
 const mammut: QuestionBase = {
   id: 5,
   answer: "Mammut",
-  title: "Der behaarte Gigant",
+  title: "Behaarter Gigant",
   wikipediaName: "Mammute",
   images: {
     imageUrl: require("./mammut.webp"),
@@ -222,7 +222,7 @@ const mammut: QuestionBase = {
 const beutelwolf: QuestionBase = {
   id: 6,
   answer: "Beutelwolf",
-  title: "Der tasmanische Tiger",
+  title: "Tasmanischer Tiger",
   images: {
     imageUrl: require("./beutelwolf.webp"),
   },
@@ -310,7 +310,7 @@ const elefantenVogel: QuestionBase = {
 const goldkroete: QuestionBase = {
   id: 8,
   answer: "Goldkröte",
-  title: "Der leuchtende Bote",
+  title: "Leuchtender Bote",
   images: {
     imageUrl: require("./goldkroete.webp"),
   },
@@ -373,5 +373,5 @@ export const ausgestorbeneTiereQuiz: Quiz = {
   title: "Ausgestorben",
   questions: ausgestorbeneTiere,
   titleImage: require("./mammut.webp"),
-  description: "Die Spezies, die es nicht geschafft haben. Eine Zeitreise in die Vergangenheit.",
+  description: "Eine Zeitreise in die Vergangenheit.",
 };

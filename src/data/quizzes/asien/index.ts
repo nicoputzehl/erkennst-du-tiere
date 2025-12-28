@@ -107,7 +107,7 @@ const grosser_panda: QuestionBase = {
 const tiger: QuestionBase = {
   id: 2,
   answer: "Tiger",
-  title: "Der gestreifte Jäger",
+  title: "Gestreifter Jäger",
   images: {
     imageUrl: require("./koenigstiger.webp"),
     unsolvedImageUrl: require("./koenigstiger_unsolved.webp"),
@@ -322,7 +322,7 @@ const asiatischer_elefant: QuestionBase = {
 const roter_panda: QuestionBase = {
   id: 8,
   answer: "Roter Panda",
-  title: "Der flauschige Kletterer",
+  title: "Flauschig",
   images: {
     imageUrl: require("./roter_panda.webp"),
   },

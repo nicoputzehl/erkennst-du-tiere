@@ -55,7 +55,7 @@ const eisbaer: QuestionBase = {
 const walross: QuestionBase = {
   id: 2,
   answer: "Walross",
-  title: "Der Robbenartige mit den Hauern",
+  title: "Robbenartiger",
   images: {
     imageUrl: require("./walross.webp"),
     unsolvedImageUrl: require("./walross_unsolved.webp"),
@@ -106,7 +106,7 @@ const walross: QuestionBase = {
 const papageientaucher: QuestionBase = {
   id: 3,
   answer: "Papageientaucher",
-  title: "Der Clown der Nordmeere",
+  title: "Clown der Nordmeere",
   images: {
     imageUrl: require("./papageientaucher.webp"),
   },
@@ -271,7 +271,7 @@ const polarfuchs: QuestionBase = {
 const rentier: QuestionBase = {
   id: 6,
   answer: "Rentier",
-  title: "Der Meisterwanderer",
+  title: "Meisterwanderer",
   images: {
     imageUrl: require("./rentier.webp"),
   },
@@ -322,7 +322,7 @@ const rentier: QuestionBase = {
 const polarwolf: QuestionBase = {
   id: 7,
   answer: "Polarwolf",
-  title: "Überlebenskünstler",
+  title: "Weiße Jäger",
   images: {
     imageUrl: require("./polarwolf.webp"),
   },
@@ -379,7 +379,7 @@ const polarwolf: QuestionBase = {
 const schneehase: QuestionBase = {
   id: 8,
   answer: "Schneehase",
-  title: "Der flinke Haken-Schlager",
+  title: "Haken-Schlager",
   images: {
     imageUrl: require("./schneehase.webp"),
   },

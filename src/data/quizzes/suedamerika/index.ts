@@ -3,7 +3,7 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const alpaka: QuestionBase = {
   id: 1,
   answer: "Alpaka",
-  title: "Der Woll-Spezialist",
+  title: "Woll-Spezialist",
   images: {
     imageUrl: require("./alpaka.webp"),
     unsolvedImageUrl: require("./alpaka_unsolved.webp"),
@@ -54,7 +54,7 @@ const alpaka: QuestionBase = {
 const piranha: QuestionBase = {
   id: 2,
   answer: "Piranha",
-  title: "Der scharfe Räuber",
+  title: "Scharfer Räuber",
   wikipediaName: "Piranhas",
   images: {
     imageUrl: require("./piranha.webp"),
@@ -106,7 +106,7 @@ const piranha: QuestionBase = {
 const jaguar: QuestionBase = {
   id: 3,
   answer: "Jaguar",
-  title: "Die größte Katze Amerikas",
+  title: "Größte Katze",
   images: {
     imageUrl: require("./jaguar.webp"),
     unsolvedImageUrl: require("./jaguar_unsolved.webp"),
@@ -157,7 +157,7 @@ const jaguar: QuestionBase = {
 const lama: QuestionBase = {
   id: 4,
   answer: "Lama",
-  title: "Das Lasttier der Anden",
+  title: "Anden-Lasttier",
   wikipediaName: "Lama_(Kamel)",
   images: {
     imageUrl: require("./lama.webp"),
@@ -362,7 +362,7 @@ const nandu: QuestionBase = {
 const schopfkarakara: QuestionBase = {
   id: 8,
   answer: "Schopfkarakara",
-  title: "Der Aasgeier mit Schopf",
+  title: "Aasvogel",
   images: {
     imageUrl: require("./schopfkarakara.webp"),
   },

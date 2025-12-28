@@ -130,7 +130,7 @@ const kaenguru: QuestionBase = {
 const quokka: QuestionBase = {
   id: 3,
   answer: "Quokka",
-  title: "Das glücklichste Tier",
+  title: "Bitte Lächeln",
   images: {
     imageUrl: require("./quokka.webp"),
   },

@@ -3,7 +3,7 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const afrikanischer_elefant: QuestionBase = {
   id: 1,
   answer: "Elefant",
-  title: "Der größte Landriese",
+  title: "Landriese",
   funFact:
     "afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden, um so über weite Distanzen zu kommunizieren?",
   images: {
