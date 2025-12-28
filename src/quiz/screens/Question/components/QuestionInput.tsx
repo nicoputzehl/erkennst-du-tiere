@@ -32,7 +32,7 @@ export const QuestionInput: React.FC<QuestionInputProps> = memo(
 
 		const borderColor = useThemeColor({}, "lightAccent");
 		const textColor = useThemeColor({}, "tintOnGradient");
-		const clearIconColor = useThemeColor({}, "textSecondary");
+		const clearIconColor = useThemeColor({}, "lightAccent");
 		const placeholderColor = useThemeColor(
 			{ light: "#666", dark: "#666" },
 			"text",
@@ -100,7 +100,7 @@ export const QuestionInput: React.FC<QuestionInputProps> = memo(
 						>
 							<FontAwesome6
 								name="circle-xmark"
-								size={20}
+								size={24}
 								color={clearIconColor}
 							/>
 						</TouchableOpacity>
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "transparent",
 		textAlign: "center",
 		fontWeight: "500",
+		letterSpacing: 2,
 	},
 	inputDisabled: {
 		opacity: 0.7,
@@ -157,8 +158,7 @@ const styles = StyleSheet.create({
 	clearButton: {
 		position: "absolute",
 		right: 8,
-		top: "50%",
-		transform: [{ translateY: -10 }],
+		top: 12,
 		padding: 4,
 	},
 });

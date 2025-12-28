@@ -8,7 +8,7 @@ import { QUIZ_LAYOUT } from "../constants/constants";
 interface QuestionGridProps {
 	questions: Question[];
 	itemWidth: number;
-	onQuestionClick: (questionId: string) => void;
+	onQuestionClick: (questionId: number) => void;
 }
 
 export const QuestionGrid: React.FC<QuestionGridProps> = ({

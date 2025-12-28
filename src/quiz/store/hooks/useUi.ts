@@ -1,9 +1,6 @@
 import { useMemo } from "react";
 import { useQuizStore } from "../Store";
 
-/**
- * UI state hook - replaces UIStateProvider
- */
 export function useUI() {
 	const toast = useQuizStore((state) => state.toast);
 	const isLoading = useQuizStore((state) => state.isLoading);
@@ -14,26 +11,27 @@ export function useUI() {
 	const showToast = useQuizStore((state) => state.showToast);
 	const hideToast = useQuizStore((state) => state.hideToast);
 	const addPendingUnlock = useQuizStore((state) => state.addPendingUnlock);
+	const removeToast = useQuizStore((state) => state.removeToast);
+	const markToastHidden = useQuizStore((state) => state.markToastHidden);
 
-	// Convenience methods
 	const showSuccess = useMemo(
-		() => (message: string, duration?: number) =>
-			showToast(message, "success", duration),
+		() => (message: string) =>
+			showToast(message, "success"),
 		[showToast],
 	);
 	const showError = useMemo(
-		() => (message: string, duration?: number) =>
-			showToast(message, "error", duration),
+		() => (message: string) =>
+			showToast(message, "error"),
 		[showToast],
 	);
 	const showInfo = useMemo(
-		() => (message: string, duration?: number) =>
-			showToast(message, "info", duration),
+		() => (message: string) =>
+			showToast(message, "info"),
 		[showToast],
 	);
 	const showWarning = useMemo(
-		() => (message: string, duration?: number) =>
-			showToast(message, "warning", duration),
+		() => (message: string) =>
+			showToast(message, "warning"),
 		[showToast],
 	);
 
@@ -60,9 +58,10 @@ export function useUI() {
 				unshown.forEach((unlock, index) => {
 					setTimeout(
 						() => {
+							// Idee, Emojis je Quiz
+							// Random Messages oder verschiedene
 							showSuccess(
-								`🎉 "${unlock.quizTitle}" ist jetzt verfügbar!`,
-								3000,
+								`🥳 Das Quiz "${unlock.quizTitle}" wurde freigespielt!`,
 							);
 						},
 						300 + index * 500,
@@ -74,23 +73,21 @@ export function useUI() {
 	);
 
 	return {
-		// State
 		toast,
 		isLoading,
 		navigationHistory,
 		pendingUnlocks,
-
-		// Actions
 		setLoading,
 		showToast,
 		hideToast,
+		removeToast,
+		markToastHidden,
 		showSuccess,
 		showError,
 		showInfo,
 		showWarning,
 		addPendingUnlock,
 
-		// Pending unlocks
 		getPendingUnlocksCount,
 		checkPendingUnlocks,
 	};

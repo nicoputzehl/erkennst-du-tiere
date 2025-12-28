@@ -25,7 +25,7 @@ export const WikipediaLink = ({ slug }: WikipediaLinkProps) => {
 				}
 			}}
 		>
-			<FontAwesome6 name="wikipedia-w" size={48} color={iconColor} />
+			<FontAwesome6 name="wikipedia-w" size={24} color={iconColor} />
 		</Link>
 	);
 };

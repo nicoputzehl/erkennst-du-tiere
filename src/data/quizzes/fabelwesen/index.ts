@@ -3,13 +3,13 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const drache: QuestionBase = {
   id: 1,
   answer: "Drache",
-  title: "Der feurige Wächter",
+  title: "Feuriger Wächter",
   wikipediaName: "Drache_(Mythologie)",
   images: {
     imageUrl: require("./drache.webp"),
   },
   funFact:
-    "...der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
+    "der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
   autoFreeHints: [
     {
       id: "drache_h1",
@@ -54,13 +54,13 @@ const drache: QuestionBase = {
 const basilisk: QuestionBase = {
   id: 2,
   answer: "Basilisk",
-  title: "Der König der Schlangen",
+  title: "Schlangen-König",
   wikipediaName: "Basilisk_(Mythologie)",
   images: {
     imageUrl: require("./basilisk.webp"),
   },
   funFact:
-    "...der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
+    "der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
   autoFreeHints: [
     {
       id: "basilisk_h1",
@@ -111,7 +111,7 @@ const mantikor: QuestionBase = {
   },
   alternativeAnswers: ["Manticor", "Manticore", "Manticora", "Marticora"],
   funFact:
-    "...sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
+    "sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
   autoFreeHints: [
     {
       id: "mantikor_h1",
@@ -156,13 +156,13 @@ const mantikor: QuestionBase = {
 const hippokamp: QuestionBase = {
   id: 4,
   answer: "Hippokamp",
-  title: "Das Ross des Meeresgottes",
+  title: "Meeresgott-Ross",
   images: {
     imageUrl: require("./hippokamp.webp"),
   },
   alternativeAnswers: ["Seepferd", "Hippocamp"],
   funFact:
-    "...der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
+    "der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
   autoFreeHints: [
     {
       id: "hippokamp_h1",
@@ -207,14 +207,14 @@ const hippokamp: QuestionBase = {
 const pegasos: QuestionBase = {
   id: 5,
   answer: "Pegasos",
-  title: "Das geflügelte Dichterross",
+  title: "Glügeltes Ross",
   images: {
     imageUrl: require("./pegasos.webp"),
   },
   alternativeAnswers: ["Pegasus"],
   wikipediaName: "Pegasos_(Mythologie)",
   funFact:
-    "...Pegasos das Kind des Meeresgottes Poseidon und der Gorgone Medusa war und ihrem Nacken entsprang, als Perseus sie enthauptete?",
+    "Pegasos das Kind des Meeresgottes Poseidon und der Gorgone Medusa war und ihrem Nacken entsprang, als Perseus sie enthauptete?",
   autoFreeHints: [
     {
       id: "pegasos_h1",
@@ -265,7 +265,7 @@ const einhorn: QuestionBase = {
   },
   alternativeAnswers: ["Unicorn"],
   funFact:
-    "...das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
+    "das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
   autoFreeHints: [
     {
       id: "einhorn_h1",
@@ -310,14 +310,14 @@ const einhorn: QuestionBase = {
 const phoenex: QuestionBase = {
   id: 7,
   answer: "Phönix",
-  title: "Der Vogel der Auferstehung",
+  title: "Asche",
   wikipediaName: "Phönix_(Mythologie)",
   images: {
     imageUrl: require("./phoenix.webp"),
   },
   alternativeAnswers: ["Phoenix"],
   funFact:
-    "...der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
+    "der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
   autoFreeHints: [
     {
       id: "phoenex_h1",
@@ -362,12 +362,12 @@ const phoenex: QuestionBase = {
 const greif: QuestionBase = {
   id: 8,
   answer: "Greif",
-  title: "Gryffindor",
+  title: "Hermines Haus",
   images: {
     imageUrl: require("./greif.webp"),
   },
   funFact:
-    "...der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
+    "der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
   autoFreeHints: [
     {
       id: "greif_h1",
@@ -422,8 +422,8 @@ const fabelwesen: QuestionBase[] = [
 
 export const fabelwesenQuiz: Quiz = {
   id: "fabelwesen",
-  title: "Fabelwesen und Mythen",
+  title: "Mythisch",
   questions: fabelwesen,
   titleImage: require("./drache.webp"),
-  description: "Erkunde eine Welt voller mythischer Kreaturen."
+  description: "Magie, Mythos, Legende. Entdecke eine Welt jenseits der Realität."
 };

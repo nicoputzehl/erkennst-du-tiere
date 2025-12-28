@@ -58,8 +58,9 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		justifyContent: "center",
 		alignItems: "center",
-		zIndex: -1,
+		zIndex: 20,
 		pointerEvents: "none",
+		flex: 1,
 	},
 	animation: {
 		width: "100%",

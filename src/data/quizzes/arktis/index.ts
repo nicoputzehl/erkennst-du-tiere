@@ -10,7 +10,7 @@ const eisbaer: QuestionBase = {
   },
   alternativeAnswers: ["Polarbär"],
   funFact:
-    "...das Fell des Eisbären zwar weiß erscheint, die einzelnen Haare jedoch transparent und hohl sind und seine Haut darunter schwarz ist, um Sonnenwärme besser aufzunehmen?",
+    "das Fell des Eisbären zwar weiß erscheint, die einzelnen Haare jedoch transparent und hohl sind und seine Haut darunter schwarz ist, um Sonnenwärme besser aufzunehmen?",
   autoFreeHints: [
     {
       id: "eisbaer_h1",
@@ -55,13 +55,13 @@ const eisbaer: QuestionBase = {
 const walross: QuestionBase = {
   id: 2,
   answer: "Walross",
-  title: "Der Robbenartige mit den Hauern",
+  title: "Robbenartiger",
   images: {
     imageUrl: require("./walross.webp"),
     unsolvedImageUrl: require("./walross_unsolved.webp"),
   },
   funFact:
-    "...die Stoßzähne (Hauer) bei Walrossen sowohl von Männchen als auch Weibchen getragen werden und dazu dienen, sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren?",
+    "die Stoßzähne (Hauer) bei Walrossen sowohl von Männchen als auch Weibchen getragen werden und dazu dienen, sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren?",
   autoFreeHints: [
     {
       id: "walross_h1",
@@ -106,13 +106,13 @@ const walross: QuestionBase = {
 const papageientaucher: QuestionBase = {
   id: 3,
   answer: "Papageientaucher",
-  title: "Der Clown der Nordmeere",
+  title: "Clown der Nordmeere",
   images: {
     imageUrl: require("./papageientaucher.webp"),
   },
   alternativeAnswers: ["Puffin"],
   funFact:
-    "...der leuchtend bunte, dreieckige Schnabel (rot, gelb, orange) des Papageientauchers nur während der Brutzeit sichtbar ist und er den Rest des Jahres unscheinbarer aussieht?",
+    "der leuchtend bunte, dreieckige Schnabel (rot, gelb, orange) des Papageientauchers nur während der Brutzeit sichtbar ist und er den Rest des Jahres unscheinbarer aussieht?",
   autoFreeHints: [
     {
       id: "papageientaucher_h1",
@@ -162,7 +162,7 @@ const schneeeule: QuestionBase = {
     imageUrl: require("./schneeeule.webp"),
   },
   funFact:
-    "...die männlichen Tiere fast reinweiß sind, während die Weibchen dunkle Querstreifen und eine Wellenzeichnung im Gefieder haben?",
+    "die männlichen Tiere fast reinweiß sind, während die Weibchen dunkle Querstreifen und eine Wellenzeichnung im Gefieder haben?",
   autoFreeHints: [
     {
       id: "schneeeule_h1",
@@ -195,8 +195,8 @@ const schneeeule: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["eule"]
     }
   ],
@@ -220,7 +220,7 @@ const polarfuchs: QuestionBase = {
   },
   alternativeAnswers: ["Schneefuchs", "Eisfuchs"],
   funFact:
-    "...ein Tier das wärmste Fell aller Säugetiere besitzt, extreme Temperaturen bis zu -50 °C überleben kann und sein Fell im Winter strahlend weiß ist?",
+    "ein Tier das wärmste Fell aller Säugetiere besitzt, extreme Temperaturen bis zu -50 °C überleben kann und sein Fell im Winter strahlend weiß ist?",
   autoFreeHints: [
     {
       id: "polarfuchs_h1",
@@ -252,8 +252,8 @@ const polarfuchs: QuestionBase = {
     }, {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["fuchs"]
     }
   ],
@@ -271,13 +271,13 @@ const polarfuchs: QuestionBase = {
 const rentier: QuestionBase = {
   id: 6,
   answer: "Rentier",
-  title: "Der Meisterwanderer",
+  title: "Meisterwanderer",
   images: {
     imageUrl: require("./rentier.webp"),
   },
   alternativeAnswers: ["Ren"],
   funFact:
-    "...diese Hirschart die einzige ist, bei der sowohl männliche als auch weibliche Tiere ein Geweih tragen und sie die weitesten Strecken aller Landsäugetiere zurücklegt (bis zu 5000 km pro Jahr)?",
+    "diese Hirschart die einzige ist, bei der sowohl männliche als auch weibliche Tiere ein Geweih tragen und sie die weitesten Strecken aller Landsäugetiere zurücklegt (bis zu 5000 km pro Jahr)?",
   autoFreeHints: [
     {
       id: "rentier_h1",
@@ -322,13 +322,13 @@ const rentier: QuestionBase = {
 const polarwolf: QuestionBase = {
   id: 7,
   answer: "Polarwolf",
-  title: "Überlebenskünstler",
+  title: "Weiße Jäger",
   images: {
     imageUrl: require("./polarwolf.webp"),
   },
   alternativeAnswers: ["Weißwolf", "Arktischer Wolf"],
   funFact:
-    "...dieses Tier in den rauesten Regionen der Arktis lebt, in Rudeln von bis zu 30 Tieren Rentiere und Moschusochsen jagt und ein sehr dichtes Unterfell besitzt?",
+    "dieses Tier in den rauesten Regionen der Arktis lebt, in Rudeln von bis zu 30 Tieren Rentiere und Moschusochsen jagt und ein sehr dichtes Unterfell besitzt?",
   autoFreeHints: [
     {
       id: "polarwolf_h1",
@@ -360,8 +360,8 @@ const polarwolf: QuestionBase = {
     },    {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["wolf"]
     }
   ],
@@ -379,12 +379,12 @@ const polarwolf: QuestionBase = {
 const schneehase: QuestionBase = {
   id: 8,
   answer: "Schneehase",
-  title: "Der flinke Haken-Schlager",
+  title: "Haken-Schlager",
   images: {
     imageUrl: require("./schneehase.webp"),
   },
   funFact:
-    "...dieser Hase der einzige ist, dessen Fell sich im Winter komplett weiß färbt, während nur die Spitzen seiner Ohren schwarz bleiben, und er im Sommer graubraun ist?",
+    "dieser Hase der einzige ist, dessen Fell sich im Winter komplett weiß färbt, während nur die Spitzen seiner Ohren schwarz bleiben, und er im Sommer graubraun ist?",
   autoFreeHints: [
     {
       id: "schneehase_h1",

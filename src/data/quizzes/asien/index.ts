@@ -10,7 +10,7 @@ const koenigskobra: QuestionBase = {
   },
   alternativeAnswers: ["Kobra"],
   funFact:
-    "...diese Schlange die längste Giftschlange der Welt und die einzige ist, die ein richtiges Nest für ihre Eier baut und es bis zum Schlupf verteidigt?",
+    "diese Schlange die längste Giftschlange der Welt und die einzige ist, die ein richtiges Nest für ihre Eier baut und es bis zum Schlupf verteidigt?",
   autoFreeHints: [
     {
       id: "kk_h1",
@@ -62,7 +62,7 @@ const grosser_panda: QuestionBase = {
   },
   alternativeAnswers: ["Panda", "Riesenpanda", "Pandabär"],
   funFact:
-    "...dieses Tier, obwohl es zur Ordnung der Raubtiere gehört, sich zu 99% von Bambus ernährt und täglich bis zu 40 Kilogramm davon fressen muss, um satt zu werden?",
+    "dieses Tier, obwohl es zur Ordnung der Raubtiere gehört, sich zu 99% von Bambus ernährt und täglich bis zu 40 Kilogramm davon fressen muss, um satt zu werden?",
   autoFreeHints: [
     {
       id: "gp_h1",
@@ -107,14 +107,14 @@ const grosser_panda: QuestionBase = {
 const tiger: QuestionBase = {
   id: 2,
   answer: "Tiger",
-  title: "Der gestreifte Jäger",
+  title: "Gestreifter Jäger",
   images: {
     imageUrl: require("./koenigstiger.webp"),
     unsolvedImageUrl: require("./koenigstiger_unsolved.webp"),
   },
   alternativeAnswers: ["Bengal-Tiger", "Indischer Tiger", "Königstiger"],
   funFact:
-    "...der Tiger die größte lebende Katzenart der Welt ist und jeder Tiger ein einzigartiges Streifenmuster hat, das mit menschlichen Fingerabdrücken vergleichbar ist?",
+    "der Tiger die größte lebende Katzenart der Welt ist und jeder Tiger ein einzigartiges Streifenmuster hat, das mit menschlichen Fingerabdrücken vergleichbar ist?",
   autoFreeHints: [
     {
       id: "kt_h1",
@@ -166,7 +166,7 @@ const orang_utan: QuestionBase = {
   },
   alternativeAnswers: ["Orangutan"],
   funFact:
-    "...sein Name aus dem Malaiischen stammt und \"Waldmensch\" bedeutet, und dieses Tier der größte Baumbewohner im Tierreich ist, der fast sein gesamtes Leben in den Bäumen verbringt?",
+    "sein Name aus dem Malaiischen stammt und \"Waldmensch\" bedeutet, und dieses Tier der größte Baumbewohner im Tierreich ist, der fast sein gesamtes Leben in den Bäumen verbringt?",
   autoFreeHints: [
     {
       id: "ou_h1",
@@ -219,7 +219,7 @@ const pfau: QuestionBase = {
   },
   alternativeAnswers: ["Blauer Pfau", "Asiatischer Pfau"],
   funFact:
-    "...die beeindruckende \"Schleppe\" des männlichen Pfaus nicht aus Schwanzfedern, sondern aus verlängerten Deckfedern besteht und das Radschlagen der Balz dient?",
+    "die beeindruckende \"Schleppe\" des männlichen Pfaus nicht aus Schwanzfedern, sondern aus verlängerten Deckfedern besteht und das Radschlagen der Balz dient?",
   autoFreeHints: [
     {
       id: "pfau_h1",
@@ -270,7 +270,7 @@ const asiatischer_elefant: QuestionBase = {
   },
   alternativeAnswers: ["Indischer Elefant"],
   funFact:
-    "...dieses Tier das größte Landsäugetier Asiens ist und im Gegensatz zu seinem afrikanischen Verwandten kleinere, eher dreieckig geformte Ohren hat?",
+    "dieses Tier das größte Landsäugetier Asiens ist und im Gegensatz zu seinem afrikanischen Verwandten kleinere, eher dreieckig geformte Ohren hat?",
   autoFreeHints: [
     {
       id: "ae_h1",
@@ -303,8 +303,8 @@ const asiatischer_elefant: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["elefant"]
     }
   ],
@@ -322,13 +322,13 @@ const asiatischer_elefant: QuestionBase = {
 const roter_panda: QuestionBase = {
   id: 8,
   answer: "Roter Panda",
-  title: "Der flauschige Kletterer",
+  title: "Flauschig",
   images: {
     imageUrl: require("./roter_panda.webp"),
   },
   alternativeAnswers: ["Kleiner Panda"],
   funFact:
-    "...dieses Tier, obwohl es den Namen trägt, nur entfernt mit dem Großen Panda verwandt ist und zur Familie der Kleinbären gehört und den Großteil des Tages schlafend in Bäumen verbringt?",
+    "dieses Tier, obwohl es den Namen trägt, nur entfernt mit dem Großen Panda verwandt ist und zur Familie der Kleinbären gehört und den Großteil des Tages schlafend in Bäumen verbringt?",
   autoFreeHints: [
     {
       id: "rp_h1",
@@ -380,7 +380,7 @@ const python: QuestionBase = {
   },
   alternativeAnswers: ["Tigerpython"],
   funFact:
-    "...diese Schlange zu den größten Schlangen der Welt zählt, bis zu fünf Meter lang werden kann und ihre Beute durch Umschlingen und Ersticken tötet?",
+    "diese Schlange zu den größten Schlangen der Welt zählt, bis zu fünf Meter lang werden kann und ihre Beute durch Umschlingen und Ersticken tötet?",
   autoFreeHints: [
     {
       id: "tp_h1",
@@ -438,5 +438,5 @@ export const asienQuiz: Quiz = {
   title: "Asien",
   questions: tiereAsiens,
   titleImage: require("./koenigstiger.webp"),
-  description: "Entdecke die faszinierende Tierwelt Asiens.",
+  description: "Von Taiga bis Dschungel. Die wilde Seite des größten Kontinents.",
 };

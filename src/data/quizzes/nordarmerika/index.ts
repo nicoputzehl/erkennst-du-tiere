@@ -11,7 +11,7 @@ const weisskopfseeadler: QuestionBase = {
   },
   alternativeAnswers: ["Seeadler", "Bald Eagle"],
   funFact:
-    "...der Weißkopfseeadler seit 1782 der Nationalvogel der USA ist und ausgewachsene Tiere ihren Kopf dank einer extrem beweglichen Nackenwirbelsäule um bis zu 270 Grad drehen können?",
+    "der Weißkopfseeadler seit 1782 der Nationalvogel der USA ist und ausgewachsene Tiere ihren Kopf dank einer extrem beweglichen Nackenwirbelsäule um bis zu 270 Grad drehen können?",
   autoFreeHints: [
     {
       id: "ws_h1",
@@ -44,8 +44,8 @@ const weisskopfseeadler: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["adler"]
     }
   ],
@@ -70,7 +70,7 @@ const stinktier: QuestionBase = {
   },
   alternativeAnswers: ["Skunk"],
   funFact:
-    "...sein übel riechendes Sekret bis zu 6 Meter weit gesprüht werden kann und bei Angreifern vorübergehende Blindheit verursachen kann?",
+    "sein übel riechendes Sekret bis zu 6 Meter weit gesprüht werden kann und bei Angreifern vorübergehende Blindheit verursachen kann?",
   autoFreeHints: [
     {
       id: "stinktier_h1",
@@ -115,13 +115,13 @@ const stinktier: QuestionBase = {
 const klapperschlange: QuestionBase = {
   id: 3,
   answer: "Klapperschlange",
-  title: "Die vibrierende Warnung",
+  title: "Vibrierende Warnung",
   images: {
     imageUrl: require("./klapperschlange.webp"),
     unsolvedImageUrl: require("./klapperschlange_unsolved.webp"),
   },
   funFact:
-    "...die namensgebende Rassel der Klapperschlange aus ineinandergreifenden Keratin-Ringen (wie Fingernägel) besteht und mit jeder Häutung einen neuen Ring bekommt?",
+    "die namensgebende Rassel der Klapperschlange aus ineinandergreifenden Keratin-Ringen (wie Fingernägel) besteht und mit jeder Häutung einen neuen Ring bekommt?",
   autoFreeHints: [
     {
       id: "klapper_h1",
@@ -166,13 +166,13 @@ const klapperschlange: QuestionBase = {
 const waschbaer: QuestionBase = {
   id: 4,
   answer: "Waschbär",
-  title: "Der nächtliche Maskierte",
+  title: "Maskierter",
   images: {
     imageUrl: require("./waschbaer.webp"),
     unsolvedImageUrl: require("./waschbaer_unsolved.webp"),
   },
   funFact:
-    "...der Waschbär für seinen extrem ausgeprägten Tastsinn in den Vorderpfoten bekannt ist, der es ihm ermöglicht, Objekte in der Dunkelheit nur durch Berührung zu erkennen?",
+    "der Waschbär für seinen extrem ausgeprägten Tastsinn in den Vorderpfoten bekannt ist, der es ihm ermöglicht, Objekte in der Dunkelheit nur durch Berührung zu erkennen?",
   autoFreeHints: [
     {
       id: "wbaer_h1",
@@ -223,13 +223,13 @@ const waschbaer: QuestionBase = {
 const grizzly: QuestionBase = {
   id: 5,
   answer: "Grizzly",
-  title: "Der Silbertipp-Riese",
+  title: "Silbertipp-Riese",
   images: {
     imageUrl: require("./grizzly.webp"),
   },
   alternativeAnswers: ["Graubär", "Grizzlybär", "Braunbär"],
   funFact:
-    "...der Grizzly seinen Namen den \"Grizzled\" (grau- oder silberfarbenen) Haarspitzen auf seinem Fell verdankt, die ihm ein gesprenkeltes Aussehen verleihen?",
+    "der Grizzly seinen Namen den \"Grizzled\" (grau- oder silberfarbenen) Haarspitzen auf seinem Fell verdankt, die ihm ein gesprenkeltes Aussehen verleihen?",
   autoFreeHints: [
     {
       id: "grizzly_h1",
@@ -269,8 +269,8 @@ const grizzly: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["bär"]
     }
   ],
@@ -294,7 +294,7 @@ const bison: QuestionBase = {
   },
   alternativeAnswers: ["Amerikanisches Bison", "Büffel", "Indianerbüffel"],
   funFact:
-    "...der Bison das größte Landsäugetier Nordamerikas ist und sein dichtes Winterfell so gut isoliert, dass Schnee auf seinem Rücken nicht schmilzt?",
+    "der Bison das größte Landsäugetier Nordamerikas ist und sein dichtes Winterfell so gut isoliert, dass Schnee auf seinem Rücken nicht schmilzt?",
   autoFreeHints: [
     {
       id: "bison_h1",
@@ -345,7 +345,7 @@ const kojote: QuestionBase = {
   },
   alternativeAnswers: ["Präriewolf", "Steppenwolf"],
   funFact:
-    "...Kojoten sehr anpassungsfähig sind, ihre Verbreitung in Nordamerika enorm ausgeweitet haben und in städtischen Gebieten sogar ein \"Verständnis\" für den Straßenverkehr zeigen?",
+    "Kojoten sehr anpassungsfähig sind, ihre Verbreitung in Nordamerika enorm ausgeweitet haben und in städtischen Gebieten sogar ein \"Verständnis\" für den Straßenverkehr zeigen?",
   autoFreeHints: [
     {
       id: "kojote_h1",
@@ -403,7 +403,7 @@ const kanadagans: QuestionBase = {
   },
   alternativeAnswers: ["Canada Goose"],
   funFact:
-    "...Kanadagänse ihrem Brutpartner oft ein Leben lang treu bleiben und sie auf ihrem Zug in der berühmten V-Formation fliegen, was ihnen hilft, Energie zu sparen?",
+    "Kanadagänse ihrem Brutpartner oft ein Leben lang treu bleiben und sie auf ihrem Zug in der berühmten V-Formation fliegen, was ihnen hilft, Energie zu sparen?",
   autoFreeHints: [
     {
       id: "kanada_h1",
@@ -436,8 +436,8 @@ const kanadagans: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["gans"]
     }
   ],
@@ -468,5 +468,5 @@ export const nordamerikaQuiz: Quiz = {
   title: "Nordamerika",
   questions: nordamerikaTiere,
   titleImage: require("./bison.webp"),
-  description: "Entdecke die Tierwelt Nordamerikas mit diesem Quiz.",
+  description: "Die Wildnis der Neuen Welt. Von Alaska bis zum Grand Canyon.",
 };

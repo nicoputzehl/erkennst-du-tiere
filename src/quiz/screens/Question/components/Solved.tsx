@@ -3,19 +3,16 @@ import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { WikipediaLink } from "@/src/quiz/screens/Question/components/WikipediaLink";
 import type { Question } from "@/src/quiz/types";
 import { StyleSheet, View } from "react-native";
-import { DelayedLottie } from "./DelayedLottie";
 
 export interface SolvedProps {
 	question: Question;
-	justSolved: boolean;
 }
 
-const Solved = ({ question, justSolved: statusChanged }: SolvedProps) => {
+const Solved = ({ question }: SolvedProps) => {
 	const wikipediaSlug = question.wikipediaName || question.answer;
 
 	return (
 		<View style={styles.container}>
-			<DelayedLottie shouldPlay={statusChanged} delay={500} />
 			<View style={styles.content}>
 				{question.funFact && <FunFactSection funFact={question.funFact} />}
 				<View style={{ flexDirection: "row", alignSelf: "flex-start" }} >
@@ -35,7 +32,7 @@ const FunFactSection = ({ funFact }: { funFact: string }) => {
 				style={[styles.funFactHeader, { color: textColor }]}
 				type="title"
 			>
-				Wusstest du das ...
+				Wusstest du, dass ...
 			</ThemedText>
 			<ThemedText style={[styles.funFact, { color: textColor }]}>
 				{funFact}

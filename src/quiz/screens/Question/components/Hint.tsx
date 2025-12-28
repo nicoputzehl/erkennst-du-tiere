@@ -24,7 +24,7 @@ const Hint = ({ hint, onClose, isVisible }: HintProps) => {
 				<View style={styles.overlay2}>
 					<View style={styles.usedHintContainer}>
 						<ThemedText style={styles.usedHintTitle}>
-							💡 {hint.title}
+						{hint.title} 🤓
 						</ThemedText>
 						<ThemedText style={styles.usedHintContent}>
 							{hint.content}
@@ -41,7 +41,6 @@ export default Hint;
 const styles = StyleSheet.create({
 	overlay2: {
 		flex: 1,
-		backgroundColor: "rgba(0, 0, 0, 0.5)",
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -49,18 +48,18 @@ const styles = StyleSheet.create({
 		backgroundColor: "rgba(255, 255, 255, 0.8)",
 		padding: 24,
 		borderRadius: 16,
-		marginBottom: 16,
+		marginTop: 300,
 		width: "90%",
 	},
 	usedHintTitle: {
-		fontSize: 32,
+		fontSize: 24,
 		fontWeight: "600",
 		color: "#000000ff",
 		marginBottom: 4,
 		lineHeight: 40,
 	},
 	usedHintContent: {
-		fontSize: 24,
+		fontSize: 20,
 		color: "#000000ff",
 		lineHeight: 32,
 	},

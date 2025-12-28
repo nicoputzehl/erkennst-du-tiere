@@ -3,12 +3,12 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const haubenmeise: QuestionBase = {
   id: 1,
   answer: "Haubenmeise",
-  title: "Der Schopf-Träger im Nadelwald",
+  title: "Schopf-Träger",
   images: {
     imageUrl: require("./haubenmeise.webp"),
   },
   funFact:
-    "...sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
+    "sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
   autoFreeHints: [
     {
       id: "haubenmeise_h1",
@@ -53,13 +53,13 @@ const haubenmeise: QuestionBase = {
 const bienenfresser: QuestionBase = {
   id: 2,
   answer: "Bienenfresser",
-  title: "Der fliegende Edelstein",
+  title: "Fliegender Edelstein",
   wikipediaName: "Bienenfresser_(Art)",
   images: {
     imageUrl: require("./bienenfresser.webp"),
   },
   funFact:
-    "...er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
+    "er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
   autoFreeHints: [
     {
       id: "bienenfresser_h1",
@@ -104,12 +104,12 @@ const bienenfresser: QuestionBase = {
 const eichelhaeher: QuestionBase = {
   id: 3,
   answer: "Eichelhäher",
-  title: "Der \"Polizist\" des Waldes",
+  title: "Wald-\"Polizist\"",
   images: {
     imageUrl: require("./eichelhaeher.webp"),
   },
   funFact:
-    "...dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
+    "dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
   autoFreeHints: [
     {
       id: "eichelhaeher_h1",
@@ -154,12 +154,12 @@ const eichelhaeher: QuestionBase = {
 const raubwuerger: QuestionBase = {
   id: 4,
   answer: "Raubwürger",
-  title: "Der graue Räuber mit Maske",
+  title: "Räuber mit Maske",
   images: {
     imageUrl: require("./raubwuerger.webp"),
   },
   funFact:
-    "...dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
+    "dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
   autoFreeHints: [
     {
       id: "raubwuerger_h1",
@@ -204,13 +204,13 @@ const raubwuerger: QuestionBase = {
 const gruenspecht: QuestionBase = {
   id: 5,
   answer: "Grünspecht",
-  title: "Der lachende Ameisenjäger",
+  title: "Ameisenjäger",
   images: {
     imageUrl: require("./gruenspecht.webp"),
   },
   alternativeAnswers: ["Grasspecht", "Erdspecht"],
   funFact:
-    "...sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
+    "sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
   autoFreeHints: [
     {
       id: "gruenspecht_h1",
@@ -255,12 +255,12 @@ const gruenspecht: QuestionBase = {
 const wespenbussard: QuestionBase = {
   id: 6,
   answer: "Wespenbussard",
-  title: "Der Honigjäger unter den Greifen",
+  title: "Honigjäger",
   images: {
     imageUrl: require("./wespenbussard.webp"),
   },
   funFact:
-    "...er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
+    "er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
   autoFreeHints: [
     {
       id: "wespenbussard_h1",
@@ -305,12 +305,12 @@ const wespenbussard: QuestionBase = {
 const rotkopfwuerger: QuestionBase = {
   id: 7,
   answer: "Rotkopfwürger",
-  title: "Der Rotkäppchen-Räuber",
+  title: "Rotkäppchen",
   images: {
     imageUrl: require("./rotkopfwuerger.webp"),
   },
   funFact:
-    "...dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
+    "dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
   autoFreeHints: [
     {
       id: "rotkopfwuerger_h1",
@@ -355,12 +355,12 @@ const rotkopfwuerger: QuestionBase = {
 const star: QuestionBase = {
   id: 8,
   answer: "Star",
-  title: "Der Meisterimitator",
+  title: "Meisterimitator",
   images: {
     imageUrl: require("./star.webp"),
   },
   funFact:
-    "...sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
+    "sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
   autoFreeHints: [
     {
       id: "star_h1",
@@ -415,8 +415,8 @@ const heimischeVoegel: QuestionBase[] = [
 
 export const vogelIllustrationenQuiz: Quiz = {
   id: "vogelIllustrationen",
-  title: "Vögel - Illustrationen",
+  title: "Vögel",
   questions: heimischeVoegel,
   titleImage: require("./star.webp"),
-  description: "Teste dein Wissen über die gefiederte Vielfalt in unseren Breitengraden.",
+  description: "Gefiederte Vielfalt. Der Sound direkt vor deiner Tür.",
 };

@@ -9,7 +9,7 @@ const koala: QuestionBase = {
     unsolvedImageUrl: require("./koala_unsolved.webp"),
   },
   alternativeAnswers: ["Beutelbär", "Koalabär"],
-  funFact: "...der Koala bis zu 20 Stunden am Tag schläft, weil Eukalyptusblätter sehr faserig und giftig sind und ihre Verdauung enorme Energie kostet?",
+  funFact: "der Koala bis zu 20 Stunden am Tag schläft, weil Eukalyptusblätter sehr faserig und giftig sind und ihre Verdauung enorme Energie kostet?",
   autoFreeHints: [
     {
       id: "koala_h1",
@@ -72,7 +72,7 @@ const kaenguru: QuestionBase = {
     imageUrl: require("./kaenguru.webp"),
     unsolvedImageUrl: require("./kaenguru_unsolved.webp"),
   },
-  funFact: "...Kängurus sich nicht rückwärts bewegen können, weil ihre Muskulatur und ihr langer, massiver Schwanz das verhindert?",
+  funFact: "Kängurus sich nicht rückwärts bewegen können, weil ihre Muskulatur und ihr langer, massiver Schwanz das verhindert?",
   autoFreeHints: [
     {
       id: "kaenguru_h1",
@@ -130,12 +130,12 @@ const kaenguru: QuestionBase = {
 const quokka: QuestionBase = {
   id: 3,
   answer: "Quokka",
-  title: "Das glücklichste Tier",
+  title: "Bitte Lächeln",
   images: {
     imageUrl: require("./quokka.webp"),
   },
   alternativeAnswers: ["Kurzschwanzkänguru"],
-  funFact: "...das Quokka für sein scheinbar \"lächelndes\" Gesicht berühmt ist, was es zu einem der beliebtesten Fotomotive der Welt macht?",
+  funFact: "das Quokka für sein scheinbar \"lächelndes\" Gesicht berühmt ist, was es zu einem der beliebtesten Fotomotive der Welt macht?",
   autoFreeHints: [
     {
       id: "quokka_h1",
@@ -197,7 +197,7 @@ const wombat: QuestionBase = {
   images: {
     imageUrl: require("./wombat.webp"),
   },
-  funFact: "...der Wombat das einzige Tier der Welt ist, das \"würfelförmigen Kot\" produziert, um damit Markierungen auf erhöhten Steinen zu stapeln?",
+  funFact: "der Wombat das einzige Tier der Welt ist, das \"würfelförmigen Kot\" produziert, um damit Markierungen auf erhöhten Steinen zu stapeln?",
   autoFreeHints: [
     {
       id: "wombat_h1",
@@ -259,7 +259,7 @@ const dingo: QuestionBase = {
   images: {
     imageUrl: require("./dingo.webp"),
   },
-  funFact: "...Dingos nicht wie Haushunde bellen, sondern hauptsächlich durch \"Heulen\" kommunizieren?",
+  funFact: "Dingos nicht wie Haushunde bellen, sondern hauptsächlich durch \"Heulen\" kommunizieren?",
   autoFreeHints: [
     {
       id: "dingo_h1",
@@ -322,7 +322,7 @@ const emu: QuestionBase = {
     imageUrl: require("./emu.webp"),
   },
   alternativeAnswers: ["Großer Emu"],
-  funFact: "...der Emu der \"zweitgrößte\" lebende Vogel der Welt (nach dem Strauß) ist und im Sprint Geschwindigkeiten von bis zu 50 km/h erreichen kann?",
+  funFact: "der Emu der \"zweitgrößte\" lebende Vogel der Welt (nach dem Strauß) ist und im Sprint Geschwindigkeiten von bis zu 50 km/h erreichen kann?",
   autoFreeHints: [
     {
       id: "emu_h1",
@@ -384,7 +384,7 @@ const wallaby: QuestionBase = {
   images: {
     imageUrl: require("./wallaby.webp"),
   },
-  funFact: "...der Name \"Wallaby\" ein Sammelbegriff für jede Känguruart ist, die \"deutlich kleiner\" als die großen Kängurus ist, und keine biologische Klassifikation darstellt?",
+  funFact: "der Name \"Wallaby\" ein Sammelbegriff für jede Känguruart ist, die \"deutlich kleiner\" als die großen Kängurus ist, und keine biologische Klassifikation darstellt?",
   autoFreeHints: [
     {
       id: "wallaby_h1",
@@ -447,7 +447,7 @@ const kookaburra: QuestionBase = {
     imageUrl: require("./kookaburra.webp"),
   },
   alternativeAnswers: ["Jägerliest", "Lachender Hans"],
-  funFact: "...sein charakteristischer Ruf wie lautes, hysterisches menschliches \"Lachen\" klingt, weshalb er auch \"Lachender Hans\" genannt wird?",
+  funFact: "sein charakteristischer Ruf wie lautes, hysterisches menschliches \"Lachen\" klingt, weshalb er auch \"Lachender Hans\" genannt wird?",
   autoFreeHints: [
     {
       id: "kookaburra_h1",
@@ -519,5 +519,5 @@ export const australienQuiz: Quiz = {
   title: "Australien",
   questions: tiereAustraliens,
   titleImage: require("./kaenguru.webp"),
-  description: "Entdecke die einzigartige Tierwelt Australiens.",
+  description: "Land der Beuteltiere. Die gefährlichste und einzigartigste Tierwelt.",
 };

@@ -34,17 +34,11 @@ export const HintsScreen: React.FC<HintsScreenProps> = ({
 					title="Hinweise"
 					leftSlot={
 						<View style={styles.headerLeft}>
-							<FontAwesome6
-								name="lightbulb"
-								size={20}
-								color={iconColor}
-								style={styles.headerIcon}
-							/>
+							<PointsDisplay pointsBalance={pointsBalance} compact />
 						</View>
 					}
 					rightSlot={
 						<View style={styles.headerRight}>
-							<PointsDisplay pointsBalance={pointsBalance} compact />
 							<TouchableOpacity
 								onPress={handleClose}
 								style={styles.closeButton}
@@ -75,19 +69,22 @@ const styles = StyleSheet.create({
 	headerLeft: {
 		flexDirection: "row",
 		alignItems: "center",
+		justifyContent: "flex-start",
 	},
 	headerIcon: {
 		marginRight: 8,
 	},
 	headerRight: {
 		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "flex-end",
+		justifyContent: "flex-end",
 		gap: 8,
 	},
 	closeButton: {
+		marginRight: 8,
 		padding: 4,
 		borderRadius: 20,
-		backgroundColor: "rgba(255, 255, 255, 0.1)",
+
 	},
 	content: {
 		flex: 1,

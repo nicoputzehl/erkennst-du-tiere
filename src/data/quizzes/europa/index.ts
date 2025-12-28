@@ -8,7 +8,7 @@ const wildschwein: QuestionBase = {
     unsolvedImageUrl: require("./wildschwein_unsolved.webp"),
   },
   alternativeAnswers: ["Schwarzwild", "Schwarzkittel"],
-  funFact: "...Wildschweine einen der besten Geruchssinne im Tierreich haben und so gut sind, dass sie in der Lage sind, Trüffel und sogar Drogen unter der Erde zu finden?",
+  funFact: "Wildschweine einen der besten Geruchssinne im Tierreich haben und so gut sind, dass sie in der Lage sind, Trüffel und sogar Drogen unter der Erde zu finden?",
   autoFreeHints: [
     {
       id: "wildschwein_h1",
@@ -73,7 +73,7 @@ const fuchs: QuestionBase = {
   },
   alternativeAnswers: ["Rotfuchs"],
   wikipediaName: "Fuchs_(Raubtier)",
-  funFact: "...der Fuchs das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören kann und sie dann mit einem charakteristischen Sprung, dem \"Mäusesprung\", fängt?",
+  funFact: "der Fuchs das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören kann und sie dann mit einem charakteristischen Sprung, dem \"Mäusesprung\", fängt?",
   autoFreeHints: [
     {
       id: "rotfuchs_h1",
@@ -136,7 +136,7 @@ const wolf: QuestionBase = {
     imageUrl: require("./wolf.webp"),
     unsolvedImageUrl: require("./wolf_unsolved.webp"),
   },
-  funFact: "...Wölfe sehr ausdauernd sind und auf der Suche nach Beute durchschnittlich 40 Kilometer pro Tag zurücklegen, wobei es bei der Abwanderung zur Reviersuche sogar bis zu 70 Kilometer sein können?",
+  funFact: "Wölfe sehr ausdauernd sind und auf der Suche nach Beute durchschnittlich 40 Kilometer pro Tag zurücklegen, wobei es bei der Abwanderung zur Reviersuche sogar bis zu 70 Kilometer sein können?",
   autoFreeHints: [
     {
       id: "wolf_h1",
@@ -208,7 +208,7 @@ const hase: QuestionBase = {
   },
   wikipediaName: "Feldhase",
   alternativeAnswers: ["Feldhase"],
-  funFact: "...der Feldhase bei Gefahr zunächst regungslos in seiner Mulde (\"Sasse\") verharrt und erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h flieht?",
+  funFact: "der Feldhase bei Gefahr zunächst regungslos in seiner Mulde (\"Sasse\") verharrt und erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h flieht?",
   autoFreeHints: [
     {
       id: "feldhase_h1",
@@ -272,7 +272,7 @@ const braunbaer: QuestionBase = {
     unsolvedImageUrl: require("./braunbaer_unsolved.webp"),
   },
   alternativeAnswers: ["Europäischer Braunbär"],
-  funFact: "...ein Braunbärenjunges bei der Geburt kaum mehr als eine Tafel Schokolade (ca. 100–500 Gramm) wiegt und blind ist, obwohl die Mutter selbst bis zu 400 kg wiegen kann?",
+  funFact: "ein Braunbärenjunges bei der Geburt kaum mehr als eine Tafel Schokolade (ca. 100–500 Gramm) wiegt und blind ist, obwohl die Mutter selbst bis zu 400 kg wiegen kann?",
   autoFreeHints: [
     {
       id: "braunbaer_h1",
@@ -311,8 +311,8 @@ const braunbaer: QuestionBase = {
     {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
-      content: "Aber die Lösung ist etwas genauer.",
-      title: "Nicht falsch",
+      content: "Die Lösung ist etwas genauer.",
+      title: "Nicht ganz",
       triggers: ["bär"]
     }
   ],
@@ -343,7 +343,7 @@ const eichhoernchen: QuestionBase = {
     unsolvedImageUrl: require("./eichhoernchen_unsolved.webp"),
   },
   alternativeAnswers: ["Eurasisches Eichhörnchen"],
-  funFact: "...Eichhörnchen entgegen der allgemeinen Annahme jedes Jahr Tausende ihrer versteckten Nüsse vergessen, was aber wichtig ist, da so unabsichtlich neue Bäume wachsen?",
+  funFact: "Eichhörnchen entgegen der allgemeinen Annahme jedes Jahr Tausende ihrer versteckten Nüsse vergessen, was aber wichtig ist, da so unabsichtlich neue Bäume wachsen?",
   autoFreeHints: [
     {
       id: "eichhoernchen_h1",
@@ -406,7 +406,7 @@ const elch: QuestionBase = {
     imageUrl: require("./elch.webp"),
     unsolvedImageUrl: require("./elch_unsolved.webp"),
   },
-  funFact: "...Elche entgegen alter römischer Überlieferungen sehr wohl ihre Knie beugen können und sie außerdem hervorragende Schwimmer sind, die dank Schwimmhäuten zwischen den Hufen weite Strecken zurücklegen können?",
+  funFact: "Elche entgegen alter römischer Überlieferungen sehr wohl ihre Knie beugen können und sie außerdem hervorragende Schwimmer sind, die dank Schwimmhäuten zwischen den Hufen weite Strecken zurücklegen können?",
   autoFreeHints: [
     {
       id: "elch_h1",
@@ -469,7 +469,7 @@ const dachs: QuestionBase = {
     imageUrl: require("./dachs.webp"),
   },
   alternativeAnswers: ["Europäischer Dachs"],
-  funFact: "...der Bau eines Dachses über viele Jahrzehnte von Generationen bewohnt werden kann und zu einem riesigen unterirdischen Labyrinth, einer sogenannten \"Dachsburg\" mit mehreren Etagen und vielen Ein- und Ausgängen, werden kann?",
+  funFact: "der Bau eines Dachses über viele Jahrzehnte von Generationen bewohnt werden kann und zu einem riesigen unterirdischen Labyrinth, einer sogenannten \"Dachsburg\" mit mehreren Etagen und vielen Ein- und Ausgängen, werden kann?",
   autoFreeHints: [
     {
       id: "dachs_h1",
@@ -540,5 +540,5 @@ export const europaQuiz: Quiz = {
   title: "Europa",
   questions: tiereEuropas,
   titleImage: require("./wolf.webp"),
-  description: "Entdecke die heimische Tierwelt Europas mit diesem Quiz.",
+  description: "Die Wildnis vor deiner Haustür. Die heimliche Tierwelt des Kontinents.",
 };
