@@ -88,7 +88,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 	if (!question) {
 		return <ErrorComponent message="Frage nicht gefunden" />;
 	}
-	console.log("ISSST KORRREKTTT:", isCorrect);
+
 	return (
 		<GestureHandler onSwipeLeft={() => {
 			if (navigateToNextQuestion && isSolved) {
