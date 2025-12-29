@@ -1,6 +1,7 @@
 import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
 import { type MultiplePlaythroughCondition, type ProgressCondition, isMultiplePlaythroughCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
+import { log } from "@/src/common/helper/logging";
 
 export const checkUnlockCondition = (
 	condition: UnlockCondition,
@@ -58,12 +59,12 @@ const checkProgressCondition = (
 ): { isMet: boolean; progress: number } => {
 	const { requiredQuestionsSolved, requiredQuizId } = condition;
 	const quizState = quizStates[requiredQuizId];
-	console.log("[checkProgressCondition] requiredQuestionsSolved", requiredQuestionsSolved);
-	console.log("[checkProgressCondition]  completedQuestions", quizState.completedQuestions);
+	log("[checkProgressCondition] requiredQuestionsSolved", requiredQuestionsSolved);
+	log("[checkProgressCondition]  completedQuestions", quizState.completedQuestions);
 	const isMet = quizState.completedQuestions >= requiredQuestionsSolved;
 
 	const progress = isMet ? 100 : calculateCompletionPercentage(requiredQuestionsSolved, quizState.completedQuestions);
-	console.log("checkProgressCondition",{ isMet, progress });
+	log("checkProgressCondition",{ isMet, progress });
 	return { isMet, progress };
 }
 

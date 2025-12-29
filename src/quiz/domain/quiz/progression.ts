@@ -1,5 +1,6 @@
 import { type Question, QuestionStatus, type QuizState } from "../../types";
 import { isAnswerCorrect } from "./answerComparison";
+import { log } from "@/src/common/helper/logging";
 
 export const findNextInactiveQuestionIndex = (
 	questions: Question[],
@@ -59,7 +60,7 @@ export const calculateAnswerResult = (
 		questionIndex,
 	);
 
-	console.log("state.completedQuestions", state.completedQuestions);
+	log("state.completedQuestions", state.completedQuestions);
 
 	return {
 		newState: {

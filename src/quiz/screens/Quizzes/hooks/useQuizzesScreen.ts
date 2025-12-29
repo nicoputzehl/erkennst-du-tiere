@@ -1,6 +1,7 @@
 import { useUI, useUnlockDetection } from "@/src/quiz/store";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { useEffect } from "react";
+import { log } from "@/src/common/helper/logging";
 
 export function useQuizzesScreen() {
 	const { quizzes, initializeQuizState } = useQuiz();
@@ -12,16 +13,16 @@ export function useQuizzesScreen() {
 			setLoading("quizzesInit", true);
 
 			try {
-				console.log("[useQuizzesScreen] Initializing quiz states...");
+				log("[useQuizzesScreen] Initializing quiz states...");
 
 				for (const quiz of quizzes) {
 					initializeQuizState(quiz.id);
 				}
 
-				console.log("[useQuizzesScreen] All quiz states initialized");
+				log("[useQuizzesScreen] All quiz states initialized");
 
 				setTimeout(() => {
-					console.log("[useQuizzesScreen] Running missed unlock detection");
+					log("[useQuizzesScreen] Running missed unlock detection");
 					detectMissedUnlocks();
 				}, 200);
 

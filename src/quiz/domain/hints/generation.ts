@@ -1,3 +1,4 @@
+import { logWarn } from "@/src/common/helper/logging";
 import type { QuestionBase } from "../../types";
 import type { ContextualHint, Hint } from "../../types/hint";
 
@@ -14,7 +15,7 @@ export const generateHintContent = (hint: Hint, question: QuestionBase): string 
   }
   
   // Fallback für den unwahrscheinlichen Fall, dass Content fehlt
-  console.warn(`Hint ${hint.id} has no content, this should not happen`);
+  logWarn(`Hint ${hint.id} has no content, this should not happen`);
   return "Hint nicht verfügbar";
 };
 

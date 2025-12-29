@@ -54,9 +54,9 @@ export function useQuizScreen(quizId: string | null) {
 		}
 	}, [quizId, getQuizState]);
 
-	const handleQuestionClick = useCallback((questionId: string) => {
+	const handleQuestionClick = useCallback((questionId: number) => {
 		if (quizId) {
-			NavigationService.toQuestion(quizId, questionId);
+			NavigationService.toQuestion(quizId, String(questionId));
 		}
 	},[quizId]);
 

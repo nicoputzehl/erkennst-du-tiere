@@ -1,5 +1,6 @@
 import type { QuizConfig } from "@/src/quiz/types";
 import { useQuizStore } from "../store/Store";
+import { log } from "@/src/common/helper/logging";
 
 /**
  * Simplified quiz registration - replaces the complex utils/index.ts approach
@@ -7,14 +8,14 @@ import { useQuizStore } from "../store/Store";
 export function registerQuizzes(configs: QuizConfig[]) {
 	const store = useQuizStore.getState();
 
-	console.log(`[QuizInit] Registering ${configs.length} quiz configs`);
+	log(`[QuizInit] Registering ${configs.length} quiz configs`);
 
 	for (const config of configs) {
-		console.log(`[QuizInit] Registering quiz: ${config.id}`);
+		log(`[QuizInit] Registering quiz: ${config.id}`);
 		store.registerQuiz(config);
 	}
 
-	console.log(
+	log(
 		`[QuizInit] All ${configs.length} quizzes registered successfully`,
 	);
 }
@@ -26,11 +27,11 @@ export async function initializeAllQuizzes() {
 	const store = useQuizStore.getState();
 	const quizIds = Object.keys(store.quizzes);
 
-	console.log(`[QuizInit] Initializing ${quizIds.length} quiz states`);
+	log(`[QuizInit] Initializing ${quizIds.length} quiz states`);
 
 	for (const quizId of quizIds) {
 		store.initializeQuizState(quizId);
 	}
 
-	console.log(`[QuizInit] All quiz states initialized`);
+	log(`[QuizInit] All quiz states initialized`);
 }

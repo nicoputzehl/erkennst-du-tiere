@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { QuizStore } from "../Store";
+import { log } from "@/src/common/helper/logging";
 
 export type ToastType = "success" | "error" | "info" | "warning";
 
@@ -63,7 +64,7 @@ export const createUISlice: StateCreator<QuizStore, [], [], UISlice> = (
 			visible: true,
 		};
 
-		console.log(`[UISlice] Showing ${type} toast with ID ${newId}: ${message}`);
+		log(`[UISlice] Showing ${type} toast with ID ${newId}: ${message}`);
 
 		set((state) => ({
 			toast: [...(state.toast || []), newToast],
@@ -79,13 +80,13 @@ export const createUISlice: StateCreator<QuizStore, [], [], UISlice> = (
 				toastItem.id === id ? { ...toastItem, visible: false } : toastItem,
 			),
 		}));
-		console.log(`[UISlice] Marking toast with ID ${id} as hidden`);
+		log(`[UISlice] Marking toast with ID ${id} as hidden`);
 	},
 	removeToast: (id: number) => {
 		set((state) => ({
 			toast: (state.toast || []).filter((toastItem) => toastItem.id !== id),
 		}));
-		console.log(`[UISlice] Hiding toast with ID ${id}`);
+		log(`[UISlice] Hiding toast with ID ${id}`);
 	},
 	setCurrentQuiz: (quizId: string | null) => {
 		set((state) => ({

@@ -13,6 +13,7 @@ import type { UserPointsState } from "../types/hint";
 import { type HintSlice, createHintSlice } from "./slices/Hint";
 import { type QuizSlice, createQuizSlice } from "./slices/Quiz";
 import { type UISlice, createUISlice } from "./slices/UI";
+import { log } from "@/src/common/helper/logging";
 
 export interface QuizStore extends QuizSlice, HintSlice, UISlice {
 	userPoints: UserPointsState;
@@ -106,7 +107,7 @@ export const useQuizStore = create<QuizStore>()(
 				userPoints: state.userPoints,
 			}),
 			onRehydrateStorage: (state) => {
-				console.log(
+				log(
 					"[QuizStore] Rehydrating store - START onRehydrateStorage callback",
 				);
 				return (persistedState, error) => {
@@ -116,12 +117,12 @@ export const useQuizStore = create<QuizStore>()(
 							.getState()
 							.showToast("Fehler beim Laden der Daten!", "error");
 					} else {
-						console.log(
+						log(
 							"[QuizStore] Hydration successful. Now performing post-hydration tasks.",
 						);
 						useQuizStore.getState().detectMissedUnlocks();
 					}
-					console.log(
+					log(
 						"[QuizStore] Rehydrating store - END onRehydrateStorage callback",
 					);
 				};

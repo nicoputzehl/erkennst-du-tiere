@@ -1,6 +1,7 @@
 // app/index.tsx - Corrected
 import { ErrorComponent } from "@/src/common/components/ErrorComponent";
 import { LoadingComponent } from "@/src/common/components/LoadingComponent";
+import { log } from "@/src/common/helper/logging";
 import QuizzesScreen from "@/src/quiz/screens/Quizzes/QuizzesScreen";
 import { useLoading } from "@/src/quiz/store"; // Assuming this provides app-wide loading status
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
@@ -12,7 +13,7 @@ export default function QuizzesRoute() {
 	const { isLoading } = useLoading("initialization"); // Still relevant for specific async ops
 
 	// Logging for debugging the final state
-	console.log(
+	log(
 		`[QuizzesRoute] Rendering. Quizzes count: ${quizzes.length}, IsLoading (from useLoading): ${isLoading}`,
 	);
 

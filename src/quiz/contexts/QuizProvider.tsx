@@ -1,12 +1,13 @@
 import { ThemedText } from "@/src/common/components/ThemedText";
+import { newAnmilQuizConfig } from "@/src/data";
 import React, { type ReactNode, useEffect, useRef } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
-	initializeAllQuizzes,
-	registerQuizzes,
+    initializeAllQuizzes,
+    registerQuizzes,
 } from "../initialization/registerQuizzes";
 import { useQuizStore } from "../store/Store";
-import { newAnmilQuizConfig } from "@/src/data";
+import { log, logWarn } from "@/src/common/helper/logging";
 
 interface QuizProviderProps {
 	children: ReactNode;
@@ -42,7 +43,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		const currentCount = currentQuizStatesCount;
 
 		if (previousCount > 0 && currentCount === 0) {
-			console.log(
+			log(
 				"[QuizProvider] RESET DETECTED: Quiz states were cleared, resetting flags",
 			);
 			hasRegisteredQuizzesRef.current = false;
@@ -57,7 +58,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	useEffect(() => {
 		let isMounted = true;
 
-		console.log(
+		log(
 			`[QuizProvider-Effect1] Check conditions - Hydrated: ${hasStoreHydrated}, RegisteredRef: ${hasRegisteredQuizzesRef.current}, DataLoadedInStore: ${isQuizDataLoadedInStore}, QuizzesCount: ${Object.keys(quizzesRecord).length}`,
 		);
 
@@ -67,13 +68,13 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			hasRegisteredQuizzesRef.current ||
 			(isQuizDataLoadedInStore && Object.keys(quizzesRecord).length > 0)
 		) {
-			console.log(
+			log(
 				`[QuizProvider-Effect1] Skipping registration. Conditions not met.`,
 			);
 			return;
 		}
 
-		console.log(
+		log(
 			"[QuizProvider-Effect1] Attempting to register quiz configs...",
 		);
 
@@ -81,13 +82,13 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			registerQuizzes(newAnmilQuizConfig);
 
 			const currentQuizzesInStore = useQuizStore.getState().quizzes;
-			console.log(
+			log(
 				"[QuizProvider-Effect1] Quizzes in store AFTER registerQuizzes:",
 				Object.keys(currentQuizzesInStore).length,
 			);
 
 			if (Object.keys(currentQuizzesInStore).length > 0) {
-				console.log(
+				log(
 					"[QuizProvider-Effect1] Quiz configs successfully registered. Setting isQuizDataLoaded to true.",
 				);
 				if (isMounted) {
@@ -95,7 +96,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 					hasRegisteredQuizzesRef.current = true;
 				}
 			} else {
-				console.warn(
+				logWarn(
 					"[QuizProvider-Effect1] Quiz configs registered, but quizzes object in store is still empty.",
 				);
 			}
@@ -127,7 +128,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		const areQuizStatesInitializedInStore =
 			Object.keys(quizStatesRecord).length > 0;
 
-		console.log(
+		log(
 			`[QuizProvider-Effect2] Check conditions - DataLoaded: ${isQuizDataLoadedInStore}, InitializedRef: ${hasInitializedStatesRef.current}, StatesInStore: ${areQuizStatesInitializedInStore}, QuizzesInStore: ${Object.keys(quizzesRecord).length}`,
 		);
 
@@ -137,19 +138,19 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			areQuizStatesInitializedInStore ||
 			Object.keys(quizzesRecord).length === 0
 		) {
-			console.log(
+			log(
 				`[QuizProvider-Effect2] Skipping state initialization. Conditions not met.`,
 			);
 			return;
 		}
 
 		const initializeStates = async () => {
-			console.log("[QuizProvider-Effect2] Initializing all quiz states...");
+			log("[QuizProvider-Effect2] Initializing all quiz states...");
 			try {
 				await initializeAllQuizzes();
 				if (isMounted) {
 					hasInitializedStatesRef.current = true;
-					console.log("[QuizProvider-Effect2] All quiz states initialized.");
+					log("[QuizProvider-Effect2] All quiz states initialized.");
 				}
 			} catch (error) {
 				console.error(
@@ -178,7 +179,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	const isAppReady =
 		hasStoreHydrated && isQuizDataLoadedInStore && hasQuizzes && hasQuizStates;
 
-	console.log(`[QuizProvider] App readiness check:`, {
+	log(`[QuizProvider] App readiness check:`, {
 		hasStoreHydrated,
 		isQuizDataLoadedInStore,
 		hasQuizzes,
@@ -195,7 +196,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 					? "Quiz-Zustände werden initialisiert..."
 					: "App wird geladen...";
 
-		console.log(`[QuizProvider] App not ready: ${loadingMessage}`);
+		log(`[QuizProvider] App not ready: ${loadingMessage}`);
 
 		return (
 			<View style={styles.loadingContainer}>
@@ -205,7 +206,7 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		);
 	}
 
-	console.log("[QuizProvider] App ready, rendering children");
+	log("[QuizProvider] App ready, rendering children");
 	return <>{children}</>;
 }
 
