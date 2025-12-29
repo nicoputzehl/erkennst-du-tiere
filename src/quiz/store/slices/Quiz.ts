@@ -3,6 +3,7 @@ import { HintUtils } from "../../domain/hints";
 import { QuizUtils } from "../../domain/quiz";
 import { QuestionStatus, type ContextualHint, type PointTransaction, type Quiz, type QuizConfig, type QuizState, type UnlockCondition } from "../../types";
 import type { QuizStore } from "../Store";
+import { log, logWarn } from "@/src/common/helper/logging";
 
 export interface AnswerResult {
   isCorrect: boolean;
@@ -57,7 +58,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   pendingUnlocks: [],
 
   registerQuiz: (config: QuizConfig) => {
-    console.log(`[QuizSlice] Registering quiz: ${config.id}`);
+    log(`[QuizSlice] Registering quiz: ${config.id}`);
     const quiz: Quiz = {
       id: config.id,
       title: config.title,
@@ -72,7 +73,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   },
 
   setQuizDataLoaded: (loaded: boolean) => {
-    console.log(`[QuizSlice] Setting isQuizDataLoaded to: ${loaded}`);
+    log(`[QuizSlice] Setting isQuizDataLoaded to: ${loaded}`);
     set({ isQuizDataLoaded: loaded });
   },
 
@@ -84,7 +85,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
     const quiz = quizzes[quizId];
     const config = quizConfigs[quizId];
     if (!quiz || !config) {
-      console.warn(`[QuizSlice] Quiz ${quizId} not found for initialization`);
+      logWarn(`[QuizSlice] Quiz ${quizId} not found for initialization`);
       return null;
     }
     const newState = QuizUtils.createQuizState(quiz, {
@@ -97,7 +98,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   },
 
   updateQuizState: (quizId: string, newState: QuizState) => {
-    console.log(`[QuizSlice] Updating quiz state for ${quizId}`);
+    log(`[QuizSlice] Updating quiz state for ${quizId}`);
     set((state) => ({
       quizStates: { ...state.quizStates, [quizId]: newState },
     }));
@@ -151,7 +152,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   },
 
   resetAllQuizStates: () => {
-    console.log("[QuizSlice] Resetting all quiz states...");
+    log("[QuizSlice] Resetting all quiz states...");
     const { quizzes, quizConfigs } = get();
     const newQuizStates: Record<string, QuizState> = {};
 
@@ -172,13 +173,13 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   },
 
   answerQuestion: async (quizId: string, questionId: number, answer: string) => {
-    console.log(`[QuizSlice] Processing answer for ${quizId}/${questionId}: "${answer}"`);
+    log(`[QuizSlice] Processing answer for ${quizId}/${questionId}: "${answer}"`);
 
     const { quizStates, updateQuizState, showToast, addPoints } = get();
     const currentState = quizStates[quizId];
 
     if (!currentState) {
-      console.warn(`[QuizSlice] Quiz state not found for ${quizId}`);
+      logWarn(`[QuizSlice] Quiz state not found for ${quizId}`);
       return { isCorrect: false, unlockedQuizzes: [], completedQuiz: false };
     }
 
@@ -247,7 +248,7 @@ export const createQuizSlice: StateCreator<QuizStore, [], [], QuizSlice> = (set,
   },
 
   detectMissedUnlocks: () => {
-    console.log("[QuizSlice] Checking for missed unlocks...");
+    log("[QuizSlice] Checking for missed unlocks...");
     const { quizzes, quizStates, addPendingUnlock } = get();
 
     for (const [quizId, quizState] of Object.entries(quizStates)) {

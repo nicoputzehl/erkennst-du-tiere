@@ -1,3 +1,4 @@
+import { logWarn } from "@/src/common/helper/logging";
 import type { AutoFreeHint, ContextualHint, CustomHint, QuestionBase } from "../../types";
 import { type StandardHint, HintType } from "../../types/hint";
 import { Config } from "../config";
@@ -41,7 +42,7 @@ function generateStandardHintContent(hintType: HintType, question: QuestionBase)
       return `Das gesuchte Tier beginnt mit "${getFirstLetter(question)}"`;
 
     default:
-      console.warn(`Unknown standard hint type: ${hintType}`);
+      logWarn(`Unknown standard hint type: ${hintType}`);
       return "Hint nicht verfügbar";
   }
 }

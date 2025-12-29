@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { useUI } from "../store";
 import AnimatedToast from "./AnimatedToast";
+import { log } from "@/src/common/helper/logging";
 
 export function ToastContainer() {
 	const { toast: toasts, removeToast, markToastHidden } = useUI();
@@ -25,7 +26,7 @@ export function ToastContainer() {
 					index={index}
 					markHidden={() => markToastHidden(t.id)}
 					onRemove={() => {
-						console.log("[ToastContainer] removeToast", t.id);
+						log("[ToastContainer] removeToast", t.id);
 						removeToast(t.id);
 					}}
 				/>

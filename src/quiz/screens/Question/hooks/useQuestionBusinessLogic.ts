@@ -4,6 +4,7 @@ import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import type { Question } from "@/src/quiz/types";
 import { useCallback } from "react";
 import type { WrongAnswerHint } from "../Question.types";
+import { log } from "@/src/common/helper/logging";
 
 interface UseQuestionBusinessLogicProps {
 	quizId: string;
@@ -54,7 +55,7 @@ export const useQuestionBusinessLogic = ({
 				result.unlockedQuizzes.forEach((unlockedQuiz: any, index: number) => {
 					setTimeout(
 						() => {
-							showSuccess(`🎉 "${unlockedQuiz.title}" freigeschaltet!`, 4000);
+							showSuccess(`🎉 "${unlockedQuiz.title}" freigeschaltet!`);
 						},
 						(index + 1) * 500,
 					);
@@ -66,14 +67,14 @@ export const useQuestionBusinessLogic = ({
 
 	const handleIncorrectAnswer = useCallback(
 		async (userAnswer: string) => {
-			console.log(
+			log(
 				"[handleIncorrectAnswer] Processing incorrect answer:",
 				userAnswer,
 			);
 
 			const triggerResult = handleWrongAnswer(userAnswer);
 
-			console.log("[handleIncorrectAnswer] Trigger result:", {
+			log("[handleIncorrectAnswer] Trigger result:", {
 				contextualHints: triggerResult.contextualHints.length,
 				autoFreeHints: triggerResult.autoFreeHints.length,
 			});
@@ -83,7 +84,7 @@ export const useQuestionBusinessLogic = ({
 			if (triggerResult.contextualHints.length > 0) {
 				const contextualHint = triggerResult.contextualHints[0];
 
-				console.log(
+				log(
 					"[handleIncorrectAnswer] Showing contextual hint:",
 					contextualHint.id,
 				);
@@ -98,7 +99,7 @@ export const useQuestionBusinessLogic = ({
 			} else if (triggerResult.autoFreeHints.length > 0) {
 				const autoFreeHint = triggerResult.autoFreeHints[0];
 
-				console.log(
+				log(
 					"[handleIncorrectAnswer] Showing auto-free hint:",
 					autoFreeHint.id,
 				);

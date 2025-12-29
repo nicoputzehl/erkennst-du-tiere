@@ -1,6 +1,7 @@
 import { NavigationService } from "@/src/quiz/services/NavigationService";
 import { useQuiz } from "@/src/quiz/store/hooks/useQuiz";
 import { useCallback, useEffect, useState } from "react";
+import { log } from "@/src/common/helper/logging";
 
 export const useQuizzes = () => {
 	const {
@@ -14,14 +15,14 @@ export const useQuizzes = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
-		console.log("[useQuizzes] hook rendering");
+		log("[useQuizzes] hook rendering");
 	});
 
 	// Fortschritt für ein Quiz abrufen mit Debug-Ausgabe - in useCallback einpacken
 	const getProgress = useCallback(
 		(quizId: string): number => {
 			const progress = getQuizProgress(quizId);
-			console.log(
+			log(
 				`[QuizDisplayProvider] Progress for quiz ${quizId}: ${progress}%`,
 			);
 
@@ -30,11 +31,11 @@ export const useQuizzes = () => {
 			if (state) {
 				const calculatedProgress =
 					(state.completedQuestions / state.questions.length) * 100;
-				console.log(
+				log(
 					`[QuizDisplayProvider] Quiz state for ${quizId}: ${state.completedQuestions}/${state.questions.length} = ${calculatedProgress}%`,
 				);
 			} else {
-				console.log(`[QuizDisplayProvider] No quiz state found for ${quizId}`);
+				log(`[QuizDisplayProvider] No quiz state found for ${quizId}`);
 			}
 
 			return progress;
@@ -50,7 +51,7 @@ export const useQuizzes = () => {
 				// Quiz-Zustand initialisieren, falls noch nicht geschehen
 				const state = await initializeQuizState(quizId);
 				if (state) {
-					console.log(
+					log(
 						`[QuizDisplayProvider] Quiz ${quizId} initialized: ${state.completedQuestions}/${state.questions.length} completed`,
 					);
 				}

@@ -3,6 +3,7 @@ import { type PurchasableHint, type AutoFreeHint, type HintTriggerResult, HintTy
 import { useQuizStore } from "../Store";
 import { isAutoFreeHint, isContextualHint, isStandardHint, isCustomHint } from "../../domain/hints/validation";
 import { HintUtils } from "../../domain/hints";
+import { log, logWarn } from "@/src/common/helper/logging";
 
 export const useHints = (quizId: string, questionId: number) => {
   const quizState = useQuizStore((state) => state.quizStates[quizId]);
@@ -18,18 +19,18 @@ export const useHints = (quizId: string, questionId: number) => {
 
 
   const allHintsWithStatus = useMemo(() => {
-    console.log(`🔍 [useHints] Starting hint analysis for question ${questionId}`);
-    console.log(`🔍 [useHints] Question exists: ${!!question}, HintState exists: ${!!hintState}`);
-    console.log(`🔍 [useHints] Global points balance: ${globalPointsBalance}`);
+    log(`🔍 [useHints] Starting hint analysis for question ${questionId}`);
+    log(`🔍 [useHints] Question exists: ${!!question}, HintState exists: ${!!hintState}`);
+    log(`🔍 [useHints] Global points balance: ${globalPointsBalance}`);
 
     if (!question || !hintState) {
-      console.log(`🔍 [useHints] Missing question or hint state, returning empty array`);
+      log(`🔍 [useHints] Missing question or hint state, returning empty array`);
       return [];
     }
 
     const allAvailableHints = HintUtils.generateAllHints(question);
 
-    console.log(`🔍 [useHints] Generated ${allAvailableHints.length} total hints:`, {
+    log(`🔍 [useHints] Generated ${allAvailableHints.length} total hints:`, {
       standardHints: allAvailableHints.filter(isStandardHint).length,
       customHints: allAvailableHints.filter(isCustomHint).length,
       contextualHints: allAvailableHints.filter(isContextualHint).length,
@@ -37,7 +38,7 @@ export const useHints = (quizId: string, questionId: number) => {
     });
 
     const hintsWithStatus = allAvailableHints.map((hint) => {
-      console.log(`🔍 [useHints] Analyzing hint:`, {
+      log(`🔍 [useHints] Analyzing hint:`, {
         id: hint.id,
         type: hint.type,
         title: hint.title,
@@ -54,7 +55,7 @@ export const useHints = (quizId: string, questionId: number) => {
 
       if (alreadyUsed) {
         reason = "Hint bereits verwendet";
-        console.log(`🔍 [useHints] Hint ${hint.id} already used`);
+        log(`🔍 [useHints] Hint ${hint.id} already used`);
       } else if (isAutoFreeHint(hint)) {
         const autoFreeTriggered = hintState.wrongAttempts >= hint.triggerAfterAttempts;
         const alreadyMarkedAutoFree = hintState.autoFreeHintsUsed?.includes(hint.id);
@@ -64,7 +65,7 @@ export const useHints = (quizId: string, questionId: number) => {
           ? undefined
           : `Erst nach ${hint.triggerAfterAttempts} falschen Versuchen`;
 
-        console.log(`🔍 [useHints] Auto-free hint ${hint.id}:`, {
+        log(`🔍 [useHints] Auto-free hint ${hint.id}:`, {
           wrongAttempts: hintState.wrongAttempts,
           requiredAttempts: hint.triggerAfterAttempts,
           autoFreeTriggered,
@@ -75,11 +76,11 @@ export const useHints = (quizId: string, questionId: number) => {
       } else if (isContextualHint(hint)) {
         canUse = false;
         reason = "Wird durch Antworten ausgelöst";
-        console.log(`🔍 [useHints] Contextual hint ${hint.id} - not purchasable`);
+        log(`🔍 [useHints] Contextual hint ${hint.id} - not purchasable`);
       } else if (isStandardHint(hint) || isCustomHint(hint)) {
         // HIER IST DER KRITISCHE PUNKT für Standard-Hints!
         const hintCost = (hint as any).cost;
-        console.log(`🔍 [useHints] Checking purchasable hint ${hint.id}:`, {
+        log(`🔍 [useHints] Checking purchasable hint ${hint.id}:`, {
           hintCost,
           globalPointsBalance,
           hasEnoughPoints: globalPointsBalance >= hintCost,
@@ -94,18 +95,18 @@ export const useHints = (quizId: string, questionId: number) => {
           reason = canUse ? undefined : "Nicht genug Punkte";
         }
 
-        console.log(`🔍 [useHints] Standard/Custom hint ${hint.id} result:`, {
+        log(`🔍 [useHints] Standard/Custom hint ${hint.id} result:`, {
           canUse,
           reason,
         });
       } else {
-        console.warn(`🔍 [useHints] Unknown hint type:`, hint);
+        logWarn(`🔍 [useHints] Unknown hint type:`, hint);
         canUse = false;
         reason = "Unbekannter Hint-Typ";
       }
 
       const result = { hint, canUse, reason, alreadyUsed };
-      console.log(`🔍 [useHints] Final status for hint ${hint.id}:`, {
+      log(`🔍 [useHints] Final status for hint ${hint.id}:`, {
         canUse: result.canUse,
         reason: result.reason,
         alreadyUsed: result.alreadyUsed,
@@ -114,7 +115,7 @@ export const useHints = (quizId: string, questionId: number) => {
       return result;
     });
 
-    console.log(`🔍 [useHints] Final hint analysis summary:`, {
+    log(`🔍 [useHints] Final hint analysis summary:`, {
       totalHints: hintsWithStatus.length,
       usableHints: hintsWithStatus.filter(h => h.canUse).length,
       usedHints: hintsWithStatus.filter(h => h.alreadyUsed).length,
@@ -125,22 +126,22 @@ export const useHints = (quizId: string, questionId: number) => {
 
 
   const purchasableHints = useMemo(() => {
-    console.log(`🛒 [useHints] Filtering purchasable hints from ${allHintsWithStatus.length} total hints`);
+    log(`🛒 [useHints] Filtering purchasable hints from ${allHintsWithStatus.length} total hints`);
 
     const purchasable = allHintsWithStatus.filter((h) => {
       const isPurchasableType = isStandardHint(h.hint) || isCustomHint(h.hint);
       const isUsable = h.canUse;
 
-      console.log(`🛒 [useHints] Checking hint ${h.hint.id}:`, {
+      log(`🛒 [useHints] Checking hint ${h.hint.id}:`, {
         isPurchasableType,
         isUsable,
         willBeIncluded: isPurchasableType,
       });
 
-      return isPurchasableType ;
+      return isPurchasableType;
     }) as { hint: PurchasableHint; canUse: boolean; reason: string | undefined; alreadyUsed: boolean; }[];
 
-    console.log(`🛒 [useHints] Found ${purchasable.length} purchasable hints:`,
+    log(`🛒 [useHints] Found ${purchasable.length} purchasable hints:`,
       purchasable.map(h => ({ id: h.hint.id, title: h.hint.title, cost: (h.hint as any).cost }))
     );
 
@@ -149,19 +150,19 @@ export const useHints = (quizId: string, questionId: number) => {
 
   const usedHints = useMemo(() => {
     const used = hintState?.usedHints || [];
-    console.log(`📖 [useHints] Used hints: ${used.length}`, used.map(h => h.id));
+    log(`📖 [useHints] Used hints: ${used.length}`, used.map(h => h.id));
     return used;
   }, [hintState?.usedHints]);
 
   const visibleHints = useMemo(() => {
     const visible = hintState?.visibleHints || [];
-    console.log(`📖 [useHints] Visible hints: ${visible.length}`, visible.map(h => h.type));
+    log(`📖 [useHints] Visible hints: ${visible.length}`, visible.map(h => h.type));
     return visible;
   }, [hintState?.visibleHints]);
 
   const firstLetterHint = useMemo(() => {
     const firstLetter = hintState.visibleHints.find(h => h.type === HintType.FIRST_LETTER);
-    console.log(`📖 [useHints] First letter hint:`, firstLetter);
+    log(`📖 [useHints] First letter hint:`, firstLetter);
     return firstLetter;
   }, [hintState.visibleHints]);
 
@@ -169,18 +170,18 @@ export const useHints = (quizId: string, questionId: number) => {
 
   const hasVisibleHints = useMemo(() => {
     const visible = usedHints.length > 0 || purchasableHints.length > 0;
-    console.log(`👁️ [useHints] Has visible hints: ${visible} (used: ${usedHints.length}, purchasable: ${purchasableHints.length})`);
+    log(`👁️ [useHints] Has visible hints: ${visible} (used: ${usedHints.length}, purchasable: ${purchasableHints.length})`);
     return visible;
   }, [usedHints.length, purchasableHints.length]);
 
   const handleUseHint = useCallback(
     async (hintId: string) => {
-      console.log(`💰 [useHints] Attempting to apply hint: ${hintId}`);
+      log(`💰 [useHints] Attempting to apply hint: ${hintId}`);
       const result = await applyHint(quizId, questionId, hintId);
       if (!result.success) {
         console.error(`💰 [useHints] Failed to apply hint ${hintId}: ${result.error}`);
       } else {
-        console.log(`💰 [useHints] Successfully applied hint ${hintId}, points deducted: ${result.pointsDeducted}`);
+        log(`💰 [useHints] Successfully applied hint ${hintId}, points deducted: ${result.pointsDeducted}`);
       }
       return result;
     },
@@ -189,9 +190,9 @@ export const useHints = (quizId: string, questionId: number) => {
 
   const handleWrongAnswer = useCallback(
     (userAnswer: string): HintTriggerResult => {
-      console.log("❌ [useHints] Processing wrong answer:", userAnswer);
+      log("❌ [useHints] Processing wrong answer:", userAnswer);
       const triggerResult = recordWrongAnswerFromStore(quizId, questionId, userAnswer);
-      console.log("❌ [useHints] Trigger result:", {
+      log("❌ [useHints] Trigger result:", {
         contextualHints: triggerResult.contextualHints.length,
         autoFreeHints: triggerResult.autoFreeHints.length,
       });
@@ -203,24 +204,24 @@ export const useHints = (quizId: string, questionId: number) => {
   const getAutoFreeHints = useCallback((): AutoFreeHint[] => {
     if (!quizId || !questionId) return [];
     const autoFree = checkAutoFreeHintsFromStore(quizId, questionId);
-    console.log(`🆓 [useHints] Auto-free hints available: ${autoFree.length}`);
+    log(`🆓 [useHints] Auto-free hints available: ${autoFree.length}`);
     return autoFree;
   }, [quizId, questionId, checkAutoFreeHintsFromStore]);
 
   const markContextualHintAsShown = useCallback((hintId: string) => {
-    console.log(`💡 [useHints] Contextual hint shown: ${hintId}`);
+    log(`💡 [useHints] Contextual hint shown: ${hintId}`);
   }, []);
 
   const handleActivateAutoFreeHint = useCallback(
     async (hintId: string) => {
-      console.log(`🆓 [useHints] Activating auto-free hint: ${hintId}`);
+      log(`🆓 [useHints] Activating auto-free hint: ${hintId}`);
       return await handleUseHint(hintId);
     },
     [handleUseHint],
   );
 
   // Debug-Ausgabe für das finale Ergebnis
-  console.log(`🎯 [useHints] Final hook result for question ${questionId}:`, {
+  log(`🎯 [useHints] Final hook result for question ${questionId}:`, {
     hasVisibleHints,
     purchasableHintsCount: purchasableHints.length,
     usedHintsCount: usedHints.length,

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import type { Quiz, QuizState } from "../../types";
 import { useQuizStore } from "../Store";
+import { log } from "@/src/common/helper/logging";
 
 export function useQuiz() {
 	const quizzesRecord = useQuizStore((state) => state.quizzes);
@@ -9,11 +10,11 @@ export function useQuiz() {
 	const quizConfigsRecord = useQuizStore((state) => state.quizConfigs);
 	const isQuizDataLoaded = useQuizStore((state) => state.isQuizDataLoaded);
 	const currentQuizId = useQuizStore((state) => state.currentQuizId);
-  const resetUserPoints = useQuizStore((state) => state.resetUserPoints);
+	const resetUserPoints = useQuizStore((state) => state.resetUserPoints);
 
 	const quizzes = useMemo(() => {
 		const quizArray = Object.values(quizzesRecord);
-		console.log(
+		log(
 			`[useQuiz Hook] Converting ${quizArray.length} quizzes to array. isQuizDataLoaded: ${isQuizDataLoaded}`,
 		);
 		return quizArray;

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuizStore } from "../Store";
+import { log } from "@/src/common/helper/logging";
 
 export function useUI() {
 	const toast = useQuizStore((state) => state.toast);
@@ -45,7 +46,7 @@ export function useUI() {
 			const unshown = pendingUnlocks.filter((unlock) => !unlock.shown);
 
 			if (unshown.length > 0) {
-				console.log(
+				log(
 					`[useUI] Found ${unshown.length} unshown unlock notifications`,
 				);
 

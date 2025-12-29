@@ -1,8 +1,9 @@
+import { ThemedText } from "@/src/common/components/ThemedText";
 import React, { useEffect, useRef } from "react";
-import { Animated, View, type LayoutChangeEvent, TouchableOpacity } from "react-native";
+import { Animated, type LayoutChangeEvent, TouchableOpacity, View } from "react-native";
 import type { ToastState } from "../store/slices/UI";
 import { getBackgroundColor } from "./getBackgroundColor";
-import { ThemedText } from "@/src/common/components/ThemedText";
+import { log } from "@/src/common/helper/logging";
 
 type AnimatedToastProps = {
   toast: ToastState;
@@ -44,7 +45,7 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
     }
     const ms = duration ?? 3000;
     timerRef.current = (setTimeout(() => {
-      console.log(`[AnimatedToast] timeout -> markHidden id=${toast.id}`);
+      log(`[AnimatedToast] timeout -> markHidden id=${toast.id}`);
       markHidden();
     }, ms) as unknown) as number;
 
@@ -55,12 +56,12 @@ export default function AnimatedToast({ toast, index, onRemove, duration, markHi
 
   useEffect(() => {
     if (toast.visible === false) {
-      console.log(`[AnimatedToast] visible=false -> animate exit id=${toast.id}`);
+      log(`[AnimatedToast] visible=false -> animate exit id=${toast.id}`);
       Animated.parallel([
         Animated.timing(opacity, { toValue: 0, duration: 160, useNativeDriver: true }),
         Animated.timing(translateY, { toValue: -8, duration: 160, useNativeDriver: true }),
       ]).start(() => {
-        console.log(`[AnimatedToast] exit done -> onRemove id=${toast.id}`);
+        log(`[AnimatedToast] exit done -> onRemove id=${toast.id}`);
         onRemove();
       });
     }

@@ -2,6 +2,7 @@ import type { Quiz } from "@/src/quiz/types"; // Vereinfachte Types ohne Generic
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { QuizCard } from "./QuizCard/QuizCard";
+import { log } from "@/src/common/helper/logging";
 
 type QuizGridProps = {
 	quizzes: Quiz[];
@@ -10,12 +11,12 @@ type QuizGridProps = {
 export const QuizGrid = ({ quizzes }: QuizGridProps) => {
 	// Debug-Logging
 	useEffect(() => {
-		console.log(`[QuizGrid] Rendering ${quizzes.length} quizzes`);
+		log(`[QuizGrid] Rendering ${quizzes.length} quizzes`);
 		for (const quiz of quizzes) {
-			console.log(`[QuizGrid] Quiz: ${quiz.id} - ${quiz.title}`);
+			log(`[QuizGrid] Quiz: ${quiz.id} - ${quiz.title}`);
 		}
 	}, [quizzes]);
-console.log({quizzes})
+log({quizzes})
 	return (
 		<View style={styles.grid}>
 			{quizzes.map((quiz) => (

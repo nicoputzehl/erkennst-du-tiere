@@ -14,6 +14,7 @@ import {
 import type { QuizStore } from "../Store";
 import { isLetterCountHint, isStandardHint } from "../../domain/hints/validation";
 import { getFirstLetter, getLetterCount } from "../../domain/hints/standard";
+import { logWarn } from "@/src/common/helper/logging";
 
 
 export interface HintSlice {
@@ -246,7 +247,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
   initializeHintState: (quizId: string, questionId: number) => {
     set((state) => {
       if (!state.quizStates[quizId]) {
-        console.warn(`Quiz with ID ${quizId} not found during hint state initialization.`);
+        logWarn(`Quiz with ID ${quizId} not found during hint state initialization.`);
         return state;
       }
 

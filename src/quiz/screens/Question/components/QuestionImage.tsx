@@ -7,6 +7,7 @@ import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import type { Question } from "@/src/quiz/types";
 import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
+import { logWarn } from "@/src/common/helper/logging";
 
 interface QuestionImageProps {
 	question: Question;
@@ -53,7 +54,7 @@ export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> =
 					placeholderContentFit="cover"
 					onLoad={() => setIsLoading(false)}
 					onError={(error) => {
-						console.warn("Failed to load question image:", error);
+						logWarn("Failed to load question image:", error);
 						setIsLoading(false);
 					}}
 					allowDownscaling={true}

@@ -8,6 +8,7 @@ import {
 import type { HintState } from "../../types/hint";
 import type { MultiplePlaythroughCondition, PlaythroughCondition, ProgressCondition } from "../../types/unlock";
 import { HintUtils } from "../hints";
+import { log } from "@/src/common/helper/logging";
 
 /**
  * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen
@@ -76,8 +77,8 @@ export const createQuizState = (
   config: Pick<QuizConfig, "initialUnlockedQuestions"> = {},
 ): QuizState => {
   const initialUnlockedQuestions = config.initialUnlockedQuestions || 2;
-  console.log("🏗️ [createQuizState] Creating state for quiz:", quiz.id);
-  console.log("🏗️ [createQuizState] Quiz questions count:", quiz.questions.length);
+  log("🏗️ [createQuizState] Creating state for quiz:", quiz.id);
+  log("🏗️ [createQuizState] Quiz questions count:", quiz.questions.length);
 
   const questionStatus = calculateInitialQuestionStatus(
     quiz.questions.length,
@@ -90,7 +91,7 @@ export const createQuizState = (
   quiz.questions.forEach((question, index) => {
     const allHints = HintUtils.generateAllHints(question);
     
-    console.log(`🏗️ [createQuizState] Processing question ${question.id}:`, {
+    log(`🏗️ [createQuizState] Processing question ${question.id}:`, {
       hasCustomHints: !!question.customHints,
       customHintsCount: question.customHints?.length || 0,
       hasContextualHints: !!question.contextualHints,
@@ -120,10 +121,10 @@ export const createQuizState = (
     hintStates,
   };
 
-  console.log("🏗️ [createQuizState] Final quiz state analysis:");
+  log("🏗️ [createQuizState] Final quiz state analysis:");
   result.questions.forEach((question, index) => {
     const allHints = HintUtils.generateAllHints(question);
-    console.log(`🏗️ Question ${question.id}:`, {
+    log(`🏗️ Question ${question.id}:`, {
       status: question.status,
       hasHintState: !!result.hintStates[question.id],
       totalAvailableHints: allHints.length,
@@ -131,7 +132,7 @@ export const createQuizState = (
     });
   });
 
-  console.log("🏗️ [createQuizState] Hint states initialized:", Object.keys(hintStates).length);
+  log("🏗️ [createQuizState] Hint states initialized:", Object.keys(hintStates).length);
 
   return result;
 };

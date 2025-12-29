@@ -1,5 +1,6 @@
-import { type PropsWithChildren, useRef, useEffect } from "react";
-import { View, PanResponder } from "react-native";
+import { type PropsWithChildren, useEffect, useRef } from "react";
+import { PanResponder, View } from "react-native";
+import { log } from "@/src/common/helper/logging";
 
 interface GestureHandlerProps extends PropsWithChildren {
   onSwipeLeft?: () => void;
@@ -52,13 +53,12 @@ export const GestureHandler = ({
           if (dx > 0) {
             const threshold = rightThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              console.log("Swiped right");
+              log("Swiped right");
               handlersRef.current.onSwipeRight?.();
             }
           } else {
             const threshold = leftThreshold ?? dxThreshold;
             if (Math.abs(dx) > threshold) {
-              console.warn("Swiped left");
               handlersRef.current.onSwipeLeft?.();
             }
           }
