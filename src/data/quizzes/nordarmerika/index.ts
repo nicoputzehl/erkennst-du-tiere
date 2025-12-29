@@ -55,7 +55,7 @@ const weisskopfseeadler: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nestbau",
       content: "Er baut die größten Nester aller Vögel Nordamerikas, manchmal mit einem Gewicht von über zwei Tonnen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -107,7 +107,7 @@ const stinktier: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Seine langen, gebogenen Krallen eignen sich hervorragend zum Graben nach Insekten und Kleintieren.",
-      cost: 1,
+    
     }
   ]
 };
@@ -158,7 +158,7 @@ const klapperschlange: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Sie besitzt Wärmesensoren (\"Gruben\") am Kopf, mit denen sie die Körperwärme ihrer Beute wahrnehmen kann.",
-      cost: 1,
+    
     }
   ]
 };
@@ -215,7 +215,7 @@ const waschbaer: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Lebensraum",
       content: "Er ist ein Kulturfolger und lebt in Großstädten oft als \"Mülltonnenräuber\".",
-      cost: 1,
+    
     }
   ]
 };
@@ -280,7 +280,7 @@ const grizzly: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Winter",
       content: "Er hält keine echte Winterruhe, sondern eine tiefere Winterruhe, bei der er gelegentlich aufwachen und die Höhle verlassen kann.",
-      cost: 1,
+    
     }
   ]
 };
@@ -331,7 +331,7 @@ const bison: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fähigkeit",
       content: "Trotz seines Gewichts von fast einer Tonne kann er bis zu 50 km/h schnell rennen und gut schwimmen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -389,7 +389,7 @@ const kojote: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nachwuchs",
       content: "Dieses Tier kann sich erfolgreich mit Haushunden paaren, wobei die Hybriden \"Coydogs\" genannt werden.",
-      cost: 1,
+    
     }
   ]
 };
@@ -447,7 +447,7 @@ const kanadagans: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Ihr typischer Ruf ist ein lautes, trompetendes \"a-honk\", besonders beim Flug in der Formation.",
-      cost: 1,
+    
     }
   ]
 };

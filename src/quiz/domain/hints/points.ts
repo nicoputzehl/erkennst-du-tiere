@@ -1,12 +1,11 @@
 import type { QuestionBase } from "../../types";
 import type { PointTransaction, UserPointsState } from "../../types/hint";
+import { Config } from "../config";
 
 export const calculatePointsForCorrectAnswer = (
 	question: QuestionBase,
 ): number => {
-	const basePoints = 2;
-	// TODO Falls Punte für korrekte Antworten von verweendeten Hints berechnet werden sollen
-	// const hintBonus = question.hints?.length ? question.hints.length * 2 : 0;
+	const basePoints = Config.questionSolvedPoints;
 	return basePoints;
 };
 
@@ -34,5 +33,5 @@ export const getInitialUserPoints = (): UserPointsState => ({
 	totalPoints: 0,
 	earnedPoints: 0,
 	spentPoints: 0,
-	pointsHistory: [createPointTransaction("earned", 2, "Startguthaben")],
+	pointsHistory: [createPointTransaction("earned", Config.startingPoints, "Startguthaben")],
 });

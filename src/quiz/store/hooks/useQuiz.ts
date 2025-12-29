@@ -9,6 +9,7 @@ export function useQuiz() {
 	const quizConfigsRecord = useQuizStore((state) => state.quizConfigs);
 	const isQuizDataLoaded = useQuizStore((state) => state.isQuizDataLoaded);
 	const currentQuizId = useQuizStore((state) => state.currentQuizId);
+  const resetUserPoints = useQuizStore((state) => state.resetUserPoints);
 
 	const quizzes = useMemo(() => {
 		const quizArray = Object.values(quizzesRecord);
@@ -152,5 +153,6 @@ export function useQuiz() {
 		// Datenmanagement
 		getStatistics,
 		resetAllQuizStates,
+		resetUserPoints,
 	};
 }

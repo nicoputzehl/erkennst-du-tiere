@@ -53,14 +53,14 @@ const afrikanischer_elefant: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Seine großen Ohren dienen als effektive \"Klimaanlage\" zur Abkühlung in der Hitze.",
-      cost: 1,
+    
     },
     {
       id: "nase",
       type: HintType.CUSTOM,
       title: "Nase",
       content: "Die \"Nase\" dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
-      cost: 1,
+    
     }
   ]
 };
@@ -118,14 +118,14 @@ const flusspferd: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Anpassung",
       content: "Die Augen, Ohren und Nasenlöcher liegen so hoch, dass es fast vollständig unter Wasser versteckt bleiben kann.",
-      cost: 1,
+    
     },
     {
       id: "aktiv",
       type: HintType.CUSTOM,
       title: "Aktivität",
       content: "Es kommt erst in der Dämmerung aus dem Wasser, um an Land zu grasen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -182,14 +182,14 @@ const gepard: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Sein langer Schwanz dient als Steuerruder und Balancierhilfe bei den schnellen Kurven der Jagd.",
-      cost: 1,
+    
     },
     {
       id: "geräusch",
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Er kann nicht brüllen, sondern nur miauen, schnurren oder zwitschern.",
-      cost: 1,
+    
     }
   ]
 };
@@ -246,14 +246,14 @@ const giraffe: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schlafgewohnheit",
       content: "Es schläft pro Tag nur sehr kurz, oft nur 30 Minuten, und meistens im Stehen.",
-      cost: 1,
+    
     },
     {
       id: "blut",
       type: HintType.CUSTOM,
       title: "Körperfunktionen",
       content: "Dieses Tier hat ein komplexes Blutdruckregulierungssystem, um Blut zum Kopf und zurück zu pumpen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -274,14 +274,14 @@ const leopard: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Lebensraum",
       content: "Dieses Tier ist ein hervorragender Kletterer.",
-      cost: 1,
+    
     },
     {
       id: "color",
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Hat ein goldgelbes Fell mit schwarzen Rosetten.",
-      cost: 1,
+    
     }
   ],
   contextualHints: [{
@@ -366,14 +366,14 @@ const loewe: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verhalten",
       content: "Dieses Raubtier verbringt bis zu 20 Stunden am Tag mit Ruhen oder Schlafen.",
-      cost: 1,
+    
     },
     {
       id: "revier",
       type: HintType.CUSTOM,
       title: "Kommunikation",
       content: "Sein tiefes Brüllen kann kilometerweit zu hören sein und dient der Markierung des Reviers.",
-      cost: 1,
+    
     }
   ]
 };
@@ -431,14 +431,14 @@ const nashorn: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Die dicke, graue Haut wird oft von Schlammbädern bedeckt, die als Sonnenschutz dienen.",
-      cost: 1,
+    
     },
     {
       id: "augen",
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Es hat einen sehr schlechten Sehsinn, der durch seinen exzellenten Geruchssinn ausgeglichen wird.",
-      cost: 1,
+    
     }
   ]
 };
@@ -495,14 +495,14 @@ const zebra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Wissenschaftlich gesehen sind sie wahrscheinlich schwarz mit weißen Streifen, nicht umgekehrt.",
-      cost: 1,
+    
     },
     {
       id: "ruf",
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Anstatt zu wiehern, geben sie ein lautes, bellendes Geräusch von sich.",
-      cost: 1,
+    
     }
   ]
 };

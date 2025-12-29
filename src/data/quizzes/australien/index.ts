@@ -52,14 +52,14 @@ const koala: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Es ernährt sich fast ausschließlich von den Blättern weniger Eukalyptusarten.",
-      cost: 1,
+    
     },
     {
       id: "nachwuchs",
       type: HintType.CUSTOM,
       title: "Junge",
       content: "Das Neugeborene (\"Joey\") verbringt die ersten sechs Monate im Beutel der Mutter.",
-      cost: 1,
+    
     }
   ]
 };
@@ -115,14 +115,14 @@ const kaenguru: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fähigkeit",
       content: "Es kann Geschwindigkeiten von über 50 km/h erreichen und Sprünge von bis zu 9 Metern Länge machen.",
-      cost: 1,
+    
     },
     {
       id: "gruppe",
       type: HintType.CUSTOM,
       title: "Sozialleben",
       content: "Kängurus leben in Gruppen, die \"Mobs\" genannt werden.",
-      cost: 1,
+    
     }
   ]
 };
@@ -178,14 +178,14 @@ const quokka: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Gesetz",
       content: "Es ist strengstens verboten, diese Tiere auf Rottnest Island zu füttern oder zu berühren.",
-      cost: 1,
+    
     },
     {
       id: "hüpfen",
       type: HintType.CUSTOM,
       title: "Bewegung",
       content: "Obwohl es wie ein Känguru hüpft, kann es auch auf allen Vieren klettern.",
-      cost: 1,
+    
     }
   ]
 };
@@ -240,14 +240,14 @@ const wombat: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Seine Verteidigungsstrategie ist es, mit seinem knochenharten Hinterteil den Tunneleingang zu blockieren.",
-      cost: 1,
+    
     },
     {
       id: "aktiv",
       type: HintType.CUSTOM,
       title: "Aktivität",
       content: "Es ist hauptsächlich dämmerungs- und nachtaktiv.",
-      cost: 1,
+    
     }
   ]
 };
@@ -302,14 +302,14 @@ const dingo: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Status",
       content: "Der Bestand dieser Art ist durch die Vermischung mit Haushunden stark gefährdet.",
-      cost: 1,
+    
     },
     {
       id: "zaun",
       type: HintType.CUSTOM,
       title: "Infrastruktur",
       content: "Zum Schutz von Nutztieren wurde eine über 5600 km lange Barriere errichtet, die seinen Lebensraum begrenzt.",
-      cost: 1,
+    
     }
   ]
 };
@@ -365,14 +365,14 @@ const emu: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Überleben",
       content: "Er kann wochenlang ohne Wasser auskommen, wenn es nötig ist.",
-      cost: 1,
+    
     },
     {
       id: "sprung",
       type: HintType.CUSTOM,
       title: "Bewegung",
       content: "Mit seinen starken Beinen kann er Zäune von fast zwei Metern Höhe überspringen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -427,14 +427,14 @@ const wallaby: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Der Schwanz ist lang, muskulös und wird als Balancehilfe beim Springen genutzt.",
-      cost: 1,
+    
     },
     {
       id: "leben",
       type: HintType.CUSTOM,
       title: "Lebensraum",
       content: "Viele Arten bevorzugen dichtere, felsige oder bewaldete Gebiete, nicht die offenen Ebenen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -490,14 +490,14 @@ const kookaburra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Seine Beute besteht hauptsächlich aus kleinen Säugetieren, Insekten und kleinen Schlangen.",
-      cost: 1,
+    
     },
     {
       id: "familie",
       type: HintType.CUSTOM,
       title: "Sozialleben",
       content: "Er lebt in kleinen Familiengruppen, die sich gegenseitig bei der Aufzucht der Jungen helfen.",
-      cost: 1,
+    
     }
   ]
 };

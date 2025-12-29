@@ -39,7 +39,7 @@ const dodo: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Literarischer Auftritt",
       content: "Eine berühmte Figur dieses Vogels erscheint in Lewis Carrolls Buch \"Alice im Wunderland\".",
-      cost: 1,
+      
     }
   ]
 };
@@ -82,7 +82,7 @@ const quagga: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Der letzte seiner Art",
       content: "Das letzte bekannte Tier starb 1883 im Zoo von Amsterdam.",
-      cost: 1,
+      
     }
   ]
 };
@@ -126,7 +126,7 @@ const trilobit: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wann starb es aus?",
       content: "Er starb beim größten Massenaussterben der Erdgeschichte am Ende des Perms vor etwa 251 Millionen Jahren.",
-      cost: 1,
+      
     }
   ]
 };
@@ -170,7 +170,7 @@ const saebelzahnkatze: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ihre Schwachstelle",
       content: "Die langen Zähne waren sehr empfindlich und konnten leicht abbrechen, weshalb sie erst eingesetzt wurden, wenn das Opfer am Boden lag.",
-      cost: 1,
+      
     }
   ]
 };
@@ -214,7 +214,7 @@ const mammut: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wiederbelebung?",
       content: "Wissenschaftler arbeiten daran, die DNA dieser Tiere zu nutzen, um sie durch Klonen mit Elefanten-DNA \"wiederzubeleben\".",
-      cost: 1,
+      
     }
   ]
 };
@@ -258,7 +258,7 @@ const beutelwolf: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Das offizielle Ende",
       content: "Das letzte bekannte Exemplar starb 1936 im Zoo von Hobart.",
-      cost: 1,
+      
     }
   ]
 };
@@ -302,7 +302,7 @@ const elefantenVogel: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Begehrte Eier",
       content: "Ein einzelnes Ei ist heute ein begehrtes und extrem teures Sammelobjekt.",
-      cost: 1,
+      
     }
   ]
 };
@@ -352,7 +352,7 @@ const goldkroete: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussterbeursache",
       content: "Als Hauptgrund für ihr Verschwinden werden der Klimawandel und eine Pilzerkrankung (Chytridiomykose) vermutet.",
-      cost: 1,
+      
     }
   ]
 };

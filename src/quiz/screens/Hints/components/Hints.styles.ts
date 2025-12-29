@@ -22,6 +22,9 @@ const sharedHintstyles = StyleSheet.create({
 		shadowRadius: 16,
 		elevation: 2,
 	},
+	cardDisabled: {
+		backgroundColor: "#f8f9fa89",
+	},
 	receivedHint: {
 		backgroundColor: "rgba(248, 249, 250, .7)",
 		borderWidth: 4,

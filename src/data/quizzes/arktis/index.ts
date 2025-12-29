@@ -47,7 +47,7 @@ const eisbaer: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tatzen und Schwimmen",
       content: "Seine riesigen, schaufelförmigen Vorderpfoten sind sein \"Motor\" beim Schwimmen und helfen, sein Gewicht auf dem Eis zu verteilen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -98,7 +98,7 @@ const walross: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sozialverhalten",
       content: "Er hält sich in riesigen Herden (bis zu hundert Tiere) am Packeisrand oder an felsigen Inseln auf.",
-      cost: 1,
+    
     }
   ]
 };
@@ -149,7 +149,7 @@ const papageientaucher: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nistverhalten",
       content: "Zum Brüten gräbt er Höhlen in Erde und Torf an steilen Küstenklippen. Ein Pärchen bleibt meist ein Leben lang zusammen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -206,7 +206,7 @@ const schneeeule: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schneeschuhe",
       content: "Sie hat auffallend große, dicke, behaarte Füße, die wie Schneeschuhe wirken und sie vor dem Einsinken im Schnee schützen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -263,7 +263,7 @@ const polarfuchs: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Bedrohung",
       content: "Neben der Klimaerwärmung wird er durch den Rotfuchs bedroht, der wegen der milderen Winter in seine Lebensräume vordringt.",
-      cost: 1,
+    
     }
   ]
 };
@@ -314,7 +314,7 @@ const rentier: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Geh-Geräusche",
       content: "Beim Gehen machen diese Tiere charakteristische Klickgeräusche. Diese stammen von einer Sehne in den Hinterbeinen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -357,7 +357,7 @@ const polarwolf: QuestionBase = {
       content: "Gleiche Familie, aber der gesuchte ist viel größer und bleibt das ganze Jahr weiß.",
       title: "Zu klein!",
       triggers: ["polarfuchs"]
-    },    {
+    }, {
       id: "genauer_trigger",
       type: HintType.CONTEXTUAL,
       content: "Die Lösung ist etwas genauer.",
@@ -371,7 +371,7 @@ const polarwolf: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nachwuchs",
       content: "Innerhalb eines Rudels dürfen sich nur das Alpha-Männchen und das Alpha-Weibchen paaren. Alle anderen Mitglieder helfen bei der Aufzucht der Welpen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -421,7 +421,7 @@ const schneehase: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Vitamine",
       content: "Um alle Nährstoffe aufzunehmen (insbesondere Vitamin B), frisst er seinen eigenen, weichen Kot (Caecotrophie).",
-      cost: 1,
+    
     }
   ]
 };

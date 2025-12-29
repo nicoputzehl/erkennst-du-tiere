@@ -26,10 +26,13 @@ export interface LetterCountHint extends HintBase {
 export type StandardHint = FirstLetterHint | LetterCountHint;
 
 // Custom-Hints - statischer Content mit Kosten
-export interface CustomHint extends HintBase {
+export interface CustomHintBase extends HintBase {
   type: HintType.CUSTOM;
-  cost: number;
   description?: string;
+}
+
+export interface CustomHint extends CustomHintBase {
+  cost: number;
 }
 
 // Contextual-Hints - werden durch bestimmte Antworten ausgelöst

@@ -15,7 +15,8 @@ import {
 } from "react-native";
 
 export function SettingsScreen() {
-	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions } = useQuiz();
+	const { quizzes, resetQuizState, resetAllQuizStates, solveAllQuizQuestions, resetUserPoints } = useQuiz();
+
 	const { showSuccess, showError } = useUI();
 	const statistics = useQuizStatistics();
 
@@ -64,7 +65,8 @@ export function SettingsScreen() {
 					onPress: async () => {
 						setResettingAll(true);
 						try {
-							await resetAllQuizStates();
+							resetAllQuizStates();
+							resetUserPoints();
 							showSuccess("Alle Quizzes wurden zurückgesetzt!");
 						} catch (error) {
 							showError(`Fehler: ${error}`);

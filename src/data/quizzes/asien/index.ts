@@ -47,7 +47,7 @@ const koenigskobra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Das Gift",
       content: "Obwohl ihr Gift nicht das stärkste ist, kann sie bei einem Biss eine enorme Menge davon abgeben, was ihn lebensbedrohlich macht.",
-      cost: 1,
+    
     }
   ]
 };
@@ -99,7 +99,7 @@ const grosser_panda: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sechster \"Finger\"",
       content: "Er hat einen verlängerten Handwurzelknochen, der wie ein sechster Finger funktioniert und ihm beim Halten von Bambus hilft.",
-      cost: 1,
+    
     }
   ]
 };
@@ -151,7 +151,7 @@ const tiger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Haut",
       content: "Das Streifenmuster ist nicht nur im Fell, sondern auch auf der Haut dieses Tieres sichtbar.",
-      cost: 1,
+    
     }
   ]
 };
@@ -203,7 +203,7 @@ const orang_utan: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kindheit",
       content: "Junge bleiben etwa 8 Jahre bei ihrer Mutter – die längste Kindheitsphase im gesamten Tierreich, abgesehen vom Menschen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -256,7 +256,7 @@ const pfau: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nützliches Tier",
       content: "In ländlichen Gebieten ist er beliebt, weil er junge Schlangen frisst.",
-      cost: 1,
+    
     }
   ]
 };
@@ -314,7 +314,7 @@ const asiatischer_elefant: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tragzeit",
       content: "Die Schwangerschaft dauert etwa 22 Monate – die längste Tragzeit aller Landsäugetiere.",
-      cost: 1,
+    
     }
   ]
 };
@@ -365,7 +365,7 @@ const roter_panda: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sechster \"Finger\"",
       content: "Auch er hat einen \"falschen Daumen\" (verlängerter Handwurzelknochen), um Bambus besser greifen zu können.",
-      cost: 1,
+    
     }
   ]
 };
@@ -417,7 +417,7 @@ const python: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verhalten",
       content: "Trotz seiner Größe verbringt er die meiste Zeit versteckt am Boden oder in der Nähe von Wasser.",
-      cost: 1,
+    
     }
   ]
 };

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// hooks/usePulsingAnimation.ts
 import {
 	useAnimatedStyle,
 	useSharedValue,
@@ -9,12 +8,12 @@ import {
 } from "react-native-reanimated";
 
 export const usePulsingAnimation = (isEnabled: boolean) => {
-	const pulsState = useSharedValue(1);
+	const pulseState = useSharedValue(1);
 
 	useEffect(() => {
 		if (isEnabled) {
 			const timer = setTimeout(() => {
-				pulsState.value = withRepeat(
+				pulseState.value = withRepeat(
 					withSequence(
 						withTiming(1.01, { duration: 750 }),
 						withTiming(0.99, { duration: 750 }),
@@ -25,12 +24,12 @@ export const usePulsingAnimation = (isEnabled: boolean) => {
 			}, 150);
 			return () => clearTimeout(timer);
 		}
-		pulsState.value = 1;
-	}, [isEnabled, pulsState]);
+		pulseState.value = 1;
+	}, [isEnabled, pulseState]);
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			transform: [{ scale: pulsState.value }],
+			transform: [{ scale: pulseState.value }],
 		};
 	});
 

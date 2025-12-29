@@ -1,5 +1,6 @@
 import type { AutoFreeHint, ContextualHint, CustomHint, QuestionBase } from "../../types";
 import { type StandardHint, HintType } from "../../types/hint";
+import { Config } from "../config";
 
 interface StandardHintDefinition {
   type: HintType.LETTER_COUNT | HintType.FIRST_LETTER;
@@ -12,13 +13,13 @@ const STANDARD_HINT_DEFINITIONS: StandardHintDefinition[] = [
   {
     type: HintType.LETTER_COUNT,
     title: "Buchstabenanzahl",
-    cost: 2,
+    cost: Config.standardHintCost,
     description: "Zeigt die Anzahl der Buchstaben",
   },
   {
     type: HintType.FIRST_LETTER,
-    title: "Erster Buchstabe", 
-    cost: 2,
+    title: "Erster Buchstabe",
+    cost: Config.standardHintCost,
     description: "Zeigt den ersten Buchstaben",
   },
 ];
@@ -35,10 +36,10 @@ function generateStandardHintContent(hintType: HintType, question: QuestionBase)
   switch (hintType) {
     case HintType.LETTER_COUNT:
       return `Das gesuchte Tier hat ${getLetterCount(question)} Buchstaben`;
-      
+
     case HintType.FIRST_LETTER:
       return `Das gesuchte Tier beginnt mit "${getFirstLetter(question)}"`;
-      
+
     default:
       console.warn(`Unknown standard hint type: ${hintType}`);
       return "Hint nicht verfügbar";
@@ -65,22 +66,26 @@ export function generateStandardHints(question: QuestionBase): StandardHint[] {
  */
 export function generateAllHints(question: QuestionBase): (StandardHint | CustomHint | ContextualHint | AutoFreeHint)[] {
   const allHints: (StandardHint | CustomHint | ContextualHint | AutoFreeHint)[] = [];
-  
+
   // Standard-Hints automatisch hinzufügen (Letter Count, First Letter)
   allHints.push(...generateStandardHints(question));
-  
+
   // Question-spezifische Hints hinzufügen, falls definiert
   if (question.customHints) {
-    allHints.push(...question.customHints);
+    const hintswithCosts = question.customHints.map(hint => ({
+      ...hint,
+      cost: Config.customHintCost,
+    }));
+    allHints.push(...hintswithCosts);
   }
-  
+
   if (question.contextualHints) {
     allHints.push(...question.contextualHints);
   }
-  
+
   if (question.autoFreeHints) {
     allHints.push(...question.autoFreeHints);
   }
-  
+
   return allHints;
 }

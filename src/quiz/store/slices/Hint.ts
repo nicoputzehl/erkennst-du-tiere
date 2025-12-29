@@ -33,6 +33,7 @@ export interface HintSlice {
   addPoints: (transaction: PointTransaction) => void;
   deductPoints: (transaction: PointTransaction) => void;
   getPointsBalance: () => number;
+  resetUserPoints: () => void;
   initializeHintState: (quizId: string, questionId: number) => void;
 }
 
@@ -101,13 +102,10 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
       const newHintStates = { ...newQuizState.hintStates };
       const newHintState = { ...newHintStates[questionId] };
 
-      // Update usedHints
       newHintState.usedHints = [...newHintState.usedHints, usedHint];
 
-      // Update visbleHints 
       newHintState.visibleHints = visibleHint ? [...newHintState.visibleHints, visibleHint] : newHintState.visibleHints;
 
-      // Spezifisch für Auto-Free Hints
       if (isAutoFree) {
         newHintState.autoFreeHintsUsed = [
           ...(newHintState.autoFreeHintsUsed || []),
@@ -119,7 +117,6 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
       newQuizState.hintStates = newHintStates;
       newQuizStates[quizId] = newQuizState;
 
-      // Update global user points if costs apply
       const newUserPoints = { ...currentState.userPoints };
       if (costs > 0) {
         const transaction = HintUtils.createPointTransaction(
@@ -237,6 +234,11 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
     }));
   },
 
+  resetUserPoints: () => {
+    set((state) => ({
+      userPoints: HintUtils.getInitialUserPoints(),
+    }));
+  },
   getPointsBalance: (): number => {
     return get().userPoints?.totalPoints || 0;
   },

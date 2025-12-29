@@ -55,7 +55,7 @@ export const HintsAvailable: React.FC<HintsAvailableProps> = ({
 			{purchasableHints.map(({ hint, canUse, reason }) => (
 				<TouchableOpacity
 					key={hint.id}
-					style={[sharedHintstyles.card]}
+					style={[sharedHintstyles.card, !canUse && sharedHintstyles.cardDisabled]}
 					onPress={() => canUse && handlePurchaseHint(hint.id, hint.cost)}
 					disabled={!canUse}
 					activeOpacity={0.7}
@@ -113,5 +113,8 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 16,
 		fontStyle: "italic",
+	},
+	cardDisabled: {
+		opacity: 0.5,
 	},
 });

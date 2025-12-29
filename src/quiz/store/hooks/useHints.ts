@@ -16,6 +16,7 @@ export const useHints = (quizId: string, questionId: number) => {
   const checkAutoFreeHintsFromStore = useQuizStore((state) => state.checkAutoFreeHints);
 
 
+
   const allHintsWithStatus = useMemo(() => {
     console.log(`🔍 [useHints] Starting hint analysis for question ${questionId}`);
     console.log(`🔍 [useHints] Question exists: ${!!question}, HintState exists: ${!!hintState}`);
@@ -133,10 +134,10 @@ export const useHints = (quizId: string, questionId: number) => {
       console.log(`🛒 [useHints] Checking hint ${h.hint.id}:`, {
         isPurchasableType,
         isUsable,
-        willBeIncluded: isPurchasableType && isUsable,
+        willBeIncluded: isPurchasableType,
       });
 
-      return isPurchasableType && isUsable;
+      return isPurchasableType ;
     }) as { hint: PurchasableHint; canUse: boolean; reason: string | undefined; alreadyUsed: boolean; }[];
 
     console.log(`🛒 [useHints] Found ${purchasable.length} purchasable hints:`,
@@ -162,7 +163,7 @@ export const useHints = (quizId: string, questionId: number) => {
     const firstLetter = hintState.visibleHints.find(h => h.type === HintType.FIRST_LETTER);
     console.log(`📖 [useHints] First letter hint:`, firstLetter);
     return firstLetter;
-  },[hintState.visibleHints]);
+  }, [hintState.visibleHints]);
 
 
 

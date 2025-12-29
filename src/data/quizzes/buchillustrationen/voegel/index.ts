@@ -45,7 +45,7 @@ const haubenmeise: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nistgewohnheit",
       content: "Für ihre Haube kann das Einflugloch von Standard-Nistkästen zu eng sein. Sie brütet oft in selbst gemeißelten Höhlen in morschem Holz.",
-      cost: 1,
+    
     }
   ]
 };
@@ -96,7 +96,7 @@ const bienenfresser: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Stimme",
       content: "Sein Ruf ist ein weiches, rollendes und charakteristisches \"prüpp\" oder \"püt\".",
-      cost: 1,
+    
     }
   ]
 };
@@ -146,7 +146,7 @@ const eichelhaeher: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein Ruf",
       content: "Sein lauter, heiserer Warnruf (\"Rätschen\") alarmiert andere Waldbewohner bei Gefahr, weshalb er als \"Wächter des Waldes\" gilt.",
-      cost: 1,
+    
     }
   ]
 };
@@ -196,7 +196,7 @@ const raubwuerger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Jagdstrategie",
       content: "Er sitzt oft sehr exponiert auf Baumspitzen oder Stromleitungen, um von dort aus seine Beute am Boden zu erspähen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -247,7 +247,7 @@ const gruenspecht: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kommunikation",
       content: "Im Gegensatz zu den meisten anderen Spechten trommelt er nur sehr selten und unregelmäßig.",
-      cost: 1,
+    
     }
   ]
 };
@@ -297,7 +297,7 @@ const wespenbussard: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schutzmechanismus",
       content: "Dichtes, schuppiges Gefieder um Augen und Schnabel schützt ihn vor den Stichen der wehrhaften Insekten beim Ausgraben der Nester.",
-      cost: 1,
+    
     }
   ]
 };
@@ -347,7 +347,7 @@ const rotkopfwuerger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Gesang",
       content: "Das Männchen und Weibchen singen oft im Duett. Sein Verbreitungsschwerpunkt liegt in Südeuropa.",
-      cost: 1,
+    
     }
   ]
 };
@@ -397,7 +397,7 @@ const star: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fortbewegung",
       content: "Am Boden läuft er nicht, sondern geht oder hüpft schnell auf seinen kurzen Beinen.",
-      cost: 1,
+    
     }
   ]
 };

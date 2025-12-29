@@ -51,14 +51,14 @@ const wildschwein: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aktivität",
       content: "Dieses Tier ist überwiegend dämmerungs- und nachtaktiv.",
-      cost: 1,
+
     },
     {
       id: "jagd",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Es ist ein Allesfresser, der seine Nahrung (Wurzeln, Insekten, Aas) hauptsächlich durch Wühlen findet.",
-      cost: 1,
+
     }
   ]
 };
@@ -116,14 +116,14 @@ const fuchs: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Fast alle Exemplare haben eine charakteristische weiße Schwanzspitze.",
-      cost: 1,
+
     },
     {
       id: "geschwindigkeit",
       type: HintType.CUSTOM,
       title: "Fähigkeit",
       content: "Dieser schnelle Läufer kann auf kurzer Distanz Geschwindigkeiten von bis zu 55 km/h erreichen.",
-      cost: 1,
+
     }
   ]
 };
@@ -186,14 +186,14 @@ const wolf: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Das Heulen dient nicht dazu, den Mond anzuheulen, sondern der Kommunikation über weite Distanzen.",
-      cost: 1,
+
     },
     {
       id: "revier",
       type: HintType.CUSTOM,
       title: "Verhalten",
       content: "Das Tier markiert sein großes Revier mit Urin und Kot, um fremde Artgenossen fernzuhalten.",
-      cost: 1,
+
     }
   ]
 };
@@ -251,14 +251,14 @@ const hase: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Besonderheit",
       content: "Seine kräftigen Hinterfüße sind extrem lang, was ihm seine enorme Sprintgeschwindigkeit ermöglicht.",
-      cost: 1,
+
     },
     {
       id: "sehen",
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Die seitlich stehenden Augen ermöglichen ihm einen fast lückenlosen Rundumblick, um Feinde früh zu erkennen.",
-      cost: 1,
+
     }
   ]
 };
@@ -322,14 +322,14 @@ const braunbaer: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fortbewegung",
       content: "Er ist ein Sohlengänger und kann sich kurzzeitig auf die Hinterbeine stellen.",
-      cost: 1,
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Trotz seiner Klassifizierung als Raubtier ernährt er sich überwiegend vegetarisch (Beeren, Nüsse, Wurzeln).",
-      cost: 1,
+
     }
   ]
 };
@@ -386,14 +386,14 @@ const eichhoernchen: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Die Fellfarbe variiert stark von hellrot bis fast schwarz, der Bauch ist jedoch immer weiß.",
-      cost: 1,
+
     },
     {
       id: "aktivitaet",
       type: HintType.CUSTOM,
       title: "Winter",
       content: "Er hält keine Winterschlaf, sondern Winterruhe, und ist daher an milden Tagen auf Futtersuche.",
-      cost: 1,
+
     }
   ]
 };
@@ -449,14 +449,14 @@ const elch: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Seine lange Oberlippe hilft ihm, Blätter und Triebe von Büschen und Bäumen abzureißen.",
-      cost: 1,
+
     },
     {
       id: "lebensraum",
       type: HintType.CUSTOM,
       title: "Habitat",
       content: "Er bevorzugt sumpfige Waldgebiete und hält sich oft in der Nähe von Wasser auf.",
-      cost: 1,
+
     }
   ]
 };
@@ -512,14 +512,14 @@ const dachs: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wohnen",
       content: "Er lebt oft friedlich mit Füchsen zusammen im selben Bau (\"Wohngemeinschaft\").",
-      cost: 1,
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Seine Leibspeise sind Regenwürmer, aber er frisst auch Insekten, Schnecken, Mäuse und Beeren.",
-      cost: 1,
+
     }
   ]
 };

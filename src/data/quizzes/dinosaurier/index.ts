@@ -57,28 +57,28 @@ const triceratops: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Es besitzt einen großen knöchernen Nackenschild (Halskrause) und drei Hörner im Gesicht, die zur Verteidigung dienten.",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein Pflanzenfresser und nutzte einen scharfen Schnabel, um Blätter und Zweige abzuschneiden.",
-      cost: 1,
+    
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Dreihorn-Gesicht\".",
-      cost: 1,
+    
     },
     {
       id: "gruppe",
       type: HintType.CUSTOM,
       title: "Gruppe",
       content: "Es gehört zur Gruppe der Ceratopsidae, den \"Horngesichtern\".",
-      cost: 1,
+    
     }
   ]
 };
@@ -141,28 +141,28 @@ const brachiosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Größe",
       content: "Es war eines der größten und schwersten Tiere, die jemals auf der Erde gelebt haben, bekannt für seinen extrem langen Hals.",
-      cost: 1,
+    
     },
     {
       id: "arme",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Armechse\", da seine Vorderbeine deutlich länger als seine Hinterbeine waren, was ihm ein elefantenartiges, aber hohes Erscheinungsbild gab.",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Als Pflanzenfresser nutzte es seine enorme Höhe, um Blätter von den Spitzen hoher Bäume zu fressen.",
-      cost: 1,
+    
     },
     {
       id: "kopf",
       type: HintType.CUSTOM,
       title: "Kopfform",
       content: "Es besaß eine kuppelförmige Erhöhung auf dem Kopf, in der sich seine Nasenlöcher befanden.",
-      cost: 1,
+    
     }
   ]
 };
@@ -225,28 +225,28 @@ const stegosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Rücken",
       content: "Sein auffälligstes Merkmal sind die zwei Reihen großer, knöcherner Platten, die entlang seines Rückens bis zum Schwanz verlaufen.",
-      cost: 1,
+    
     },
     {
       id: "schwanz",
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Er hatte vier lange, scharfe Stacheln am Ende seines Schwanzes, die als \"Thagomizer\" bekannt sind und zur Abwehr von Raubtieren dienten.",
-      cost: 1,
+    
     },
     {
       id: "gehirn",
       type: HintType.CUSTOM,
       title: "Gehirn",
       content: "Im Verhältnis zu seiner Körpergröße hatte er eines der kleinsten Gehirne aller Dinosaurier.",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein langsamer, bodennah fressender Pflanzenfresser, der kleine Steine (Gastrolithen) schluckte, um die Nahrung im Magen zu zermahlen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -309,28 +309,28 @@ const velociraptor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Waffe",
       content: "Er besaß eine große, sichelförmige Kralle an jedem Hinterfuß, die er zum Aufschlitzen seiner Beute nutzte.",
-      cost: 1,
+    
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet auf Lateinisch \"schneller Räuber\" oder \"flinker Dieb\".",
-      cost: 1,
+    
     },
     {
       id: "federn",
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Fossilien belegen, dass er – wie viele seiner Verwandten – Federn besaß, obwohl er nicht fliegen konnte.",
-      cost: 1,
+    
     },
     {
       id: "jagdt",
       type: HintType.CUSTOM,
       title: "Jagdverhalten",
       content: "Es wird angenommen, dass er ein intelligenter Jäger war, der wahrscheinlich in koordinierten Rudeln jagte.",
-      cost: 1,
+    
     }
   ]
 };
@@ -393,28 +393,28 @@ const tyrannosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet \"König der Tyrannen-Echsen\".",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Es war der Spitzenprädator seiner Zeit, mit Zähnen, die darauf ausgelegt waren, Knochen zu zermahlen, was ihm den Ruf als \"König der Raubtiere\" einbrachte.",
-      cost: 1,
+    
     },
     {
       id: "arme",
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Er hatte im Verhältnis zum Körper extrem kleine, aber muskulöse Vorderarme mit nur zwei Fingern.",
-      cost: 1,
+    
     },
     {
       id: "sinne",
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Er hatte einen ausgezeichneten Geruchssinn und ein sehr gutes räumliches Sehvermögen (binokulares Sehen), das dem eines modernen Adlers ähnelte.",
-      cost: 1,
+    
     }
   ]
 };
@@ -477,28 +477,28 @@ const parasaurolophus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kopf",
       content: "Sein auffälligstes Merkmal ist der lange, nach hinten ragende, hohle Knochenkamm auf seinem Kopf, der bis zu 1,8 Meter lang werden konnte.",
-      cost: 1,
+    
     },
     {
       id: "stimme",
       type: HintType.CUSTOM,
       title: "Geräusche",
       content: "Der Knochenkamm diente als Resonanzkörper, wodurch er tiefe, laute Geräusche erzeugen konnte, um Artgenossen zu rufen oder zu warnen.",
-      cost: 1,
+    
     },
     {
       id: "haltung",
       type: HintType.CUSTOM,
       title: "Fortbewegung",
       content: "Er war ein Hadrosaurier, der sich wahrscheinlich die meiste Zeit vierbeinig fortbewegte, aber auch auf zwei Beinen laufen konnte.",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein Pflanzenfresser und besaß hunderte von Zähnen in seinem Kiefer, die als \"Zahnbatterie\" bekannt sind und ihm halfen, zähe Pflanzen zu zermahlen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -561,28 +561,28 @@ const pteosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Flügel",
       content: "Es war eines der größten Flugtiere aller Zeiten mit einer Flügelspannweite von über sieben Metern.",
-      cost: 1,
+    
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet \"Zahnloser Flügel\" und weist darauf hin, dass es keinen einzigen Zahn im Kiefer besaß.",
-      cost: 1,
+    
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Nahrung",
       content: "Es lebte in Küstennähe und ernährte sich hauptsächlich von Fisch, den es aus dem Meer fing.",
-      cost: 1,
+    
     },
     {
       id: "kamm",
       type: HintType.CUSTOM,
       title: "Kopf",
       content: "Es besaß einen langen, spitzen Kamm auf der Rückseite des Kopfes, der wahrscheinlich der aerodynamischen Steuerung oder der sexuellen Zurschaustellung diente.",
-      cost: 1,
+    
     }
   ]
 };
@@ -645,28 +645,28 @@ const ichthyosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Fischechse\", da sein stromlinienförmiger Körperbau dem eines modernen Delphins ähnelte.",
-      cost: 1,
+    
     },
     {
       id: "flossen",
       type: HintType.CUSTOM,
       title: "Körperbau",
       content: "Es besaß vier paddelartige Flossen und eine halbmondförmige Schwanzflosse, die ihm zu hohen Geschwindigkeiten verhalf.",
-      cost: 1,
+    
     },
     {
       id: "geburt",
       type: HintType.CUSTOM,
       title: "Nachwuchs",
       content: "Fossilien belegen, dass dieses Reptil seine Jungen nicht an Land legte, sondern lebend im Wasser gebar.",
-      cost: 1,
+    
     },
     {
       id: "augen",
       type: HintType.CUSTOM,
       title: "Sehsinn",
       content: "Es hatte extrem große Augen, geschützt durch knöcherne Ringe (sklerotische Ringe), was auf Jagd in der Tiefe hindeutet.",
-      cost: 1,
+    
     }
   ]
 };

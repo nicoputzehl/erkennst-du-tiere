@@ -46,7 +46,7 @@ const drache: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fernöstliche Variante",
       content: "In der asiatischen Mythologie ist er oft ein wohlwollendes Symbol für Glück, Macht und Wetterkontrolle (Regen).",
-      cost: 1,
+    
     }
   ]
 };
@@ -97,7 +97,7 @@ const basilisk: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein einziger Feind",
       content: "Er soll angeblich nur durch das Krähen eines Hahnes oder durch sein eigenes Spiegelbild getötet werden können.",
-      cost: 1,
+    
     }
   ]
 };
@@ -148,7 +148,7 @@ const mantikor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Reales Vorbild",
       content: "Manche antike Gelehrte vermuteten, dass die Legende auf Berichten über den indischen Tiger beruhte.",
-      cost: 1,
+    
     }
   ]
 };
@@ -199,7 +199,7 @@ const hippokamp: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Symbolik",
       content: "In der Kunst symbolisiert er oft die wilde, ungestüme Kraft des Meeres.",
-      cost: 1,
+    
     }
   ]
 };
@@ -251,7 +251,7 @@ const pegasos: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein berühmter Reiter",
       content: "Sein Reiter war der Held Bellerophon, dem er half, die Chimäre zu besiegen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -302,7 +302,7 @@ const einhorn: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Horn-Kräfte",
       content: "Sein Horn wurde traditionell als Mittel zur Neutralisierung von Gift in Speisen und Getränken verwendet.",
-      cost: 1,
+    
     }
   ]
 };
@@ -354,7 +354,7 @@ const phoenex: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Der Zyklus",
       content: "Der Mythos besagt, dass er etwa alle 500 Jahre stirbt und wiederkehrt.",
-      cost: 1,
+    
     }
   ]
 };
@@ -404,7 +404,7 @@ const greif: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wagen des Zeus",
       content: "Er ist oft das Tier, das den Wagen des obersten Gottes Zeus (oder in Rom Jupiter) zieht.",
-      cost: 1,
+    
     }
   ]
 };

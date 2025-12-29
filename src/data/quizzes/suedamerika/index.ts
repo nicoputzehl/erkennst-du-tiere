@@ -46,7 +46,7 @@ const alpaka: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Spucken",
       content: "Wie seine Verwandten spuckt es, allerdings meistens nur untereinander, um Rangordnungen festzulegen oder Futterneid zu zeigen.",
-      cost: 1,
+    
     }
   ]
 };
@@ -98,7 +98,7 @@ const piranha: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Die Aufgabe",
       content: "Sie fungieren als eine Art \"Gesundheitspolizei\", indem sie Aas und kranke Tiere fressen und so die Ausbreitung von Krankheiten in den Flüssen verhindern.",
-      cost: 1,
+    
     }
   ]
 };
@@ -149,7 +149,7 @@ const jaguar: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tötungsmethode",
       content: "Im Gegensatz zu anderen Großkatzen tötet er seine Beute oft durch einen Biss in den Schädel.",
-      cost: 1,
+    
     }
   ]
 };
@@ -201,7 +201,7 @@ const lama: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Spuck-Alarm",
       content: "Wenn es überladen ist oder sich bedroht fühlt, drückt es seine Unzufriedenheit durch Spucken von halbverdautem Mageninhalt aus.",
-      cost: 1,
+    
     }
   ]
 };
@@ -252,7 +252,7 @@ const capybara: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Unterwasser",
       content: "Um Raubtieren (wie dem Jaguar oder der Anakonda) zu entkommen, kann es bis zu 5 Minuten unter Wasser bleiben.",
-      cost: 1,
+    
     }
   ]
 };
@@ -303,7 +303,7 @@ const kondor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nationales Symbol",
       content: "Er ist das Nationalsymbol mehrerer Andenländer, darunter Kolumbien, Ecuador, Bolivien und Chile.",
-      cost: 1,
+    
     }
   ]
 };
@@ -354,7 +354,7 @@ const nandu: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Abwehrmechanismus",
       content: "Zur Verteidigung oder zum Kampf tritt er nach vorne oder rennt im Zickzack-Muster davon.",
-      cost: 1,
+    
     }
   ]
 };
@@ -404,7 +404,7 @@ const schopfkarakara: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nahrungsbeschaffung",
       content: "Er folgt oft dem Puma und anderen Großkatzen in der Hoffnung, von deren Beuteresten zu profitieren.",
-      cost: 1,
+    
     }
   ]
 };
