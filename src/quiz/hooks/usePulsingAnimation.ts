@@ -15,7 +15,7 @@ export const usePulsingAnimation = (isEnabled: boolean) => {
 			const timer = setTimeout(() => {
 				pulseState.value = withRepeat(
 					withSequence(
-						withTiming(1.01, { duration: 750 }),
+						withTiming(1.05, { duration: 750 }),
 						withTiming(0.99, { duration: 750 }),
 					),
 					-1,
