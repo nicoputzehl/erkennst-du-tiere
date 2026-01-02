@@ -11,6 +11,7 @@ export interface ClickableTileProps {
 
 export interface QuestionTileProps extends BaseTileProps, ClickableTileProps {
   item: Question;
+  quizTitle?: string;
 }
 
 export type ActiveCardProps = BaseTileProps &
@@ -23,6 +24,7 @@ export type InactiveCardProps = BaseTileProps;
 export type QuestionTileImageProps = {
   item: Question;
   size: number;
+  quizTitle?: string;
 };
 
 

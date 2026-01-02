@@ -4,10 +4,6 @@ const koenigskobra: QuestionBase = {
   id: 4,
   answer: "Königskobra",
   title: "Die größte Giftschlange",
-  images: {
-    imageUrl: require("./koenigskobra.webp"),
-    unsolvedImageUrl: require("./koenigskobra_unsolved.webp"),
-  },
   alternativeAnswers: ["Kobra"],
   funFact:
     "diese Schlange die längste Giftschlange der Welt und die einzige ist, die ein richtiges Nest für ihre Eier baut und es bis zum Schlupf verteidigt?",
@@ -47,7 +43,7 @@ const koenigskobra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Das Gift",
       content: "Obwohl ihr Gift nicht das stärkste ist, kann sie bei einem Biss eine enorme Menge davon abgeben, was ihn lebensbedrohlich macht.",
-    
+
     }
   ]
 };
@@ -56,12 +52,8 @@ const grosser_panda: QuestionBase = {
   id: 3,
   answer: "Großer Panda",
   title: "Der Bambus-Bär",
-  images: {
-    imageUrl: require("./grosser_panda.webp"),
-    unsolvedImageUrl: require("./grosser_panda_unsolved.webp"),
-  },
-  alternativeAnswers: ["Panda", "Riesenpanda", "Pandabär"],
-  funFact:
+
+  alternativeAnswers: ["Panda", "Riesenpanda", "Pandabär"], funFact:
     "dieses Tier, obwohl es zur Ordnung der Raubtiere gehört, sich zu 99% von Bambus ernährt und täglich bis zu 40 Kilogramm davon fressen muss, um satt zu werden?",
   autoFreeHints: [
     {
@@ -99,7 +91,7 @@ const grosser_panda: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sechster \"Finger\"",
       content: "Er hat einen verlängerten Handwurzelknochen, der wie ein sechster Finger funktioniert und ihm beim Halten von Bambus hilft.",
-    
+
     }
   ]
 };
@@ -108,27 +100,23 @@ const tiger: QuestionBase = {
   id: 2,
   answer: "Tiger",
   title: "Gestreifter Jäger",
-  images: {
-    imageUrl: require("./koenigstiger.webp"),
-    unsolvedImageUrl: require("./koenigstiger_unsolved.webp"),
-  },
+
   alternativeAnswers: ["Bengal-Tiger", "Indischer Tiger", "Königstiger"],
   funFact:
-    "der Tiger die größte lebende Katzenart der Welt ist und jeder Tiger ein einzigartiges Streifenmuster hat, das mit menschlichen Fingerabdrücken vergleichbar ist?",
-  autoFreeHints: [
-    {
-      id: "kt_h1",
-      type: HintType.AUTO_FREE,
-      content: "Diese Unterart des Tigers lebt hauptsächlich in Indien und ist vom Aussterben bedroht.",
-      triggerAfterAttempts: 3
-    },
-    {
-      id: "kt_h2",
-      type: HintType.AUTO_FREE,
-      content: "Er ist ein Einzelgänger und ein geschickter Lauerjäger, der eine enorme Sprungkraft besitzt.",
-      triggerAfterAttempts: 6
-    }
-  ],
+    "der Tiger die größte lebende Katzenart der Welt ist und jeder Tiger ein einzigartiges Streifenmuster hat, das mit menschlichen Fingerabdrücken vergleichbar ist?", autoFreeHints: [
+      {
+        id: "kt_h1",
+        type: HintType.AUTO_FREE,
+        content: "Diese Unterart des Tigers lebt hauptsächlich in Indien und ist vom Aussterben bedroht.",
+        triggerAfterAttempts: 3
+      },
+      {
+        id: "kt_h2",
+        type: HintType.AUTO_FREE,
+        content: "Er ist ein Einzelgänger und ein geschickter Lauerjäger, der eine enorme Sprungkraft besitzt.",
+        triggerAfterAttempts: 6
+      }
+    ],
   contextualHints: [
     {
       id: "loewe",
@@ -151,7 +139,7 @@ const tiger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Haut",
       content: "Das Streifenmuster ist nicht nur im Fell, sondern auch auf der Haut dieses Tieres sichtbar.",
-    
+
     }
   ]
 };
@@ -160,10 +148,7 @@ const orang_utan: QuestionBase = {
   id: 5,
   answer: "Orang-Utan",
   title: "Der \"Waldmensch\"",
-  images: {
-    imageUrl: require("./orang_utan.webp"),
-    unsolvedImageUrl: require("./orang_utan_unsolved.webp"),
-  },
+
   alternativeAnswers: ["Orangutan"],
   funFact:
     "sein Name aus dem Malaiischen stammt und \"Waldmensch\" bedeutet, und dieses Tier der größte Baumbewohner im Tierreich ist, der fast sein gesamtes Leben in den Bäumen verbringt?",
@@ -203,7 +188,7 @@ const orang_utan: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kindheit",
       content: "Junge bleiben etwa 8 Jahre bei ihrer Mutter – die längste Kindheitsphase im gesamten Tierreich, abgesehen vom Menschen.",
-    
+
     }
   ]
 };
@@ -213,18 +198,14 @@ const pfau: QuestionBase = {
   answer: "Pfau",
   wikipediaName: "Asiatische_Pfauen",
   title: "Der Radschläger",
-  images: {
-    imageUrl: require("./pfau.webp"),
-    unsolvedImageUrl: require("./pfau_unsolved.webp"),
-  },
+
   alternativeAnswers: ["Blauer Pfau", "Asiatischer Pfau"],
   funFact:
     "die beeindruckende \"Schleppe\" des männlichen Pfaus nicht aus Schwanzfedern, sondern aus verlängerten Deckfedern besteht und das Radschlagen der Balz dient?",
   autoFreeHints: [
     {
       id: "pfau_h1",
-      type: HintType.AUTO_FREE,
-      content: "Der blaue oder indische Pfau stammt ursprünglich aus Indien und Sri Lanka.",
+      type: HintType.AUTO_FREE, content: "Der blaue oder indische Pfau stammt ursprünglich aus Indien und Sri Lanka.",
       triggerAfterAttempts: 3
     },
     {
@@ -256,7 +237,7 @@ const pfau: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nützliches Tier",
       content: "In ländlichen Gebieten ist er beliebt, weil er junge Schlangen frisst.",
-    
+
     }
   ]
 };
@@ -265,9 +246,7 @@ const asiatischer_elefant: QuestionBase = {
   id: 7,
   answer: "Asiatischer Elefant",
   title: "Der Wald-Riese",
-  images: {
-    imageUrl: require("./asiatischer_elefant.webp"),
-  },
+
   alternativeAnswers: ["Indischer Elefant"],
   funFact:
     "dieses Tier das größte Landsäugetier Asiens ist und im Gegensatz zu seinem afrikanischen Verwandten kleinere, eher dreieckig geformte Ohren hat?",
@@ -314,7 +293,7 @@ const asiatischer_elefant: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tragzeit",
       content: "Die Schwangerschaft dauert etwa 22 Monate – die längste Tragzeit aller Landsäugetiere.",
-    
+
     }
   ]
 };
@@ -323,9 +302,7 @@ const roter_panda: QuestionBase = {
   id: 8,
   answer: "Roter Panda",
   title: "Flauschig",
-  images: {
-    imageUrl: require("./roter_panda.webp"),
-  },
+
   alternativeAnswers: ["Kleiner Panda"],
   funFact:
     "dieses Tier, obwohl es den Namen trägt, nur entfernt mit dem Großen Panda verwandt ist und zur Familie der Kleinbären gehört und den Großteil des Tages schlafend in Bäumen verbringt?",
@@ -365,7 +342,7 @@ const roter_panda: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sechster \"Finger\"",
       content: "Auch er hat einen \"falschen Daumen\" (verlängerter Handwurzelknochen), um Bambus besser greifen zu können.",
-    
+
     }
   ]
 };
@@ -375,9 +352,7 @@ const python: QuestionBase = {
   answer: "Python",
   title: "Würgeschlange",
   wikipediaName: "Heller_Tigerpython",
-  images: {
-    imageUrl: require("./tigerpython.webp"),
-  },
+
   alternativeAnswers: ["Tigerpython"],
   funFact:
     "diese Schlange zu den größten Schlangen der Welt zählt, bis zu fünf Meter lang werden kann und ihre Beute durch Umschlingen und Ersticken tötet?",
@@ -390,8 +365,7 @@ const python: QuestionBase = {
     },
     {
       id: "tp_h2",
-      type: HintType.AUTO_FREE,
-      content: "Das Weibchen legt bis zu 100 Eier in eine Grube und \"bebrütet\" sie, indem es sich um das Gelege wickelt und Muskelzittern erzeugt, um die Temperatur zu erhöhen.",
+      type: HintType.AUTO_FREE, content: "Das Weibchen legt bis zu 100 Eier in eine Grube und \"bebrütet\" sie, indem es sich um das Gelege wickelt und Muskelzittern erzeugt, um die Temperatur zu erhöhen.",
       triggerAfterAttempts: 6
     }
   ],
@@ -417,7 +391,7 @@ const python: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verhalten",
       content: "Trotz seiner Größe verbringt er die meiste Zeit versteckt am Boden oder in der Nähe von Wasser.",
-    
+
     }
   ]
 };

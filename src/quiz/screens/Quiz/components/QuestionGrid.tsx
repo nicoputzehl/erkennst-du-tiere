@@ -9,12 +9,14 @@ interface QuestionGridProps {
 	questions: Question[];
 	itemWidth: number;
 	onQuestionClick: (questionId: number) => void;
+	quizTitle?: string;
 }
 
 export const QuestionGrid: React.FC<QuestionGridProps> = ({
 	questions,
 	itemWidth,
 	onQuestionClick,
+	quizTitle,
 }) => {
 	const renderItem: ListRenderItem<Question> = useCallback(
 		({ item }) => (
@@ -22,9 +24,10 @@ export const QuestionGrid: React.FC<QuestionGridProps> = ({
 				item={item}
 				itemWidth={itemWidth}
 				onClick={onQuestionClick}
+				quizTitle={quizTitle}
 			/>
 		),
-		[itemWidth, onQuestionClick],
+		[itemWidth, onQuestionClick, quizTitle],
 	);
 
 	const keyExtractor = useCallback((item: Question) => item.id.toString(), []);

@@ -5,9 +5,6 @@ const drache: QuestionBase = {
   answer: "Drache",
   title: "Feuriger Wächter",
   wikipediaName: "Drache_(Mythologie)",
-  images: {
-    imageUrl: require("./drache.webp"),
-  },
   funFact:
     "der Name des Drachen sich vom griechischen Wort \"Drakon\" ableitet, was \"starrblickend\" oder \"scharf blickendes Tier\" bedeutet und in der Antike auch für große Schlangen verwendet wurde?",
   autoFreeHints: [
@@ -46,7 +43,7 @@ const drache: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fernöstliche Variante",
       content: "In der asiatischen Mythologie ist er oft ein wohlwollendes Symbol für Glück, Macht und Wetterkontrolle (Regen).",
-    
+
     }
   ]
 };
@@ -56,9 +53,6 @@ const basilisk: QuestionBase = {
   answer: "Basilisk",
   title: "Schlangen-König",
   wikipediaName: "Basilisk_(Mythologie)",
-  images: {
-    imageUrl: require("./basilisk.webp"),
-  },
   funFact:
     "der Basilisk der Legende nach aus einem dotterlosen Hühnerei schlüpft, das von einer Kröte oder Schlange ausgebrütet wird und sein Name \"kleiner König\" bedeutet?",
   autoFreeHints: [
@@ -97,7 +91,7 @@ const basilisk: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein einziger Feind",
       content: "Er soll angeblich nur durch das Krähen eines Hahnes oder durch sein eigenes Spiegelbild getötet werden können.",
-    
+
     }
   ]
 };
@@ -106,9 +100,6 @@ const mantikor: QuestionBase = {
   id: 3,
   answer: "Mantikor",
   title: "Menschenfresser",
-  images: {
-    imageUrl: require("./mantikor.webp"),
-  },
   alternativeAnswers: ["Manticor", "Manticore", "Manticora", "Marticora"],
   funFact:
     "sein altpersischer Name \"Martiyaxvāra\" wörtlich \"Menschenfresser\" bedeutet und die Legende ursprünglich aus Indien stammt?",
@@ -148,7 +139,7 @@ const mantikor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Reales Vorbild",
       content: "Manche antike Gelehrte vermuteten, dass die Legende auf Berichten über den indischen Tiger beruhte.",
-    
+
     }
   ]
 };
@@ -157,9 +148,6 @@ const hippokamp: QuestionBase = {
   id: 4,
   answer: "Hippokamp",
   title: "Meeresgott-Ross",
-  images: {
-    imageUrl: require("./hippokamp.webp"),
-  },
   alternativeAnswers: ["Seepferd", "Hippocamp"],
   funFact:
     "der Hippokamp das mythologische Vorbild für das uns bekannte Seepferdchen (Hippocampus) ist und auch einem Teil des menschlichen Gehirns seinen Namen gibt?",
@@ -199,7 +187,7 @@ const hippokamp: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Symbolik",
       content: "In der Kunst symbolisiert er oft die wilde, ungestüme Kraft des Meeres.",
-    
+
     }
   ]
 };
@@ -208,9 +196,6 @@ const pegasos: QuestionBase = {
   id: 5,
   answer: "Pegasos",
   title: "Glügeltes Ross",
-  images: {
-    imageUrl: require("./pegasos.webp"),
-  },
   alternativeAnswers: ["Pegasus"],
   wikipediaName: "Pegasos_(Mythologie)",
   funFact:
@@ -251,7 +236,7 @@ const pegasos: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein berühmter Reiter",
       content: "Sein Reiter war der Held Bellerophon, dem er half, die Chimäre zu besiegen.",
-    
+
     }
   ]
 };
@@ -260,9 +245,6 @@ const einhorn: QuestionBase = {
   id: 6,
   answer: "Einhorn",
   title: "Das Symbol der Reinheit",
-  images: {
-    imageUrl: require("./einhorn.webp"),
-  },
   alternativeAnswers: ["Unicorn"],
   funFact:
     "das angebliche Horn des Einhorns, das im Mittelalter und in der frühen Neuzeit als Heilmittel verkauft wurde, meist vom Stoßzahn des Narwals stammte?",
@@ -302,7 +284,7 @@ const einhorn: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Horn-Kräfte",
       content: "Sein Horn wurde traditionell als Mittel zur Neutralisierung von Gift in Speisen und Getränken verwendet.",
-    
+
     }
   ]
 };
@@ -312,9 +294,6 @@ const phoenex: QuestionBase = {
   answer: "Phönix",
   title: "Asche",
   wikipediaName: "Phönix_(Mythologie)",
-  images: {
-    imageUrl: require("./phoenix.webp"),
-  },
   alternativeAnswers: ["Phoenix"],
   funFact:
     "der Phönix oft mit dem Sonnengott Re in der ägyptischen Mythologie in Verbindung gebracht wird und den täglichen Aufstieg der Sonne symbolisiert?",
@@ -354,7 +333,7 @@ const phoenex: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Der Zyklus",
       content: "Der Mythos besagt, dass er etwa alle 500 Jahre stirbt und wiederkehrt.",
-    
+
     }
   ]
 };
@@ -363,9 +342,6 @@ const greif: QuestionBase = {
   id: 8,
   answer: "Greif",
   title: "Hermines Haus",
-  images: {
-    imageUrl: require("./greif.webp"),
-  },
   funFact:
     "der Greif ein Zeichen für Wachsamkeit und Stärke ist und oft verwendet wurde, um wertvolle Schätze wie Goldminen zu bewachen?",
   autoFreeHints: [
@@ -404,7 +380,7 @@ const greif: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wagen des Zeus",
       content: "Er ist oft das Tier, das den Wagen des obersten Gottes Zeus (oder in Rom Jupiter) zieht.",
-    
+
     }
   ]
 };

@@ -29,6 +29,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 	if (error || !quizState)
 		return <ErrorComponent message={error || "Quiz nicht gefunden"} />;
 
+	console.warn("Rendering QuizScreen for quiz:", quizState.title);
 	return (
 		<ThemedView style={styles.container} gradientType="primary">
 			<Header
@@ -41,6 +42,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ quizId }) => {
 					questions={quizState.questions}
 					itemWidth={itemWidth}
 					onQuestionClick={handleQuestionClick}
+					quizTitle={quizState.title}
 				/>
 			</View>
 			<QuizProgress

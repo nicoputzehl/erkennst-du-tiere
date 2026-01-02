@@ -62,6 +62,7 @@ export function useQuizScreen(quizId: string | null) {
 
 	const navigateBack = useCallback(() => NavigationService.back() ,[]);
 
+
 	return {
 		quizState,
 		isLoading,

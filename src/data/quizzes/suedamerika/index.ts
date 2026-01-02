@@ -4,10 +4,6 @@ const alpaka: QuestionBase = {
   id: 1,
   answer: "Alpaka",
   title: "Woll-Spezialist",
-  images: {
-    imageUrl: require("./alpaka.webp"),
-    unsolvedImageUrl: require("./alpaka_unsolved.webp"),
-  },
   funFact:
     "dieses domestizierte Tier hauptsächlich wegen seiner extrem weichen, \"hypoallergenen Wolle\" gezüchtet wurde und nicht primär als Lasttier?",
   autoFreeHints: [
@@ -46,7 +42,7 @@ const alpaka: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Spucken",
       content: "Wie seine Verwandten spuckt es, allerdings meistens nur untereinander, um Rangordnungen festzulegen oder Futterneid zu zeigen.",
-    
+
     }
   ]
 };
@@ -56,10 +52,6 @@ const piranha: QuestionBase = {
   answer: "Piranha",
   title: "Scharfer Räuber",
   wikipediaName: "Piranhas",
-  images: {
-    imageUrl: require("./piranha.webp"),
-    unsolvedImageUrl: require("./piranha_unsolved.webp"),
-  },
   funFact:
     "trotz ihres furchteinflößenden Rufs viele Piranha-Arten Allesfresser oder reine Pflanzenfresser sind und ihr schlechter Ruf oft auf übertriebenen Geschichten basiert?",
   autoFreeHints: [
@@ -98,7 +90,7 @@ const piranha: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Die Aufgabe",
       content: "Sie fungieren als eine Art \"Gesundheitspolizei\", indem sie Aas und kranke Tiere fressen und so die Ausbreitung von Krankheiten in den Flüssen verhindern.",
-    
+
     }
   ]
 };
@@ -107,10 +99,6 @@ const jaguar: QuestionBase = {
   id: 3,
   answer: "Jaguar",
   title: "Größte Katze",
-  images: {
-    imageUrl: require("./jaguar.webp"),
-    unsolvedImageUrl: require("./jaguar_unsolved.webp"),
-  },
   funFact:
     "sein Name von einem indigenen Wort kommt, das \"der, der im Fliegen tötet\" bedeutet, und er das stärkste Gebiss aller Großkatzen hat, mit dem er sogar Schildkrötenpanzer knacken kann?",
   autoFreeHints: [
@@ -149,7 +137,7 @@ const jaguar: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tötungsmethode",
       content: "Im Gegensatz zu anderen Großkatzen tötet er seine Beute oft durch einen Biss in den Schädel.",
-    
+
     }
   ]
 };
@@ -159,10 +147,6 @@ const lama: QuestionBase = {
   answer: "Lama",
   title: "Anden-Lasttier",
   wikipediaName: "Lama_(Kamel)",
-  images: {
-    imageUrl: require("./lama.webp"),
-    unsolvedImageUrl: require("./lama.webp"),
-  },
   funFact:
     "das Lama in den Anden domestiziert wurde und seit Jahrtausenden als wichtiges Lasttier für die Inka und ihre Nachfahren dient?",
   autoFreeHints: [
@@ -201,7 +185,7 @@ const lama: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Spuck-Alarm",
       content: "Wenn es überladen ist oder sich bedroht fühlt, drückt es seine Unzufriedenheit durch Spucken von halbverdautem Mageninhalt aus.",
-    
+
     }
   ]
 };
@@ -210,9 +194,6 @@ const capybara: QuestionBase = {
   id: 5,
   answer: "Capybara",
   title: "Riesennagetier",
-  images: {
-    imageUrl: require("./capybara.webp"),
-  },
   alternativeAnswers: ["Wasserschwein"],
   funFact:
     "das Capybara das größte Nagetier der Welt ist und sein Name in der Tupi-Sprache der Ureinwohner \"Herr der Gräser\" bedeutet?",
@@ -252,7 +233,7 @@ const capybara: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Unterwasser",
       content: "Um Raubtieren (wie dem Jaguar oder der Anakonda) zu entkommen, kann es bis zu 5 Minuten unter Wasser bleiben.",
-    
+
     }
   ]
 };
@@ -261,9 +242,6 @@ const kondor: QuestionBase = {
   id: 6,
   answer: "Kondor",
   title: "König der Anden",
-  images: {
-    imageUrl: require("./kondor.webp"),
-  },
   alternativeAnswers: ["Andenkondor", "Kondor"],
   funFact:
     "der Kondor mit über 3 Metern die größte Flügelspannweite aller Landvögel der Welt hat und die Thermik nutzt, um in großen Höhen zu gleiten?",
@@ -303,7 +281,7 @@ const kondor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nationales Symbol",
       content: "Er ist das Nationalsymbol mehrerer Andenländer, darunter Kolumbien, Ecuador, Bolivien und Chile.",
-    
+
     }
   ]
 };
@@ -312,9 +290,6 @@ const nandu: QuestionBase = {
   id: 7,
   answer: "Nandu",
   title: "Der Laufvogel der Pampa",
-  images: {
-    imageUrl: require("./nandu.webp"),
-  },
   alternativeAnswers: ["Großer Nandu"],
   funFact:
     "obwohl der Nandu flugunfähig ist, er die größten Flügel aller Laufvögel besitzt, die er zur Balance und als Ruder beim schnellen Laufen (bis zu 60 km/h) nutzt?",
@@ -354,7 +329,7 @@ const nandu: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Abwehrmechanismus",
       content: "Zur Verteidigung oder zum Kampf tritt er nach vorne oder rennt im Zickzack-Muster davon.",
-    
+
     }
   ]
 };
@@ -363,9 +338,6 @@ const schopfkarakara: QuestionBase = {
   id: 8,
   answer: "Schopfkarakara",
   title: "Aasvogel",
-  images: {
-    imageUrl: require("./schopfkarakara.webp"),
-  },
   funFact:
     "der Schopfkarakara mehr Zeit zu Fuß am Boden verbringt als andere Greifvögel, manchmal als \"wandernder Falke\" bezeichnet wird und sowohl Aasfresser als auch aktiver Jäger ist?",
   autoFreeHints: [
@@ -404,7 +376,7 @@ const schopfkarakara: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nahrungsbeschaffung",
       content: "Er folgt oft dem Puma und anderen Großkatzen in der Hoffnung, von deren Beuteresten zu profitieren.",
-    
+
     }
   ]
 };

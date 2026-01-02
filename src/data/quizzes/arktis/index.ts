@@ -4,10 +4,6 @@ const eisbaer: QuestionBase = {
   id: 1,
   answer: "Eisbär",
   title: "Der weiße Riese der Arktis",
-  images: {
-    imageUrl: require("./eisbaer.webp"),
-    unsolvedImageUrl: require("./eisbaer_unsolved.webp"),
-  },
   alternativeAnswers: ["Polarbär"],
   funFact:
     "das Fell des Eisbären zwar weiß erscheint, die einzelnen Haare jedoch transparent und hohl sind und seine Haut darunter schwarz ist, um Sonnenwärme besser aufzunehmen?",
@@ -47,7 +43,7 @@ const eisbaer: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Tatzen und Schwimmen",
       content: "Seine riesigen, schaufelförmigen Vorderpfoten sind sein \"Motor\" beim Schwimmen und helfen, sein Gewicht auf dem Eis zu verteilen.",
-    
+
     }
   ]
 };
@@ -56,10 +52,6 @@ const walross: QuestionBase = {
   id: 2,
   answer: "Walross",
   title: "Robbenartiger",
-  images: {
-    imageUrl: require("./walross.webp"),
-    unsolvedImageUrl: require("./walross_unsolved.webp"),
-  },
   funFact:
     "die Stoßzähne (Hauer) bei Walrossen sowohl von Männchen als auch Weibchen getragen werden und dazu dienen, sich auf dem Eis hochzuziehen, Löcher zu schneiden und Muscheln vom Meeresboden zu scharren?",
   autoFreeHints: [
@@ -98,7 +90,7 @@ const walross: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sozialverhalten",
       content: "Er hält sich in riesigen Herden (bis zu hundert Tiere) am Packeisrand oder an felsigen Inseln auf.",
-    
+
     }
   ]
 };
@@ -107,9 +99,6 @@ const papageientaucher: QuestionBase = {
   id: 3,
   answer: "Papageientaucher",
   title: "Clown der Nordmeere",
-  images: {
-    imageUrl: require("./papageientaucher.webp"),
-  },
   alternativeAnswers: ["Puffin"],
   funFact:
     "der leuchtend bunte, dreieckige Schnabel (rot, gelb, orange) des Papageientauchers nur während der Brutzeit sichtbar ist und er den Rest des Jahres unscheinbarer aussieht?",
@@ -149,7 +138,7 @@ const papageientaucher: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nistverhalten",
       content: "Zum Brüten gräbt er Höhlen in Erde und Torf an steilen Küstenklippen. Ein Pärchen bleibt meist ein Leben lang zusammen.",
-    
+
     }
   ]
 };
@@ -158,9 +147,6 @@ const schneeeule: QuestionBase = {
   id: 4,
   answer: "Schneeeule",
   title: "Hedwig",
-  images: {
-    imageUrl: require("./schneeeule.webp"),
-  },
   funFact:
     "die männlichen Tiere fast reinweiß sind, während die Weibchen dunkle Querstreifen und eine Wellenzeichnung im Gefieder haben?",
   autoFreeHints: [
@@ -206,7 +192,7 @@ const schneeeule: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schneeschuhe",
       content: "Sie hat auffallend große, dicke, behaarte Füße, die wie Schneeschuhe wirken und sie vor dem Einsinken im Schnee schützen.",
-    
+
     }
   ]
 };
@@ -215,9 +201,6 @@ const polarfuchs: QuestionBase = {
   id: 5,
   answer: "Polarfuchs",
   title: "Schlau im Eis",
-  images: {
-    imageUrl: require("./polarfuchs.webp"),
-  },
   alternativeAnswers: ["Schneefuchs", "Eisfuchs"],
   funFact:
     "ein Tier das wärmste Fell aller Säugetiere besitzt, extreme Temperaturen bis zu -50 °C überleben kann und sein Fell im Winter strahlend weiß ist?",
@@ -263,7 +246,7 @@ const polarfuchs: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Bedrohung",
       content: "Neben der Klimaerwärmung wird er durch den Rotfuchs bedroht, der wegen der milderen Winter in seine Lebensräume vordringt.",
-    
+
     }
   ]
 };
@@ -272,9 +255,6 @@ const rentier: QuestionBase = {
   id: 6,
   answer: "Rentier",
   title: "Meisterwanderer",
-  images: {
-    imageUrl: require("./rentier.webp"),
-  },
   alternativeAnswers: ["Ren"],
   funFact:
     "diese Hirschart die einzige ist, bei der sowohl männliche als auch weibliche Tiere ein Geweih tragen und sie die weitesten Strecken aller Landsäugetiere zurücklegt (bis zu 5000 km pro Jahr)?",
@@ -314,7 +294,7 @@ const rentier: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Geh-Geräusche",
       content: "Beim Gehen machen diese Tiere charakteristische Klickgeräusche. Diese stammen von einer Sehne in den Hinterbeinen.",
-    
+
     }
   ]
 };
@@ -323,9 +303,6 @@ const polarwolf: QuestionBase = {
   id: 7,
   answer: "Polarwolf",
   title: "Weiße Jäger",
-  images: {
-    imageUrl: require("./polarwolf.webp"),
-  },
   alternativeAnswers: ["Weißwolf", "Arktischer Wolf"],
   funFact:
     "dieses Tier in den rauesten Regionen der Arktis lebt, in Rudeln von bis zu 30 Tieren Rentiere und Moschusochsen jagt und ein sehr dichtes Unterfell besitzt?",
@@ -371,7 +348,7 @@ const polarwolf: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nachwuchs",
       content: "Innerhalb eines Rudels dürfen sich nur das Alpha-Männchen und das Alpha-Weibchen paaren. Alle anderen Mitglieder helfen bei der Aufzucht der Welpen.",
-    
+
     }
   ]
 };
@@ -380,9 +357,6 @@ const schneehase: QuestionBase = {
   id: 8,
   answer: "Schneehase",
   title: "Haken-Schlager",
-  images: {
-    imageUrl: require("./schneehase.webp"),
-  },
   funFact:
     "dieser Hase der einzige ist, dessen Fell sich im Winter komplett weiß färbt, während nur die Spitzen seiner Ohren schwarz bleiben, und er im Sommer graubraun ist?",
   autoFreeHints: [
@@ -421,7 +395,7 @@ const schneehase: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Vitamine",
       content: "Um alle Nährstoffe aufzunehmen (insbesondere Vitamin B), frisst er seinen eigenen, weichen Kot (Caecotrophie).",
-    
+
     }
   ]
 };

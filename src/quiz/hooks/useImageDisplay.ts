@@ -1,53 +1,47 @@
 import { QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Generics
 import { useMemo } from "react";
-import type { QuizImages } from "../types/image";
+import { getLocalQuizImage, hasUnsolvedLocalImage } from "@/src/common/helper/getLocalQuizImage";
 
 export enum ImageType {
 	IMG = "img",
 	THUMBNAIL = "thumbnail",
 }
 
-interface UseImageDisplayReturn {
-	getImageUrl: (type: ImageType) => number;
-	shouldShowUnsolvedImage: boolean;
-}
-
 export const useImageDisplay = (
-	images: QuizImages,
 	status: QuestionStatus,
-): UseImageDisplayReturn => {
-	const createImageSelector = useMemo(() => {
-		return (type: ImageType) => {
-			return (showUnsolved: boolean): number => {
-				if (type === ImageType.IMG) {
-					return showUnsolved && images.unsolvedImageUrl
-						? images.unsolvedImageUrl
-						: images.imageUrl;
-				}
-				return showUnsolved && images.unsolvedThumbnailUrl
-					? images.unsolvedThumbnailUrl
-					: images.thumbnailUrl || images.imageUrl;
-			};
-		};
-	}, [images]);
-
-	// Bestimme ob unsolved Images gezeigt werden sollen
+	answer?: string,
+	quizTitle?: string
+) => {
 	const shouldShowUnsolvedImage = useMemo(() => {
+		if (status === QuestionStatus.SOLVED) return false;
+
 		return (
-			status !== QuestionStatus.SOLVED &&
-			(!!images.unsolvedImageUrl || !!images.unsolvedThumbnailUrl)
+			hasUnsolvedLocalImage(answer ?? "", quizTitle ?? "")
 		);
-	}, [status, images.unsolvedImageUrl, images.unsolvedThumbnailUrl]);
+	}, [status, answer, quizTitle]);
 
 	const getImageUrl = useMemo(() => {
 		return (type: ImageType): number => {
-			const imageSelector = createImageSelector(type);
-			return imageSelector(shouldShowUnsolvedImage);
+			const useUnsolved =
+				status !== QuestionStatus.SOLVED &&
+				hasUnsolvedLocalImage(answer || "", quizTitle || "");
+
+			// 1️⃣ Lokales Asset
+			if (answer) {
+
+				const localAsset = getLocalQuizImage(answer, !useUnsolved, quizTitle || "");
+
+				if (localAsset) {
+					return localAsset;
+				}
+			}
+			return 0; // Fallback, falls kein lokales Asset gefunden wird
 		};
-	}, [createImageSelector, shouldShowUnsolvedImage]);
+	}, [status, answer, quizTitle]);
 
 	return {
 		getImageUrl,
 		shouldShowUnsolvedImage,
 	};
 };
+

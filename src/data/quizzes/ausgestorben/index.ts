@@ -4,9 +4,6 @@ const dodo: QuestionBase = {
   id: 1,
   answer: "Dodo",
   title: "Flugunfähig",
-  images: {
-    imageUrl: require("./dodo.webp"),
-  },
   alternativeAnswers: ["Dudu", "Dronte", "Doudo"],
   funFact:
     "er zu einem berühmten Symbol für das von Menschen verursachte Artensterben wurde und die Art nur etwa 100 Jahre nach ihrer Entdeckung (ca. 1690) ausgerottet wurde?",
@@ -39,7 +36,7 @@ const dodo: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Literarischer Auftritt",
       content: "Eine berühmte Figur dieses Vogels erscheint in Lewis Carrolls Buch \"Alice im Wunderland\".",
-      
+
     }
   ]
 };
@@ -48,9 +45,6 @@ const quagga: QuestionBase = {
   id: 2,
   answer: "Quagga",
   title: "Gestreiftes Halbpferd",
-  images: {
-    imageUrl: require("./quagga.webp"),
-  },
   funFact:
     "sein Name sich von dem Laut ableitet, den das Tier angeblich von sich gab, und es sich um eine ausgestorbene \"Unterart des Steppenzebras\" handelt?",
   autoFreeHints: [
@@ -82,7 +76,7 @@ const quagga: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Der letzte seiner Art",
       content: "Das letzte bekannte Tier starb 1883 im Zoo von Amsterdam.",
-      
+
     }
   ]
 };
@@ -91,9 +85,6 @@ const trilobit: QuestionBase = {
   id: 3,
   answer: "Trilobit",
   title: "Urmeeresbewohner",
-  images: {
-    imageUrl: require("./trilobit.webp"),
-  },
   alternativeAnswers: ["Trilobite"],
   funFact:
     "der Name \"Drei Lappen\" bedeutet und sich auf die dreifache Längsgliederung seines Körpers (Kopf-, Rumpf- und Schwanzschild) bezieht?",
@@ -126,7 +117,7 @@ const trilobit: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wann starb es aus?",
       content: "Er starb beim größten Massenaussterben der Erdgeschichte am Ende des Perms vor etwa 251 Millionen Jahren.",
-      
+
     }
   ]
 };
@@ -135,9 +126,6 @@ const saebelzahnkatze: QuestionBase = {
   id: 4,
   answer: "Säbelzahnkatze",
   title: "Eiszeit-Prädator",
-  images: {
-    imageUrl: require("./saebelzahnkatze.webp"),
-  },
   alternativeAnswers: ["Säbelzahntiger", "Smilodon"],
   funFact:
     "die bekannteste Gattung \"Smilodon\" ist und diese Katze ihr Maul bis zu 120 Grad weit öffnen konnte, damit die riesigen Zähne zum Einsatz kamen?",
@@ -170,7 +158,7 @@ const saebelzahnkatze: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ihre Schwachstelle",
       content: "Die langen Zähne waren sehr empfindlich und konnten leicht abbrechen, weshalb sie erst eingesetzt wurden, wenn das Opfer am Boden lag.",
-      
+
     }
   ]
 };
@@ -180,9 +168,6 @@ const mammut: QuestionBase = {
   answer: "Mammut",
   title: "Behaarter Gigant",
   wikipediaName: "Mammute",
-  images: {
-    imageUrl: require("./mammut.webp"),
-  },
   funFact:
     "die letzten Wollhaarmammuts auf der Wrangelinsel im Arktischen Ozean noch lebten, als die \"Pyramiden von Gizeh\" gebaut wurden (ca. 2500 v. Chr.)?",
   autoFreeHints: [
@@ -214,7 +199,7 @@ const mammut: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Wiederbelebung?",
       content: "Wissenschaftler arbeiten daran, die DNA dieser Tiere zu nutzen, um sie durch Klonen mit Elefanten-DNA \"wiederzubeleben\".",
-      
+
     }
   ]
 };
@@ -223,9 +208,6 @@ const beutelwolf: QuestionBase = {
   id: 6,
   answer: "Beutelwolf",
   title: "Tasmanischer Tiger",
-  images: {
-    imageUrl: require("./beutelwolf.webp"),
-  },
   alternativeAnswers: ["Tasmanischer Tiger", "Tasmanischer Wolf", "Beuteltiger"],
   funFact:
     "dieses Tier trotz seines Aussehens kein Wolf oder Tiger, sondern das größte fleischfressende \"Beuteltier\" der Neuzeit war und es sein Maul bis zu 90 Grad aufklappen konnte?",
@@ -258,7 +240,7 @@ const beutelwolf: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Das offizielle Ende",
       content: "Das letzte bekannte Exemplar starb 1936 im Zoo von Hobart.",
-      
+
     }
   ]
 };
@@ -267,9 +249,6 @@ const elefantenVogel: QuestionBase = {
   id: 7,
   answer: "Elefantenvogel",
   title: "Größter Vogel",
-  images: {
-    imageUrl: require("./elefantenvogel.webp"),
-  },
   alternativeAnswers: ["Madagaskar-Strauß", "Vorompatras"],
   funFact:
     "dieser Vogel als der \"größte Vogel der Weltgeschichte\" gilt, bis zu drei Meter groß war und bis zu 500 Kilogramm wog?",
@@ -302,7 +281,7 @@ const elefantenVogel: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Begehrte Eier",
       content: "Ein einzelnes Ei ist heute ein begehrtes und extrem teures Sammelobjekt.",
-      
+
     }
   ]
 };
@@ -311,9 +290,6 @@ const goldkroete: QuestionBase = {
   id: 8,
   answer: "Goldkröte",
   title: "Leuchtender Bote",
-  images: {
-    imageUrl: require("./goldkroete.webp"),
-  },
   funFact:
     "diese Art erst \"Mitte der 1960er-Jahre\" entdeckt und nur 20 Jahre später letztmalig gesichtet wurde und heute ein Symbol für das globale Amphibiensterben ist?",
   autoFreeHints: [
@@ -352,7 +328,7 @@ const goldkroete: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussterbeursache",
       content: "Als Hauptgrund für ihr Verschwinden werden der Klimawandel und eine Pilzerkrankung (Chytridiomykose) vermutet.",
-      
+
     }
   ]
 };

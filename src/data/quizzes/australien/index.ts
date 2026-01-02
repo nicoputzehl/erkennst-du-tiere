@@ -4,10 +4,6 @@ const koala: QuestionBase = {
   id: 1,
   answer: "Koala",
   title: "Der Eukalyptus-Schläfer",
-  images: {
-    imageUrl: require("./koala.webp"),
-    unsolvedImageUrl: require("./koala_unsolved.webp"),
-  },
   alternativeAnswers: ["Beutelbär", "Koalabär"],
   funFact: "der Koala bis zu 20 Stunden am Tag schläft, weil Eukalyptusblätter sehr faserig und giftig sind und ihre Verdauung enorme Energie kostet?",
   autoFreeHints: [
@@ -52,14 +48,14 @@ const koala: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Es ernährt sich fast ausschließlich von den Blättern weniger Eukalyptusarten.",
-    
+
     },
     {
       id: "nachwuchs",
       type: HintType.CUSTOM,
       title: "Junge",
       content: "Das Neugeborene (\"Joey\") verbringt die ersten sechs Monate im Beutel der Mutter.",
-    
+
     }
   ]
 };
@@ -68,10 +64,6 @@ const kaenguru: QuestionBase = {
   id: 2,
   answer: "Känguru",
   title: "Der Springer",
-  images: {
-    imageUrl: require("./kaenguru.webp"),
-    unsolvedImageUrl: require("./kaenguru_unsolved.webp"),
-  },
   funFact: "Kängurus sich nicht rückwärts bewegen können, weil ihre Muskulatur und ihr langer, massiver Schwanz das verhindert?",
   autoFreeHints: [
     {
@@ -115,14 +107,14 @@ const kaenguru: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fähigkeit",
       content: "Es kann Geschwindigkeiten von über 50 km/h erreichen und Sprünge von bis zu 9 Metern Länge machen.",
-    
+
     },
     {
       id: "gruppe",
       type: HintType.CUSTOM,
       title: "Sozialleben",
       content: "Kängurus leben in Gruppen, die \"Mobs\" genannt werden.",
-    
+
     }
   ]
 };
@@ -131,9 +123,6 @@ const quokka: QuestionBase = {
   id: 3,
   answer: "Quokka",
   title: "Bitte Lächeln",
-  images: {
-    imageUrl: require("./quokka.webp"),
-  },
   alternativeAnswers: ["Kurzschwanzkänguru"],
   funFact: "das Quokka für sein scheinbar \"lächelndes\" Gesicht berühmt ist, was es zu einem der beliebtesten Fotomotive der Welt macht?",
   autoFreeHints: [
@@ -178,14 +167,14 @@ const quokka: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Gesetz",
       content: "Es ist strengstens verboten, diese Tiere auf Rottnest Island zu füttern oder zu berühren.",
-    
+
     },
     {
       id: "hüpfen",
       type: HintType.CUSTOM,
       title: "Bewegung",
       content: "Obwohl es wie ein Känguru hüpft, kann es auch auf allen Vieren klettern.",
-    
+
     }
   ]
 };
@@ -194,9 +183,6 @@ const wombat: QuestionBase = {
   id: 4,
   answer: "Wombat",
   title: "Der Baumeister",
-  images: {
-    imageUrl: require("./wombat.webp"),
-  },
   funFact: "der Wombat das einzige Tier der Welt ist, das \"würfelförmigen Kot\" produziert, um damit Markierungen auf erhöhten Steinen zu stapeln?",
   autoFreeHints: [
     {
@@ -240,14 +226,14 @@ const wombat: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Seine Verteidigungsstrategie ist es, mit seinem knochenharten Hinterteil den Tunneleingang zu blockieren.",
-    
+
     },
     {
       id: "aktiv",
       type: HintType.CUSTOM,
       title: "Aktivität",
       content: "Es ist hauptsächlich dämmerungs- und nachtaktiv.",
-    
+
     }
   ]
 };
@@ -256,9 +242,6 @@ const dingo: QuestionBase = {
   id: 5,
   answer: "Dingo",
   title: "Der wilde Hund",
-  images: {
-    imageUrl: require("./dingo.webp"),
-  },
   funFact: "Dingos nicht wie Haushunde bellen, sondern hauptsächlich durch \"Heulen\" kommunizieren?",
   autoFreeHints: [
     {
@@ -302,14 +285,14 @@ const dingo: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Status",
       content: "Der Bestand dieser Art ist durch die Vermischung mit Haushunden stark gefährdet.",
-    
+
     },
     {
       id: "zaun",
       type: HintType.CUSTOM,
       title: "Infrastruktur",
       content: "Zum Schutz von Nutztieren wurde eine über 5600 km lange Barriere errichtet, die seinen Lebensraum begrenzt.",
-    
+
     }
   ]
 };
@@ -318,9 +301,6 @@ const emu: QuestionBase = {
   id: 6,
   answer: "Emu",
   title: "Der Laufvogel",
-  images: {
-    imageUrl: require("./emu.webp"),
-  },
   alternativeAnswers: ["Großer Emu"],
   funFact: "der Emu der \"zweitgrößte\" lebende Vogel der Welt (nach dem Strauß) ist und im Sprint Geschwindigkeiten von bis zu 50 km/h erreichen kann?",
   autoFreeHints: [
@@ -365,14 +345,14 @@ const emu: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Überleben",
       content: "Er kann wochenlang ohne Wasser auskommen, wenn es nötig ist.",
-    
+
     },
     {
       id: "sprung",
       type: HintType.CUSTOM,
       title: "Bewegung",
       content: "Mit seinen starken Beinen kann er Zäune von fast zwei Metern Höhe überspringen.",
-    
+
     }
   ]
 };
@@ -381,9 +361,6 @@ const wallaby: QuestionBase = {
   id: 7,
   answer: "Wallaby",
   title: "Der kleine Springer",
-  images: {
-    imageUrl: require("./wallaby.webp"),
-  },
   funFact: "der Name \"Wallaby\" ein Sammelbegriff für jede Känguruart ist, die \"deutlich kleiner\" als die großen Kängurus ist, und keine biologische Klassifikation darstellt?",
   autoFreeHints: [
     {
@@ -427,14 +404,14 @@ const wallaby: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Der Schwanz ist lang, muskulös und wird als Balancehilfe beim Springen genutzt.",
-    
+
     },
     {
       id: "leben",
       type: HintType.CUSTOM,
       title: "Lebensraum",
       content: "Viele Arten bevorzugen dichtere, felsige oder bewaldete Gebiete, nicht die offenen Ebenen.",
-    
+
     }
   ]
 };
@@ -443,9 +420,6 @@ const kookaburra: QuestionBase = {
   id: 8,
   answer: "Kookaburra",
   title: "Der lachende Vogel",
-  images: {
-    imageUrl: require("./kookaburra.webp"),
-  },
   alternativeAnswers: ["Jägerliest", "Lachender Hans"],
   funFact: "sein charakteristischer Ruf wie lautes, hysterisches menschliches \"Lachen\" klingt, weshalb er auch \"Lachender Hans\" genannt wird?",
   autoFreeHints: [
@@ -490,14 +464,14 @@ const kookaburra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Seine Beute besteht hauptsächlich aus kleinen Säugetieren, Insekten und kleinen Schlangen.",
-    
+
     },
     {
       id: "familie",
       type: HintType.CUSTOM,
       title: "Sozialleben",
       content: "Er lebt in kleinen Familiengruppen, die sich gegenseitig bei der Aufzucht der Jungen helfen.",
-    
+
     }
   ]
 };

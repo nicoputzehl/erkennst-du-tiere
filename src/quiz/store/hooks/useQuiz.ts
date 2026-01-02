@@ -85,6 +85,7 @@ export function useQuiz() {
 		[quizConfigsRecord],
 	);
 
+
 	const getStatistics = useMemo(
 		() => () => {
 			const allStates = Object.values(quizStates);
