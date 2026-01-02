@@ -4,9 +4,7 @@ const triceratops: QuestionBase = {
   id: 1,
   answer: "Triceratops",
   title: "Uhrzeit Nashorn",
-  images: {
-    imageUrl: require("./triceratops.webp"),
-  },
+
   funFact: "der Schädel eines ausgewachsenen Triceratops einer der größten aller Landtiere ist, die jemals gelebt haben, und bis zu 2,5 Meter lang werden konnte?",
   autoFreeHints: [
     {
@@ -57,28 +55,28 @@ const triceratops: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Es besitzt einen großen knöchernen Nackenschild (Halskrause) und drei Hörner im Gesicht, die zur Verteidigung dienten.",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein Pflanzenfresser und nutzte einen scharfen Schnabel, um Blätter und Zweige abzuschneiden.",
-    
+
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Dreihorn-Gesicht\".",
-    
+
     },
     {
       id: "gruppe",
       type: HintType.CUSTOM,
       title: "Gruppe",
       content: "Es gehört zur Gruppe der Ceratopsidae, den \"Horngesichtern\".",
-    
+
     }
   ]
 };
@@ -87,9 +85,7 @@ const brachiosaurus: QuestionBase = {
   id: 2,
   answer: "Brachiosaurus",
   title: "Längster Hals",
-  images: {
-    imageUrl: require("./brachiosaurus.webp"),
-  },
+
   alternativeAnswers: ["Armechse"],
   funFact: "der Brachiosaurus aufgrund seines langen Halses und der Distanz zum Gehirn ein riesiges Herz (geschätzt bis zu 400 kg) besitzen musste, um das Blut zum Kopf pumpen zu können?",
   autoFreeHints: [
@@ -141,28 +137,28 @@ const brachiosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Größe",
       content: "Es war eines der größten und schwersten Tiere, die jemals auf der Erde gelebt haben, bekannt für seinen extrem langen Hals.",
-    
+
     },
     {
       id: "arme",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Armechse\", da seine Vorderbeine deutlich länger als seine Hinterbeine waren, was ihm ein elefantenartiges, aber hohes Erscheinungsbild gab.",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Als Pflanzenfresser nutzte es seine enorme Höhe, um Blätter von den Spitzen hoher Bäume zu fressen.",
-    
+
     },
     {
       id: "kopf",
       type: HintType.CUSTOM,
       title: "Kopfform",
       content: "Es besaß eine kuppelförmige Erhöhung auf dem Kopf, in der sich seine Nasenlöcher befanden.",
-    
+
     }
   ]
 };
@@ -171,9 +167,7 @@ const stegosaurus: QuestionBase = {
   id: 3,
   answer: "Stegosaurus",
   title: "Plattenechse",
-  images: {
-    imageUrl: require("./stegosaurus.webp"),
-  },
+
   alternativeAnswers: ["Plattenechse"],
   funFact: "der Stegosaurus trotz seiner enormen Größe (bis zu 9 Meter lang) eines der kleinsten Gehirne aller Dinosaurier besaß – nicht größer als eine Walnuss?",
   autoFreeHints: [
@@ -225,28 +219,28 @@ const stegosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Rücken",
       content: "Sein auffälligstes Merkmal sind die zwei Reihen großer, knöcherner Platten, die entlang seines Rückens bis zum Schwanz verlaufen.",
-    
+
     },
     {
       id: "schwanz",
       type: HintType.CUSTOM,
       title: "Verteidigung",
       content: "Er hatte vier lange, scharfe Stacheln am Ende seines Schwanzes, die als \"Thagomizer\" bekannt sind und zur Abwehr von Raubtieren dienten.",
-    
+
     },
     {
       id: "gehirn",
       type: HintType.CUSTOM,
       title: "Gehirn",
       content: "Im Verhältnis zu seiner Körpergröße hatte er eines der kleinsten Gehirne aller Dinosaurier.",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein langsamer, bodennah fressender Pflanzenfresser, der kleine Steine (Gastrolithen) schluckte, um die Nahrung im Magen zu zermahlen.",
-    
+
     }
   ]
 };
@@ -255,9 +249,7 @@ const velociraptor: QuestionBase = {
   id: 4,
   answer: "Velociraptor",
   title: "Der flinke Jäger",
-  images: {
-    imageUrl: require("./velociraptor.webp"),
-  },
+
   alternativeAnswers: ["Dachechse", "Raptor"],
   funFact: "der Velociraptor entgegen der Darstellung in Filmen tatsächlich nur etwa so groß wie ein Truthahn war und sein Körper mit Federn bedeckt war?",
   autoFreeHints: [
@@ -309,28 +301,28 @@ const velociraptor: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Waffe",
       content: "Er besaß eine große, sichelförmige Kralle an jedem Hinterfuß, die er zum Aufschlitzen seiner Beute nutzte.",
-    
+
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet auf Lateinisch \"schneller Räuber\" oder \"flinker Dieb\".",
-    
+
     },
     {
       id: "federn",
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Fossilien belegen, dass er – wie viele seiner Verwandten – Federn besaß, obwohl er nicht fliegen konnte.",
-    
+
     },
     {
       id: "jagdt",
       type: HintType.CUSTOM,
       title: "Jagdverhalten",
       content: "Es wird angenommen, dass er ein intelligenter Jäger war, der wahrscheinlich in koordinierten Rudeln jagte.",
-    
+
     }
   ]
 };
@@ -339,9 +331,7 @@ const tyrannosaurus: QuestionBase = {
   id: 5,
   answer: "Tyrannosaurus",
   title: "König der Echsen",
-  images: {
-    imageUrl: require("./tyrannosaurus.webp"),
-  },
+
   alternativeAnswers: ["T-Rex", "Tyrannosaurus Rex"],
   funFact: "der T-Rex den stärksten Biss aller Landtiere hatte, der so kräftig war, dass er die Knochen seiner Beute zertrümmern konnte?",
   autoFreeHints: [
@@ -393,28 +383,28 @@ const tyrannosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet \"König der Tyrannen-Echsen\".",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Es war der Spitzenprädator seiner Zeit, mit Zähnen, die darauf ausgelegt waren, Knochen zu zermahlen, was ihm den Ruf als \"König der Raubtiere\" einbrachte.",
-    
+
     },
     {
       id: "arme",
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Er hatte im Verhältnis zum Körper extrem kleine, aber muskulöse Vorderarme mit nur zwei Fingern.",
-    
+
     },
     {
       id: "sinne",
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Er hatte einen ausgezeichneten Geruchssinn und ein sehr gutes räumliches Sehvermögen (binokulares Sehen), das dem eines modernen Adlers ähnelte.",
-    
+
     }
   ]
 };
@@ -423,9 +413,7 @@ const parasaurolophus: QuestionBase = {
   id: 6,
   answer: "Parasaurolophus",
   title: "Der Trompeter",
-  images: {
-    imageUrl: require("./parasaurolophus.webp"),
-  },
+
   alternativeAnswers: ["Entenschnabel-Dinosaurier"],
   funFact: "sein langer, röhrenförmiger Knochenkamm auf dem Kopf wahrscheinlich als Resonanzkörper diente, um laute, tiefe Töne zur Kommunikation zu erzeugen?",
   autoFreeHints: [
@@ -477,28 +465,28 @@ const parasaurolophus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kopf",
       content: "Sein auffälligstes Merkmal ist der lange, nach hinten ragende, hohle Knochenkamm auf seinem Kopf, der bis zu 1,8 Meter lang werden konnte.",
-    
+
     },
     {
       id: "stimme",
       type: HintType.CUSTOM,
       title: "Geräusche",
       content: "Der Knochenkamm diente als Resonanzkörper, wodurch er tiefe, laute Geräusche erzeugen konnte, um Artgenossen zu rufen oder zu warnen.",
-    
+
     },
     {
       id: "haltung",
       type: HintType.CUSTOM,
       title: "Fortbewegung",
       content: "Er war ein Hadrosaurier, der sich wahrscheinlich die meiste Zeit vierbeinig fortbewegte, aber auch auf zwei Beinen laufen konnte.",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Ernährung",
       content: "Dieses Tier war ein Pflanzenfresser und besaß hunderte von Zähnen in seinem Kiefer, die als \"Zahnbatterie\" bekannt sind und ihm halfen, zähe Pflanzen zu zermahlen.",
-    
+
     }
   ]
 };
@@ -507,9 +495,7 @@ const pteosaurus: QuestionBase = {
   id: 7,
   answer: "Pteranodon",
   title: "Zahnloser Flieger",
-  images: {
-    imageUrl: require("./pteranodon.webp"),
-  },
+
   alternativeAnswers: ["Flugsaurier", "Pterodactylus"],
   funFact: "Pterosaurier, obwohl sie oft als \"Flugsaurier\" bezeichnet werden, \"keine\" Dinosaurier waren, sondern zu einer eigenen Gruppe fliegender Reptilien gehörten?",
   autoFreeHints: [
@@ -561,28 +547,28 @@ const pteosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Flügel",
       content: "Es war eines der größten Flugtiere aller Zeiten mit einer Flügelspannweite von über sieben Metern.",
-    
+
     },
     {
       id: "name",
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet \"Zahnloser Flügel\" und weist darauf hin, dass es keinen einzigen Zahn im Kiefer besaß.",
-    
+
     },
     {
       id: "ernaehrung",
       type: HintType.CUSTOM,
       title: "Nahrung",
       content: "Es lebte in Küstennähe und ernährte sich hauptsächlich von Fisch, den es aus dem Meer fing.",
-    
+
     },
     {
       id: "kamm",
       type: HintType.CUSTOM,
       title: "Kopf",
       content: "Es besaß einen langen, spitzen Kamm auf der Rückseite des Kopfes, der wahrscheinlich der aerodynamischen Steuerung oder der sexuellen Zurschaustellung diente.",
-    
+
     }
   ]
 };
@@ -591,9 +577,7 @@ const ichthyosaurus: QuestionBase = {
   id: 8,
   answer: "Ichthyosaurus",
   title: "Die Fisch-Echse",
-  images: {
-    imageUrl: require("./ichthyosaurus.webp"),
-  },
+
   alternativeAnswers: ["Fisch-Echse"],
   funFact: "diese im Wasser lebenden Reptilien zum Atmen an die Oberfläche kommen mussten und man annimmt, dass sie ihre Jungen lebend zur Welt brachten?",
   autoFreeHints: [
@@ -645,28 +629,28 @@ const ichthyosaurus: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Name",
       content: "Sein Name bedeutet wörtlich \"Fischechse\", da sein stromlinienförmiger Körperbau dem eines modernen Delphins ähnelte.",
-    
+
     },
     {
       id: "flossen",
       type: HintType.CUSTOM,
       title: "Körperbau",
       content: "Es besaß vier paddelartige Flossen und eine halbmondförmige Schwanzflosse, die ihm zu hohen Geschwindigkeiten verhalf.",
-    
+
     },
     {
       id: "geburt",
       type: HintType.CUSTOM,
       title: "Nachwuchs",
       content: "Fossilien belegen, dass dieses Reptil seine Jungen nicht an Land legte, sondern lebend im Wasser gebar.",
-    
+
     },
     {
       id: "augen",
       type: HintType.CUSTOM,
       title: "Sehsinn",
       content: "Es hatte extrem große Augen, geschützt durch knöcherne Ringe (sklerotische Ringe), was auf Jagd in der Tiefe hindeutet.",
-    
+
     }
   ]
 };

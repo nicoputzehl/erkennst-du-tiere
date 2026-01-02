@@ -1,5 +1,4 @@
 import type { ContextualHint, AutoFreeHint, CustomHintBase } from "./hint";
-import type { QuizImages } from "./image";
 
 export enum QuestionStatus {
   INACTIVE = "inactive",
@@ -9,7 +8,6 @@ export enum QuestionStatus {
 
 export interface QuestionBase {
   id: number;
-  images: QuizImages;
   answer: string;
   alternativeAnswers?: string[];
   funFact?: string;

@@ -9,7 +9,7 @@ export const QuestionTileImage = ({
   quizTitle,
 }: QuestionTileImageProps) => {
 
-  const { getImageUrl } = useImageDisplay(item.images, item.status, item.answer, quizTitle);
+  const { getImageUrl } = useImageDisplay(item.status, item.answer, quizTitle);
   const imageStyle = useMemo(
     () => ({
       width: size,

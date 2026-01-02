@@ -32,3 +32,9 @@ Punkte ausbalancieren
 
  [OpenMoji](https://openmoji.org/faq/)
  Lena
+
+
+## Images
+Bilder für die quizzes müssen im Ordner assets/images/quizzes/***quiztitle*** 
+liegen. Wichtig ist, dass der Titel des Quizzes dem Ordnernamen entspricht und der name des Bildes der Antwort.
+image map erzeugen...

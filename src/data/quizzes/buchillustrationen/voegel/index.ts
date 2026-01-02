@@ -4,9 +4,6 @@ const haubenmeise: QuestionBase = {
   id: 1,
   answer: "Haubenmeise",
   title: "Schopf-Träger",
-  images: {
-    imageUrl: require("./haubenmeise.webp"),
-  },
   funFact:
     "sie die einzige europäische Meisenart mit einer voll ausgeprägten, weiß-grauen Federhaube ist, die wie ein militärischer \"Schopf\" aussieht?",
   autoFreeHints: [
@@ -45,7 +42,7 @@ const haubenmeise: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Nistgewohnheit",
       content: "Für ihre Haube kann das Einflugloch von Standard-Nistkästen zu eng sein. Sie brütet oft in selbst gemeißelten Höhlen in morschem Holz.",
-    
+
     }
   ]
 };
@@ -55,9 +52,6 @@ const bienenfresser: QuestionBase = {
   answer: "Bienenfresser",
   title: "Fliegender Edelstein",
   wikipediaName: "Bienenfresser_(Art)",
-  images: {
-    imageUrl: require("./bienenfresser.webp"),
-  },
   funFact:
     "er der farbenprächtigste europäische Brutvogel ist und er vor dem Verzehr den Giftstachel von Bienen und Wespen durch Schlagen gegen eine Unterlage entfernt?",
   autoFreeHints: [
@@ -96,7 +90,7 @@ const bienenfresser: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Stimme",
       content: "Sein Ruf ist ein weiches, rollendes und charakteristisches \"prüpp\" oder \"püt\".",
-    
+
     }
   ]
 };
@@ -105,9 +99,6 @@ const eichelhaeher: QuestionBase = {
   id: 3,
   answer: "Eichelhäher",
   title: "Wald-\"Polizist\"",
-  images: {
-    imageUrl: require("./eichelhaeher.webp"),
-  },
   funFact:
     "dieser Rabenvogel dafür bekannt ist, die Stimmen anderer Vögel (z.B. Mäusebussard) und Umgebungsgeräusche perfekt imitieren zu können?",
   autoFreeHints: [
@@ -146,7 +137,7 @@ const eichelhaeher: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Sein Ruf",
       content: "Sein lauter, heiserer Warnruf (\"Rätschen\") alarmiert andere Waldbewohner bei Gefahr, weshalb er als \"Wächter des Waldes\" gilt.",
-    
+
     }
   ]
 };
@@ -155,9 +146,6 @@ const raubwuerger: QuestionBase = {
   id: 4,
   answer: "Raubwürger",
   title: "Räuber mit Maske",
-  images: {
-    imageUrl: require("./raubwuerger.webp"),
-  },
   funFact:
     "dieser Singvogel sich wie ein Greifvogel ernährt und einen kräftigen, hakenförmigen Schnabel besitzt, der dem eines Falken ähnelt?",
   autoFreeHints: [
@@ -196,7 +184,7 @@ const raubwuerger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Jagdstrategie",
       content: "Er sitzt oft sehr exponiert auf Baumspitzen oder Stromleitungen, um von dort aus seine Beute am Boden zu erspähen.",
-    
+
     }
   ]
 };
@@ -205,9 +193,6 @@ const gruenspecht: QuestionBase = {
   id: 5,
   answer: "Grünspecht",
   title: "Ameisenjäger",
-  images: {
-    imageUrl: require("./gruenspecht.webp"),
-  },
   alternativeAnswers: ["Grasspecht", "Erdspecht"],
   funFact:
     "sein lauter, schnell aneinander gereihter Ruf wie ein schallendes Lachen (\"klü-klü-klü-klü\") klingt und er deshalb den Spitznamen \"Lachvogel\" trägt?",
@@ -247,7 +232,7 @@ const gruenspecht: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Kommunikation",
       content: "Im Gegensatz zu den meisten anderen Spechten trommelt er nur sehr selten und unregelmäßig.",
-    
+
     }
   ]
 };
@@ -256,9 +241,6 @@ const wespenbussard: QuestionBase = {
   id: 6,
   answer: "Wespenbussard",
   title: "Honigjäger",
-  images: {
-    imageUrl: require("./wespenbussard.webp"),
-  },
   funFact:
     "er der einzige Greifvogel ist, der sich auf das Fressen von Larven und Puppen von Wespen und Hummeln spezialisiert hat und deren Nester dafür aus dem Boden gräbt?",
   autoFreeHints: [
@@ -297,7 +279,7 @@ const wespenbussard: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schutzmechanismus",
       content: "Dichtes, schuppiges Gefieder um Augen und Schnabel schützt ihn vor den Stichen der wehrhaften Insekten beim Ausgraben der Nester.",
-    
+
     }
   ]
 };
@@ -306,9 +288,6 @@ const rotkopfwuerger: QuestionBase = {
   id: 7,
   answer: "Rotkopfwürger",
   title: "Rotkäppchen",
-  images: {
-    imageUrl: require("./rotkopfwuerger.webp"),
-  },
   funFact:
     "dieser Vogel früher ein typischer Brutvogel in Streuobstwiesen war, heute in Deutschland aber als vom Aussterben bedroht gilt?",
   autoFreeHints: [
@@ -347,7 +326,7 @@ const rotkopfwuerger: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Gesang",
       content: "Das Männchen und Weibchen singen oft im Duett. Sein Verbreitungsschwerpunkt liegt in Südeuropa.",
-    
+
     }
   ]
 };
@@ -356,9 +335,6 @@ const star: QuestionBase = {
   id: 8,
   answer: "Star",
   title: "Meisterimitator",
-  images: {
-    imageUrl: require("./star.webp"),
-  },
   funFact:
     "sein Gesang aus einer Mischung von Pfeifen, Knurr- und Knarrlauten und beeindruckenden Imitationen von Gesängen anderer Vögel oder sogar Handyklingeltönen besteht?",
   autoFreeHints: [
@@ -397,7 +373,7 @@ const star: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Fortbewegung",
       content: "Am Boden läuft er nicht, sondern geht oder hüpft schnell auf seinen kurzen Beinen.",
-    
+
     }
   ]
 };

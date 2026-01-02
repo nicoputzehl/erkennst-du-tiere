@@ -2,7 +2,7 @@ import { BorderRadius, Shadows } from "@/src/common/constants/Styles";
 import { useThemeColor } from "@/src/common/hooks/useThemeColor";
 import { Image } from "expo-image";
 import type React from "react";
-import {  type PropsWithChildren, useState } from "react";
+import { type PropsWithChildren, useState } from "react";
 import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react-native";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import type { Question } from "@/src/quiz/types";
@@ -14,15 +14,15 @@ interface QuestionImageProps {
 	quizTitle?: string;
 }
 
-export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> = 
+export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> =
 	({ question, quizTitle, children }) => {
 		const [isLoading, setIsLoading] = useState(true);
 
-		const { getImageUrl } = useImageDisplay(question.images, question.status, question.answer, quizTitle);
+		const { getImageUrl } = useImageDisplay(question.status, question.answer, quizTitle);
 
 		const initialImageWidth =
 			Dimensions.get("window").width -
-			(styles.imageWrapper.paddingHorizontal || 0) * 2; // Berücksichtige das horizontale Padding
+			(styles.imageWrapper.paddingHorizontal || 0) * 2;
 		const { imageSize } = useKeyboardHandling({
 			initialImageSize: initialImageWidth,
 		});
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 		borderRadius: BorderRadius.md,
 		overflow: "hidden",
 		position: "relative",
-	
+
 	},
 	childContainer: {
 		position: "absolute",

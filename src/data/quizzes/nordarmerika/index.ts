@@ -5,10 +5,6 @@ const weisskopfseeadler: QuestionBase = {
   id: 1,
   answer: "Weißkopfseeadler",
   title: "Der Nationalvogel",
-  images: {
-    imageUrl: require("./weisskopfseeadler.webp"),
-    unsolvedImageUrl: require("./weisskopfseeadler_unsolved.webp"),
-  },
   alternativeAnswers: ["Seeadler", "Bald Eagle"],
   funFact:
     "der Weißkopfseeadler seit 1782 der Nationalvogel der USA ist und ausgewachsene Tiere ihren Kopf dank einer extrem beweglichen Nackenwirbelsäule um bis zu 270 Grad drehen können?",
@@ -64,10 +60,6 @@ const stinktier: QuestionBase = {
   id: 2,
   answer: "Stinktier",
   title: "Blume",
-  images: {
-    imageUrl: require("./stinktier.webp"),
-    unsolvedImageUrl: require("./stinktier_unsolved.webp"),
-  },
   alternativeAnswers: ["Skunk"],
   funFact:
     "sein übel riechendes Sekret bis zu 6 Meter weit gesprüht werden kann und bei Angreifern vorübergehende Blindheit verursachen kann?",
@@ -116,10 +108,6 @@ const klapperschlange: QuestionBase = {
   id: 3,
   answer: "Klapperschlange",
   title: "Vibrierende Warnung",
-  images: {
-    imageUrl: require("./klapperschlange.webp"),
-    unsolvedImageUrl: require("./klapperschlange_unsolved.webp"),
-  },
   funFact:
     "die namensgebende Rassel der Klapperschlange aus ineinandergreifenden Keratin-Ringen (wie Fingernägel) besteht und mit jeder Häutung einen neuen Ring bekommt?",
   autoFreeHints: [
@@ -167,10 +155,6 @@ const waschbaer: QuestionBase = {
   id: 4,
   answer: "Waschbär",
   title: "Maskierter",
-  images: {
-    imageUrl: require("./waschbaer.webp"),
-    unsolvedImageUrl: require("./waschbaer_unsolved.webp"),
-  },
   funFact:
     "der Waschbär für seinen extrem ausgeprägten Tastsinn in den Vorderpfoten bekannt ist, der es ihm ermöglicht, Objekte in der Dunkelheit nur durch Berührung zu erkennen?",
   autoFreeHints: [
@@ -224,9 +208,6 @@ const grizzly: QuestionBase = {
   id: 5,
   answer: "Grizzly",
   title: "Silbertipp-Riese",
-  images: {
-    imageUrl: require("./grizzly.webp"),
-  },
   alternativeAnswers: ["Graubär", "Grizzlybär", "Braunbär"],
   funFact:
     "der Grizzly seinen Namen den \"Grizzled\" (grau- oder silberfarbenen) Haarspitzen auf seinem Fell verdankt, die ihm ein gesprenkeltes Aussehen verleihen?",
@@ -289,9 +270,6 @@ const bison: QuestionBase = {
   id: 6,
   answer: "Bison",
   title: "Herr der Prärie",
-  images: {
-    imageUrl: require("./bison.webp"),
-  },
   alternativeAnswers: ["Amerikanisches Bison", "Büffel", "Indianerbüffel"],
   funFact:
     "der Bison das größte Landsäugetier Nordamerikas ist und sein dichtes Winterfell so gut isoliert, dass Schnee auf seinem Rücken nicht schmilzt?",
@@ -340,9 +318,6 @@ const kojote: QuestionBase = {
   id: 7,
   answer: "Kojote",
   title: "Der Präriewolf",
-  images: {
-    imageUrl: require("./kojote.webp"),
-  },
   alternativeAnswers: ["Präriewolf", "Steppenwolf"],
   funFact:
     "Kojoten sehr anpassungsfähig sind, ihre Verbreitung in Nordamerika enorm ausgeweitet haben und in städtischen Gebieten sogar ein \"Verständnis\" für den Straßenverkehr zeigen?",
@@ -398,9 +373,6 @@ const kanadagans: QuestionBase = {
   id: 8,
   answer: "Kanadagans",
   title: "V-Formation",
-  images: {
-    imageUrl: require("./kanadagans.webp"),
-  },
   alternativeAnswers: ["Canada Goose"],
   funFact:
     "Kanadagänse ihrem Brutpartner oft ein Leben lang treu bleiben und sie auf ihrem Zug in der berühmten V-Formation fliegen, was ihnen hilft, Energie zu sparen?",

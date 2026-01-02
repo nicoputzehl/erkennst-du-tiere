@@ -5,10 +5,6 @@ const stachelschwein: QuestionBase = {
   answer: "Stachelschwein",
   funFact: "Stachelschweine, wenn sie sich bedroht fühlen, ihre Stacheln aufstellen und mit ihnen rasselnde Geräusche erzeugen können, indem sie spezielle, hohle Rasselstacheln am Schwanz vibrieren lassen, um Fressfeinde abzuschrecken?",
   title: "Nicht anfassen.",
-  images: {
-    imageUrl: require("./stachelschwein.webp"),
-
-  },
   wikipediaName: "Stachelschweine",
   contextualHints: [
     {
@@ -26,9 +22,7 @@ const stachelschwein: QuestionBase = {
 //  answer: "Kaiserpinguin",
 //  funFact: "Kaiserpinguine bis zu 20 Minuten lang unter Wasser bleiben und dabei Tiefen von über 500 Metern erreichen können, um Nahrung zu jagen? Das macht sie zu wahren Tauchmeistern unter den Vögeln!",
 //  title: "Royal",
-//  images: {
-//    imageUrl: require("./kaiserpinguin.webp"),
-//  },
+//
 //  contextualHints: [
 //    {
 //      id: "pinguin",
@@ -52,9 +46,6 @@ const klapperschlange: QuestionBase = {
   title: "Giftig",
   answer: "Klapperschlange",
   funFact: "Klapperschlangen ihr charakteristisches Rasseln mit hohlen Hornringen am Schwanzende erzeugen, deren Anzahl nicht das wahre Alter verrät, weil sie mit der Zeit abbrechen können?",
-  images: {
-    imageUrl: require("./klapperschlange.webp"),
-  },
   wikipediaName: "Klapperschlangen",
 };
 
@@ -64,9 +55,6 @@ const buntspecht: QuestionBase = {
   title: "Klopf, klopf.",
   funFact: "Buntspechte bis zu 12.000 Mal pro Tag mit dem Kopf gegen Baumstämme hämmern können, ohne dabei Gehirnerschütterungen zu bekommen, weil ihr Schädel speziell gebaut ist, um diese enormen Kräfte abzufedern?",
   alternativeAnswers: ["Specht"],
-  images: {
-    imageUrl: require("./buntspecht.webp"),
-  },
 };
 
 const narwal: QuestionBase = {
@@ -74,9 +62,6 @@ const narwal: QuestionBase = {
   answer: "Narwal",
   title: "Meersebewohner",
   funFact: "der charakteristische \"Stoßzahn\" des Narwals eigentlich ein extrem langer, aus dem Kiefer herauswachsender Zahn ist, der bis zu 3 Meter lang werden kann und als hochsensibles Organ zur Orientierung und Nahrungssuche dient?",
-  images: {
-    imageUrl: require("./narwal.webp"),
-  },
   contextualHints: [
     {
       id: "igel",
@@ -101,9 +86,6 @@ const zitteraal: QuestionBase = {
   answer: "Zitteraal",
   title: "Erdung ist wichtig.",
   funFact: "der Zitteraal elektrische Schläge von bis zu 600 Volt und 1 Ampere erzeugen kann, was ausreicht, um ein Pferd bewusstlos zu machen oder einen Menschen zu betäuben, und er dies zur Verteidigung sowie zur Jagd nutzt, indem er Beute lähmt?",
-  images: {
-    imageUrl: require("./zitteraal.webp"),
-  },
   wikipediaName: "Zitteraale",
   autoFreeHints: [
     {
@@ -129,9 +111,6 @@ const wuestenrennmaus: QuestionBase = {
   answer: "Wüstenrennmaus",
 
   funFact: "Wüstenrennmäuse ihren Wasserbedarf fast ausschließlich über die Nahrung decken und kaum trinken müssen, da sie perfekt an das Leben in trockenen Gebieten angepasst sind und extrem wenig Urin produzieren, um Wasser zu sparen?",
-  images: {
-    imageUrl: require("./wuestenrennmaus.webp"),
-  },
   wikipediaName: "Rennmäuse",
   contextualHints: [
     {
@@ -157,9 +136,6 @@ const okapi: QuestionBase = {
   answer: "Okapi",
   funFact: "die Zunge eines Okapis so lang ist (bis zu 30 Zentimeter), dass es sich damit sogar die Ohren putzen kann und diese perfekt dafür geeignet ist, Blätter und Knospen von Bäumen zu zupfen?",
   alternativeAnswers: ["Waldgiraffe", "Kurzhalsgiraffe"],
-  images: {
-    imageUrl: require("./okapi.webp"),
-  },
 };
 
 const beutelteufel: QuestionBase = {
@@ -168,9 +144,6 @@ const beutelteufel: QuestionBase = {
   title: "Taz",
   funFact: "der Beutelteufel ein so starkes Gebiss hat, dass er Knochen mit Leichtigkeit zermahlen kann und er im Verhältnis zu seiner Körpergröße sogar die stärkste Beißkraft aller Säugetiere besitzt?",
   alternativeAnswers: ["Tasmanischer Teufel"],
-  images: {
-    imageUrl: require("./tasmanischer-teufel.webp"),
-  },
 };
 
 

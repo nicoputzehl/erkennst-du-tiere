@@ -6,10 +6,6 @@ const afrikanischer_elefant: QuestionBase = {
   title: "Landriese",
   funFact:
     "afrikanische Elefanten mit ihren Füßen Erdbeben spüren können, die hunderte Kilometer entfernt stattfinden, um so über weite Distanzen zu kommunizieren?",
-  images: {
-    imageUrl: require("./afrikanischer-elefant.webp"),
-    unsolvedImageUrl: require("./afrikanischer-elefant_unsolved.webp"),
-  },
   alternativeAnswers: ["Afrikanischer Elefant"],
   autoFreeHints: [
     {
@@ -53,14 +49,14 @@ const afrikanischer_elefant: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Seine großen Ohren dienen als effektive \"Klimaanlage\" zur Abkühlung in der Hitze.",
-    
+
     },
     {
       id: "nase",
       type: HintType.CUSTOM,
       title: "Nase",
       content: "Die \"Nase\" dieses Tieres endet in zwei Greiffingern (Lippenfortsätzen).",
-    
+
     }
   ]
 };
@@ -69,10 +65,6 @@ const flusspferd: QuestionBase = {
   id: 2,
   answer: "Flusspferd",
   title: "Schwimmläufer",
-  images: {
-    imageUrl: require("./flusspferd.webp"),
-    unsolvedImageUrl: require("./flusspferd_unsolved.webp"),
-  },
   alternativeAnswers: ["Nilpferd", "Hippo", "Hippopotamus"],
   funFact:
     "Flusspferde näher mit Walen als mit anderen Landtieren verwandt sind, weil beide von denselben urzeitlichen Meeresvorfahren abstammen?",
@@ -118,14 +110,14 @@ const flusspferd: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Anpassung",
       content: "Die Augen, Ohren und Nasenlöcher liegen so hoch, dass es fast vollständig unter Wasser versteckt bleiben kann.",
-    
+
     },
     {
       id: "aktiv",
       type: HintType.CUSTOM,
       title: "Aktivität",
       content: "Es kommt erst in der Dämmerung aus dem Wasser, um an Land zu grasen.",
-    
+
     }
   ]
 };
@@ -134,10 +126,6 @@ const gepard: QuestionBase = {
   id: 3,
   answer: "Gepard",
   title: "Der Sprinter",
-  images: {
-    imageUrl: require("./gepard.webp"),
-    unsolvedImageUrl: require("./gepard_unsolved.webp"),
-  },
   alternativeAnswers: ["Cheetah"],
   funFact: "der Gepard das schnellste Landtier der Welt ist und in weniger als drei Sekunden von null auf über 100 km/h beschleunigen kann?",
   autoFreeHints: [
@@ -182,14 +170,14 @@ const gepard: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Körperteile",
       content: "Sein langer Schwanz dient als Steuerruder und Balancierhilfe bei den schnellen Kurven der Jagd.",
-    
+
     },
     {
       id: "geräusch",
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Er kann nicht brüllen, sondern nur miauen, schnurren oder zwitschern.",
-    
+
     }
   ]
 };
@@ -200,10 +188,6 @@ const giraffe: QuestionBase = {
   title: "Hallo da unten",
   funFact:
     "Giraffen genau wie Menschen nur sieben Halswirbel haben, obwohl ihr Hals bis zu zwei Meter lang ist?",
-  images: {
-    imageUrl: require("./giraffe.webp"),
-    unsolvedImageUrl: require("./giraffe_unsolved.webp"),
-  },
   autoFreeHints: [
     {
       id: "giraffe_h1",
@@ -246,14 +230,14 @@ const giraffe: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Schlafgewohnheit",
       content: "Es schläft pro Tag nur sehr kurz, oft nur 30 Minuten, und meistens im Stehen.",
-    
+
     },
     {
       id: "blut",
       type: HintType.CUSTOM,
       title: "Körperfunktionen",
       content: "Dieses Tier hat ein komplexes Blutdruckregulierungssystem, um Blut zum Kopf und zurück zu pumpen.",
-    
+
     }
   ]
 };
@@ -264,24 +248,20 @@ const leopard: QuestionBase = {
   title: "Ein sehr beliebtes Muster",
   funFact:
     "Leoparden Beute, die doppelt so schwer ist wie sie selbst, zum Schutz vor Aasfressern bis zu sechs Meter hoch auf einen Baum ziehen können?",
-  images: {
-    imageUrl: require("./leopard.webp"),
-    unsolvedImageUrl: require("./leopard_unsolved.webp"),
-  },
   customHints: [
     {
       id: "habitat",
       type: HintType.CUSTOM,
       title: "Lebensraum",
       content: "Dieses Tier ist ein hervorragender Kletterer.",
-    
+
     },
     {
       id: "color",
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Hat ein goldgelbes Fell mit schwarzen Rosetten.",
-    
+
     }
   ],
   contextualHints: [{
@@ -320,10 +300,6 @@ const loewe: QuestionBase = {
   answer: "Löwe",
   title: "König der Tiere",
   funFact: "Löwen die einzigen Katzen sind, die in Rudeln leben, während alle anderen Großkatzen Einzelgänger sind?",
-  images: {
-    imageUrl: require("./loewe.webp"),
-    unsolvedImageUrl: require("./loewe_unsolved.webp"),
-  },
   autoFreeHints: [
     {
       id: "loewe_h1",
@@ -366,14 +342,14 @@ const loewe: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Verhalten",
       content: "Dieses Raubtier verbringt bis zu 20 Stunden am Tag mit Ruhen oder Schlafen.",
-    
+
     },
     {
       id: "revier",
       type: HintType.CUSTOM,
       title: "Kommunikation",
       content: "Sein tiefes Brüllen kann kilometerweit zu hören sein und dient der Markierung des Reviers.",
-    
+
     }
   ]
 };
@@ -382,10 +358,6 @@ const nashorn: QuestionBase = {
   id: 7,
   answer: "Nashorn",
   title: "Der Dickhäuter",
-  images: {
-    imageUrl: require("./nashorn.webp"),
-    unsolvedImageUrl: require("./nashorn_unsolved.webp"),
-  },
   alternativeAnswers: ["Breitmaulnashorn", "Spitzmaulnashorn"],
   funFact:
     "das Horn des Nashorns nicht aus Knochen, sondern aus Keratin besteht, also aus demselben Material wie unsere Haare und Fingernägel?",
@@ -431,14 +403,14 @@ const nashorn: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Die dicke, graue Haut wird oft von Schlammbädern bedeckt, die als Sonnenschutz dienen.",
-    
+
     },
     {
       id: "augen",
       type: HintType.CUSTOM,
       title: "Sinne",
       content: "Es hat einen sehr schlechten Sehsinn, der durch seinen exzellenten Geruchssinn ausgeglichen wird.",
-    
+
     }
   ]
 };
@@ -449,10 +421,6 @@ const zebra: QuestionBase = {
   title: "Das ist leicht",
   funFact:
     "jedes Zebra ein einzigartiges Streifenmuster besitzt und kein Zebra dem anderen gleicht, ähnlich wie bei einem menschlichen Fingerabdruck?",
-  images: {
-    imageUrl: require("./zebra.webp"),
-    unsolvedImageUrl: require("./zebra_unsolved.webp"),
-  },
   autoFreeHints: [
     {
       id: "zebra_h1",
@@ -495,14 +463,14 @@ const zebra: QuestionBase = {
       type: HintType.CUSTOM,
       title: "Aussehen",
       content: "Wissenschaftlich gesehen sind sie wahrscheinlich schwarz mit weißen Streifen, nicht umgekehrt.",
-    
+
     },
     {
       id: "ruf",
       type: HintType.CUSTOM,
       title: "Klang",
       content: "Anstatt zu wiehern, geben sie ein lautes, bellendes Geräusch von sich.",
-    
+
     }
   ]
 };

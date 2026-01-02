@@ -73,7 +73,6 @@ export const quizImageAssets: Record<string, number> = {
   dinosaurier_velociraptor: require("@/assets/images/quiz/dinosaurier/velociraptor.webp"),
   emojis_beutelteufel: require("@/assets/images/quiz/emojis/beutelteufel.webp"),
   emojis_buntspecht: require("@/assets/images/quiz/emojis/buntspecht.webp"),
-  emojis_emoji_title: require("@/assets/images/quiz/emojis/emoji_title.png"),
   emojis_kaiserpinguin: require("@/assets/images/quiz/emojis/kaiserpinguin.webp"),
   emojis_klapperschlange: require("@/assets/images/quiz/emojis/klapperschlange.webp"),
   emojis_narwal: require("@/assets/images/quiz/emojis/narwal.webp"),

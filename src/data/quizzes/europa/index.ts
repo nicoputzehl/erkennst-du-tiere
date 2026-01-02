@@ -3,10 +3,6 @@ import { HintType, type QuestionBase, type Quiz } from "@/src/quiz";
 const wildschwein: QuestionBase = {
   id: 1,
   answer: "Wildschwein",
-  images: {
-    imageUrl: require("./wildschwein.webp"),
-    unsolvedImageUrl: require("./wildschwein_unsolved.webp"),
-  },
   alternativeAnswers: ["Schwarzwild", "Schwarzkittel"],
   funFact: "Wildschweine einen der besten Geruchssinne im Tierreich haben und so gut sind, dass sie in der Lage sind, Trüffel und sogar Drogen unter der Erde zu finden?",
   autoFreeHints: [
@@ -67,10 +63,6 @@ const fuchs: QuestionBase = {
   id: 2,
   answer: "Fuchs",
   title: "Meister Reinecke",
-  images: {
-    imageUrl: require("./rotfuchs.webp"),
-    unsolvedImageUrl: require("./rotfuchs_unsolved.webp"),
-  },
   alternativeAnswers: ["Rotfuchs"],
   wikipediaName: "Fuchs_(Raubtier)",
   funFact: "der Fuchs das leise Quieken einer Maus selbst unter einer dicken Schneedecke aus über 100 Metern Entfernung hören kann und sie dann mit einem charakteristischen Sprung, dem \"Mäusesprung\", fängt?",
@@ -132,10 +124,6 @@ const wolf: QuestionBase = {
   id: 3,
   answer: "Wolf",
   title: "Isegrim",
-  images: {
-    imageUrl: require("./wolf.webp"),
-    unsolvedImageUrl: require("./wolf_unsolved.webp"),
-  },
   funFact: "Wölfe sehr ausdauernd sind und auf der Suche nach Beute durchschnittlich 40 Kilometer pro Tag zurücklegen, wobei es bei der Abwanderung zur Reviersuche sogar bis zu 70 Kilometer sein können?",
   autoFreeHints: [
     {
@@ -202,10 +190,6 @@ const hase: QuestionBase = {
   id: 4,
   answer: "Hase",
   title: "Meister Lampe",
-  images: {
-    imageUrl: require("./feldhase.webp"),
-    unsolvedImageUrl: require("./feldhase_unsolved.webp"),
-  },
   wikipediaName: "Feldhase",
   alternativeAnswers: ["Feldhase"],
   funFact: "der Feldhase bei Gefahr zunächst regungslos in seiner Mulde (\"Sasse\") verharrt und erst im letzten Moment in einem Zick-Zack-Kurs mit bis zu 70 km/h flieht?",
@@ -267,10 +251,6 @@ const braunbaer: QuestionBase = {
   id: 5,
   answer: "Braunbär",
   title: "Meister Petz",
-  images: {
-    imageUrl: require("./braunbaer.webp"),
-    unsolvedImageUrl: require("./braunbaer_unsolved.webp"),
-  },
   alternativeAnswers: ["Europäischer Braunbär"],
   funFact: "ein Braunbärenjunges bei der Geburt kaum mehr als eine Tafel Schokolade (ca. 100–500 Gramm) wiegt und blind ist, obwohl die Mutter selbst bis zu 400 kg wiegen kann?",
   autoFreeHints: [
@@ -338,10 +318,6 @@ const eichhoernchen: QuestionBase = {
   id: 6,
   answer: "Eichhörnchen",
   title: "Baumturner",
-  images: {
-    imageUrl: require("./eichhoernchen.webp"),
-    unsolvedImageUrl: require("./eichhoernchen_unsolved.webp"),
-  },
   alternativeAnswers: ["Eurasisches Eichhörnchen"],
   funFact: "Eichhörnchen entgegen der allgemeinen Annahme jedes Jahr Tausende ihrer versteckten Nüsse vergessen, was aber wichtig ist, da so unabsichtlich neue Bäume wachsen?",
   autoFreeHints: [
@@ -402,10 +378,6 @@ const elch: QuestionBase = {
   id: 7,
   answer: "Elch",
   title: "König der Wälder",
-  images: {
-    imageUrl: require("./elch.webp"),
-    unsolvedImageUrl: require("./elch_unsolved.webp"),
-  },
   funFact: "Elche entgegen alter römischer Überlieferungen sehr wohl ihre Knie beugen können und sie außerdem hervorragende Schwimmer sind, die dank Schwimmhäuten zwischen den Hufen weite Strecken zurücklegen können?",
   autoFreeHints: [
     {
@@ -465,9 +437,6 @@ const dachs: QuestionBase = {
   id: 8,
   answer: "Dachs",
   title: "Grimbart",
-  images: {
-    imageUrl: require("./dachs.webp"),
-  },
   alternativeAnswers: ["Europäischer Dachs"],
   funFact: "der Bau eines Dachses über viele Jahrzehnte von Generationen bewohnt werden kann und zu einem riesigen unterirdischen Labyrinth, einer sogenannten \"Dachsburg\" mit mehreren Etagen und vielen Ein- und Ausgängen, werden kann?",
   autoFreeHints: [
