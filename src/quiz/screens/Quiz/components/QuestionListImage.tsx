@@ -5,10 +5,11 @@ import type { QuestionTileImageProps } from "../types";
 
 export const QuestionTileImage = ({
   size,
-  item
+  item,
+  quizTitle,
 }: QuestionTileImageProps) => {
 
-  const { getImageUrl } = useImageDisplay(item.images, item.status);
+  const { getImageUrl } = useImageDisplay(item.images, item.status, item.answer, quizTitle);
   const imageStyle = useMemo(
     () => ({
       width: size,

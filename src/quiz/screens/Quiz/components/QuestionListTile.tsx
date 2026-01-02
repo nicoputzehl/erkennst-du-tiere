@@ -7,7 +7,7 @@ import { SolvedOverlay } from "./SolvedOverlay";
 import type { QuestionTileProps } from "../types";
 
 export const QuestionListTile: React.FC<QuestionTileProps> = memo(
-	({ item, itemWidth, onClick }) => {
+	({ item, itemWidth, onClick, quizTitle }) => {
 		const isSolved = item.status === QuestionStatus.SOLVED;
 		const isInactive = item.status === "inactive";
 
@@ -17,7 +17,7 @@ export const QuestionListTile: React.FC<QuestionTileProps> = memo(
 
 		return (
 			<ActiveCard itemWidth={itemWidth} onPress={() => onClick(item.id)} >
-				<QuestionTileImage size={itemWidth} item={item} />
+				<QuestionTileImage size={itemWidth} item={item} quizTitle={quizTitle} />
 				<SolvedOverlay isVisible={isSolved} />
 			</ActiveCard>
 		)

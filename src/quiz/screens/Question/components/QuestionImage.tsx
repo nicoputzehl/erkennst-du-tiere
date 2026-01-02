@@ -11,12 +11,14 @@ import { logWarn } from "@/src/common/helper/logging";
 
 interface QuestionImageProps {
 	question: Question;
+	quizTitle?: string;
 }
 
 export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> = 
-	({ question, children }) => {
+	({ question, quizTitle, children }) => {
 		const [isLoading, setIsLoading] = useState(true);
-		const { getImageUrl } = useImageDisplay(question.images, question.status);
+
+		const { getImageUrl } = useImageDisplay(question.images, question.status, question.answer, quizTitle);
 
 		const initialImageWidth =
 			Dimensions.get("window").width -

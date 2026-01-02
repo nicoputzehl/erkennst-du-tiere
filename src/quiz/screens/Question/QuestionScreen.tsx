@@ -124,6 +124,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 						<View style={styles.imageWrapper}>
 							<QuestionImage
 								question={question}
+								quizTitle={quizState.title}
 							>
 								<DelayedLottie shouldPlay={statusChanged} delay={500} />
 								{!isSolved && <HintPatch hints={visibleHints} />}
