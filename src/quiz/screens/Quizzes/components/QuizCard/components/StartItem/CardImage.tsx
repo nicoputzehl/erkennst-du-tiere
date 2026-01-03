@@ -3,15 +3,19 @@ import { memo } from "react";
 import { styles } from "../../QuizCard.styles";
 import type { QuizImageProps } from "../../QuizCard.types";
 import { logWarn } from "@/src/common/helper/logging";
+import { QuestionMarkIcon } from "./QuestionMarkIcon";
+import { useCardImage } from "./useCardImage";
 
-const DEFAULT_TITLE_IMAGE = require("@/assets/images/test-title.jpg");
 const PLACEHOLDER_IMAGE = require("@/assets/images/placeholder.jpg");
 
 export const CardImage = memo(({ quiz }: QuizImageProps) => {
-	const imageSource = quiz.titleImage ? quiz.titleImage : DEFAULT_TITLE_IMAGE;
+	const { imageSrc, hasImage } = useCardImage({ quiz });
+
+	if (!hasImage) return <QuestionMarkIcon />;
+
 	return (
 		<Image
-			source={imageSource}
+			source={imageSrc}
 			contentFit="cover"
 			cachePolicy="memory-disk"
 			priority="high"

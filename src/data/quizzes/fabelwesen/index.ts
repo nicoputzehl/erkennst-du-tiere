@@ -400,6 +400,5 @@ export const fabelwesenQuiz: Quiz = {
   id: "fabelwesen",
   title: "Mythisch",
   questions: fabelwesen,
-  titleImage: require("./drache.webp"),
   description: "Magie, Mythos, Legende. Entdecke eine Welt jenseits der Realität."
 };

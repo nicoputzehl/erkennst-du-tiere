@@ -411,6 +411,5 @@ export const asienQuiz: Quiz = {
   id: "asien",
   title: "Asien",
   questions: tiereAsiens,
-  titleImage: require("./koenigstiger.webp"),
   description: "Von Taiga bis Dschungel. Die wilde Seite des größten Kontinents.",
 };

@@ -492,6 +492,5 @@ export const australienQuiz: Quiz = {
   id: "australien",
   title: "Australien",
   questions: tiereAustraliens,
-  titleImage: require("./kaenguru.webp"),
   description: "Land der Beuteltiere. Die gefährlichste und einzigartigste Tierwelt.",
 };

@@ -12,6 +12,8 @@ export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
 	const isLocked = !isQuizUnlocked(quiz.id);
 	const unlockInfo = isLocked ? getUnlockProgress(quiz.id) : undefined;
 
+
+
 	return (
 		<QuizCardContent
 			quiz={quiz}

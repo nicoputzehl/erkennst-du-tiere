@@ -2,11 +2,6 @@ import { QuestionStatus } from "@/src/quiz/types"; // Vereinfachte Types ohne Ge
 import { useMemo } from "react";
 import { getLocalQuizImage, hasUnsolvedLocalImage } from "@/src/common/helper/getLocalQuizImage";
 
-export enum ImageType {
-	IMG = "img",
-	THUMBNAIL = "thumbnail",
-}
-
 export const useImageDisplay = (
 	status: QuestionStatus,
 	answer?: string,
@@ -21,7 +16,7 @@ export const useImageDisplay = (
 	}, [status, answer, quizTitle]);
 
 	const getImageUrl = useMemo(() => {
-		return (type: ImageType): number => {
+		return (): number => {
 			const useUnsolved =
 				status !== QuestionStatus.SOLVED &&
 				hasUnsolvedLocalImage(answer || "", quizTitle || "");

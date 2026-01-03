@@ -490,6 +490,5 @@ export const afrikaQuiz: Quiz = {
   id: "afrika",
   title: "Afrika",
   questions: tiereAfrikas,
-  titleImage: require("./loewe.webp"),
   description: "Big Five. Die wilde Hitze der Savanne.",
 };

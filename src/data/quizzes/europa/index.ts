@@ -508,6 +508,5 @@ export const europaQuiz: Quiz = {
   id: "europa",
   title: "Europa",
   questions: tiereEuropas,
-  titleImage: require("./wolf.webp"),
   description: "Die Wildnis vor deiner Haustür. Die heimliche Tierwelt des Kontinents.",
 };

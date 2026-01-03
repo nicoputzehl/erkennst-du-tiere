@@ -415,6 +415,5 @@ export const arktisQuiz: Quiz = {
   id: "arktis",
   title: "Arktis",
   questions: arktis,
-  titleImage: require("./eisbaer.webp"),
   description: "Diese Tiere mögen es gerne kalt."
 };

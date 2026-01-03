@@ -1,4 +1,5 @@
 import { quizImageAssets } from "@/src/assets/quizImages";
+import { logWarn } from "./logging";
 
 export function getQuizImageKeyFromAnswer(
   answer: string,
@@ -30,7 +31,7 @@ export const getImageFromMap = (
   if (!name) return undefined;
   const asset = quizImageAssets[name];
   if (!asset) {
-    console.warn(`Kein lokales Quiz-Bild gefunden für Namen: ${name}`);
+    logWarn(`Kein lokales Quiz-Bild gefunden für Namen: ${name}`);
     return undefined;
   }
   return quizImageAssets[name];

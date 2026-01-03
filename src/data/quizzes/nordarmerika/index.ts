@@ -439,6 +439,5 @@ export const nordamerikaQuiz: Quiz = {
   id: "nordamerika",
   title: "Nordamerika",
   questions: nordamerikaTiere,
-  titleImage: require("./bison.webp"),
   description: "Die Wildnis der Neuen Welt. Von Alaska bis zum Grand Canyon.",
 };

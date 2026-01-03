@@ -1,4 +1,4 @@
-import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
+import { useImageDisplay } from "@/src/quiz/hooks";
 import { Image } from "expo-image";
 import { useMemo } from "react";
 import type { QuestionTileImageProps } from "../types";
@@ -23,7 +23,7 @@ export const QuestionTileImage = ({
 
   return (
     <Image
-      source={getImageUrl(ImageType.IMG)}
+      source={getImageUrl()}
       style={imageStyle}
       contentFit="cover"
       cachePolicy="memory-disk"

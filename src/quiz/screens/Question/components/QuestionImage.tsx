@@ -6,7 +6,7 @@ import { type PropsWithChildren, useState } from "react";
 import { ActivityIndicator, Animated, Dimensions, StyleSheet, View } from "react-native";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import type { Question } from "@/src/quiz/types";
-import { ImageType, useImageDisplay } from "@/src/quiz/hooks";
+import { useImageDisplay } from "@/src/quiz/hooks";
 import { logWarn } from "@/src/common/helper/logging";
 
 interface QuestionImageProps {
@@ -42,14 +42,14 @@ export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> =
 					</View>
 				)}
 				<Image
-					source={getImageUrl(ImageType.IMG)}
-					style={[styles.image, !!getImageUrl(ImageType.THUMBNAIL) && styles.fullImageOverlay]}
+					source={getImageUrl()}
+					style={[styles.image, !!getImageUrl() && styles.fullImageOverlay]}
 					contentFit="cover"
 					cachePolicy="memory-disk"
-					transition={getImageUrl(ImageType.THUMBNAIL) ? 400 : 300}
+					transition={getImageUrl() ? 400 : 300}
 					priority="high"
 					placeholder={
-						!getImageUrl(ImageType.THUMBNAIL)
+						!getImageUrl()
 							? require("@/assets/images/placeholder.jpg")
 							: undefined
 					}
@@ -60,7 +60,7 @@ export const QuestionImage: React.FC<QuestionImageProps & PropsWithChildren> =
 						setIsLoading(false);
 					}}
 					allowDownscaling={true}
-					recyclingKey={getImageUrl(ImageType.IMG).toString()}
+					recyclingKey={getImageUrl().toString()}
 				/>
 				<View style={styles.childContainer}>
 

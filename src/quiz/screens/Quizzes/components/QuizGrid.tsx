@@ -9,14 +9,13 @@ type QuizGridProps = {
 };
 
 export const QuizGrid = ({ quizzes }: QuizGridProps) => {
-	// Debug-Logging
 	useEffect(() => {
 		log(`[QuizGrid] Rendering ${quizzes.length} quizzes`);
 		for (const quiz of quizzes) {
 			log(`[QuizGrid] Quiz: ${quiz.id} - ${quiz.title}`);
 		}
 	}, [quizzes]);
-log({quizzes})
+
 	return (
 		<View style={styles.grid}>
 			{quizzes.map((quiz) => (

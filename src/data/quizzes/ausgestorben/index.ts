@@ -348,6 +348,5 @@ export const ausgestorbeneTiereQuiz: Quiz = {
   id: "ausgestorbeneTiere",
   title: "Ausgestorben",
   questions: ausgestorbeneTiere,
-  titleImage: require("./mammut.webp"),
   description: "Eine Zeitreise in die Vergangenheit.",
 };

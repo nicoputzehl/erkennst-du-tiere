@@ -3,8 +3,8 @@ import { newAnmilQuizConfig } from "@/src/data";
 import React, { type ReactNode, useEffect, useRef } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
-    initializeAllQuizzes,
-    registerQuizzes,
+	initializeAllQuizzes,
+	registerQuizzes,
 } from "../initialization/registerQuizzes";
 import { useQuizStore } from "../store/Store";
 import { log, logWarn } from "@/src/common/helper/logging";
@@ -31,13 +31,11 @@ export function QuizProvider({ children }: QuizProviderProps) {
 	const hasQuizzes = quizzesCount > 0;
 	const hasQuizStates = quizStatesRecordCount > 0;
 
-	// ZUSÄTZLICH: Reset detection
 	const previousQuizStatesCountRef = useRef<number>(
 		Object.keys(quizStatesRecord).length,
 	);
 	const currentQuizStatesCount = Object.keys(quizStatesRecord).length;
 
-	// Detect if quizzes were reset (count went to 0 or significantly reduced)
 	useEffect(() => {
 		const previousCount = previousQuizStatesCountRef.current;
 		const currentCount = currentQuizStatesCount;
@@ -48,13 +46,12 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			);
 			hasRegisteredQuizzesRef.current = false;
 			hasInitializedStatesRef.current = false;
-			setQuizDataLoaded(false); // WICHTIG: Reset das Data-Loaded Flag
+			setQuizDataLoaded(false);
 		}
 
 		previousQuizStatesCountRef.current = currentCount;
 	}, [currentQuizStatesCount, setQuizDataLoaded]);
 
-	// Effekt zur Registrierung statischer Quiz-Daten
 	useEffect(() => {
 		let isMounted = true;
 
@@ -62,7 +59,6 @@ export function QuizProvider({ children }: QuizProviderProps) {
 			`[QuizProvider-Effect1] Check conditions - Hydrated: ${hasStoreHydrated}, RegisteredRef: ${hasRegisteredQuizzesRef.current}, DataLoadedInStore: ${isQuizDataLoadedInStore}, QuizzesCount: ${Object.keys(quizzesRecord).length}`,
 		);
 
-		// VERBESSERTE BEDINGUNG: Prüfe auch ob Quizzes im Store vorhanden sind
 		if (
 			!hasStoreHydrated ||
 			hasRegisteredQuizzesRef.current ||
@@ -105,7 +101,6 @@ export function QuizProvider({ children }: QuizProviderProps) {
 				"[QuizProvider-Effect1] Error during quiz registration:",
 				error,
 			);
-			// Bei Fehler flags zurücksetzen
 			hasRegisteredQuizzesRef.current = false;
 			setQuizDataLoaded(false);
 		}
@@ -119,9 +114,8 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		setQuizDataLoaded,
 		hasQuizzes,
 		quizzesRecord,
-	]); // WICHTIG: quizzesRecord.length als Dependency
+	]);
 
-	// Effekt zur Initialisierung benutzerspezifischer Quiz-Zustände (asynchron)
 	useEffect(() => {
 		let isMounted = true;
 
@@ -157,7 +151,6 @@ export function QuizProvider({ children }: QuizProviderProps) {
 					"[QuizProvider-Effect2] Error during state initialization:",
 					error,
 				);
-				// Bei Fehler flag zurücksetzen
 				hasInitializedStatesRef.current = false;
 			}
 		};
@@ -173,9 +166,8 @@ export function QuizProvider({ children }: QuizProviderProps) {
 		hasQuizzes,
 		quizzesRecord,
 		quizStatesRecord,
-	]); // WICHTIG: beide als Dependencies
+	]);
 
-	// VERBESSERTE App-Ready-Logik
 	const isAppReady =
 		hasStoreHydrated && isQuizDataLoadedInStore && hasQuizzes && hasQuizStates;
 

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import type { Quiz, QuizState } from "../../types";
+import { QuestionStatus, type Quiz, type QuizState } from "../../types";
 import { useQuizStore } from "../Store";
 import { log } from "@/src/common/helper/logging";
 
@@ -117,6 +117,25 @@ export function useQuiz() {
 		[quizStates],
 	);
 
+	const getLastAnsweredQuestion = useMemo(
+		() =>
+			(quizId: string): string | null => {
+				const state = quizStates[quizId];
+				if (!state) return null;
+				
+				const answeredQuestions = state.questions.filter(q => q.answer !== null);
+				if (answeredQuestions.length === 0) return null;
+				
+				const lastAnswered = answeredQuestions
+					.filter(q => q.status === QuestionStatus.SOLVED)
+					.pop();
+
+				return lastAnswered?.answer ?? null;
+			},
+		[quizStates],
+	);
+
+
 	return {
 		// Datenzugriff
 		quizzes,
@@ -156,5 +175,6 @@ export function useQuiz() {
 		getStatistics,
 		resetAllQuizStates,
 		resetUserPoints,
+		getLastAnsweredQuestion
 	};
 }

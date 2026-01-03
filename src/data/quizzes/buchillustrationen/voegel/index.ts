@@ -393,6 +393,5 @@ export const vogelIllustrationenQuiz: Quiz = {
   id: "vogelIllustrationen",
   title: "Vögel",
   questions: heimischeVoegel,
-  titleImage: require("./star.webp"),
   description: "Gefiederte Vielfalt. Der Sound direkt vor deiner Tür.",
 };

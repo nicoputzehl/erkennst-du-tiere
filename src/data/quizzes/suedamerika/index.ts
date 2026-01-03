@@ -396,6 +396,5 @@ export const suedamerikaQuiz: Quiz = {
   id: "suedamerika",
   title: "Südamerika",
   questions: tiereDerAnden,
-  titleImage: require("./alpaka.webp"),
   description: "Regenwald, Anden, Amazonas. Der farbenfrohe und wilde Kontinent.",
 };
